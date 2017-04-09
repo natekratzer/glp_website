@@ -21,13 +21,14 @@ educ_data = read_csv("education peer data.csv")
 
 rescale <- function(x){new_value <- x*100}
 educ_data[ ,9:40] = apply(educ_data[ ,9:40], 2, rescale)
+educ_data_15 <- educ_data %>% filter(year == 2015)
 
 ```
 
 The code for the rankings graphs
 ```{r rankings}
 rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-                            plot_title="", caption_text = ""){
+                            plot_title="", y_title = "Percent", caption_text = ""){
   df$var <- df[[var]]
   if(peers=="Current"){
     df<-subset(df,current_peer ==1)
@@ -53,8 +54,8 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]]<-"yellow"
   d.graph$color[d.graph$var>breaks$brks[3]]<-"red"
   d.graph$round<-format(round(d.graph$var,1),nsmall=1)
-  d.graph$textfont<-"plain"
-  d.graph$textfont[d.graph$city == "Louisville"]<-"bold"
+  d.graph$textfont<-"Museo Sans 300"
+  d.graph$textfont[d.graph$city == "Louisville"]<-"Museo Sans 700"
   d.graph$linecolor<-"white"
   d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7"
   d.graph$textcolor<-"black"
@@ -70,20 +71,39 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   if(order=="Descending"){
     p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
   }
-  p = p + theme(text = element_text(family = "Museo Sans 300"),
+  p <- p + theme(text = element_text(family = "Museo Sans 300"),
                 plot.title = element_text(size = 18, hjust = 0.5),
-                axis.text.y=element_text(hjust=0, face = rev(d.graph$textfont),
+                axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
                                          size=12, color = rev(d.graph$textcolor)),
                 axis.ticks=element_blank(),
                 axis.text.x = element_blank(),
                 plot.caption = element_text(),
                 plot.subtitle = element_text(hjust = 0.5))
   p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
-  p<-p+labs(title = plot_title, y= "Average Peer City",
+  p<-p+labs(title = plot_title, y= y_title,
             x = "", caption = caption_text)
   p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1)
   p
 }
 
+```
+
+Adding fonts
+```{r}
+font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
+font.add("Museo Sans 700", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_700.otf")
+
+```
+
+
+```{r}
+setwd("C:/Users/natek/Documents/images")
+jpeg("edu_per_25_64_bach_plus_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_25_64_bach_plus", 
+                  plot_title = "Bachelor's Degree or Higher, Ages 25-64, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
 ```
 
