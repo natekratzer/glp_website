@@ -20,7 +20,7 @@ setwd("C:/Users/natek/Documents/Github/glp_website/data")
 educ_data = read_csv("education peer data.csv")
 
 rescale <- function(x){new_value <- x*100}
-educ_data[ ,9:40] = apply(educ_data[ ,9:40], 2, rescale)
+educ_data[ ,c(9:21, 23:40)] = apply(educ_data[ ,c(9:21, 23:40)], 2, rescale)
 educ_data_15 <- educ_data %>% filter(year == 2015)
 
 ```
@@ -55,7 +55,7 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   d.graph$color[d.graph$var>breaks$brks[3]]<-"red"
   d.graph$round<-format(round(d.graph$var,1),nsmall=1)
   d.graph$textfont<-"Museo Sans 300"
-  d.graph$textfont[d.graph$city == "Louisville"]<-"Museo Sans 700"
+  d.graph$textfont[d.graph$city == "Louisville"]<-"Museo Sans Italic"
   d.graph$linecolor<-"white"
   d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7"
   d.graph$textcolor<-"black"
@@ -82,7 +82,6 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
   p<-p+labs(title = plot_title, y= y_title,
             x = "", caption = caption_text)
-  p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1)
   p
 }
 
@@ -91,18 +90,140 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
 Adding fonts
 ```{r}
 font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
-font.add("Museo Sans 700", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_700.otf")
+font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
 
 ```
 
 
-```{r}
+```{r, message = FALSE}
 setwd("C:/Users/natek/Documents/images")
+
+jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "under_5_per", 
+                  plot_title = "Children Under 5 in Poverty, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
+showtext.end()
+dev.off()
+
+jpeg("edu_five_to_17_pov_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "five_to_17_per", 
+                  plot_title = "Children Ages 5 to 17 in Poverty, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
+showtext.end()
+dev.off()
+
+jpeg("edu_child_pov_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "child_per", 
+                  plot_title = "Child Poverty, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
+showtext.end()
+dev.off()
+
+jpeg("edu_bach_plus_all_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "bach_plus_per_all", 
+                  plot_title = "Bachelor's Degree or Higher, All Races, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002")
+showtext.end()
+dev.off()
+
+jpeg("edu_bach_plus_black_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "bach_plus_per_black", 
+                  plot_title = "Bachelor's Degree or Higher, Black, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B")
+showtext.end()
+dev.off()
+
+jpeg("edu_25_64_assoc_plus_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_25_64_assoc_plus", 
+                  plot_title = "Associate's Degree or Higher, Ages 25-64, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
+
+jpeg("edu_25_64_bach_plus_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_25_64_bach_plus", 
+                  plot_title = "Bachelor's Degree or Higher, Ages 25-64, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
+
+jpeg("edu_25_64_grad_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_25_64_grad", 
+                  plot_title = "Graduate Degree, Ages 25-64, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
+
+jpeg("edu_25_34_assoc_plus_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_25_34_assoc_plus", 
+                  plot_title = "Associate's Degree or Higher, Ages 25-34, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
+
+jpeg("edu_25_34_bach_plus_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_25_34_bach_plus", 
+                  plot_title = "Bachelor's Degree or Higher, Ages 25-34, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
+
+jpeg("edu_25_34_grad_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_25_34_grad", 
+                  plot_title = "Graduate Degree, Ages 25-34, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
+
+
 jpeg("edu_per_25_64_bach_plus_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(educ_data_15, "per_25_64_bach_plus", 
                   plot_title = "Bachelor's Degree or Higher, Ages 25-64, 2015", 
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+showtext.end()
+dev.off()
+
+jpeg("edu_bach_plus_hispanic.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "bach_plus_per_hispanic", 
+                  plot_title = "Bachelor's Degree or Higher, Hispanic, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I")
+showtext.end()
+dev.off()
+
+jpeg("edu_bach_plus_white.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "bach_plus_per_white", 
+                  plot_title = "Bachelor's Degree or Higher, White, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A")
+showtext.end()
+dev.off()
+
+jpeg("edu_enrolled_3_4.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "enrolled_3_4", 
+                  plot_title = "Children ages 3 and 4 enrolled in preschool, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S1401")
+showtext.end()
+dev.off()
+
+jpeg("edu_per_high_wage.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(educ_data_15, "per_high_wage", 
+                  plot_title = "Population in High Wage Occupations, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S2401")
 showtext.end()
 dev.off()
 ```
