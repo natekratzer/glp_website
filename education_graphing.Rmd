@@ -11,6 +11,10 @@ library(showtext)
 library(classInt)
 library(ggthemes)
 library(reshape2)
+library(leaflet)
+library(rgdal)
+library(htmlwidgets)
+library(RColorBrewer)
 library(tidyverse)
 ```
 
@@ -496,5 +500,42 @@ map_data[ ,c(5:13, 15)] = apply(map_data[ ,c(5:13, 15)], 2, rescale)
 Defining a function for mapping
 ```{r}
 
+setwd("C:/Users/natek/Documents/Github/glp_website/data")
+map_jc = readOGR("JC Tracts", layer = "JC Tracts",
+                 GDAL1_integer64_policy = TRUE)
+
+map_jc@data<-full_join(map_jc@data, map_data, by = c('GEO_ID' = 'Id'))
+
+map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+
+map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
+
+
+##start function 
+map_jc@data$l_line3 <- paste("Child Poverty: ", round(map_jc@data$child_per, 0), sep = "")
+
+labels <- paste(map_jc@data$l_line_1, map_jc@data$l_line_2, map_jc@data$l_line_3, sep = "<br/>")
+
+
+pal <- rev(brewer.pal(11, "RdYlGn"))
+
+pal <- colorNumeric(
+  palette = pal,
+  domain = map_jc@data$child_per
+)
+
+leaflet(map_jc) %>%
+  addTiles() %>%
+  addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0.5,
+              fillColor = ~pal(child_per),
+              label = labels,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto"))%>%
+  addLegend(pal = pal, values = ~child_per, opacity = 0.7, title = "Child Poverty (%)",
+            position = "bottomright")
 ```
 
