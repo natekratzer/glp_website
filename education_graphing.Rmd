@@ -100,7 +100,7 @@ setwd("C:/Users/natek/Documents/images")
 
 jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "under_5_per", 
+rank_and_nb_group(educ_data_15, "under_5_per", order = "Ascending",
                   plot_title = "Children Under 5 in Poverty, 2015", 
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
@@ -108,7 +108,7 @@ dev.off()
 
 jpeg("edu_five_to_17_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "five_to_17_per", 
+rank_and_nb_group(educ_data_15, "five_to_17_per", order = "Ascending",
                   plot_title = "Children Ages 5 to 17 in Poverty, 2015", 
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
@@ -116,7 +116,7 @@ dev.off()
 
 jpeg("edu_child_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "child_per", 
+rank_and_nb_group(educ_data_15, "child_per", order = "Ascending",
                   plot_title = "Child Poverty, 2015", 
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
@@ -330,19 +330,11 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
 
 
 ```{r}
-jpeg("images/demo bach trendlines 4.jpg", 900, 600, res = 100)
-showtext.begin()
-graph_trendline(educ_data, "per_25_64_bach_plus", 
-                plot_title = "Bachelor's Degree or Higher, Ages 25-64", 
-                caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
-showtext.end()
-dev.off()
-
 setwd("C:/Users/natek/Documents/images")
 
 jpeg("edu_under_5_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "under_5_per",
+graph_trendline(educ_data, "under_5_per",
                   plot_title = "Children Under 5 in Poverty",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
@@ -351,7 +343,7 @@ dev.off()
 
 jpeg("edu_five_to_17_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "five_to_17_per",
+graph_trendline(educ_data, "five_to_17_per", 
                   plot_title = "Children Ages 5 to 17 in Poverty",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
@@ -360,7 +352,7 @@ dev.off()
 
 jpeg("edu_child_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "child_per",
+graph_trendline(educ_data, "child_per",
                   plot_title = "Child Poverty",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
@@ -369,25 +361,27 @@ dev.off()
 
 jpeg("edu_bach_plus_all_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "bach_plus_per_all",
+graph_trendline(educ_data, "bach_plus_per_all",
                   plot_title = "Bachelor's Degree or Higher, All Races",
-                  subtitle = "3-year rolling average",
+                  subtitle = "5-year rolling average",
+                  rollmean = 5,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002")
 showtext.end()
 dev.off()
 
 jpeg("edu_bach_plus_black_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "bach_plus_per_black",
+graph_trendline(educ_data, "bach_plus_per_black",
                   plot_title = "Bachelor's Degree or Higher, Black",
-                  subtitle = "3-year rolling average",
+                  subtitle = "5-year rolling average",
+                  rollmean = 5,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B")
 showtext.end()
 dev.off()
 
 jpeg("edu_25_64_assoc_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_25_64_assoc_plus",
+graph_trendline(educ_data, "per_25_64_assoc_plus",
                   plot_title = "Associate's Degree or Higher, Ages 25-64",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
@@ -396,7 +390,7 @@ dev.off()
 
 jpeg("edu_25_64_bach_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_25_64_bach_plus",
+graph_trendline(educ_data, "per_25_64_bach_plus",
                   plot_title = "Bachelor's Degree or Higher, Ages 25-64",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
@@ -405,7 +399,7 @@ dev.off()
 
 jpeg("edu_25_64_grad_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_25_64_grad",
+graph_trendline(educ_data, "per_25_64_grad",
                   plot_title = "Graduate Degree, Ages 25-64",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
@@ -414,7 +408,7 @@ dev.off()
 
 jpeg("edu_25_34_assoc_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_25_34_assoc_plus",
+graph_trendline(educ_data, "per_25_34_assoc_plus",
                   plot_title = "Associate's Degree or Higher, Ages 25-34",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
@@ -422,7 +416,7 @@ dev.off()
 
 jpeg("edu_25_34_bach_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_25_34_bach_plus",
+graph_trendline(educ_data, "per_25_34_bach_plus",
                   plot_title = "Bachelor's Degree or Higher, Ages 25-34",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
@@ -431,9 +425,10 @@ dev.off()
 
 jpeg("edu_25_34_grad_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_25_34_grad",
+graph_trendline(educ_data, "per_25_34_grad",
                   plot_title = "Graduate Degree, Ages 25-34",
-                  subtitle = "3-year rolling average",
+                  subtitle = "5-year rolling average",
+                  rollmean = 5,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -441,7 +436,7 @@ dev.off()
 
 jpeg("edu_per_25_64_bach_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_25_64_bach_plus",
+graph_trendline(educ_data, "per_25_64_bach_plus",
                   plot_title = "Bachelor's Degree or Higher, Ages 25-64",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
@@ -449,25 +444,27 @@ dev.off()
 
 jpeg("edu_bach_plus_hispanic_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "bach_plus_per_hispanic",
+graph_trendline(educ_data, "bach_plus_per_hispanic",
                   plot_title = "Bachelor's Degree or Higher, Hispanic",
-                  subtitle = "3-year rolling average",
+                  subtitle = "5-year rolling average",
+                  rollmean = 5,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I")
 showtext.end()
 dev.off()
 
 jpeg("edu_bach_plus_white_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "bach_plus_per_white",
+graph_trendline(educ_data, "bach_plus_per_white",
                   plot_title = "Bachelor's Degree or Higher, White",
-                  subtitle = "3-year rolling average",
+                  subtitle = "5-year rolling average",
+                  rollmean = 5,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A")
 showtext.end()
 dev.off()
 
 jpeg("edu_enrolled_3_4_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "enrolled_3_4",
+graph_trendline(educ_data, "enrolled_3_4",
                   plot_title = "Children ages 3 and 4 enrolled in preschool",
                   subtitle = "5-year rolling average",
                   rollmean = 5,
@@ -477,10 +474,27 @@ dev.off()
 
 jpeg("edu_per_high_wage_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(educ_data_15, "per_high_wage",
+graph_trendline(educ_data, "per_high_wage",
                   plot_title = "Population in High Wage Occupations",
                   subtitle = "3-year rolling average",
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S2401")
 showtext.end()
 dev.off()
 ```
+
+
+Now adding maps
+```{r}
+setwd("C:/Users/natek/Documents/Github/glp_website/data")
+map_data = read_csv("education map data.csv")
+
+rescale <- function(x){new_value <- x*100}
+map_data[ ,c(5:13, 15)] = apply(map_data[ ,c(5:13, 15)], 2, rescale)
+
+```
+
+Defining a function for mapping
+```{r}
+
+```
+
