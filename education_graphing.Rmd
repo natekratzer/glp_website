@@ -486,8 +486,7 @@ showtext.end()
 dev.off()
 ```
 
-
-Now adding maps
+Adding mapping data
 ```{r}
 setwd("C:/Users/natek/Documents/Github/glp_website/data")
 map_data = read_csv("education map data.csv")
@@ -497,7 +496,7 @@ map_data[ ,c(5:13, 15)] = apply(map_data[ ,c(5:13, 15)], 2, rescale)
 
 ```
 
-Defining a function for mapping
+Reading in data for mapping
 ```{r}
 
 setwd("C:/Users/natek/Documents/Github/glp_website/data")
@@ -512,30 +511,79 @@ map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
 map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 
 
-##start function 
-map_jc@data$l_line3 <- paste("Child Poverty: ", round(map_jc@data$child_per, 0), sep = "")
+```
 
-labels <- paste(map_jc@data$l_line_1, map_jc@data$l_line_2, map_jc@data$l_line_3, sep = "<br/>")
+Defining a function for mapping
+```{r}
+make_map <- function(var, name, order = "Descending"){
+  map_jc@data$var <- map_jc@data[[var]]
+  map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 0), "%", sep = "")
+
+labels <- sprintf(
+  "%s<br/>%s<br/>%s",
+  map_jc@data$l_line1, map_jc@data$l_line2, map_jc@data$l_line3
+) %>% lapply(htmltools::HTML)
 
 
+if(order == "Ascending"){
 pal <- rev(brewer.pal(11, "RdYlGn"))
+}
+
+if(order == "Descending"){
+pal <- brewer.pal(11, "RdYlGn")
+}
 
 pal <- colorNumeric(
   palette = pal,
-  domain = map_jc@data$child_per
+  domain = map_jc@data$var
 )
 
-leaflet(map_jc) %>%
+title_text <- paste(name, "(%)")
+
+m <- leaflet(map_jc) %>%
   addTiles() %>%
   addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
               opacity = 1.0, fillOpacity = 0.5,
-              fillColor = ~pal(child_per),
+              fillColor = ~pal(var),
               label = labels,
               labelOptions = labelOptions(
                 style = list("font-weight" = "normal", padding = "3px 8px"),
                 textsize = "15px",
                 direction = "auto"))%>%
-  addLegend(pal = pal, values = ~child_per, opacity = 0.7, title = "Child Poverty (%)",
+  addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
             position = "bottomright")
+
+m
+}
+```
+
+Making and saving maps
+```{r}
+setwd("C:/Users/natek/Documents/images")
+m <- make_map("child_per", "Child Percent", order = "Ascending")
+saveWidget(m, "edu_child_pov_map.html")
+
+m <- make_map("per_25_64_assoc_plus", "Associate Degrees, 25-64")
+saveWidget(m, "edu_25_64_assoc_map.html")
+
+m <- make_map("per_25_64_bach_plus", "Associate Degrees, 25-64")
+saveWidget(m, "edu_25_64_bach_map.html")
+
+m <- make_map("per_25_64_grad", "Associate Degrees, 25-64")
+saveWidget(m, "edu_25_64_grad_map.html")
+
+m <- make_map("per_25_34_assoc_plus", "Associate Degrees, 25-34")
+saveWidget(m, "edu_assoc_25_34_map.html")
+
+m <- make_map("per_25_34_bach_plus", "Associate Degrees, 25-34")
+saveWidget(m, "edu_25_34_bach_map.html")
+
+m <- make_map("per_25_34_grad", "Associate Degrees, 25-34")
+saveWidget(m, "edu_25_34_grad_map.html")
+
+m <- make_map("per_high_wage", "High Wage Occupations")
+saveWidget(m, "per_high_wage_map.html")
+
+
 ```
 
