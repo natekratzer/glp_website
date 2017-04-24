@@ -582,8 +582,6 @@ m <- make_map("per_25_34_grad", "Associate Degrees, 25-34")
 saveWidget(m, "edu_25_34_grad_map.html")
 
 m <- make_map("per_high_wage", "High Wage Occupations")
-saveWidget(m, "per_high_wage_map.html")
-
-
+saveWidget(m, "edu_per_high_wage_map.html")
 ```
 

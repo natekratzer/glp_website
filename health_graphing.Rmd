@@ -1,0 +1,137 @@
+---
+title: "health_graphing"
+output: html_notebook
+---
+
+##Graphing the health data
+
+Loading libraries
+```{r libraries, message = FALSE}
+library(showtext)
+library(classInt)
+library(ggthemes)
+library(reshape2)
+library(tidyverse)
+```
+
+Reading in data
+```{r data, message = FALSE}
+setwd("C:/Users/natek/Documents/Github/glp_website/data")
+health_values = read_csv("health data values.csv")
+health_z = read_csv("health data z_scores.csv")
+```
+
+The code for the rankings graphs
+```{r rankings}
+rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
+                            plot_title="", y_title = "Percent", caption_text = ""){
+  df$var <- df[[var]]
+  if(peers=="Current"){
+    df<-subset(df,current_peer ==1)
+  }
+  if(peers=="Baseline"){
+    df<-subset(df,baseline_peer ==1)
+  }
+  if(order=="Descending"){
+    d.order<-df[order(-df$var),]
+  }
+  if(order=="Ascending"){
+    d.order<-df[order(df$var),]
+  }
+  ranks<-1:length(df$var)
+  d.rank<-cbind(d.order,ranks)
+  names<-paste(d.rank$ranks,".",sep="")
+  names<-paste(names,d.rank$city)
+  d.graph<-cbind(d.rank,names)
+  
+  breaks<-classIntervals(d.graph$var,3,style="jenks")
+  d.graph$color<-NA
+  d.graph$color[d.graph$var<=breaks$brks[2]]<-"green"
+  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]]<-"yellow"
+  d.graph$color[d.graph$var>breaks$brks[3]]<-"red"
+  d.graph$round<-format(round(d.graph$var,1),nsmall=1)
+  d.graph$textfont<-"Museo Sans 300"
+  d.graph$textfont[d.graph$city == "Louisville"]<-"Museo Sans Italic"
+  d.graph$linecolor<-"white"
+  d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7"
+  d.graph$textcolor<-"black"
+  d.graph$textcolor[d.graph$city == "Louisville"]<-"#00a9b7"
+  
+  
+  p<-ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
+                             y=var,fill=factor(color)))+guides(fill=FALSE)
+  p<-p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
+  if(order=="Ascending"){
+    p<-p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
+  }
+  if(order=="Descending"){
+    p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
+  }
+  p <- p + theme(text = element_text(family = "Museo Sans 300"),
+                plot.title = element_text(size = 18, hjust = 0.5),
+                axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
+                                         size=12, color = rev(d.graph$textcolor)),
+                axis.ticks=element_blank(),
+                axis.text.x = element_blank(),
+                plot.caption = element_text(),
+                plot.subtitle = element_text(hjust = 0.5))
+  p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
+  p<-p+labs(title = plot_title, y= y_title,
+            x = "", caption = caption_text)
+  p
+}
+
+```
+
+Adding fonts
+```{r}
+font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
+font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
+
+```
+
+
+```{r, message = FALSE}
+setwd("C:/Users/natek/Documents/images")
+
+jpeg("health_premature_death.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "premature_death", order = "Ascending",
+                  plot_title = "Premature Death", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings ")
+showtext.end()
+dev.off()
+
+jpeg("health_poor_or_fair_health.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "poor_or_fair_health", order = "Ascending",
+                  plot_title = "Days of Poor or Fair Health per Month", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_poor_physical_health_days.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "poor_physical_health_days", order = "Ascending",
+                  plot_title = "Days of Poor Physical Health per Month", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_poor_mental_health_days.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "poor_mental_health_days", order = "Ascending",
+                  plot_title = "Days of Poor Mental Health per Month", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_low_birthweight.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "low_birthweight", order = "Ascending",
+                  plot_title = "Low Birthweight", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+```
+
