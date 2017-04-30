@@ -94,7 +94,7 @@ font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSan
 ```{r, message = FALSE}
 setwd("C:/Users/natek/Documents/images")
 
-jpeg("health_premature_death.jpg", 900, 600, res = 100)
+jpeg("health_outcomes_premature_death.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "premature_death", order = "Ascending",
                   plot_title = "Premature Death", 
@@ -102,7 +102,7 @@ rank_and_nb_group(health_values, "premature_death", order = "Ascending",
 showtext.end()
 dev.off()
 
-jpeg("health_poor_or_fair_health.jpg", 900, 600, res = 100)
+jpeg("health_outcomes_poor_or_fair_health.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "poor_or_fair_health", order = "Ascending",
                   plot_title = "Days of Poor or Fair Health per Month", 
@@ -110,7 +110,7 @@ rank_and_nb_group(health_values, "poor_or_fair_health", order = "Ascending",
 showtext.end()
 dev.off()
 
-jpeg("health_poor_physical_health_days.jpg", 900, 600, res = 100)
+jpeg("health_outcomes_poor_physical_health_days.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "poor_physical_health_days", order = "Ascending",
                   plot_title = "Days of Poor Physical Health per Month", 
@@ -118,7 +118,7 @@ rank_and_nb_group(health_values, "poor_physical_health_days", order = "Ascending
 showtext.end()
 dev.off()
 
-jpeg("health_poor_mental_health_days.jpg", 900, 600, res = 100)
+jpeg("health_outcomes_poor_mental_health_days.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "poor_mental_health_days", order = "Ascending",
                   plot_title = "Days of Poor Mental Health per Month", 
@@ -126,12 +126,216 @@ rank_and_nb_group(health_values, "poor_mental_health_days", order = "Ascending",
 showtext.end()
 dev.off()
 
-jpeg("health_low_birthweight.jpg", 900, 600, res = 100)
+jpeg("health_outcomes_low_birthweight.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "low_birthweight", order = "Ascending",
                   plot_title = "Low Birthweight", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
 dev.off()
+
+jpeg("health_behaviors_adult_smoking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "adult_smoking", order = "Ascending",
+                  plot_title = "Smoking", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_adult_obesity.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "adult_obesity", order = "Ascending",
+                  plot_title = "Adult Obesity", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_food_environment_index.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "food_environment_index", order = "Ascending",
+                  plot_title = "Food Environment Index", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_physical_inactivity.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "physical_inactivity", order = "Ascending",
+                  plot_title = "Physical Inactivity", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_access_to_exercise_opportunities.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "access_to_exercise_opportunities", order = "Ascending",
+                  plot_title = "Access to Exercise Opportunities", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_excessive_drinking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "excessive_drinking", order = "Ascending",
+                  plot_title = "Excessive Drinking", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_alcohol_impaired_driving_deaths.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "alcohol_impaired_driving_deaths", order = "Ascending",
+                  plot_title = "Alcohol Impaired Driving Deaths", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_sexually_transmitted_infections.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "sexually_transmitted_infections", order = "Ascending",
+                  plot_title = "Sexually Transmitted Infections", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_teen_births.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "teen_births", order = "Ascending",
+                  plot_title = "Teen Births", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_cc_uninsured.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "uninsured", order = "Ascending",
+                  plot_title = "Uninsured", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_cc_primary_care_physicians.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "primary_care_physicians", order = "Ascending",
+                  plot_title = "Primary Care Physicians", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_cc_dentists.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "dentists", order = "Ascending",
+                  plot_title = "Dentists", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_cc_mental_health_providers.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "mental_health_providers", order = "Ascending",
+                  plot_title = "Mental Health Providers", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_cc_preventable_hospital_stays.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "preventable_hospital_stays", order = "Ascending",
+                  plot_title = "Preventable Hospital Stays", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_cc_diabetes_monitoring.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "diabetes_monitoring", order = "Ascending",
+                  plot_title = "Diabetes Monitoring", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_cc_mammography_screening.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "mammography_screening", order = "Ascending",
+                  plot_title = "Mammography Screening", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_sec_social_associations.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "social_associations", order = "Ascending",
+                  plot_title = "Social Associations", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_sec_violent_crime.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "violent_crime", order = "Ascending",
+                  plot_title = "Violent Crime", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_sec_injury_deaths.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "injury_deaths", order = "Ascending",
+                  plot_title = "Injury Deaths", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_pe_air_pollution.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "air_pollution", order = "Ascending",
+                  plot_title = "Air Pollution", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+# jpeg("health_pe_drinking_water.jpg", 900, 600, res = 100)
+# showtext.begin()
+# rank_and_nb_group(health_values, "drinking_water", order = "Ascending",
+#                   plot_title = "Drinking Water", 
+#                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+# showtext.end()
+# dev.off()
+
+jpeg("health_pe_severe_housing_problems.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "severe_housing_problems", order = "Ascending",
+                  plot_title = "Severe Housing Problems", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_pe_severe_housing_problems.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "severe_housing_problems", order = "Ascending",
+                  plot_title = "Severe Housing Problems", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_pe_driving_alone_to_work.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "driving_alone_to_work", order = "Ascending",
+                  plot_title = "Driving Alone to Work", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_pe_long_commute.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_values, "long_commute", order = "Ascending",
+                  plot_title = "Long Commute", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+
+
+
 ```
 
