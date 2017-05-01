@@ -23,7 +23,7 @@ health_z = read_csv("health data z_scores.csv")
 
 Rescaling some health values
 ```{r}
-write_csv(health_values, "C:/Users/natek/Documents/Github/glp_website/data/health data values.csv")
+#write_csv(health_values, "C:/Users/natek/Documents/Github/glp_website/data/health data values.csv")
 ```
 
 
@@ -113,8 +113,8 @@ dev.off()
 jpeg("health_outcomes_poor_or_fair_health.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "poor_or_fair_health", order = "Ascending",
-                  plot_title = "Days of Poor or Fair Health per Month",
-                  y_title = "Days",
+                  plot_title = "Population Reporting Poor or Fair Health",
+                  y_title = "Percent",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
 dev.off()
@@ -163,7 +163,7 @@ dev.off()
 
 jpeg("health_behaviors_food_environment_index.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "food_environment_index", order = "Ascending",
+rank_and_nb_group(health_values, "food_environment_index", order = "Descending",
                   plot_title = "Food Environment Index", 
                   y_title = "Index constructed on a 0-10 scale",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -181,7 +181,7 @@ dev.off()
 
 jpeg("health_behaviors_access_to_exercise_opportunities.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "access_to_exercise_opportunities", order = "Ascending",
+rank_and_nb_group(health_values, "access_to_exercise_opportunities", order = "Descending",
                   plot_title = "Access to Exercise Opportunities", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -216,7 +216,7 @@ jpeg("health_behaviors_teen_births.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "teen_births", order = "Ascending",
                   plot_title = "Teen Births",
-                  y_title = "Per 100,000 females aged 15-19"
+                  y_title = "Per 100,000 females aged 15-19",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
 dev.off()
@@ -241,7 +241,7 @@ dev.off()
 
 jpeg("health_cc_dentists.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "dentists", order = "Ascending",
+rank_and_nb_group(health_values, "dentists", order = "Descending",
                   plot_title = "Dentists", 
                   y_title = "Per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -250,7 +250,7 @@ dev.off()
 
 jpeg("health_cc_mental_health_providers.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "mental_health_providers", order = "Ascending",
+rank_and_nb_group(health_values, "mental_health_providers", order = "Descending",
                   plot_title = "Mental Health Providers",
                   y_title = "Per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -261,7 +261,7 @@ jpeg("health_cc_preventable_hospital_stays.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "preventable_hospital_stays", order = "Ascending",
                   plot_title = "Preventable Hospital Stays", 
-                  y_title = "'Discharges for Ambulatory Care Sensitive Conditions per 1,000 Medicare Enrollees"
+                  y_title = "'Discharges for Ambulatory Care Sensitive Conditions per 1,000 Medicare Enrollees",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
 dev.off()
@@ -355,7 +355,8 @@ dev.off()
 jpeg("health_pe_long_commute.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(health_values, "long_commute", order = "Ascending",
-                  plot_title = "Long Commute", 
+                  plot_title = "Long Commute",
+                  y_title = "Percent commuting more than 30 minutes",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
 dev.off()
