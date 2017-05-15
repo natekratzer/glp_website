@@ -286,7 +286,7 @@ dev.off()
 
 jpeg("health_sec_social_associations.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "social_associations", order = "Ascending",
+rank_and_nb_group(health_values, "social_associations", order = "Descending",
                   plot_title = "Social Associations", 
                   y_title = "Number of Associations per 10,000 population",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
