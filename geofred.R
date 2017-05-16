@@ -228,10 +228,247 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   p
 }
 
+##rolling mean functions for trendlines
+rollmean3 <- function(x){
+  n <- length(x)
+  y <- NA
+  for(i in 1:n){
+    y[i] <- mean(c(x[i-1],x[i],x[i+1]))
+    y[1] <- NA
+  }
+  y
+}
+
+rollmean5 <- function(x){
+  n <- length(x)
+  y <- NA
+  for(i in 1:n){
+    y[i] <- mean(c(x[i-2],x[i-1],x[i],x[i+1],x[i+2]))
+    y[1] <- NA
+    y[2] <- NA
+  }
+  y
+}
+
+##
+graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
+                          caption_text = "", subtitle_text = "", rollmean = 3,
+                          break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
+  df$var <- df[[var]]
+  df = df %>% filter(year != 2016)
+  
+  if(peers=="Current"){
+    df.wol <- subset(df,current == 1 & FIPS!=21111)
+  }
+  
+  if(peers=="Baseline"){
+    df.wol <- subset(df,baseline == 1 & FIPS!=21111)
+  }
+  
+  output_wol = df %>% 
+    group_by(year) %>%
+    summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
+              mean = mean(var),
+              third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
+  
+  lville = df %>% 
+    filter(FIPS == 21111) %>% 
+    select(var, year)
+  
+  dat = full_join(lville, output_wol, by = "year")
+  
+  if (rollmean == 3){
+    dat$var = rollmean3(dat$var)
+    dat$first_quarter = rollmean3(dat$first_quarter)
+    dat$mean = rollmean3(dat$mean)
+    dat$third_quarter = rollmean3(dat$third_quarter)
+    dat <- dat %>% filter(year > 2005 & year < 2015)
+  }
+  
+  if (rollmean == 5){
+    dat$var = rollmean5(dat$var)
+    dat$first_quarter = rollmean5(dat$first_quarter)
+    dat$mean = rollmean5(dat$mean)
+    dat$third_quarter = rollmean5(dat$third_quarter)
+    dat = dat %>% filter(year > 2006 & year < 2014)
+  }
+  
+  data_long <- melt(dat, id="year")
+  data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
+  
+  p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
+    geom_point(size = 1.8)+
+    geom_line(size = 1)
+  p <- p + theme_bw()
+  midpoint <- (max(data_long$value)+min(data_long$value))/2
+  border_space <- .1 * midpoint
+  p <- p + ylim(c(min(data_long$value) - border_space, max(data_long$value + border_space)))
+  p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
+  cPalette <- c("#00a9b7","grey50", "black","grey50")
+  p<-p+scale_colour_manual(values=cPalette,
+                           labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))+
+    scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
+                          labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))
+  p<-p+theme(text = element_text(family = "Museo Sans 300"),
+             legend.title=element_blank(),
+             legend.position = "top",
+             axis.text=element_text(size=12, family = "Museo Sans 300"),
+             axis.ticks.y=element_blank(),
+             plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
+                                     margin=margin(b=10,unit="pt")),
+             legend.text=element_text(size=12, family = "Museo Sans 300"),
+             plot.caption = element_text(family = "Museo Sans 300"),
+             plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
+  p<-p+labs(title=plot_title,x="Year",
+            y=y_title, caption = caption_text, subtitle = subtitle_text)
+  p
+}
+
+
 font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
 font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
 
 setwd("C:/Users/natek/Documents/images")
+
+
+##trendlines
+jpeg("qop_burdened_households_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "burdened_households",
+                plot_title = "Cost Burdened Households",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(2010, 2014, 2),
+                xmin = 2010, xmax = 2014)
+showtext.end()
+dev.off()
+
+jpeg("qop_commute_time_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "commute_time",
+                plot_title = "Mean Commute Time",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(2009, 2015, 2),
+                xmin = 2009, xmax = 2015, y_title = "Minutes")
+showtext.end()
+dev.off()
+
+jpeg("qop_disconnected_youth_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "disconnected_youth",
+                plot_title = "Disconnected Youth",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(2009, 2015, 2),
+                xmin = 2009, xmax = 2015)
+showtext.end()
+dev.off()
+
+jpeg("qop_home_ownership_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "home_ownership",
+                plot_title = "Home Ownership",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(2009, 2015, 2),
+                xmin = 2009, xmax = 2015)
+showtext.end()
+dev.off()
+
+jpeg("qop_housing_price_index_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "housing_price_index",
+                plot_title = "Housing Price Index",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(1996, 2015, 2),
+                xmin = 1996, xmax = 2015, y_title = "Index")
+showtext.end()
+dev.off()
+
+jpeg("qop_income_inequality_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "income_inequality",
+                plot_title = "Income Inequality",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(2010, 2015, 2),
+                xmin = 2010, xmax = 2015, y_title = "Ratio")
+showtext.end()
+dev.off()
+
+jpeg("jobs_median_household_income_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "median_household_income",
+                plot_title = "Median Household Income",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(1998, 2014, 2),
+                xmin = 1997, xmax = 2014, y_title = "Dollars")
+showtext.end()
+dev.off()
+
+jpeg("qop_net_migration_flow_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "net_migration_flow",
+                plot_title = "Net Migration Flow",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(2009, 2013, 2),
+                xmin = 2009, xmax = 2013, y_title = "")
+showtext.end()
+dev.off()
+
+jpeg("jobs_personal_income_per_cap_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "personal_income_per_cap",
+                plot_title = "Per Capita Personal Income",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(1996, 2015, 2),
+                xmin = 1996, xmax = 2015, y_title = "Dollars")
+showtext.end()
+dev.off()
+
+jpeg("qop_racial_geography_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "racial_geography",
+                plot_title = "Geographic Racial Dissimilarity Index",
+                subtitle = "Percent of Whites who would need to move census tracts to equalize percent White across all tracts.",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                break_settings = seq(2009, 2015, 2),
+                xmin = 2009, xmax = 2015)
+showtext.end()
+dev.off()
+
+jpeg("jobs__unemployment_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(fred_dat, "unemployment",
+                plot_title = "Unemployment",
+                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                subtitle = "Annual",
+                rollmean = 1,
+                break_settings = seq(1996, 2015, 2),
+                xmin = 1996, xmax = 2015)
+showtext.end()
+dev.off()
+
+
+
+
+
+##rankings
 
 jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
