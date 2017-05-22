@@ -1,3 +1,5 @@
+library(showtext)
+library(reshape2)
 library(tidyverse)
 
 setwd("C:/Users/natek/Documents/GeoFRED data/")
@@ -127,12 +129,8 @@ fred_dat <- fred_dat %>% select(FIPS, year, baseline, current,
                                 racial_geography, unemployment)
 
 
-write_csv(fred_dat, "GeoFRED data processed.csv")
-
-
 #current peers
-fred_dat <- fred_dat %>% filter(current == 1)
-fred_dat$FIPS <- as.numeric(fred_dat$FIPS)
+fred_dat$year <- as.numeric(fred_dat$year)
 fred_dat$housing_price_index <- as.numeric(fred_dat$housing_price_index)
 fred_dat$median_household_income <- as.numeric(fred_dat$median_household_income)
 fred_dat$racial_geography <- as.numeric(fred_dat$racial_geography)
@@ -140,12 +138,14 @@ fred_dat$racial_geography <- as.numeric(fred_dat$racial_geography)
 
 #
 ##Now to give the FIPS codes names
-names <- read.csv("C:/Users/natek/Dropbox/GLP/FIPS two stl.csv")
+names <- read_csv("C:/Users/natek/Dropbox/GLP/FIPS two stl.csv")
 
+names$FIPS <- as.numeric(names$FIPS)
 data_named <- left_join(fred_dat, names, by = "FIPS")
 
 ##add population data
-population_data <- read.csv("C:/users/natek/Dropbox/GLP/Web Update/population_data.csv")
+population_data <- read_csv("C:/users/natek/Dropbox/GLP/Web Update/population_data.csv")
+data_named$year <- as.numeric(data_named$year)
 data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
 
 ##and merge St. Louis city and St. Louis county
@@ -153,7 +153,8 @@ data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
 dat <- data_named %>%
   select(-county, -state) %>%
   group_by(city, year) %>%
-  summarise_each(funs(weighted.mean(.,population)), -population)
+  summarise_each(funs(weighted.mean(.,population)), -population) %>%
+  ungroup()
 
 # give St. Louis Merged a new FIPS
 dat$FIPS <- as.character(dat$FIPS)
@@ -164,7 +165,19 @@ dat$FIPS <- as.factor(dat$FIPS)
 names <- read.csv("C:/users/natek/Dropbox/GLP/FIPS one stl.csv")
 names$FIPS <- as.factor(names$FIPS)
 
-fred_dat = left_join(dat, names, by = "FIPS")
+fred_dat <- left_join(dat, names, by = c("FIPS", "city"))
+
+population_data$FIPS <- as.character(population_data$FIPS)
+fred_dat <- left_join(fred_dat, population_data, by = c("FIPS", "year"))
+
+
+fred_dat <- fred_dat %>% 
+  group_by(city, year) %>%
+  mutate(population = sum(population)) %>%
+  ungroup()
+
+fred_dat <- fred_dat %>% 
+  mutate(migration_pop = net_migration_flow/population)
 
 write_csv(fred_dat, "GeoFRED data processed.csv")
 
@@ -191,28 +204,28 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   names<-paste(names,d.rank$city)
   d.graph<-cbind(d.rank,names)
   
-  breaks<-classIntervals(d.graph$var,3,style="jenks")
-  d.graph$color<-NA
-  d.graph$color[d.graph$var<=breaks$brks[2]]<-"green"
-  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]]<-"yellow"
-  d.graph$color[d.graph$var>breaks$brks[3]]<-"red"
-  d.graph$round<-format(round(d.graph$var,1),nsmall=1)
-  d.graph$textfont<-"Museo Sans 300"
-  d.graph$textfont[d.graph$city == "Louisville"]<-"Museo Sans Italic"
-  d.graph$linecolor<-"white"
-  d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7"
-  d.graph$textcolor<-"black"
-  d.graph$textcolor[d.graph$city == "Louisville"]<-"#00a9b7"
+  breaks <- classIntervals(d.graph$var,3,style="jenks")
+  d.graph$color <- NA
+  d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
+  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
+  d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
+  d.graph$round <- format(round(d.graph$var,1),nsmall=1)
+  d.graph$textfont <- "Museo Sans 300"
+  d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans Italic"
+  d.graph$linecolor <- "white"
+  d.graph$linecolor[d.graph$city == "Louisville"] <- "#00a9b7"
+  d.graph$textcolor <- "black"
+  d.graph$textcolor[d.graph$city == "Louisville"] <- "#00a9b7"
   
   
-  p<-ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
+  p <- ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
                              y=var,fill=factor(color)))+guides(fill=FALSE)
-  p<-p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
+  p <- p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
   if(order=="Ascending"){
-    p<-p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
+    p <- p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
   }
   if(order=="Descending"){
-    p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
+    p <- p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
   }
   p <- p + theme(text = element_text(family = "Museo Sans 300"),
                  plot.title = element_text(size = 18, hjust = 0.5),
@@ -223,7 +236,7 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
                  plot.caption = element_text(),
                  plot.subtitle = element_text(hjust = 0.5))
   p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
-  p<-p+labs(title = plot_title, y= y_title,
+  p <- p+labs(title = plot_title, y= y_title,
             x = "", caption = caption_text)
   p
 }
@@ -335,8 +348,8 @@ setwd("C:/Users/natek/Documents/images")
 jpeg("qop_burdened_households_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(fred_dat, "burdened_households",
-                plot_title = "Cost Burdened Households",
-                subtitle = "Annual",
+                plot_title = "Housing Cost Burdened Households",
+                subtitle = "Spending over 30% of Income on Housing",
                 rollmean = 1,
                 caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
                 break_settings = seq(2010, 2014, 2),
@@ -360,7 +373,7 @@ jpeg("qop_disconnected_youth_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(fred_dat, "disconnected_youth",
                 plot_title = "Disconnected Youth",
-                subtitle = "Annual",
+                subtitle = "Persons age 16-19 who are not in school and not in the labor force",
                 rollmean = 1,
                 caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
                 break_settings = seq(2009, 2015, 2),
@@ -396,7 +409,7 @@ jpeg("qop_income_inequality_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(fred_dat, "income_inequality",
                 plot_title = "Income Inequality",
-                subtitle = "Annual",
+                subtitle = "Mean income of top quintile divided by mean income of bottom quintile",
                 rollmean = 1,
                 caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
                 break_settings = seq(2010, 2015, 2),
