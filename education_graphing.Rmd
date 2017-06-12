@@ -76,13 +76,13 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
     p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
   }
   p <- p + theme(text = element_text(family = "Museo Sans 300"),
-                plot.title = element_text(size = 18, hjust = 0.5),
+                plot.title = element_text(size = 18, hjust = .5),
                 axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
                                          size=12, color = rev(d.graph$textcolor)),
                 axis.ticks=element_blank(),
                 axis.text.x = element_blank(),
                 plot.caption = element_text(),
-                plot.subtitle = element_text(hjust = 0.5))
+                plot.subtitle = element_text(hjust = .5))
   p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
   p<-p+labs(title = plot_title, y= y_title,
             x = "", caption = caption_text)

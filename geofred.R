@@ -1,5 +1,7 @@
 library(showtext)
 library(reshape2)
+library(classInt)
+library(ggthemes)
 library(tidyverse)
 
 setwd("C:/Users/natek/Documents/GeoFRED data/")
@@ -140,17 +142,20 @@ fred_dat$racial_geography <- as.numeric(fred_dat$racial_geography)
 ##Now to give the FIPS codes names
 names <- read_csv("C:/Users/natek/Dropbox/GLP/FIPS two stl.csv")
 
-names$FIPS <- as.numeric(names$FIPS)
+names$FIPS <- as.character(names$FIPS)
 data_named <- left_join(fred_dat, names, by = "FIPS")
 
 ##add population data
 population_data <- read_csv("C:/users/natek/Dropbox/GLP/Web Update/population_data.csv")
+population_data$FIPS <- as.character(population_data$FIPS)
 data_named$year <- as.numeric(data_named$year)
 data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
 
 ##and merge St. Louis city and St. Louis county
 
+data_named$FIPS <- as.numeric(data_named$FIPS)
 dat <- data_named %>%
+  filter(year > 2004 & year < 2016) %>%
   select(-county, -state) %>%
   group_by(city, year) %>%
   summarise_each(funs(weighted.mean(.,population)), -population) %>%
@@ -162,7 +167,7 @@ dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
 dat$FIPS <- as.factor(dat$FIPS)
 
 # and then add the other stuff for each city again
-names <- read.csv("C:/users/natek/Dropbox/GLP/FIPS one stl.csv")
+names <- read_csv("C:/users/natek/Dropbox/GLP/FIPS one stl.csv")
 names$FIPS <- as.factor(names$FIPS)
 
 fred_dat <- left_join(dat, names, by = c("FIPS", "city"))
@@ -351,7 +356,7 @@ graph_trendline(fred_dat, "burdened_households",
                 plot_title = "Housing Cost Burdened Households",
                 subtitle = "Spending over 30% of Income on Housing",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2010, 2014, 2),
                 xmin = 2010, xmax = 2014)
 showtext.end()
@@ -363,7 +368,7 @@ graph_trendline(fred_dat, "commute_time",
                 plot_title = "Mean Commute Time",
                 subtitle = "Annual",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2009, 2015, 2),
                 xmin = 2009, xmax = 2015, y_title = "Minutes")
 showtext.end()
@@ -375,7 +380,7 @@ graph_trendline(fred_dat, "disconnected_youth",
                 plot_title = "Disconnected Youth",
                 subtitle = "Persons age 16-19 who are not in school and not in the labor force",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2009, 2015, 2),
                 xmin = 2009, xmax = 2015)
 showtext.end()
@@ -387,7 +392,7 @@ graph_trendline(fred_dat, "home_ownership",
                 plot_title = "Home Ownership",
                 subtitle = "Annual",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2009, 2015, 2),
                 xmin = 2009, xmax = 2015)
 showtext.end()
@@ -399,9 +404,9 @@ graph_trendline(fred_dat, "housing_price_index",
                 plot_title = "Housing Price Index",
                 subtitle = "Annual",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
-                break_settings = seq(1996, 2015, 2),
-                xmin = 1996, xmax = 2015, y_title = "Index")
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+                break_settings = seq(2005, 2015, 2),
+                xmin = 2005, xmax = 2015, y_title = "Index")
 showtext.end()
 dev.off()
 
@@ -411,7 +416,7 @@ graph_trendline(fred_dat, "income_inequality",
                 plot_title = "Income Inequality",
                 subtitle = "Mean income of top quintile divided by mean income of bottom quintile",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2010, 2015, 2),
                 xmin = 2010, xmax = 2015, y_title = "Ratio")
 showtext.end()
@@ -423,9 +428,9 @@ graph_trendline(fred_dat, "median_household_income",
                 plot_title = "Median Household Income",
                 subtitle = "Annual",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
-                break_settings = seq(1998, 2014, 2),
-                xmin = 1997, xmax = 2014, y_title = "Dollars")
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+                break_settings = seq(2005, 2014, 2),
+                xmin = 2005, xmax = 2014, y_title = "Dollars")
 showtext.end()
 dev.off()
 
@@ -435,7 +440,7 @@ graph_trendline(fred_dat, "net_migration_flow",
                 plot_title = "Net Migration Flow",
                 subtitle = "Annual",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2009, 2013, 2),
                 xmin = 2009, xmax = 2013, y_title = "")
 showtext.end()
@@ -447,9 +452,9 @@ graph_trendline(fred_dat, "personal_income_per_cap",
                 plot_title = "Per Capita Personal Income",
                 subtitle = "Annual",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
-                break_settings = seq(1996, 2015, 2),
-                xmin = 1996, xmax = 2015, y_title = "Dollars")
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+                break_settings = seq(2005, 2015, 2),
+                xmin = 2005, xmax = 2015, y_title = "Dollars")
 showtext.end()
 dev.off()
 
@@ -459,7 +464,7 @@ graph_trendline(fred_dat, "racial_geography",
                 plot_title = "Geographic Racial Dissimilarity Index",
                 subtitle = "Percent of Whites who would need to move census tracts to equalize percent White across all tracts.",
                 rollmean = 1,
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2009, 2015, 2),
                 xmin = 2009, xmax = 2015)
 showtext.end()
@@ -469,11 +474,11 @@ jpeg("jobs__unemployment_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(fred_dat, "unemployment",
                 plot_title = "Unemployment",
-                caption_text = "Source: Greater Louisville Project \nData from The Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 subtitle = "Annual",
                 rollmean = 1,
-                break_settings = seq(1996, 2015, 2),
-                xmin = 1996, xmax = 2015)
+                break_settings = seq(2005, 2015, 2),
+                xmin = 2005, xmax = 2015)
 showtext.end()
 dev.off()
 
@@ -482,14 +487,98 @@ dev.off()
 
 
 ##rankings
+fred_dat_15 <- fred_dat %>% filter(year == 2015)
+fred_dat_14 <- fred_dat %>% filter(year == 2014)
 
-jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
+
+jpeg("qop_burdened_households_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "under_5_per", order = "Ascending",
-                  plot_title = "Children Under 5 in Poverty, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
+rank_and_nb_group(fred_dat_15, "burdened_households", order = "Ascending",
+                  plot_title = "Households paying over 30% of income for Housing, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
 showtext.end()
 dev.off()
+
+jpeg("qop_commute_time_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "commute_time", order = "Ascending",
+                  plot_title = "Commute Time, 2015", 
+                  y_title = "Minutes",
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("qop_disconnected_youth_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "disconnected_youth", order = "Ascending",
+                  plot_title = "Disconnected Youth, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("qop_home_ownership_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "home_ownership", order = "Descending",
+                  plot_title = "Home Ownership, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("qop_housing_price_index_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "housing_price_index", order = "Descending",
+                  plot_title = "Housing Price Index, 2015", 
+                  y_title = "Index",
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("qop_income_inequality_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "income_inequality", order = "Ascending",
+                  plot_title = "Income Inequality, 2015", 
+                  y_title = "Ratio",
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("jobs_median_household_income_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_14, "median_household_income", order = "Descending",
+                  plot_title = "Median Household Income, 2015", 
+                  y_title = "Dollars",
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("qop_net_migration_flow.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "net_migration_flow", order = "Descending",
+                  plot_title = "Net Migration Flow, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("jobs_personal_income_per_cap_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "personal_income_per_cap", order = "Descending",
+                  plot_title = "Per Capita Personal Income, 2015", 
+                  y_title = "Dollars",
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+jpeg("jobs_unemployment_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(fred_dat_15, "unemployment", order = "Ascending",
+                  plot_title = "Unemployment, 2015", 
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
+showtext.end()
+dev.off()
+
+
+
+
 
 
 
