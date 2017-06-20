@@ -1,0 +1,23 @@
+city,county,state,FIPS
+Grand Rapids,Kent,MI,26081
+St. Louis,St. Louis County,MO,29189
+St. Louis,St. Louis City,MO,29510
+Oklahoma City,Oklahoma,OK,40109
+Tulsa,Tulsa,OK,40143
+Greenville,Greenville,SC,45045
+Knoxville,Knox,TN,47093
+Birmingham,Jefferson,AL,1073
+Indianapolis,Marion,IN,18097
+Louisville,Jefferson,KY,21111
+Kansas City,Jackson,MO,29095
+Omaha,Douglas,NE,31055
+Greensboro,Guilford,NC,37081
+Charlotte,Mecklenberg,NC,37119
+Columbus,Franklin,OH,39049
+Cincinnati,Hamilton,OH,39061
+Nashville,Davidson,TN,47037
+Memphis,Shelby,TN,47157
+Jacksonville,Duval,FL,12031
+Raleigh,Wake,NC,37183
+Dayton,Montgomery,OH,39113
+Richmond,Richmond City,VA,51760
