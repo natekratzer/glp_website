@@ -1,0 +1,374 @@
+library(dplyr)
+
+setwd("C:/Users/natek/Documents/GitHub/glp_website/input data")
+
+acs.time<-function(folder, starting.year=2005){
+  initial_wd <- getwd()
+  directory <- paste(initial_wd, folder, sep = "")
+  setwd(directory)
+  file_names<-list.files()
+  n<-length(file_names)
+  y<-starting.year
+  for (i in 1:n){
+    data<-read.csv(file_names[i],header=TRUE, skip=1, stringsAsFactors = FALSE)
+    names(data)[names(data) == 'Id2'] <- 'FIPS'
+    all.peers <-subset(data, data$FIPS == 1073 |data$FIPS == 37119
+                       |data$FIPS == 39061 |data$FIPS == 39049
+                       |data$FIPS == 26081 |data$FIPS == 37081
+                       |data$FIPS == 45045 |data$FIPS == 18097
+                       |data$FIPS == 29095 |data$FIPS == 47093
+                       |data$FIPS == 21111 |data$FIPS == 47157
+                       |data$FIPS == 47037 |data$FIPS == 40109
+                       |data$FIPS == 31055 |data$FIPS == 29189
+                       |data$FIPS == 29510
+                       |data$FIPS == 40143 |data$FIPS == 39113
+                       |data$FIPS == 12031 |data$FIPS == 37183
+                       |data$FIPS == 37183 |data$FIPS == 51760)
+    
+    all.peers$year<-y
+    y<-y+1
+    
+    if(i==1){
+     df<-all.peers 
+    }
+    else{
+      names(all.peers)<-names(df)
+      df<-rbind(df, all.peers)
+    }
+  }
+  setwd(initial_wd)
+  df
+}
+
+data = acs.time("/B17001")
+
+data = data %>%
+  mutate(under_5_per = (Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years)/
+           (Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
+            Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years+
+              Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
+              Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years),
+         five_to_17_under =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....6.to.11.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....12.to.14.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....15.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....16.and.17.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....5.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....6.to.11.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....12.to.14.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....15.years+
+                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....16.and.17.years,
+         five_to_17_over =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....6.to.11.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....12.to.14.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....15.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....16.and.17.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....5.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....6.to.11.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....12.to.14.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....15.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....16.and.17.years,
+         five_to_17_per = five_to_17_under/(five_to_17_over+five_to_17_under),
+         child_under = five_to_17_under +
+                        Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
+                        Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years,
+         child_over = five_to_17_over +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years,
+         child_per = child_under/(child_over+child_under)
+            )
+
+child_pov_data = data %>% 
+  select(FIPS, year, under_5_per, five_to_17_per, child_per)
+
+write.csv(child_pov_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/child_pov_data.csv", row.names = FALSE)
+
+data = acs.time("/S1401/Y5to7")
+data_2 = acs.time("/S1401/Y8to14", starting.year = 2008)
+data_3 = acs.time("/S1401/Y15", starting.year = 2015)
+
+data = data %>% 
+  select(enrolled_3_4 = Total..Estimate..Percent.of.age.group.enrolled.in.school......3.and.4.years,
+         FIPS, year)
+data_2 = data_2 %>% 
+  select(enrolled_3_4 = Total..Estimate..Percent.of.age.group.enrolled.in.school......3.and.4.years,
+         FIPS, year)
+data_3 = data_3 %>% 
+  select(enrolled_3_4 = Percent..Estimate..Population.3.to.4.years...3.to.4.year.olds.enrolled.in.school,
+         FIPS, year)
+
+df = rbind(data, data_2, data_3)
+
+write.csv(df, "C:/Users/natek/Documents/GitHub/glp_website/output data/enroll_3_4_data.csv", row.names = FALSE)
+
+data = acs.time("/B15001")
+
+data = data %>%
+  mutate(num_m_25_34_assoc_plus = Estimate..Male....25.to.34.years....Associate.s.degree +
+           Estimate..Male....25.to.34.years....Bachelor.s.degree +
+           Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         num_m_35_44_assoc_plus = Estimate..Male....35.to.44.years....Associate.s.degree +
+           Estimate..Male....35.to.44.years....Bachelor.s.degree +
+           Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         num_m_45_64_assoc_plus = Estimate..Male....45.to.64.years....Associate.s.degree +
+           Estimate..Male....45.to.64.years....Bachelor.s.degree +
+           Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         num_f_25_34_assoc_plus = Estimate..Female....25.to.34.years....Associate.s.degree +
+           Estimate..Female....25.to.34.years....Bachelor.s.degree +
+           Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         num_f_35_44_assoc_plus = Estimate..Female....35.to.44.years....Associate.s.degree +
+           Estimate..Female....35.to.44.years....Bachelor.s.degree +
+           Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         num_f_45_64_assoc_plus = Estimate..Female....45.to.64.years....Associate.s.degree +
+           Estimate..Female....45.to.64.years....Bachelor.s.degree +
+           Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         num_m_25_34_bach_plus = 
+           Estimate..Male....25.to.34.years....Bachelor.s.degree +
+           Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         num_m_35_44_bach_plus = 
+           Estimate..Male....35.to.44.years....Bachelor.s.degree +
+           Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         num_m_45_64_bach_plus = 
+           Estimate..Male....45.to.64.years....Bachelor.s.degree +
+           Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         num_f_25_34_bach_plus = 
+           Estimate..Female....25.to.34.years....Bachelor.s.degree +
+           Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         num_f_35_44_bach_plus = 
+           Estimate..Female....35.to.44.years....Bachelor.s.degree +
+           Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         num_f_45_64_bach_plus = 
+           Estimate..Female....45.to.64.years....Bachelor.s.degree +
+           Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         num_m_25_34_grad = 
+           Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         num_m_35_44_grad = 
+           Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         num_m_45_64_grad = 
+           Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         num_f_25_34_grad = 
+           Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         num_f_35_44_grad = 
+           Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         num_f_45_64_grad = 
+           Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         num_m_25_34 = Estimate..Male....25.to.34.years.,
+         num_m_35_44 = Estimate..Male....35.to.44.years.,
+         num_m_45_64 = Estimate..Male....45.to.64.years.,
+         num_f_25_34 = Estimate..Female....25.to.34.years.,
+         num_f_35_44 = Estimate..Female....35.to.44.years.,
+         num_f_45_64 = Estimate..Female....45.to.64.years.,
+         per_25_64_assoc_plus = (num_m_25_34_assoc_plus +
+           num_m_35_44_assoc_plus + num_m_45_64_assoc_plus + num_f_25_34_assoc_plus +
+           num_f_35_44_assoc_plus + num_f_45_64_assoc_plus)/
+           (num_m_25_34 +
+           num_m_35_44 + num_m_45_64 + num_f_25_34 +
+           num_f_35_44 + num_f_45_64),
+         per_25_64_bach_plus = (num_m_25_34_bach_plus +
+            num_m_35_44_bach_plus + num_m_45_64_bach_plus + num_f_25_34_bach_plus +
+            num_f_35_44_bach_plus + num_f_45_64_bach_plus)/
+           (num_m_25_34 +
+              num_m_35_44 + num_m_45_64 + num_f_25_34 +
+              num_f_35_44 + num_f_45_64),
+         per_25_64_grad = (num_m_25_34_grad +
+            num_m_35_44_grad + num_m_45_64_bach_plus + num_f_25_34_grad +
+            num_f_35_44_grad + num_f_45_64_grad)/
+           (num_m_25_34 +
+              num_m_35_44 + num_m_45_64 + num_f_25_34 +
+              num_f_35_44 + num_f_45_64),
+         per_25_34_assoc_plus = (num_f_25_34_assoc_plus+num_m_25_34_assoc_plus)/
+           (num_m_25_34+num_f_25_34),
+         per_25_34_bach_plus = (num_f_25_34_bach_plus+num_m_25_34_bach_plus)/
+           (num_m_25_34+num_f_25_34),
+         per_25_34_grad = (num_f_25_34_grad+num_m_25_34_grad)/
+           (num_m_25_34+num_f_25_34)
+         )
+
+degree_data = data %>%
+  select(FIPS, year, per_25_64_assoc_plus, per_25_64_bach_plus, per_25_64_grad,
+         per_25_34_assoc_plus, per_25_34_bach_plus, per_25_34_grad)
+
+write.csv(degree_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_data.csv", row.names = FALSE)
+
+degree_all_races = acs.time("/B15002")
+
+degree_all_races = degree_all_races %>%
+  mutate(bach_plus_per_all = (Estimate..Female....Bachelor.s.degree+
+           Estimate..Male....Bachelor.s.degree +
+           Estimate..Female....Doctorate.degree+
+           Estimate..Male....Doctorate.degree +
+           Estimate..Female....Master.s.degree +
+           Estimate..Female....Master.s.degree)/
+           Estimate..Total.)
+
+degree_all_races = degree_all_races %>%
+  select(FIPS, year, bach_plus_per_all)
+
+write.csv(degree_all_races, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_all_races.csv", row.names = FALSE)
+
+degree_white_05 = acs.time("/B15002A/Y05", starting.year = 2005)
+degree_white_08 = acs.time("/B15002A/Y08", starting.year = 2008)
+
+degree_white_05 = degree_white_05 %>%
+  mutate(bach_plus_per_white = (Estimate..Female....Bachelor.s.degree+
+                                  Estimate..Male....Bachelor.s.degree +
+                                  Estimate..Female....Graduate.degree+
+                                  Estimate..Male....Graduate.degree )/
+           Estimate..Total.)
+
+degree_white_05 = degree_white_05 %>%
+  select(FIPS, year, bach_plus_per_white)
+
+degree_white_08 = degree_white_08 %>%
+  mutate(bach_plus_per_white = (Estimate..Female....Bachelor.s.degree+
+                                  Estimate..Male....Bachelor.s.degree +
+                                  Estimate..Female....Graduate.degree+
+                                  Estimate..Male....Graduate.degree )/
+           Estimate..Total.)
+
+degree_white_08 = degree_white_08 %>%
+  select(FIPS, year, bach_plus_per_white)
+
+degree_white = rbind(degree_white_05, degree_white_08)
+
+write.csv(degree_white, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_white.csv", row.names = FALSE)
+
+degree_black_05 = acs.time("/B15002B/Y05", starting.year = 2005)
+degree_black_08 = acs.time("/B15002B/Y08", starting.year = 2008)
+
+degree_black_05 = degree_black_05 %>%
+  mutate(bach_plus_per_black = (Estimate..Female....Bachelor.s.degree+
+                                  Estimate..Male....Bachelor.s.degree +
+                                  Estimate..Female....Graduate.degree+
+                                  Estimate..Male....Graduate.degree )/
+           Estimate..Total.)
+
+degree_black_05 = degree_black_05 %>%
+  select(FIPS, year, bach_plus_per_black)
+
+degree_black_08 = degree_black_08 %>%
+  mutate(bach_plus_per_black = (Estimate..Female....Bachelor.s.degree+
+                                  Estimate..Male....Bachelor.s.degree +
+                                  Estimate..Female....Graduate.degree+
+                                  Estimate..Male....Graduate.degree )/
+           Estimate..Total.)
+
+degree_black_08 = degree_black_08 %>%
+  select(FIPS, year, bach_plus_per_black)
+
+degree_black = rbind(degree_black_05, degree_black_08)
+
+write.csv(degree_black, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_black.csv", row.names = FALSE)
+
+
+degree_hispanic_05 = acs.time("/B15002I/Y05", starting.year = 2005)
+degree_hispanic_08 = acs.time("/B15002I/Y08", starting.year = 2008)
+
+degree_hispanic_05 = degree_hispanic_05 %>%
+  mutate(bach_plus_per_hispanic = (Estimate..Female....Bachelor.s.degree+
+                                  Estimate..Male....Bachelor.s.degree +
+                                  Estimate..Female....Graduate.degree+
+                                  Estimate..Male....Graduate.degree )/
+           Estimate..Total.)
+
+degree_hispanic_05 = degree_hispanic_05 %>%
+  select(FIPS, year, bach_plus_per_hispanic)
+
+degree_hispanic_08 = degree_hispanic_08 %>%
+  mutate(bach_plus_per_hispanic = (Estimate..Female....Bachelor.s.degree+
+                                  Estimate..Male....Bachelor.s.degree +
+                                  Estimate..Female....Graduate.degree+
+                                  Estimate..Male....Graduate.degree )/
+           Estimate..Total.)
+
+degree_hispanic_08 = degree_hispanic_08 %>%
+  select(FIPS, year, bach_plus_per_hispanic)
+
+degree_hispanic = rbind(degree_hispanic_05, degree_hispanic_08)
+
+write.csv(degree_hispanic, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_hispanic.csv", row.names = FALSE)
+
+occupation_05 = acs.time("/S2401/Y05", starting.year = 2005)
+occupation_10 = acs.time("/S2401/Y10", starting.year = 2010)
+occupation_15 = acs.time("/S2401/Y15", starting.year = 2015)
+
+occupation_05 = occupation_05 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Management..professional..and.related.occupations.)+
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Construction..extraction..maintenance..and.repair.occupations....Installation..maintenance..and.repair.occupations))/
+  as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_10 = occupation_10 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
+                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_15 = occupation_15 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
+                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_05 = occupation_05 %>% select(FIPS, year, per_high_wage)
+occupation_10 = occupation_10 %>% select(FIPS, year, per_high_wage)
+occupation_15 = occupation_15 %>% select(FIPS, year, per_high_wage)
+
+occupation_data = rbind(occupation_05, occupation_10, occupation_15)
+
+write.csv(occupation_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/occupation_data.csv", row.names = FALSE)
+
+
+####################
+##Merging the Data##
+####################
+
+child_pov_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/child_pov_data.csv")
+degree_all_races = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_all_races.csv")
+degree_black = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_black.csv")
+degree_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_data.csv")
+degree_hispanic = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_hispanic.csv")
+degree_white = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_white.csv")
+enroll_3_4_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/enroll_3_4_data.csv", stringsAsFactors = FALSE)
+jcps_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/jcps_data.csv")
+naep_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/naep_data.csv")
+occupation_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/occupation_data.csv")
+population_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/population_data.csv")
+
+data = full_join(child_pov_data, degree_all_races, by = c("FIPS", "year"))
+data = full_join(data, degree_black, by = c("FIPS", "year"))
+data = full_join(data, degree_data, by = c("FIPS", "year"))
+data = full_join(data, degree_hispanic, by = c("FIPS", "year"))
+data = full_join(data, degree_white, by = c("FIPS", "year"))
+data = full_join(data, enroll_3_4_data, by = c("FIPS", "year"))
+data = full_join(data, jcps_data, by = c("FIPS", "year"))
+data = full_join(data, naep_data, by = c("FIPS", "year"))
+data = full_join(data, occupation_data, by = c("FIPS", "year"))
+data = full_join(data, population_data, by = c("FIPS", "year"))
+
+##Now to give the FIPS codes names
+names = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/FIPS two stl.csv")
+data$FIPS <- as.integer(data$FIPS)
+
+data_named = left_join(data, names, by = "FIPS")
+
+##and merge St. Louis city and St. Louis county
+
+data = data_named %>%
+  select(-county, -state) %>%
+  group_by(city, year) %>%
+  summarise_each(funs(weighted.mean(.,population)), -population)
+
+# give St. Louis Merged a new FIPS
+data$FIPS = as.character(data$FIPS)
+data$FIPS[data$city == "St. Louis"] = "MERGED"
+data$FIPS = as.factor(data$FIPS)
+
+# and then add the other stuff for each city again
+names = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/FIPS one stl.csv")
+
+education_data = left_join(data, names, by = "FIPS")
+
+write.csv(education_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/education data.csv", row.names = FALSE)
+

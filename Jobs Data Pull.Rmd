@@ -1,0 +1,61 @@
+---
+title: "Jobs Data Pull"
+output: html_notebook
+---
+
+This is the code used to pull the jobs data
+
+
+First the libraries needed
+```{r libraries}
+library(dplyr)
+library(readr)
+```
+
+Setting the working directory
+```{r setwd}
+setwd("/home/nate/Documents/Jobs Data")
+```
+
+This function takes a folder of ACS data with a separate CSV for each year, because that is what is downloaded from FactFinder. 
+```{r acs folder function}
+acs_time <- function(directory, starting.year = 2005){
+  setwd(directory)
+  file_names <- list.files()
+  n <- length(file_names)
+  y <- starting.year
+  for (i in 1:n){
+    data <- read_csv(file_names[i], header=TRUE, skip=1)
+    
+    names(data)[names(data) == 'Id2'] <- 'FIPS'
+    all.peers <-subset(data, data$FIPS == 1073 |data$FIPS == 37119
+                       |data$FIPS == 39061 |data$FIPS == 39049
+                       |data$FIPS == 26081 |data$FIPS == 37081
+                       |data$FIPS == 45045 |data$FIPS == 18097
+                       |data$FIPS == 29095 |data$FIPS == 47093
+                       |data$FIPS == 21111 |data$FIPS == 47157
+                       |data$FIPS == 47037 |data$FIPS == 40109
+                       |data$FIPS == 31055 |data$FIPS == 29189
+                       |data$FIPS == 29510
+                       |data$FIPS == 40143 |data$FIPS == 39113
+                       |data$FIPS == 12031 |data$FIPS == 37183
+                       |data$FIPS == 37183 |data$FIPS == 51760)
+    
+    all.peers$year <- y
+    y <- y+1
+    
+    if (i==1){
+      df <- all.peers 
+    }
+    else{
+      names(all.peers) <- names(df)
+      df <- rbind(df, all.peers)
+    }
+  }
+  df
+}
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
