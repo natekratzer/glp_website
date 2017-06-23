@@ -146,7 +146,7 @@ names$FIPS <- as.character(names$FIPS)
 data_named <- left_join(fred_dat, names, by = "FIPS")
 
 ##add population data
-population_data <- read_csv("C:/users/natek/Dropbox/GLP/Web Update/population_data.csv")
+population_data <- read_csv("C:/users/natek/Documents/Github/glp_website/input data/population_data.csv")
 population_data$FIPS <- as.character(population_data$FIPS)
 data_named$year <- as.numeric(data_named$year)
 data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
@@ -346,11 +346,11 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
 font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
 font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
 
-setwd("C:/Users/natek/Documents/images")
+setwd("C:/Users/natek/Documents")
 
 
 ##trendlines
-jpeg("qop_burdened_households_trendline.jpg", 900, 600, res = 100)
+jpeg("qop_burdened_households_trendline.jpg", 2000, 1200, res = 100)
 showtext.begin()
 graph_trendline(fred_dat, "burdened_households",
                 plot_title = "Housing Cost Burdened Households",

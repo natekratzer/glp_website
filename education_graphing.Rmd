@@ -560,25 +560,25 @@ m
 Making and saving maps
 ```{r}
 setwd("C:/Users/natek/Documents/images")
-m <- make_map("child_per", "Child Percent", order = "Ascending")
+m <- make_map("child_per", "Child Poverty", order = "Ascending")
 saveWidget(m, "edu_child_pov_map.html")
 
 m <- make_map("per_25_64_assoc_plus", "Associate Degrees, 25-64")
 saveWidget(m, "edu_25_64_assoc_map.html")
 
-m <- make_map("per_25_64_bach_plus", "Associate Degrees, 25-64")
+m <- make_map("per_25_64_bach_plus", "Bachelor's Degrees, 25-64")
 saveWidget(m, "edu_25_64_bach_map.html")
 
-m <- make_map("per_25_64_grad", "Associate Degrees, 25-64")
+m <- make_map("per_25_64_grad", "Graduate Degrees, 25-64")
 saveWidget(m, "edu_25_64_grad_map.html")
 
 m <- make_map("per_25_34_assoc_plus", "Associate Degrees, 25-34")
 saveWidget(m, "edu_assoc_25_34_map.html")
 
-m <- make_map("per_25_34_bach_plus", "Associate Degrees, 25-34")
+m <- make_map("per_25_34_bach_plus", "Bachelor's Degrees, 25-34")
 saveWidget(m, "edu_25_34_bach_map.html")
 
-m <- make_map("per_25_34_grad", "Associate Degrees, 25-34")
+m <- make_map("per_25_34_grad", "Graduate Degrees, 25-34")
 saveWidget(m, "edu_25_34_grad_map.html")
 
 m <- make_map("per_high_wage", "High Wage Occupations")
