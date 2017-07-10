@@ -467,6 +467,19 @@ rank_and_nb_group_mig(
 )
 showtext.end()
 dev.off()
+
+jpeg("qp_racial_geography_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'racial_geography',
+  order = "Ascending",
+  y_title = "Index Score",
+  plot_title = "Racial Dissimilarity Index, 2015",
+  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+)
+showtext.end()
+dev.off()
 ```
 
 Trendline Graphs
