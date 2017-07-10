@@ -7,26 +7,27 @@ This is the code used to pull the jobs data
 
 
 First the libraries needed
-```{r libraries}
-library(dplyr)
-library(readr)
+```{r setup}
+knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website")) 
 ```
 
-Setting the working directory
-```{r setwd}
-setwd("/home/nate/Documents/Jobs Data")
+
+```{r libraries}
+library(tidyverse)
 ```
+
 
 This function takes a folder of ACS data with a separate CSV for each year, because that is what is downloaded from FactFinder. 
 ```{r acs folder function}
-acs_time <- function(directory, starting.year = 2005){
-  setwd(directory)
-  file_names <- list.files()
-  n <- length(file_names)
-  y <- starting.year
+acs_time <- function(folder, starting.year=2005){
+  wd <- getwd()
+  directory <- paste(wd, folder, sep = "")
+  file_names <- list.files(directory)
+  n<-length(file_names)
+  y<-starting.year
   for (i in 1:n){
-    data <- read_csv(file_names[i], header=TRUE, skip=1)
-    
+    file_path <- paste(wd, folder, file_names[i], sep = "")
+    data<-read_csv(file_path,col_names = TRUE, skip=1)
     names(data)[names(data) == 'Id2'] <- 'FIPS'
     all.peers <-subset(data, data$FIPS == 1073 |data$FIPS == 37119
                        |data$FIPS == 39061 |data$FIPS == 39049
@@ -41,21 +42,153 @@ acs_time <- function(directory, starting.year = 2005){
                        |data$FIPS == 12031 |data$FIPS == 37183
                        |data$FIPS == 37183 |data$FIPS == 51760)
     
-    all.peers$year <- y
-    y <- y+1
+    all.peers$year<-y
+    y<-y+1
     
-    if (i==1){
-      df <- all.peers 
+    if(i==1){
+     df<-all.peers 
     }
     else{
-      names(all.peers) <- names(df)
-      df <- rbind(df, all.peers)
+      names(all.peers)<-names(df)
+      df<-rbind(df, all.peers)
     }
   }
   df
 }
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+pull peers FIPS to use with GeoFRED data
+```{r}
+pull_peers_FIPS <- function(dat){
+  all.peers <- subset(dat, dat$FIPS == 1073 | dat$FIPS == 37119
+                    |dat$FIPS == 39061 |dat$FIPS == 39049
+                    |dat$FIPS == 26081 |dat$FIPS == 37081
+                    |dat$FIPS == 45045 |dat$FIPS == 18097
+                    |dat$FIPS == 29095 |dat$FIPS == 47093
+                    |dat$FIPS == 21111 |dat$FIPS == 47157
+                    |dat$FIPS == 47037 |dat$FIPS == 40109
+                    |dat$FIPS == 31055 |dat$FIPS == 29189
+                    |dat$FIPS == 29510 |dat$FIPS == 40143
+                    |dat$FIPS == 12031 |dat$FIPS == 37183
+                    |dat$FIPS == 39113 |dat$FIPS == 51760)
+  all.peers$baseline <- 1
+  all.peers$current <- 1
+  all.peers$baseline[all.peers$FIPS==26081|all.peers$FIPS==29189
+                     |all.peers$FIPS==29510|all.peers$FIPS==40109
+                     |all.peers$FIPS==40143|all.peers$FIPS==45045
+                     |all.peers$FIPS==47093]<-0
+  all.peers$current[all.peers$FIPS== 12031|all.peers$FIPS==37183|
+                      all.peers$FIPS==39113|all.peers$FIPS==51760]<-0
+  all.peers
+}
+```
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+Earnings data from the ACS 
+```{r, message = FALSE}
+earn_data <- acs_time("/input data/S2001/")
+
+earn_data<-select(earn_data, FIPS, year, earnings = `Total; Estimate; Population 16 years and over with earnings - Median earnings (dollars)`)
+earn_data$num_earnings = as.numeric(as.character(earn_data$earnings))
+```
+
+Other jobs data from GeoFRED
+```{r geofred}
+##reading in the data
+unemp_dat <- read_csv("input data/jobs_input_data/GeoFRED_unemployment.csv", skip = 1)
+income_inequality_dat <- read_csv("input data/jobs_input_data/income_inequality.csv", skip = 1)
+median_household_income_dat <- read_csv("input data/jobs_input_data/median_household_income.csv", skip = 1)
+personal_income_per_cap_dat <- read_csv("input data/jobs_input_data/per capita personal income.csv", skip = 1)
+
+##pulling peers
+#renaming
+unemp_dat <- unemp_dat %>% rename(FIPS = `Region Code`)
+income_inequality_dat <- income_inequality_dat %>% rename(FIPS = `Region Code`)
+median_household_income_dat <- median_household_income_dat %>% rename(FIPS = `Region Code`)
+personal_income_per_cap_dat <- personal_income_per_cap_dat %>% rename(FIPS = `Region Code`)
+
+#pulling
+unemp_dat <- pull_peers_FIPS(unemp_dat)
+income_inequality_dat <- pull_peers_FIPS(income_inequality_dat)
+median_household_income_dat <- pull_peers_FIPS(median_household_income_dat)
+personal_income_per_cap_dat <- pull_peers_FIPS(personal_income_per_cap_dat)
+
+##reformatting
+unemp_dat <- unemp_dat %>%
+  gather(4:24, key = "year", value = "unemployment") #4:224 refers to column indexes for all the years
+
+income_inequality_dat <- income_inequality_dat %>%
+  gather(4:9, key = "year", value = "income_inequality") #4:224 refers to column indexes for all the years
+
+median_household_income_dat <- median_household_income_dat %>%
+  gather(4:24, key = "year", value = "median_household_income") #4:224 refers to column indexes for all the years
+
+personal_income_per_cap_dat <- personal_income_per_cap_dat %>%
+  gather(4:24, key = "year", value = "personal_income_per_cap") #4:224 refers to column indexes for all the years
+
+dat <- full_join(unemp_dat, income_inequality_dat, by = c("FIPS", "year"))
+dat <- full_join(dat, median_household_income_dat, by = c("FIPS", "year"))
+dat <- full_join(dat, personal_income_per_cap_dat, by = c("FIPS", "year"))
+dat <- full_join(dat, earn_data, by = c("FIPS", "year"))
+
+
+dat <- dat %>% select(FIPS, year, baseline, current, 
+                                burdened_households, commute_time, disconnected_youth,
+                                home_ownership, housing_price_index, income_inequality, 
+                                median_household_income, net_migration_flow, personal_income_per_cap,
+                                racial_geography, unemployment)
+
+
+#current peers
+dat$year <- as.numeric(dat$year)
+dat$median_household_income <- as.numeric(dat$median_household_income)
+
+
+#
+##Now to give the FIPS codes names
+names <- read_csv("C:/Users/natek/Dropbox/GLP/FIPS two stl.csv")
+
+names$FIPS <- as.character(names$FIPS)
+data_named <- left_join(dat, names, by = "FIPS")
+
+##add population data
+population_data <- read_csv("C:/users/natek/Documents/Github/glp_website/input data/population_data.csv")
+population_data$FIPS <- as.character(population_data$FIPS)
+data_named$year <- as.numeric(data_named$year)
+data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
+
+##and merge St. Louis city and St. Louis county
+
+data_named$FIPS <- as.numeric(data_named$FIPS)
+dat <- data_named %>%
+  filter(year > 2004 & year < 2016) %>%
+  select(-county, -state) %>%
+  group_by(city, year) %>%
+  summarise_each(funs(weighted.mean(.,population)), -population) %>%
+  ungroup()
+
+# give St. Louis Merged a new FIPS
+dat$FIPS <- as.character(dat$FIPS)
+dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
+dat$FIPS <- as.factor(dat$FIPS)
+
+# and then add the other stuff for each city again
+names <- read_csv("C:/users/natek/Dropbox/GLP/FIPS one stl.csv")
+names$FIPS <- as.factor(names$FIPS)
+
+dat <- left_join(dat, names, by = c("FIPS", "city"))
+
+population_data$FIPS <- as.character(population_data$FIPS)
+dat <- left_join(dat, population_data, by = c("FIPS", "year"))
+
+
+dat <- dat %>% 
+  group_by(city, year) %>%
+  mutate(population = sum(population)) %>%
+  ungroup()
+
+dat <- dat %>% 
+  mutate(migration_pop = net_migration_flow/population)
+
+```
+

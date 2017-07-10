@@ -2,7 +2,7 @@ library(dplyr)
 
 setwd("C:/Users/natek/Documents/GitHub/glp_website/input data")
 
-acs.time<-function(folder, starting.year=2005){
+acs_time<-function(folder, starting.year=2005){
   initial_wd <- getwd()
   directory <- paste(initial_wd, folder, sep = "")
   setwd(directory)
@@ -40,7 +40,7 @@ acs.time<-function(folder, starting.year=2005){
   df
 }
 
-data = acs.time("/B17001")
+data = acs_time("/B17001")
 
 data = data %>%
   mutate(under_5_per = (Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
@@ -84,9 +84,9 @@ child_pov_data = data %>%
 
 write.csv(child_pov_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/child_pov_data.csv", row.names = FALSE)
 
-data = acs.time("/S1401/Y5to7")
-data_2 = acs.time("/S1401/Y8to14", starting.year = 2008)
-data_3 = acs.time("/S1401/Y15", starting.year = 2015)
+data = acs_time("/S1401/Y5to7")
+data_2 = acs_time("/S1401/Y8to14", starting.year = 2008)
+data_3 = acs_time("/S1401/Y15", starting.year = 2015)
 
 data = data %>% 
   select(enrolled_3_4 = Total..Estimate..Percent.of.age.group.enrolled.in.school......3.and.4.years,
@@ -102,7 +102,7 @@ df = rbind(data, data_2, data_3)
 
 write.csv(df, "C:/Users/natek/Documents/GitHub/glp_website/output data/enroll_3_4_data.csv", row.names = FALSE)
 
-data = acs.time("/B15001")
+data = acs_time("/B15001")
 
 data = data %>%
   mutate(num_m_25_34_assoc_plus = Estimate..Male....25.to.34.years....Associate.s.degree +
@@ -191,7 +191,7 @@ degree_data = data %>%
 
 write.csv(degree_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_data.csv", row.names = FALSE)
 
-degree_all_races = acs.time("/B15002")
+degree_all_races = acs_time("/B15002")
 
 degree_all_races = degree_all_races %>%
   mutate(bach_plus_per_all = (Estimate..Female....Bachelor.s.degree+
@@ -207,8 +207,8 @@ degree_all_races = degree_all_races %>%
 
 write.csv(degree_all_races, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_all_races.csv", row.names = FALSE)
 
-degree_white_05 = acs.time("/B15002A/Y05", starting.year = 2005)
-degree_white_08 = acs.time("/B15002A/Y08", starting.year = 2008)
+degree_white_05 = acs_time("/B15002A/Y05", starting.year = 2005)
+degree_white_08 = acs_time("/B15002A/Y08", starting.year = 2008)
 
 degree_white_05 = degree_white_05 %>%
   mutate(bach_plus_per_white = (Estimate..Female....Bachelor.s.degree+
@@ -234,8 +234,8 @@ degree_white = rbind(degree_white_05, degree_white_08)
 
 write.csv(degree_white, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_white.csv", row.names = FALSE)
 
-degree_black_05 = acs.time("/B15002B/Y05", starting.year = 2005)
-degree_black_08 = acs.time("/B15002B/Y08", starting.year = 2008)
+degree_black_05 = acs_time("/B15002B/Y05", starting.year = 2005)
+degree_black_08 = acs_time("/B15002B/Y08", starting.year = 2008)
 
 degree_black_05 = degree_black_05 %>%
   mutate(bach_plus_per_black = (Estimate..Female....Bachelor.s.degree+
@@ -262,8 +262,8 @@ degree_black = rbind(degree_black_05, degree_black_08)
 write.csv(degree_black, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_black.csv", row.names = FALSE)
 
 
-degree_hispanic_05 = acs.time("/B15002I/Y05", starting.year = 2005)
-degree_hispanic_08 = acs.time("/B15002I/Y08", starting.year = 2008)
+degree_hispanic_05 = acs_time("/B15002I/Y05", starting.year = 2005)
+degree_hispanic_08 = acs_time("/B15002I/Y08", starting.year = 2008)
 
 degree_hispanic_05 = degree_hispanic_05 %>%
   mutate(bach_plus_per_hispanic = (Estimate..Female....Bachelor.s.degree+
@@ -289,9 +289,9 @@ degree_hispanic = rbind(degree_hispanic_05, degree_hispanic_08)
 
 write.csv(degree_hispanic, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_hispanic.csv", row.names = FALSE)
 
-occupation_05 = acs.time("/S2401/Y05", starting.year = 2005)
-occupation_10 = acs.time("/S2401/Y10", starting.year = 2010)
-occupation_15 = acs.time("/S2401/Y15", starting.year = 2015)
+occupation_05 = acs_time("/S2401/Y05", starting.year = 2005)
+occupation_10 = acs_time("/S2401/Y10", starting.year = 2010)
+occupation_15 = acs_time("/S2401/Y15", starting.year = 2015)
 
 occupation_05 = occupation_05 %>%
   mutate(per_high_wage = (as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Management..professional..and.related.occupations.)+
