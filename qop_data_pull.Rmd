@@ -10,7 +10,7 @@ require("knitr")
 opts_knit$set(root.dir = "~/Desktop/glp_website/input data/qp_input_data")
 ```
 
-Nate Code
+Loading Libraries
 ```{r}
 library(showtext)
 library(reshape2)
@@ -76,12 +76,11 @@ pull_peers_FIPS <- function(dat){
 cbp_read<-function(folder, starting_year){
   initial_wd <- getwd()
   directory <- paste(initial_wd, folder, sep = "/")
-  setwd(directory)
-  file_names<-list.files()
+  file_names<-list.files(directory)
   n <- length(file_names)
   y <- starting_year
   for(i in 1:n){
-    data<-read_csv(file_names[i], skip = 0, progress = FALSE)
+    data<-read_csv(paste("/Users/BryceRowland/Desktop/glp_website/input data/qp_input_data",folder,file_names[i], sep = "/"), skip = 0, progress = FALSE)
     data%<>%mutate(FIPS = paste(fipstate, fipscty, sep = ''))
     all.peers <- filter(data, data$FIPS == "01073" |data$FIPS == 37119
                         |data$FIPS == 39061 |data$FIPS == 39049
@@ -114,7 +113,6 @@ cbp_read<-function(folder, starting_year){
       df<-rbind(df, all.peers)
     }
   }
-  setwd(initial_wd)
   df
 }
 
@@ -290,7 +288,6 @@ qp_data_fips<-fred_dat
 Social Support Analysis
 ```{r}
 #Reading in and tidying data
-# setwd("~/Desktop/glp_website/input data/qp_input_data") #Need to run fxn to get cbp_read to run inside of a R notebook chunk
 sc_data_5_6 <- cbp_read("Social Support 5_6", starting_year = 2005)
 sc_data_5_6 %<>% select(naics, FIPS, year, baseline, current, est)
 
@@ -306,6 +303,7 @@ sc_data_15%<>%mutate(FIPS = paste(FIPSTATE, FIPSCTY, sep = ''))%>%
 sc_data<-bind_rows(sc_data_5_6, sc_data_7_14)
 sc_data<-bind_rows(sc_data, sc_data_15)
 
+#Pull St. Louis out of the Dataset and sum
 sc_data_no<-sc_data%>%filter(naics == 813410 | naics == 713950|
                                naics == 713910 | naics == 713940|
                                naics == 711211 | naics == 813110|
@@ -315,6 +313,7 @@ sc_data_no<-sc_data%>%filter(naics == 813410 | naics == 713950|
   group_by(year, FIPS, baseline, current)%>%
   summarize(ss_est = sum(est))
 
+#Sum social support firms for all cities besides St. Louis
 stl_sc<-sc_data%>%filter(naics == 813410 | naics == 713950|
                            naics == 713910 | naics == 713940|
                            naics == 711211 | naics == 813110|
@@ -322,48 +321,39 @@ stl_sc<-sc_data%>%filter(naics == 813410 | naics == 713950|
                            naics == 813910 | naics == 813920)%>%
   filter(FIPS == 29189 | FIPS == 29510)%>%
   group_by(year, baseline, current)%>%
-  summarize(ss_est = sum(est))%>%
-  ungroup(.)%>%
-  group_by(year, baseline, current)%>%
-  summarize(ss_est = sum(ss_est))
+  summarize(ss_est = sum(est))
 stl_sc$FIPS <- NA
 stl_sc$FIPS <- "0"
 
+#Add St. Louis back to the dataset
 sc_data <- bind_rows(sc_data_no, stl_sc)
 sc_data$FIPS[sc_data$FIPS == "01073"] = "1073"
 
+#Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, sc_data, by = c("year","FIPS","baseline","current"))
+
+#Create per 100000 rate from population data in the QP FIPS dataset
 qp_data_fips%<>% mutate(ss_est_per_10000 = (ss_est/population)*10000)
 ```
 
 PCT Population in Core MSA County Analysis
 ```{r}
-#####################################################################################
-#MSA PCT Core County Population 2010-2016
-#####################################################################################
-setwd("~/Desktop/glp_website/input data/qp_input_data")
+#Read in data
 fips_core_county_pop<-read_csv("population_data_one_stl.csv", progress = FALSE)
 
-# #Combine St Louis County and City
-# st_lou<-fips_core_county_pop%>%
-#   filter(FIPS == 29510| FIPS == 29189)%>%
-#   group_by(year)%>%
-#   summarize(population = sum(population))
-# st_lou$FIPS<-0
-# 
-# fips_core_county_pop%<>%filter(!(FIPS == 29510 | FIPS == 29189))
-# fips_core_county_pop = rbind(fips_core_county_pop, st_lou)
-
+#Create "key" for core FIPS county to MSA
 msa_fips_key<-read_csv("changed_msa_counties.csv", progress = FALSE)
 msa_fips_key%<>%pull_peers_FIPS(.)%>%
   distinct(MSA, .keep_all = TRUE)%>%
   select(FIPS, MSA)
 msa_fips_key$FIPS[msa_fips_key$MSA == 41180]<- 0
 
+#Add MSA code
 fips_core_county_pop<-left_join(fips_core_county_pop, msa_fips_key, by = "FIPS")
 fips_core_county_pop%<>%filter(year >= 2010)%>%
   dplyr::rename(Year = year)
 
+#Tidy MSA Population estimate Data
 msa_pop_est<-read_csv("cbsa-est2016-alldata.csv", n_max = 1581, progress = FALSE)
 msa_pop_est%<>%filter(LSAD == "Metropolitan Statistical Area")%>%
   pull_peers_MSA(.)%>%
@@ -374,6 +364,7 @@ msa_pop_est%<>%filter(LSAD == "Metropolitan Statistical Area")%>%
 msa_pop_est$Year = substr(msa_pop_est$Year, 12,15)
 msa_pop_est$Year = as.numeric(msa_pop_est$Year)
 
+#Combine datasets and create core county pct estimates
 fips_core_county_pop<-left_join(fips_core_county_pop, msa_pop_est, by = c("MSA", "Year"))
 fips_core_county_pop%<>%mutate(pct_pop_core_county = 100*population/population_estimate)%>%
   dplyr::rename(core_county_pop = population,
@@ -381,27 +372,33 @@ fips_core_county_pop%<>%mutate(pct_pop_core_county = 100*population/population_e
                 year = Year)%>%
   pull_peers_FIPS(.)%>%
   select(FIPS, year, MSA,msa_population_estimate, pct_pop_core_county)
-fips_core_county_pop$FIPS = as.character(fips_core_county_pop$FIPS)
+fips_core_county_pop$FIPS <- as.character(fips_core_county_pop$FIPS)
 
+#Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, fips_core_county_pop, by = c("year", "FIPS"))
 ```
 
 Food Insecurity Analysis
 ```{r}
-#####################################################################################
-#Read in Food insecurity
-#####################################################################################
-setwd("~/Desktop/glp_website/input data/qp_input_data")
+#Read in data
 food_insec<-read_csv("GLP counties food insecure_PCT.csv", progress = FALSE)
 
+#Tidy
 food_insec%<>%
   pull_peers_FIPS(.)%>%
   dplyr::rename(year = Year)%>%
   select(city, FIPS, year, food_insecure_overall, food_insecure_child)
 
-weights<-read_csv("~/Desktop/glp_website/input data/qp_input_data/FIPS_two_stl.csv", col_types = cols(FIPS = col_integer()), progress = FALSE) 
+#Add weights for St. Louis
+weights <-
+  read_csv(
+  "~/Desktop/glp_website/input data/qp_input_data/FIPS_two_stl.csv",
+  col_types = cols(FIPS = col_integer()),
+  progress = FALSE
+  ) 
 food_insec<-left_join(food_insec, weights, by = c("city", "FIPS"))
 
+#Compute rates for St. Louis
 st_lou<-food_insec%>%
   filter(FIPS == 29189 | FIPS == 29510)%>%
   group_by(year, city)%>%
@@ -410,18 +407,20 @@ st_lou<-food_insec%>%
 st_lou$FIPS<-0
 st_lou%<>%select(year, city, food_insecure_overall, food_insecure_child, FIPS)
 
-food_insec%<>%select(-c(county, state, weights))
-food_insec <- bind_rows(food_insec, st_lou)
-food_insec$FIPS = as.character(food_insec$FIPS)
+food_insec%<>%select(-c(county, state, weights))%>%
+  filter(!(FIPS == 29189 | FIPS == 29510))
 
+#Combine St. Louis back to data set
+food_insec <- bind_rows(food_insec, st_lou)
+food_insec$FIPS <- as.character(food_insec$FIPS)
+
+#Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, food_insec, by = c("year", "FIPS", "city"))
 ```
+
 Food Desert Analysis
 ```{r}
-#####################################################################################
-#Food Desert Data Analysis
-#####################################################################################
-setwd("~/Desktop/glp_website/input data/qp_input_data")
+#Read in Data
 fd_data <- read_csv("food_desert_2015.csv",
               col_types = cols(laasian20 = col_double(),
                                lanhopi20 = col_double(),
@@ -435,10 +434,10 @@ fd_data <- read_csv("food_desert_2015.csv",
                                lahisp20share = col_double()), progress = FALSE)
 
 #Creating FIPS Codes w/ only the first five digits of tract codes
-FIPS = substr(fd_data$CensusTract, 1,5)
-FIPS = as.numeric(FIPS)
-fd_data$FIPS = NA
-fd_data$FIPS = FIPS
+FIPS <- substr(fd_data$CensusTract, 1,5)
+FIPS <- as.numeric(FIPS)
+fd_data$FIPS <- NA
+fd_data$FIPS <- FIPS
 
 #Obtain Total Population
 pop <- fd_data %>%
@@ -447,6 +446,7 @@ pop <- fd_data %>%
   summarise(total_city_pop = sum(POP2010),
             total_city_households = sum(OHU2010))
 
+#Select Data
 fd_data<-fd_data%>%
   pull_peers_FIPS(.)%>%
   select(c(CensusTract:LILATracts_Vehicle,LALOWI1_10, LALOWI05_10,
@@ -454,16 +454,17 @@ fd_data<-fd_data%>%
            FIPS, baseline,current))%>%
   select(-c(GroupQuartersFlag,NUMGQTRS,PCTGQTRS, LILATracts_1And20))
 
+#Add population
 fd_data<-inner_join(fd_data, pop, by = "FIPS")
 
+#Hack in St. Louis Population and Household totals
 fd_data$FIPS[fd_data$FIPS==29189]<-0
 fd_data$FIPS[fd_data$FIPS==29510]<-0
-fd_data$total_city_pop[fd_data$FIPS==0] = 1318248
-fd_data$total_city_households[fd_data$FIPS==0] = 546822
+fd_data$total_city_pop[fd_data$FIPS==0] <- 1318248
+fd_data$total_city_households[fd_data$FIPS==0] <- 546822
 
 #Compute Food Desert Vehicle Statistics
-#The GLP Standard Metric
-# 1. Number of households who have no vehicle
+# Number of households who have no vehicle
 # and live more than 1/2 a mile away from a supermarket, that also live in
 # a low income census tract (per 100,000 households).
 
@@ -485,22 +486,74 @@ fd_data <- fd_data %>%
            est_food_desert_households / total_city_households * 100000)
 #Grocery Store estimates are from a 2010 study. Population estimates are from 2015.
 fd_data$year<-2015
-fd_data = ungroup(fd_data)
+fd_data <- ungroup(fd_data)
 fd_data%<>%select(-c(total_city_pop,total_city_households, current, baseline))
-fd_data$FIPS = as.character(fd_data$FIPS)
+fd_data$FIPS <- as.character(fd_data$FIPS)
 
+#Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, fd_data, by = c("FIPS", "year"))
+
+```
+
+County Health Rankings Data Analysis
+```{r}
+#Reading in Data
+chr_df_17 <- read_csv("2017CHR_CSV_Analytic_Data.csv",
+                       col_types = cols(
+                       measure_127_value = col_character(),
+                       measure_131_value = col_character()
+                       )
+                      )
+
+chr_df_17 = chr_df_17 %>% rename(FIPS = fipscode) #renaming a variable for use in the function below
+
+chr_df_17 <- pull_peers_FIPS(chr_df_17)
+
+#Selecting QP Variables
+chr_df_17 <- chr_df_17 %>%
+  select(
+    violent_crime = measure_43_value,
+    injury_deaths = measure_135_value,
+    air_pollution = measure_125_value,
+    severe_housing_problems = measure_136_value,
+    driving_alone_to_work = measure_67_value,
+    FIPS, current, baseline
+  )
+
+#Selecting Current Peers only
+chr_df_17 <- chr_df_17 %>% filter(current ==1)
+
+name_df <- read_csv("FIPS two stl.csv")
+
+chr_named <- left_join(chr_df_17, name_df, by = "FIPS")
+
+chr_named$FIPS <- as.numeric(chr_named$FIPS)
+
+chr_stl <- chr_named %>%
+  select(-county, -state) %>%
+  group_by(city) %>%
+  summarise_each(funs(weighted.mean(.,weights)), -weights)
+
+# give St. Louis Merged a new FIPS
+chr_stl$FIPS <- as.character(chr_stl$FIPS)
+chr_stl$FIPS[chr_stl$city == "St. Louis"] <- "0"
+chr_stl%<>%select(-c(current, baseline, city))%>%
+  mutate(severe_housing_problems = severe_housing_problems*100,
+         driving_alone_to_work = driving_alone_to_work*100)
+chr_stl$year<-2015
+
+#Combine to QP FIPS data
+qp_data_fips<-left_join(qp_data_fips, chr_stl, by = c("year", "FIPS"))
 
 ```
 
 Volunteer Data Analysis
 ```{r}
-#####################################################################################
-#Volunteer Data Analysis
-#####################################################################################
+#Reading in Data
 setwd("~/Desktop/glp_website/input data/qp_input_data")
 v_2015 <- read_csv("~/Desktop/glp_website/input data/qp_input_data/volunteer2015.csv", progress = FALSE)
 
+#Adding MSA codes
 v_2015$MSA <- NA
 v_2015$MSA[v_2015$CITY == "Birmingham-Hoover, AL"] = 13820
 v_2015$MSA[v_2015$CITY == "Charlotte-Gastonia-Concord, NC-SC"] = 16740
@@ -520,10 +573,10 @@ v_2015$MSA[v_2015$CITY == "Omaha-Council Bluffs, NE-IA"] = 36540
 v_2015$MSA[v_2015$CITY == "St. Louis, MO-IL"] = 41180
 v_2015$MSA[v_2015$CITY == "Tulsa, OK"] = 46140
 
-v_2015$`2015` = as.numeric(substr(v_2015$`2015`, 1, nchar(v_2015$`2015`)-1))
-v_2015$`2015` = as.numeric(v_2015$`2015`)
+v_2015$`2015` <- as.numeric(substr(v_2015$`2015`, 1, nchar(v_2015$`2015`)-1))
+v_2015$`2015` <- as.numeric(v_2015$`2015`)
 v_2015$Year <- NA
-v_2015$Year = 2015
+v_2015$Year <- 2015
 v_2015%<>%dplyr::rename("volunteer_pct" = `2015`)%>%
   select(volunteer_pct, Year, MSA)
 
@@ -537,8 +590,8 @@ key<-v_2014%>%
   select(MSA, city)
 v_2015 <- left_join(v_2015, key, by = "MSA")
 
-
-v_data = rbind(v_2011, v_2012)
+#Combining Datasets
+v_data <- rbind(v_2011, v_2012)
 v_data <- v_data %>%
   rbind(v_2013)%>%
   rbind(v_2014)%>%
@@ -546,6 +599,7 @@ v_data <- v_data %>%
 v_data$current <- 1
 v_data%<>%dplyr::rename(year = Year)
 
+#Create MSA Data
 qp_data_msa <- v_data
 ```
 
