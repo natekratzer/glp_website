@@ -8,7 +8,7 @@ This is the code used to pull the jobs data
 
 First the libraries needed
 ```{r setup}
-knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website")) 
+knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website"))
 ```
 
 
