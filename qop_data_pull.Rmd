@@ -76,12 +76,11 @@ pull_peers_FIPS <- function(dat){
 cbp_read<-function(folder, starting_year){
   initial_wd <- getwd()
   directory <- paste(initial_wd, folder, sep = "/")
-  setwd(directory)
-  file_names<-list.files()
+  file_names<-list.files(directory)
   n <- length(file_names)
   y <- starting_year
   for(i in 1:n){
-    data<-read_csv(file_names[i], skip = 0, progress = FALSE)
+    data<-read_csv(paste("/Users/BryceRowland/Desktop/glp_website/input data/qp_input_data",folder,file_names[i], sep = "/"), skip = 0, progress = FALSE)
     data%<>%mutate(FIPS = paste(fipstate, fipscty, sep = ''))
     all.peers <- filter(data, data$FIPS == "01073" |data$FIPS == 37119
                         |data$FIPS == 39061 |data$FIPS == 39049
@@ -114,7 +113,6 @@ cbp_read<-function(folder, starting_year){
       df<-rbind(df, all.peers)
     }
   }
-  setwd(initial_wd)
   df
 }
 
@@ -492,6 +490,55 @@ fd_data$FIPS = as.character(fd_data$FIPS)
 qp_data_fips<-left_join(qp_data_fips, fd_data, by = c("FIPS", "year"))
 
 ```
+
+County Health Rankings Data Analysis
+```{r}
+chr_df_17 = read_csv("2017CHR_CSV_Analytic_Data.csv",
+                       col_types = cols(
+                       measure_127_value = col_character(),
+                       measure_131_value = col_character()
+                       )
+                      )
+
+chr_df_17 = chr_df_17 %>% rename(FIPS = fipscode) #renaming a variable for use in the function below
+
+chr_df_17 <- pull_peers_FIPS(chr_df_17)
+
+chr_df_17 <- chr_df_17 %>%
+  select(
+    violent_crime = measure_43_value,
+    injury_deaths = measure_135_value,
+    air_pollution = measure_125_value,
+    severe_housing_problems = measure_136_value,
+    driving_alone_to_work = measure_67_value,
+    FIPS, current, baseline
+  )
+
+chr_df_17 <- chr_df_17 %>% filter(current ==1)
+
+name_df <- read_csv("FIPS two stl.csv")
+
+chr_named <- left_join(chr_df_17, name_df, by = "FIPS")
+
+chr_named$FIPS = as.numeric(chr_named$FIPS)
+
+chr_stl = chr_named %>%
+  select(-county, -state) %>%
+  group_by(city) %>%
+  summarise_each(funs(weighted.mean(.,weights)), -weights)
+
+# give St. Louis Merged a new FIPS
+chr_stl$FIPS <- as.character(chr_stl$FIPS)
+chr_stl$FIPS[chr_stl$city == "St. Louis"] <- "0"
+chr_stl%<>%select(-c(current, baseline, city))%>%
+  mutate(severe_housing_problems = severe_housing_problems*100,
+         driving_alone_to_work = driving_alone_to_work*100)
+chr_stl$year<-2015
+
+qp_data_fips<-left_join(qp_data_fips, chr_stl, by = c("year", "FIPS"))
+
+```
+
 
 Volunteer Data Analysis
 ```{r}

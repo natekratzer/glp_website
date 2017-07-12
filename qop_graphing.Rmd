@@ -353,7 +353,7 @@ rank_and_nb_group(
 showtext.end()
 dev.off()
 
-jpeg("volunteer_rate_rankings.jpg", 900, 600, res = 100)
+jpeg("qp_volunteer_rate_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
   filter(qp_data_msa, year == 2014),
@@ -477,6 +477,71 @@ rank_and_nb_group(
   y_title = "Index Score",
   plot_title = "Racial Dissimilarity Index, 2015",
   caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+)
+showtext.end()
+dev.off()
+
+jpeg("qp_violent_crime_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'violent_crime',
+  order = "Ascending",
+  y_title = "Violent Crimes per 100,000",
+  plot_title = "Violent Crime",
+  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings"
+)
+showtext.end()
+dev.off()
+
+jpeg("qp_injury_death_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'violent_crime',
+  order = "Ascending",
+  y_title = "Injury Mortality Rate per 100,000",
+  plot_title = "Injury Deaths",
+  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings"
+)
+showtext.end()
+dev.off()
+
+jpeg("qp_air_pollution_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'air_pollution',
+  order = "Ascending",
+  y_title = "Average Daily Amount of Fine Particulate Matter in Micrograms per Cubic Meter",
+  plot_title = "Air Pollution",
+  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings"
+)
+showtext.end()
+dev.off()
+
+jpeg("qp_severe_housing_problems_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'severe_housing_problems',
+  order = "Ascending",
+  y_title = "Percent",
+  plot_title = "Severe Housing Problems",
+  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings"
+)
+showtext.end()
+dev.off()
+
+jpeg("qp_driving_alone_to_work_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'driving_alone_to_work',
+  order = "Ascending",
+  y_title = "Percent",
+  plot_title = "Driving Alone to Work",
+  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings"
 )
 showtext.end()
 dev.off()
@@ -624,7 +689,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'racial_geography', rollmean = 1,
                 plot_title = "Racial Dissimilarity Index",
                 y_title = "Index Score",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                captio  n_text = "Source: Greater Louisville Project \nData from GeoFRED",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
