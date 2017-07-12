@@ -5,6 +5,7 @@ output: html_notebook
 
 Loading Libraries
 ```{r}
+library(tidyverse)
 library(ggthemes)
 library(reshape2)
 library(showtext)
@@ -402,7 +403,7 @@ rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'burdened_households',
   order = "Ascending",
-  y_title = "Percent",
+  y_title = "Percent of Households",
   plot_title = "Burdened Households, 2015",
   caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
 )
@@ -551,6 +552,19 @@ rank_and_nb_group(
 )
 showtext.end()
 dev.off()
+
+jpeg("qp_multidimensional_poverty_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2014)),
+  'percent_in_mpi',
+  order = "Ascending",
+  y_title = "Percent",
+  plot_title = "Multidimensional Poverty",
+  caption_text = "Source: Greater Louisville Project \nData from American Community Survey"
+)
+showtext.end()
+dev.off()
 ```
 
 Trendline Graphs
@@ -695,7 +709,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'racial_geography', rollmean = 1,
                 plot_title = "Racial Dissimilarity Index",
                 y_title = "Index Score",
-                captio  n_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()

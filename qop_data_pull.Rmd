@@ -23,10 +23,6 @@ library(magrittr)
 
 Necessary Functions
 ```{r}
-#####################################################################################
-#Necessary Functions
-#####################################################################################
-
 pull_peers_MSA<-function(data){
   all.peers<-filter(data, data$CBSA == 24340 | data$CBSA == 41180
                     |data$CBSA == 36420 | data$CBSA == 46140
@@ -159,6 +155,11 @@ volunteer_read<-function(data){
   df
 }
 
+##using z-scores to identify MPI neighborhoods
+NormZ<-function(x){
+  (x-mean(x))/sd(x)
+}
+
 ```
 
 GEOFred Data Analysis
@@ -282,7 +283,6 @@ fred_dat <- fred_dat %>%
 
 
 qp_data_fips<-fred_dat
-# write_csv(fred_dat, "GeoFRED data processed.csv")
 ```
 
 Social Support Analysis
@@ -545,6 +545,110 @@ chr_stl$year<-2015
 #Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, chr_stl, by = c("year", "FIPS"))
 
+```
+
+MPI Analysis from Competative City Update 2015
+```{r}
+#Reading in Data
+pc_ed_data<-read_csv("ACS_14_5YR_B23006_with_ann.csv", skip = 1)
+pc_ed_data%<>%select(Id2, ed_population = `Estimate; Total:`, 
+                less_than_hs = `Estimate; Less than high school graduate:`,
+                bachelors_up = `Estimate; Bachelor's degree or higher:`)%>%
+  mutate(bachelors_degree = bachelors_up/ed_population,
+                no_hs_degree = less_than_hs/ed_population)
+
+pc_health_data<-read_csv("ACS_14_5YR_S2701_with_ann.csv", skip=1)
+pc_health_data%<>%select(Id2, health_population = `Total; Estimate; Total civilian noninstitutionalized population`, 
+         uninsured = `Percent Uninsured; Estimate; Total civilian noninstitutionalized population`)
+pc_health_data$uninsured = as.numeric(as.character(pc_health_data$uninsured))
+
+pc_low_inc_data<-read_csv("ACS_14_5YR_C17002_with_ann.csv", skip=1)
+pc_low_inc_data%<>%
+  select(
+    Id2,
+    low_inc_population = `Estimate; Total:`,
+    less_than_50 = `Estimate; Total: - Under .50`,
+    less_than_1 = `Estimate; Total: - .50 to .99`,
+    less_than_1.25 = `Estimate; Total: - 1.00 to 1.24`,
+    less_than_1.5 = `Estimate; Total: - 1.25 to 1.49`
+    ) %>% 
+  mutate(
+    low_income = (less_than_50 + less_than_1 + less_than_1.25 + less_than_1.5) /
+    low_inc_population
+    )
+
+pc_unemp_data<-read_csv("ACS_14_5YR_S2301_with_ann.csv",skip=1)
+pc_unemp_data%<>%
+  select(Id2, 
+         unemp_population = `Total; Estimate; Population 16 years and over`,
+         unemployed = `Unemployment rate; Estimate; Population 16 years and over`)
+pc_unemp_data$unemployed = as.numeric((pc_unemp_data$unemployed))
+
+#Joining Data
+pc_data = left_join(pc_ed_data, pc_health_data, by = "Id2")
+pc_data = left_join(pc_data, pc_low_inc_data, by = "Id2")
+pc_data = left_join(pc_data, pc_unemp_data, by = "Id2")
+
+#Scaling PCTs
+pc_data = pc_data %>%
+  mutate(low_income = low_income*100, bachelors_degree = bachelors_degree*100, 
+         no_hs_degree = no_hs_degree*100)
+
+##creating FIPS codes by taking only first 5 digits of tract codes
+FIPS = substr(pc_data$Id2, 1,5)
+FIPS = as.numeric(FIPS)
+pc_data = cbind(pc_data, FIPS)
+pc_data$FIPS[pc_data$FIPS == 10730] <- 1073
+pc_data$FIPS[pc_data$FIPS == 29189] <- 0 #setting both St. Louis county and city to FIPS = 0
+pc_data$FIPS[pc_data$FIPS == 29510] <- 0 
+pc_data = filter(pc_data, !(health_population < 2 |
+                              low_inc_population == 0))
+
+#Creating Z-scores
+pc_mpi_data = pc_data %>%
+  group_by(FIPS)%>%
+  mutate(z_low_income = NormZ(low_income),
+         z_unemployed = NormZ(unemployed),
+         z_no_hs_degree = NormZ(no_hs_degree),
+         z_uninsured = NormZ(uninsured),
+         z_overall = (z_low_income+z_unemployed+z_no_hs_degree+z_uninsured)/4)
+
+
+
+##only the data needed for next part
+#Health population was originally chosen as the population estimate in the 
+#CCU15 Poverty Report. In the reproduction code it is named 'population.x.x'
+mpi_data = pc_mpi_data %>%
+  select(Id2, FIPS, mpi = z_overall, population = health_population)
+
+##IDing mpi poor neighborhoods and extreme mpi poor neighborhoods
+mpi_data$mpi_nh = NA
+mpi_data$mpi_nh = "no"
+mpi_data$mpi_nh[mpi_data$mpi > 1] = "yes"
+mpi_data$mpi_nh = as.factor(mpi_data$mpi_nh)
+mpi_data$ex_mpi_nh = NA
+mpi_data$ex_mpi_nh = "no"
+mpi_data$ex_mpi_nh[mpi_data$mpi > 2.5] = "yes"
+mpi_data$ex_mpi_nh = as.factor(mpi_data$ex_mpi_nh)
+
+##grouping by cities
+mpi_city = mpi_data %>%
+  group_by(FIPS) %>%
+  dplyr::summarize(pop_mpi = sum(population[mpi_nh == "yes"]),
+                   pop_ex_mpi = sum(population[ex_mpi_nh == "yes"]),
+                   population = sum(population)
+  ) 
+
+#Computing Population living in MP
+mpi_city = mpi_city %>%
+  mutate(percent_in_mpi = 100*pop_mpi/population,
+         percent_in_ex_mpi = 100*pop_ex_mpi/population) %>%
+  arrange(percent_in_mpi)%>%
+  select(-population)
+mpi_city$year = 2014
+mpi_city$FIPS = as.character(mpi_city$FIPS)
+
+qp_data_fips = left_join(qp_data_fips, mpi_city, by = c("FIPS", "year"))
 ```
 
 Volunteer Data Analysis
