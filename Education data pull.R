@@ -372,3 +372,165 @@ education_data = left_join(data, names, by = "FIPS")
 
 write.csv(education_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/education data.csv", row.names = FALSE)
 
+#################
+####Map Data#####
+#################
+
+data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_B17001_with_ann.csv", skip = 1)
+
+data = data %>%
+  mutate(under_5_per = (Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
+                          Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years)/
+           (Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
+              Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years+
+              Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
+              Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years),
+         five_to_17_under =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....6.to.11.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....12.to.14.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....15.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....16.and.17.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....5.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....6.to.11.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....12.to.14.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....15.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....16.and.17.years,
+         five_to_17_over =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....6.to.11.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....12.to.14.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....15.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....16.and.17.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....5.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....6.to.11.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....12.to.14.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....15.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....16.and.17.years,
+         five_to_17_per = five_to_17_under/(five_to_17_over+five_to_17_under),
+         child_under = five_to_17_under +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years,
+         child_over = five_to_17_over +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years,
+         child_per = child_under/(child_over+child_under)
+  )
+
+child_pov_data = data %>% 
+  select(Id, Geography, under_5_per, five_to_17_per, child_per)
+
+data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_S1401_with_ann.csv", skip = 1)
+
+enroll_data = data %>% 
+  select(enrolled_3_4 = Percent..Estimate..Population.3.to.4.years...3.to.4.year.olds.enrolled.in.school,
+         Id, Geography)
+
+data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_B15001_with_ann.csv", skip = 1)
+
+data = data %>%
+  mutate(num_m_25_34_assoc_plus = Estimate..Male....25.to.34.years....Associate.s.degree +
+           Estimate..Male....25.to.34.years....Bachelor.s.degree +
+           Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         num_m_35_44_assoc_plus = Estimate..Male....35.to.44.years....Associate.s.degree +
+           Estimate..Male....35.to.44.years....Bachelor.s.degree +
+           Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         num_m_45_64_assoc_plus = Estimate..Male....45.to.64.years....Associate.s.degree +
+           Estimate..Male....45.to.64.years....Bachelor.s.degree +
+           Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         num_f_25_34_assoc_plus = Estimate..Female....25.to.34.years....Associate.s.degree +
+           Estimate..Female....25.to.34.years....Bachelor.s.degree +
+           Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         num_f_35_44_assoc_plus = Estimate..Female....35.to.44.years....Associate.s.degree +
+           Estimate..Female....35.to.44.years....Bachelor.s.degree +
+           Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         num_f_45_64_assoc_plus = Estimate..Female....45.to.64.years....Associate.s.degree +
+           Estimate..Female....45.to.64.years....Bachelor.s.degree +
+           Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         num_m_25_34_bach_plus = 
+           Estimate..Male....25.to.34.years....Bachelor.s.degree +
+           Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         num_m_35_44_bach_plus = 
+           Estimate..Male....35.to.44.years....Bachelor.s.degree +
+           Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         num_m_45_64_bach_plus = 
+           Estimate..Male....45.to.64.years....Bachelor.s.degree +
+           Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         num_f_25_34_bach_plus = 
+           Estimate..Female....25.to.34.years....Bachelor.s.degree +
+           Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         num_f_35_44_bach_plus = 
+           Estimate..Female....35.to.44.years....Bachelor.s.degree +
+           Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         num_f_45_64_bach_plus = 
+           Estimate..Female....45.to.64.years....Bachelor.s.degree +
+           Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         num_m_25_34_grad = 
+           Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         num_m_35_44_grad = 
+           Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         num_m_45_64_grad = 
+           Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         num_f_25_34_grad = 
+           Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         num_f_35_44_grad = 
+           Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         num_f_45_64_grad = 
+           Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         num_m_25_34 = Estimate..Male....25.to.34.years.,
+         num_m_35_44 = Estimate..Male....35.to.44.years.,
+         num_m_45_64 = Estimate..Male....45.to.64.years.,
+         num_f_25_34 = Estimate..Female....25.to.34.years.,
+         num_f_35_44 = Estimate..Female....35.to.44.years.,
+         num_f_45_64 = Estimate..Female....45.to.64.years.,
+         per_25_64_assoc_plus = (num_m_25_34_assoc_plus +
+                                   num_m_35_44_assoc_plus + num_m_45_64_assoc_plus + num_f_25_34_assoc_plus +
+                                   num_f_35_44_assoc_plus + num_f_45_64_assoc_plus)/
+           (num_m_25_34 +
+              num_m_35_44 + num_m_45_64 + num_f_25_34 +
+              num_f_35_44 + num_f_45_64),
+         per_25_64_bach_plus = (num_m_25_34_bach_plus +
+                                  num_m_35_44_bach_plus + num_m_45_64_bach_plus + num_f_25_34_bach_plus +
+                                  num_f_35_44_bach_plus + num_f_45_64_bach_plus)/
+           (num_m_25_34 +
+              num_m_35_44 + num_m_45_64 + num_f_25_34 +
+              num_f_35_44 + num_f_45_64),
+         per_25_64_grad = (num_m_25_34_grad +
+                             num_m_35_44_grad + num_m_45_64_bach_plus + num_f_25_34_grad +
+                             num_f_35_44_grad + num_f_45_64_grad)/
+           (num_m_25_34 +
+              num_m_35_44 + num_m_45_64 + num_f_25_34 +
+              num_f_35_44 + num_f_45_64),
+         per_25_34_assoc_plus = (num_f_25_34_assoc_plus+num_m_25_34_assoc_plus)/
+           (num_m_25_34+num_f_25_34),
+         per_25_34_bach_plus = (num_f_25_34_bach_plus+num_m_25_34_bach_plus)/
+           (num_m_25_34+num_f_25_34),
+         per_25_34_grad = (num_f_25_34_grad+num_m_25_34_grad)/
+           (num_m_25_34+num_f_25_34)
+  )
+
+degree_data = data %>%
+  select(Id, Id2, Geography, per_25_64_assoc_plus, per_25_64_bach_plus, per_25_64_grad,
+         per_25_34_assoc_plus, per_25_34_bach_plus, per_25_34_grad)
+
+
+data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_S2401_with_ann.csv", skip = 1)
+
+data = data %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
+                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_data = data %>% select(Id, Geography, per_high_wage)
+
+name_data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/census tract neighborhoods.csv")
+
+
+map_data = full_join(child_pov_data, degree_data, by = c("Id", "Geography"))
+map_data = full_join(map_data, enroll_data, by = c("Id", "Geography"))
+map_data = full_join(map_data, occupation_data, by = c("Id", "Geography"))
+map_data = full_join(map_data, name_data, by = "Id2")
+
+
+write.csv(map_data, "C:/Users/natek/Dropbox/GLP/Web Update/education map data/map data.csv", row.names = FALSE)
+
+

@@ -8,11 +8,11 @@ This is the code used to pull the jobs data
 
 First the libraries needed
 ```{r setup}
-knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website")) 
+knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website"))
 ```
 
 
-```{r libraries}
+```{r libraries, message = FALSE}
 library(tidyverse)
 ```
 
@@ -86,7 +86,7 @@ pull_peers_FIPS <- function(dat){
 
 Earnings data from the ACS 
 ```{r, message = FALSE}
-earn_data <- acs_time("/input data/S2001/")
+earn_data <- acs_time("/input data/jobs_input_data/S2001/")
 
 earn_data<-select(earn_data, FIPS, year, earnings = `Total; Estimate; Population 16 years and over with earnings - Median earnings (dollars)`)
 earn_data$num_earnings = as.numeric(as.character(earn_data$earnings))
@@ -129,15 +129,16 @@ personal_income_per_cap_dat <- personal_income_per_cap_dat %>%
 dat <- full_join(unemp_dat, income_inequality_dat, by = c("FIPS", "year"))
 dat <- full_join(dat, median_household_income_dat, by = c("FIPS", "year"))
 dat <- full_join(dat, personal_income_per_cap_dat, by = c("FIPS", "year"))
-dat <- full_join(dat, earn_data, by = c("FIPS", "year"))
+earn_data$year <- as.character(earn_data$year)
+dat <- full_join(dat, earn_data, by = c("FIPS", "year")) #joining with earning data
 
 
-dat <- dat %>% select(FIPS, year, baseline, current, 
-                                burdened_households, commute_time, disconnected_youth,
-                                home_ownership, housing_price_index, income_inequality, 
-                                median_household_income, net_migration_flow, personal_income_per_cap,
-                                racial_geography, unemployment)
+dat <- dat %>% select(FIPS, year, median_earnings = num_earnings, income_inequality, median_household_income, 
+                      personal_income_per_cap, unemployment)
+```
 
+
+```{r}
 
 #current peers
 dat$year <- as.numeric(dat$year)
@@ -146,13 +147,13 @@ dat$median_household_income <- as.numeric(dat$median_household_income)
 
 #
 ##Now to give the FIPS codes names
-names <- read_csv("C:/Users/natek/Dropbox/GLP/FIPS two stl.csv")
+names <- read_csv("input data/FIPS two stl.csv")
 
 names$FIPS <- as.character(names$FIPS)
 data_named <- left_join(dat, names, by = "FIPS")
 
 ##add population data
-population_data <- read_csv("C:/users/natek/Documents/Github/glp_website/input data/population_data.csv")
+population_data <- read_csv("input data/population_data.csv")
 population_data$FIPS <- as.character(population_data$FIPS)
 data_named$year <- as.numeric(data_named$year)
 data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
@@ -173,7 +174,7 @@ dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
 dat$FIPS <- as.factor(dat$FIPS)
 
 # and then add the other stuff for each city again
-names <- read_csv("C:/users/natek/Dropbox/GLP/FIPS one stl.csv")
+names <- read_csv("input/FIPS one stl.csv")
 names$FIPS <- as.factor(names$FIPS)
 
 dat <- left_join(dat, names, by = c("FIPS", "city"))
@@ -187,8 +188,9 @@ dat <- dat %>%
   mutate(population = sum(population)) %>%
   ungroup()
 
-dat <- dat %>% 
-  mutate(migration_pop = net_migration_flow/population)
-
 ```
 
+Writing out data
+```{r}
+write_csv(dat, "output data/jobs_data.csv")
+```
