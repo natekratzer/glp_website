@@ -86,7 +86,7 @@ pull_peers_FIPS <- function(dat){
 
 Earnings data from the ACS 
 ```{r, message = FALSE}
-earn_data <- acs_time("/input data/S2001/")
+earn_data <- acs_time("/input data/jobs_input_data/S2001/")
 
 earn_data<-select(earn_data, FIPS, year, earnings = `Total; Estimate; Population 16 years and over with earnings - Median earnings (dollars)`)
 earn_data$num_earnings = as.numeric(as.character(earn_data$earnings))
@@ -133,7 +133,7 @@ earn_data$year <- as.character(earn_data$year)
 dat <- full_join(dat, earn_data, by = c("FIPS", "year")) #joining with earning data
 
 
-dat <- dat %>% select(FIPS, year, income_inequality, median_household_income, 
+dat <- dat %>% select(FIPS, year, median_earnings = num_earnings, income_inequality, median_household_income, 
                       personal_income_per_cap, unemployment)
 ```
 
@@ -174,7 +174,7 @@ dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
 dat$FIPS <- as.factor(dat$FIPS)
 
 # and then add the other stuff for each city again
-names <- read_csv("C:/users/natek/Dropbox/GLP/FIPS one stl.csv")
+names <- read_csv("input/FIPS one stl.csv")
 names$FIPS <- as.factor(names$FIPS)
 
 dat <- left_join(dat, names, by = c("FIPS", "city"))

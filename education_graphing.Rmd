@@ -499,7 +499,7 @@ map_data[ ,c(5:13, 15)] = apply(map_data[ ,c(5:13, 15)], 2, rescale)
 Reading in data for mapping
 ```{r}
 
-setwd("C:/Users/natek/Documents/Github/glp_website/data")
+setwd("C:/Users/natek/Documents/Github/glp_website/map data")
 map_jc = readOGR("JC Tracts", layer = "JC Tracts",
                  GDAL1_integer64_policy = TRUE)
 
