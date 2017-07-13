@@ -16,6 +16,10 @@ library(showtext)
 library(reshape2)
 library(classInt)
 library(ggthemes)
+library(leaflet)
+library(rgdal)
+library(RColorBrewer)
+library(htmlwidgets)
 library(tidyverse)
 ```
 
@@ -322,7 +326,9 @@ Mapping
 Reading in data for mapping
 ```{r}
 
-jobs_map_data
+jobs_map_data <- read_csv("input data/jobs_input_data/ACS_15_5YR_S2001_with_ann.csv", skip = 1)
+jobs_map_data <- jobs_map_data %>% select(Id, Id2, earnings = `Total; Estimate; Median earnings (dollars)`)
+jobs_map_data$earnings = as.numeric(jobs_map_data$earnings)
 map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
                  GDAL1_integer64_policy = TRUE)
 
@@ -340,7 +346,7 @@ Defining a function for mapping
 ```{r}
 make_map <- function(var, name, order = "Descending"){
   map_jc@data$var <- map_jc@data[[var]]
-  map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 0), "%", sep = "")
+  map_jc@data$l_line3 <- paste(name, ": ", "$", round(map_jc@data$var, 0), sep = "")
 
 labels <- sprintf(
   "%s<br/>%s<br/>%s",
@@ -361,7 +367,7 @@ pal <- colorNumeric(
   domain = map_jc@data$var
 )
 
-title_text <- paste(name, "(%)")
+title_text <- paste(name, "($)")
 
 m <- leaflet(map_jc) %>%
   addTiles() %>%
@@ -383,10 +389,9 @@ m
 Making and saving maps
 ```{r}
 setwd("C:/Users/natek/Documents/images")
-m <- make_map("child_per", "Child Poverty", order = "Ascending")
-saveWidget(m, "edu_child_pov_map.html")
-
-```{r}
+m <- make_map("earnings", "Median Earnings", order = "Descending")
+saveWidget(m, "jobs_earnings_map.html")
 
 ```
+
 
