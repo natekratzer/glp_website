@@ -269,8 +269,9 @@ dat <- data_named %>%
 
 # give St. Louis Merged a new FIPS
 dat$FIPS <- as.character(dat$FIPS)
-dat$FIPS[dat$city == "St. Louis"] <- "0"
+dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
 dat$FIPS <- as.factor(dat$FIPS)
+
 
 population_one_stl<-read_csv("population_data_one_stl.csv", progress = FALSE)
 population_one_stl$FIPS <- as.character(population_one_stl$FIPS)
@@ -323,7 +324,7 @@ stl_sc<-sc_data%>%filter(naics == 813410 | naics == 713950|
   group_by(year, baseline, current)%>%
   summarize(ss_est = sum(est))
 stl_sc$FIPS <- NA
-stl_sc$FIPS <- "0"
+stl_sc$FIPS <- "MERGED"
 
 #Add St. Louis back to the dataset
 sc_data <- bind_rows(sc_data_no, stl_sc)
@@ -346,7 +347,7 @@ msa_fips_key<-read_csv("changed_msa_counties.csv", progress = FALSE)
 msa_fips_key%<>%pull_peers_FIPS(.)%>%
   distinct(MSA, .keep_all = TRUE)%>%
   select(FIPS, MSA)
-msa_fips_key$FIPS[msa_fips_key$MSA == 41180]<- 0
+msa_fips_key$FIPS[msa_fips_key$MSA == 41180]<- "MERGED"
 
 #Add MSA code
 fips_core_county_pop<-left_join(fips_core_county_pop, msa_fips_key, by = "FIPS")
@@ -366,11 +367,11 @@ msa_pop_est$Year = as.numeric(msa_pop_est$Year)
 
 #Combine datasets and create core county pct estimates
 fips_core_county_pop<-left_join(fips_core_county_pop, msa_pop_est, by = c("MSA", "Year"))
+
 fips_core_county_pop%<>%mutate(pct_pop_core_county = 100*population/population_estimate)%>%
   dplyr::rename(core_county_pop = population,
                 msa_population_estimate = population_estimate,
                 year = Year)%>%
-  pull_peers_FIPS(.)%>%
   select(FIPS, year, MSA,msa_population_estimate, pct_pop_core_county)
 fips_core_county_pop$FIPS <- as.character(fips_core_county_pop$FIPS)
 
@@ -397,14 +398,15 @@ weights <-
   progress = FALSE
   ) 
 food_insec<-left_join(food_insec, weights, by = c("city", "FIPS"))
+food_insec$FIPS<-as.character(food_insec$FIPS)
 
 #Compute rates for St. Louis
 st_lou<-food_insec%>%
-  filter(FIPS == 29189 | FIPS == 29510)%>%
+  filter(FIPS == "29189" | FIPS == "29510")%>%
   group_by(year, city)%>%
   summarise(food_insecure_overall = weighted.mean(food_insecure_overall, weights),
             food_insecure_child = weighted.mean(food_insecure_child, weights))
-st_lou$FIPS<-0
+st_lou$FIPS<-"MERGED"
 st_lou%<>%select(year, city, food_insecure_overall, food_insecure_child, FIPS)
 
 food_insec%<>%select(-c(county, state, weights))%>%
@@ -412,7 +414,6 @@ food_insec%<>%select(-c(county, state, weights))%>%
 
 #Combine St. Louis back to data set
 food_insec <- bind_rows(food_insec, st_lou)
-food_insec$FIPS <- as.character(food_insec$FIPS)
 
 #Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, food_insec, by = c("year", "FIPS", "city"))
@@ -458,10 +459,10 @@ fd_data<-fd_data%>%
 fd_data<-inner_join(fd_data, pop, by = "FIPS")
 
 #Hack in St. Louis Population and Household totals
-fd_data$FIPS[fd_data$FIPS==29189]<-0
-fd_data$FIPS[fd_data$FIPS==29510]<-0
-fd_data$total_city_pop[fd_data$FIPS==0] <- 1318248
-fd_data$total_city_households[fd_data$FIPS==0] <- 546822
+fd_data$FIPS[fd_data$FIPS==29189]<-"MERGED"
+fd_data$FIPS[fd_data$FIPS==29510]<-"MERGED"
+fd_data$total_city_pop[fd_data$FIPS=="MERGED"] <- 1318248
+fd_data$total_city_households[fd_data$FIPS=="MERGED"] <- 546822
 
 #Compute Food Desert Vehicle Statistics
 # Number of households who have no vehicle
@@ -488,11 +489,9 @@ fd_data <- fd_data %>%
 fd_data$year<-2015
 fd_data <- ungroup(fd_data)
 fd_data%<>%select(-c(total_city_pop,total_city_households, current, baseline))
-fd_data$FIPS <- as.character(fd_data$FIPS)
 
 #Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, fd_data, by = c("FIPS", "year"))
-
 ```
 
 County Health Rankings Data Analysis
@@ -536,7 +535,7 @@ chr_stl <- chr_named %>%
 
 # give St. Louis Merged a new FIPS
 chr_stl$FIPS <- as.character(chr_stl$FIPS)
-chr_stl$FIPS[chr_stl$city == "St. Louis"] <- "0"
+chr_stl$FIPS[chr_stl$city == "St. Louis"] <- "MERGED"
 chr_stl%<>%select(-c(current, baseline, city))%>%
   mutate(severe_housing_problems = severe_housing_problems*100,
          driving_alone_to_work = driving_alone_to_work*100)
@@ -599,11 +598,11 @@ FIPS = substr(pc_data$Id2, 1,5)
 FIPS = as.numeric(FIPS)
 pc_data = cbind(pc_data, FIPS)
 pc_data$FIPS[pc_data$FIPS == 10730] <- 1073
-pc_data$FIPS[pc_data$FIPS == 29189] <- 0 #setting both St. Louis county and city to FIPS = 0
-pc_data$FIPS[pc_data$FIPS == 29510] <- 0 
+pc_data$FIPS[pc_data$FIPS == 29189] <- "MERGED" #setting both St. Louis county and city to FIPS = 0
+pc_data$FIPS[pc_data$FIPS == 29510] <- "MERGED"
 pc_data = filter(pc_data, !(health_population < 2 |
                               low_inc_population == 0))
-
+```
 #Creating Z-scores
 pc_mpi_data = pc_data %>%
   group_by(FIPS)%>%
