@@ -602,7 +602,7 @@ pc_data$FIPS[pc_data$FIPS == 29189] <- "MERGED" #setting both St. Louis county a
 pc_data$FIPS[pc_data$FIPS == 29510] <- "MERGED"
 pc_data = filter(pc_data, !(health_population < 2 |
                               low_inc_population == 0))
-```
+
 #Creating Z-scores
 pc_mpi_data = pc_data %>%
   group_by(FIPS)%>%
