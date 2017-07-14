@@ -318,7 +318,7 @@ rank_and_nb_group(
   filter(qp_data_fips, year == 2015),
   'food_insecure_child',
   order = "Ascending",
-  plot_title = "Food Insecurity Rate, 2015",
+  plot_title = "Food Insecurity - Children, 2015",
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap"
 )
 showtext.end()
@@ -330,7 +330,7 @@ rank_and_nb_group(
   filter(qp_data_fips, year == 2015),
   'food_insecure_overall',
   order = "Ascending",
-  plot_title = "Food Insecurity Rate, 2015",
+  plot_title = "Food Insecurity, 2015",
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap"
 )
 showtext.end()
@@ -354,7 +354,8 @@ rank_and_nb_group(
   filter(qp_data_fips, year == 2015),
   'est_food_desert_households_per100000_lowIncTract',
   order = "Ascending",
-  plot_title = "Households Living in a Low Income Census Tract\nWith No Vehicle and Limited Access to Food\n(per 100,000 households), 2010",
+  plot_title = "Households Living in a Food Desert, 2010",
+  y_title = "Households Living in a Low Income Census Tract With No Vehicle and Limited Access to Food\n(per 100,000 households)",
   caption_text = "Source: Greater Louisville Project \nData from USDA, Food Atlas 2015"
 )
 showtext.end()
@@ -378,7 +379,7 @@ rank_and_nb_group(
   'ss_est_per_10000',
   order = "Descending",
   y_title = "Membership Associations per 10,000 residents",
-  plot_title = "Number of Membership Associations per 10,000 residents, 2015",
+  plot_title = "Social Support, 2015",
   caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census"
 )
 showtext.end()
@@ -392,7 +393,7 @@ rank_and_nb_group(
   order = "Ascending",
   y_title = "Commute Time (minutes)",
   plot_title = "Commute Time, 2015",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -405,7 +406,7 @@ rank_and_nb_group(
   order = "Ascending",
   y_title = "Percent of Households",
   plot_title = "Burdened Households, 2015",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -418,7 +419,7 @@ rank_and_nb_group(
   order = "Ascending",
   y_title = "Index Score",
   plot_title = "Housing Price Index, 2015",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -431,7 +432,7 @@ rank_and_nb_group(
   order = "Descending",
   y_title = "Percent",
   plot_title = "Home Ownership, 2015",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -444,7 +445,7 @@ rank_and_nb_group(
   order = "Ascending",
   y_title = "Ratio",
   plot_title = "Income Inequality, 2015",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -457,7 +458,7 @@ rank_and_nb_group(
   order = "Ascending",
   y_title = "Percent",
   plot_title = "Disconnected Youth, 2015",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -470,7 +471,7 @@ rank_and_nb_group_mig(
   order = "Descending",
   y_title = "Net Migration Flow",
   plot_title = "Net Migration Flow, 2013",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -483,7 +484,7 @@ rank_and_nb_group(
   order = "Ascending",
   y_title = "Index Score",
   plot_title = "Racial Dissimilarity Index, 2015",
-  caption_text = "Source: Greater Louisville Project \nData from GeoFRED"
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
 dev.off()
@@ -505,7 +506,7 @@ jpeg("qp_injury_death_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
-  'violent_crime',
+  'injury_deaths',
   order = "Ascending",
   y_title = "Injury Mortality Rate per 100,000",
   plot_title = "Injury Deaths",
@@ -560,7 +561,7 @@ rank_and_nb_group(
   'percent_in_mpi',
   order = "Ascending",
   y_title = "Percent",
-  plot_title = "Multidimensional Poverty",
+  plot_title = "Multidimensional Poverty, 2014",
   caption_text = "Source: Greater Louisville Project \nData from American Community Survey"
 )
 showtext.end()
@@ -575,7 +576,7 @@ showtext.begin()
 graph_trendline(
   qp_data_fips,
   'food_insecure_overall',
-  plot_title = "Food Insecurity Rate",
+  plot_title = "Food Insecurity",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap",
   break_settings = seq(2013, 2015, 2),
@@ -590,7 +591,7 @@ showtext.begin()
 graph_trendline(
   qp_data_fips,
   'food_insecure_child',
-  plot_title = "Child Food Insecurity Rate",
+  plot_title = "Food Insecurity - Children",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap",
   break_settings = seq(2013, 2015, 2),
@@ -610,7 +611,7 @@ graph_trendline(qp_data_fips, "pct_pop_core_county",
 showtext.end()
 dev.off()
 
-jpeg("volunteer_rate_trendline.jpg", 900, 600, res = 100)
+jpeg("qp_volunteer_rate_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline_msa(
   filter(qp_data_msa, year<=2014),
@@ -627,7 +628,7 @@ dev.off()
 jpeg("qp_social_support_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'ss_est_per_10000', rollmean = 1,
-                plot_title = "Number of Membership Associations per 10,000 residents, 2015",
+                plot_title = "Social Support",
                 y_title = "Membership Associations per 10,000 residents",
                 caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census",
                 xmin = 2005, xmax = 2015)
@@ -639,7 +640,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'net_migration_flow', rollmean = 1,
                 plot_title = "Net Migration Flow",
                 y_title = "Net Migration Flow",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2013)
 showtext.end()
 dev.off()
@@ -649,7 +650,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'commute_time', rollmean = 1,
                 plot_title = "Commute Time",
                 y_title = "Commute Time (minutes)",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
@@ -659,7 +660,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'burdened_households', rollmean = 1,
                 plot_title = "Burdened Households",
                 y_title = "Percent",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2010, xmax = 2015)
 showtext.end()
 dev.off()
@@ -669,7 +670,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'housing_price_index', rollmean = 1,
                 plot_title = "Housing Price Index",
                 y_title = "Index Score",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2010, xmax = 2015)
 showtext.end()
 dev.off()
@@ -679,7 +680,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'home_ownership', rollmean = 1,
                 plot_title = "Home Ownership",
                 y_title = "Percent",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
@@ -689,7 +690,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'income_inequality', rollmean = 1,
                 plot_title = "Income Inequality",
                 y_title = "Ratio",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2010, xmax = 2015)
 showtext.end()
 dev.off()
@@ -698,8 +699,8 @@ jpeg("qp_disconnected_youth_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'disconnected_youth', rollmean = 1,
                 plot_title = "Disconnected Youth",
-                y_title = "Ratio",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                y_title = "Percent",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
@@ -709,7 +710,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'racial_geography', rollmean = 1,
                 plot_title = "Racial Dissimilarity Index",
                 y_title = "Index Score",
-                caption_text = "Source: Greater Louisville Project \nData from GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
