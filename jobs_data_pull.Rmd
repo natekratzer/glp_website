@@ -8,7 +8,8 @@ This is the code used to pull the jobs data
 
 First the libraries needed
 ```{r setup}
-knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website"))
+knitr::opts_knit$set(root.dir = normalizePath("~/Desktop/glp_website"))
+# knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website"))
 ```
 
 
@@ -83,6 +84,30 @@ pull_peers_FIPS <- function(dat){
 }
 ```
 
+```{r}
+pull_peers_MSA<-function(data){
+  all.peers<-filter(data, data$MSA == 24340 | data$MSA == 41180
+                    |data$MSA == 36420 | data$MSA == 46140
+                    |data$MSA == 24860 |data$MSA == 28940
+                    |data$MSA == 13820 |data$MSA == 26900
+                    |data$MSA == 31140 |data$MSA == 28140
+                    |data$MSA == 36540 |data$MSA == 24660
+                    |data$MSA == 16740 |data$MSA == 18140
+                    |data$MSA == 17140 |data$MSA == 34980
+                    |data$MSA == 32820 |data$MSA == 27260
+                    |data$MSA == 39580 |data$MSA == 19380
+                    |data$MSA == 40060)
+  all.peers$baseline<-1
+  all.peers$current<-1
+  all.peers$baseline[all.peers$MSA == 24340 | all.peers$MSA == 41180
+                     |all.peers$MSA == 36420 | all.peers$MSA == 46140
+                     |all.peers$MSA == 24860 | all.peers$MSA == 28940]<-0
+  all.peers$current[all.peers$MSA == 27260 | all.peers$MSA == 39580
+                    |all.peers$MSA == 19380 | all.peers$MSA == 40060]<-0
+  all.peers
+}
+```
+
 
 Earnings data from the ACS 
 ```{r, message = FALSE}
@@ -132,7 +157,6 @@ dat <- full_join(dat, personal_income_per_cap_dat, by = c("FIPS", "year"))
 earn_data$year <- as.character(earn_data$year)
 dat <- full_join(dat, earn_data, by = c("FIPS", "year")) #joining with earning data
 
-
 dat <- dat %>% select(FIPS, year, median_earnings = num_earnings, income_inequality, median_household_income, 
                       personal_income_per_cap, unemployment)
 ```
@@ -174,23 +198,55 @@ dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
 dat$FIPS <- as.factor(dat$FIPS)
 
 # and then add the other stuff for each city again
-names <- read_csv("input/FIPS one stl.csv")
+names <- read_csv("input data/FIPS one stl.csv")
 names$FIPS <- as.factor(names$FIPS)
 
 dat <- left_join(dat, names, by = c("FIPS", "city"))
 
-population_data$FIPS <- as.character(population_data$FIPS)
+population_data<-read_csv("input data/population_data_one_stl.csv", 
+                          col_types = cols(FIPS = col_character()))
 dat <- left_join(dat, population_data, by = c("FIPS", "year"))
-
-
-dat <- dat %>% 
-  group_by(city, year) %>%
-  mutate(population = sum(population)) %>%
-  ungroup()
-
 ```
+
+
+```{r}
+bds_data = read_csv("input data/jobs_input_data/bds_f_agemsa_release.csv")
+# bds_data = rename(bds_data, MSA = msa)
+
+bds_data = bds_data %>%
+  rename(MSA = msa, year = year2)%>%
+  pull_peers_MSA(.)
+
+bds_data = bds_data[bds_data$year >= 2003,]
+bds_data$city<-NA
+bds_data$city[bds_data$MSA == 24340] = "Grand Rapids"
+bds_data$city[bds_data$MSA == 41180] = "St. Louis"
+bds_data$city[bds_data$MSA == 36420] = "Oklahoma City"
+bds_data$city[bds_data$MSA == 46140] = "Tulsa"
+bds_data$city[bds_data$MSA == 24860] = "Greenville"
+bds_data$city[bds_data$MSA == 28940] = "Knoxville"
+bds_data$city[bds_data$MSA == 13820] = "Birmingham"
+bds_data$city[bds_data$MSA == 31140] = "Louisville"
+bds_data$city[bds_data$MSA == 26900] = "Indianapolis"
+bds_data$city[bds_data$MSA == 28140] = "Kansas City"
+bds_data$city[bds_data$MSA == 36540] = "Omaha"
+bds_data$city[bds_data$MSA == 24660] = "Greensboro"
+bds_data$city[bds_data$MSA == 16740] = "Charlotte"
+bds_data$city[bds_data$MSA == 18140] = "Columbus"
+bds_data$city[bds_data$MSA == 17140] = "Cincinnati"
+bds_data$city[bds_data$MSA == 34980] = "Nashville"
+bds_data$city[bds_data$MSA == 32820] = "Memphis"
+bds_data$city[bds_data$MSA == 27260] = "Jacksonville"
+bds_data$city[bds_data$MSA == 39580] = "Raleigh"
+bds_data$city[bds_data$MSA == 19380] = "Dayton"
+bds_data$city[bds_data$MSA == 40060] = "Richmond"
+
+bds_data<-mutate(bds_data, estabs_entry_rate_minus_exit = Estabs_Entry_Rate -Estabs_Exit_Rate)
+```
+
 
 Writing out data
 ```{r}
-write_csv(dat, "output data/jobs_data.csv")
+write_csv(dat, "output data/jobs_data_fips.csv")
+write_csv(bds_data, "output data/jobs_data_msa.csv")
 ```
