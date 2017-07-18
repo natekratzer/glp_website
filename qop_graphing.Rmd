@@ -15,7 +15,8 @@ library(classInt)
 Necessary Functions
 ```{r}
 rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-                            plot_title="", y_title = "Percent", caption_text = ""){
+                            plot_title="", y_title = "Percent", caption_text = "",
+                            sigfig = 3, num_dec = 1){
   df$var <- df[[var]]
   if(peers=="Current"){
     df<-subset(df,current ==1)
@@ -40,7 +41,7 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
   d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(round(d.graph$var,1),nsmall=1)
+  d.graph$round <- format(signif(d.graph$var, digits = sigfig), nsmall = num_dec)
   d.graph$textfont <- "Museo Sans 300"
   d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
   d.graph$linecolor <- "white"
@@ -97,7 +98,7 @@ rollmean5 <- function(x){
 ##
 graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
                           caption_text = "", subtitle_text = "", rollmean = 3,
-                          break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
+                          break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016, order = "Descending"){
   df$var <- df[[var]]
   df = df %>% filter(year != 2016)
   
@@ -149,10 +150,46 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   p <- p + ylim(c(min(data_long$value, na.rm = TRUE) - border_space, max(data_long$value, na.rm=TRUE) + border_space))
   p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
   cPalette <- c("#00a9b7","grey50", "black","grey50")
-  p<-p+scale_colour_manual(values=cPalette,
-                           labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))+
-    scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
-                          labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))
+  if(order == "Descending") {
+    p <- p + scale_colour_manual(
+    values = cPalette,
+    labels = c(
+    "Louisville",
+    "75th Percentile",
+    "Peer City Mean",
+    "25th Percentile"
+    )
+    ) +
+    scale_linetype_manual(
+    values = c("solid", "dashed", "dashed", "dashed"),
+    labels = c(
+    "Louisville",
+    "75th Percentile",
+    "Peer City Mean",
+    "25th Percentile"
+    )
+    )
+  }
+  if(order == "Ascending"){
+    p <- p + scale_colour_manual(
+    values = cPalette,
+    labels = c(
+    "Louisville",
+    "25th Percentile",
+    "Peer City Mean",
+    "75th Percentile"
+    )
+    ) +
+    scale_linetype_manual(
+    values = c("solid", "dashed", "dashed", "dashed"),
+    labels = c(
+    "Louisville",
+    "25th Percentile",
+    "Peer City Mean",
+    "75th Percentile"
+    )
+    )
+  }
   p<-p+theme(text = element_text(family = "Museo Sans 300"),
              legend.title=element_blank(),
              legend.position = "top",
@@ -168,9 +205,11 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   p
 }
 
-graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
-                              caption_text = "", subtitle_text = "", rollmean = 3,
-                              break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
+graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent", 
+                              peers = "Current", caption_text = "", 
+                              subtitle_text = "", rollmean = 3,
+                              break_settings = seq(2005, 2015, 2), 
+                              xmin = 1996, xmax = 2016, order = "Descending"){
   df$var <- df[[var]]
   df = df %>% filter(year != 2016)
   if(peers=="Current"){
@@ -214,10 +253,46 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent", peers = "
   p <- p + ylim(c(min(data_long$value) - border_space, max(data_long$value + border_space)))
   p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
   cPalette <- c("#00a9b7","grey50", "black","grey50")
-  p<-p+scale_colour_manual(values=cPalette,
-                           labels=c("Louisville", "25th Percentile", "Peer City Mean", "75th Percentile"))+
-    scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
-                          labels=c("Louisville", "25th Percentile", "Peer City Mean", "75th Percentile"))
+  if(order == "Descending") {
+    p <- p + scale_colour_manual(
+    values = cPalette,
+    labels = c(
+    "Louisville",
+    "25th Percentile",
+    "Peer City Mean",
+    "75th Percentile"
+    )
+    ) +
+    scale_linetype_manual(
+    values = c("solid", "dashed", "dashed", "dashed"),
+    labels = c(
+    "Louisville",
+    "25th Percentile",
+    "Peer City Mean",
+    "75th Percentile"
+    )
+    )
+  }
+  if(order == "Ascending"){
+    p <- p + scale_colour_manual(
+    values = cPalette,
+    labels = c(
+    "Louisville",
+    "75th Percentile",
+    "Peer City Mean",
+    "25th Percentile"
+    )
+    ) +
+    scale_linetype_manual(
+    values = c("solid", "dashed", "dashed", "dashed"),
+    labels = c(
+    "Louisville",
+    "75th Percentile",
+    "Peer City Mean",
+    "25th Percentile"
+    )
+    )
+  }
   p<-p+theme(text = element_text(family = "Museo Sans 300"),
              legend.title=element_blank(),
              legend.position = "top",
@@ -411,10 +486,23 @@ rank_and_nb_group(
 showtext.end()
 dev.off()
 
+jpeg("qp_median_household_income_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  filter(qp_data_fips, year == 2014),
+  "median_household_income", sigfig = 3, num_dec = 0,
+  order = "Descending",
+  plot_title = "Median Household Income, 2015",
+  y_title = "Dollars",
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
+  )
+showtext.end()
+dev.off()
+
 jpeg("qp_housing_price_index_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
-  as.data.frame(filter(qp_data_fips, year == 2015)),
+  as.data.frame(filter(qp_data_fips, year == 2015)),sigfig = 4,
   'housing_price_index',
   order = "Ascending",
   y_title = "Index Score",
@@ -424,14 +512,14 @@ rank_and_nb_group(
 showtext.end()
 dev.off()
 
-jpeg("qp_home_ownership_rankings.jpg", 900, 600, res = 100)
+jpeg("qp_homeownership_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'home_ownership',
   order = "Descending",
   y_title = "Percent",
-  plot_title = "Home Ownership, 2015",
+  plot_title = "Homeownership, 2015",
   caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
@@ -493,7 +581,7 @@ jpeg("qp_violent_crime_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
-  'violent_crime',
+  'violent_crime', num_dec = 0,
   order = "Ascending",
   y_title = "Violent Crimes per 100,000",
   plot_title = "Violent Crime",
@@ -675,10 +763,10 @@ graph_trendline(as.data.frame(qp_data_fips), var = 'housing_price_index', rollme
 showtext.end()
 dev.off()
 
-jpeg("qp_home_ownership_trendline.jpg", 900, 600, res = 100)
+jpeg("qp_homeownership_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'home_ownership', rollmean = 1,
-                plot_title = "Home Ownership",
+                plot_title = "Homeownership",
                 y_title = "Percent",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2015)
@@ -700,7 +788,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'disconnected_youth', rollmean = 1,
                 plot_title = "Disconnected Youth",
                 y_title = "Percent",
-                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED", order = "Ascending",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
@@ -712,6 +800,18 @@ graph_trendline(as.data.frame(qp_data_fips), var = 'racial_geography', rollmean 
                 y_title = "Index Score",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2015)
+showtext.end()
+dev.off()
+
+jpeg("qp_median_household_income_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(qp_data_fips, "median_household_income",
+                plot_title = "Median Household Income",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+                break_settings = seq(2005, 2014, 2),
+                xmin = 2005, xmax = 2014, y_title = "Dollars")
 showtext.end()
 dev.off()
 ```

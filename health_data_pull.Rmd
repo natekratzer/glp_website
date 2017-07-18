@@ -2,62 +2,140 @@
 title: "County Health Rankings"
 output: html_notebook
 ---
-
+  
 This is an analysis of the Robert Wood Johnson Foundation County Health Rankings.
 
 Setting the working directory
-```{r set wd}
-setwd("C:/Users/natek/Documents/County Health Rankings Analysis")
+```{r "setup", include=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "~/Desktop/glp_website")
 ```
 
 Loading libraries
 ```{r libraries, message = FALSE}
 library(tidyverse)
+library(magrittr)
 ```
+
+Necessary Functions
+```{r}
+pull_all_peers <- function(data){
+  data = data %>% filter(data$FIPS == "01073" |data$FIPS == "37119"
+                         |data$FIPS == "39061" |data$FIPS == "39049"
+                         |data$FIPS == "26081" |data$FIPS == "37081"
+                         |data$FIPS == "45045" |data$FIPS == "18097"
+                         |data$FIPS == "29095" |data$FIPS == "47093"
+                         |data$FIPS == "21111" |data$FIPS == "47157"
+                         |data$FIPS == "47037" |data$FIPS == "40109"
+                         |data$FIPS == "31055" |data$FIPS == "29189"
+                         |data$FIPS == "29510"
+                         |data$FIPS == "40143" |data$FIPS == "39113"
+                         |data$FIPS == "12031" |data$FIPS == "37183"
+                         |data$FIPS == "37183" |data$FIPS == "51760")
+  
+  data$baseline <- 1
+  data$current <- 1
+  data$baseline[data$FIPS == "26081"|data$FIPS == "29189"
+                |data$FIPS =="29510"|data$FIPS == "40109"
+                |data$FIPS == "40143"|data$FIPS=="45045"
+                |data$FIPS == "47093"] <- 0
+  data$current[data$FIPS== "12031"|data$FIPS=="37183"|
+                 data$FIPS=="39113"|data$FIPS=="51760"] <- 0
+  data
+}
+
+pull_peers_FIPS <- function(dat){
+  all.peers <- subset(dat, dat$FIPS == 1073 | dat$FIPS == 37119
+                      |dat$FIPS == 39061 |dat$FIPS == 39049
+                      |dat$FIPS == 26081 |dat$FIPS == 37081
+                      |dat$FIPS == 45045 |dat$FIPS == 18097
+                      |dat$FIPS == 29095 |dat$FIPS == 47093
+                      |dat$FIPS == 21111 |dat$FIPS == 47157
+                      |dat$FIPS == 47037 |dat$FIPS == 40109
+                      |dat$FIPS == 31055 |dat$FIPS == 29189
+                      |dat$FIPS == 29510 |dat$FIPS == 40143
+                      |dat$FIPS == 12031 |dat$FIPS == 37183
+                      |dat$FIPS == 39113 |dat$FIPS == 51760
+                      | dat$FIPS == "01073")
+  all.peers$baseline <- 1
+  all.peers$current <- 1
+  all.peers$baseline[all.peers$FIPS==26081|all.peers$FIPS==29189
+                     |all.peers$FIPS==29510|all.peers$FIPS==40109
+                     |all.peers$FIPS==40143|all.peers$FIPS==45045
+                     |all.peers$FIPS==47093]<-0
+  all.peers$current[all.peers$FIPS== 12031|all.peers$FIPS==37183|
+                      all.peers$FIPS==39113|all.peers$FIPS==51760]<-0
+  all.peers
+}
+
+norm_z <- function(x){
+z <- (x - mean(x))/sd(x)
+}
+
+cbp_read<-function(folder, starting_year){
+  initial_wd <- getwd()
+  directory <- paste(initial_wd, folder, sep = "/")
+  file_names<-list.files(directory)
+  n <- length(file_names)
+  y <- starting_year
+  for(i in 1:n){
+    data<-read_csv(paste(directory,file_names[i], sep = "/"), skip = 0, progress = FALSE)
+    data%<>%mutate(FIPS = paste(fipstate, fipscty, sep = ''))
+    all.peers <- filter(data, data$FIPS == "01073" |data$FIPS == 37119
+                        |data$FIPS == 39061 |data$FIPS == 39049
+                        |data$FIPS == 26081 |data$FIPS == 37081
+                        |data$FIPS == 45045 |data$FIPS == 18097
+                        |data$FIPS == 29095 |data$FIPS == 47093
+                        |data$FIPS == 21111 |data$FIPS == 47157
+                        |data$FIPS == 47037 |data$FIPS == 40109
+                        |data$FIPS == 31055 |data$FIPS == 29189
+                        |data$FIPS == 29510
+                        |data$FIPS == 40143 |data$FIPS == 39113
+                        |data$FIPS == 12031 |data$FIPS == 37183
+                        |data$FIPS == 37183 |data$FIPS == 51760)
+    all.peers$year <- y
+    all.peers$baseline <- 1
+    all.peers$current <- 1
+    all.peers$baseline[all.peers$FIPS==26081|all.peers$FIPS==29189
+                       |all.peers$FIPS==29510|all.peers$FIPS==40109
+                       |all.peers$FIPS==40143|all.peers$FIPS==45045
+                       |all.peers$FIPS==47093]<-0
+    all.peers$current[all.peers$FIPS== 12031|all.peers$FIPS==37183|
+                        all.peers$FIPS==39113|all.peers$FIPS==51760]<-0
+    y<-y+1
+    
+    if(i == 1){
+      df <- all.peers
+    }
+    else{
+      names(all.peers)<-names(df)
+      df<-rbind(df, all.peers)
+    }
+  }
+  df
+}
+```
+
 
 I tried reading in the 2014, 2015, 2016, and 2017 data. Unfortunately, all of them are messy datasets and will need to be cleaned up individually before combining any of them. So I'll start with 2017 and return to the others later. 
 
 There are two columns that caused difficulty for 'read_csv()`, so I read them in as characters and will fix them if they're required for the analysis  
 ```{r data}
-chr_df_17 = read_csv("data/2017CHR_CSV_Analytic_Data.csv",
-                       col_types = cols(
-                       measure_127_value = col_character(),
-                       measure_131_value = col_character()
-                       )
-                      )
+chr_df_17 = read_csv("input data/health_input_data/2017CHR_CSV_Analytic_Data.csv",
+col_types = cols(
+measure_127_value = col_character(),
+measure_131_value = col_character()
+)
+)
 
 chr_df_17 = chr_df_17 %>% rename(FIPS = fipscode) #renaming a variable for use in the function below
+
 
 ```
 
 Next I'll take just our peer cities and add columns indicating baseline or current peer
 
 ```{r}
-
-pull_all_peers <- function(data){
-  data = data %>% filter(data$FIPS == "01073" |data$FIPS == "37119"
-                       |data$FIPS == "39061" |data$FIPS == "39049"
-                       |data$FIPS == "26081" |data$FIPS == "37081"
-                       |data$FIPS == "45045" |data$FIPS == "18097"
-                       |data$FIPS == "29095" |data$FIPS == "47093"
-                       |data$FIPS == "21111" |data$FIPS == "47157"
-                       |data$FIPS == "47037" |data$FIPS == "40109"
-                       |data$FIPS == "31055" |data$FIPS == "29189"
-                       |data$FIPS == "29510"
-                       |data$FIPS == "40143" |data$FIPS == "39113"
-                       |data$FIPS == "12031" |data$FIPS == "37183"
-                       |data$FIPS == "37183" |data$FIPS == "51760")
-  
-    data$baseline <- 1
-    data$current <- 1
-    data$baseline[data$FIPS == "26081"|data$FIPS == "29189"
-                       |data$FIPS =="29510"|data$FIPS == "40109"
-                       |data$FIPS == "40143"|data$FIPS=="45045"
-                       |data$FIPS == "47093"] <- 0
-    data$current[data$FIPS== "12031"|data$FIPS=="37183"|
-                        data$FIPS=="39113"|data$FIPS=="51760"] <- 0
-  data
-}
 
 chr_df_17 <- pull_all_peers(chr_df_17)
 
@@ -67,44 +145,62 @@ Now renaming everything to have useful names and also selecting only the data ne
 
 ```{r}
 chr_df_17 <- chr_df_17 %>%
-  select(
-    premature_death = measure_1_value,
-    poor_or_fair_health = measure_2_value,
-    poor_physical_health_days = measure_36_value,
-    poor_mental_health_days = measure_42_value,
-    low_birthweight = measure_37_value,
-    adult_smoking = measure_9_value,
-    adult_obesity = measure_11_value,
-    food_environment_index = measure_133_value,
-    physical_inactivity = measure_70_value,
-    access_to_exercise_opportunities = measure_132_value,
-    excessive_drinking = measure_49_value,
-    alcohol_impaired_driving_deaths = measure_134_value,
-    sexually_transmitted_infections = measure_45_value,
-    teen_births = measure_14_value,
-    uninsured = measure_85_value,
-    primary_care_physicians = measure_4_value,
-    dentists = measure_88_value,
-    mental_health_providers = measure_62_value,
-    preventable_hospital_stays = measure_5_value,
-    diabetes_monitoring = measure_7_value,
-    mammography_screening = measure_50_value,
-    high_school_graduation = measure_21_value,
-    some_college = measure_69_value,
-    unemployment = measure_23_value,
-    children_in_poverty = measure_24_value,
-    income_inequality = measure_44_value,
-    children_in_single_parent_households = measure_82_value,
-    social_associations = measure_140_value,
-    violent_crime = measure_43_value,
-    injury_deaths = measure_135_value,
-    air_pollution = measure_125_value,
-    drinking_water = measure_124_value,
-    severe_housing_problems = measure_136_value,
-    driving_alone_to_work = measure_67_value,
-    long_commute = measure_137_value,
-    FIPS, current, baseline
-  )
+select(
+premature_death = measure_1_value,
+poor_or_fair_health = measure_2_value,
+poor_physical_health_days = measure_36_value,
+poor_mental_health_days = measure_42_value,
+low_birthweight = measure_37_value,
+adult_smoking = measure_9_value,
+adult_obesity = measure_11_value,
+food_environment_index = measure_133_value,
+physical_inactivity = measure_70_value,
+access_to_exercise_opportunities = measure_132_value,
+excessive_drinking = measure_49_value,
+alcohol_impaired_driving_deaths = measure_134_value,
+sexually_transmitted_infections = measure_45_value,
+teen_births = measure_14_value,
+uninsured = measure_85_value,
+primary_care_physicians = measure_4_value,
+dentists = measure_88_value,
+mental_health_providers = measure_62_value,
+preventable_hospital_stays = measure_5_value,
+diabetes_monitoring = measure_7_value,
+mammography_screening = measure_50_value,
+high_school_graduation = measure_21_value,
+some_college = measure_69_value,
+unemployment = measure_23_value,
+children_in_poverty = measure_24_value,
+income_inequality = measure_44_value,
+children_in_single_parent_households = measure_82_value,
+social_associations = measure_140_value,
+violent_crime = measure_43_value,
+injury_deaths = measure_135_value,
+air_pollution = measure_125_value,
+severe_housing_problems = measure_136_value,
+driving_alone_to_work = measure_67_value,
+long_commute = measure_137_value,
+drinking_water = measure_124_value,
+FIPS, current, baseline
+)
+
+chr_df_17 %<>% mutate(
+poor_or_fair_health = poor_or_fair_health*100,
+low_birthweight = low_birthweight*100,
+adult_smoking = adult_smoking*100,
+adult_obesity = adult_obesity*100,
+physical_inactivity = physical_inactivity*100,
+access_to_exercise_opportunities = access_to_exercise_opportunities*100,
+excessive_drinking = excessive_drinking*100,
+alcohol_impaired_driving_deaths = alcohol_impaired_driving_deaths*100,
+uninsured = uninsured*100,
+diabetes_monitoring = diabetes_monitoring*100,
+mammography_screening = mammography_screening*100,
+severe_housing_problems = severe_housing_problems*100,
+driving_alone_to_work = driving_alone_to_work*100,
+long_commute = long_commute*100,
+FIPS, current, baseline
+)
 
 ```
 
@@ -114,23 +210,23 @@ Taking only our current peer cities. The decision to use current or baseline mus
 
 chr_df_17 <- chr_df_17 %>% filter(current ==1)
 
-name_df <- read_csv("data/FIPS two stl.csv")
+name_df <- read_csv("input data/FIPS two stl.csv", col_types = cols(FIPS = col_character()))
 
 chr_named <- left_join(chr_df_17, name_df, by = "FIPS")
 
 chr_named$FIPS = as.numeric(chr_named$FIPS)
 
 chr_stl = chr_named %>%
-  select(-county, -state) %>%
-  group_by(city) %>%
-  summarise_each(funs(weighted.mean(.,weights)), -weights)
+select(-county, -state) %>%
+group_by(city) %>%
+summarise_each(funs(weighted.mean(.,weights)), -weights)
 
 # give St. Louis Merged a new FIPS
 chr_stl$FIPS <- as.character(chr_stl$FIPS)
 chr_stl$FIPS[chr_stl$city == "St. Louis"] <- "MERGED"
 
 # and then add the other stuff for each city again
-name_df <- read_csv("data/FIPS one stl.csv")
+name_df <- read_csv("input data/FIPS one stl.csv")
 name_df <- name_df %>% select(-city) #avoiding duplication
 
 chr_named <- left_join(chr_stl, name_df, by = "FIPS")
@@ -142,11 +238,7 @@ Taking Z scores for everything. I wrote a simple function to take z-scores and t
 ```{r}
 chr_z <- chr_named
 
-norm_z <- function(x){
-  z <- (x - mean(x))/sd(x)
-}
-
-chr_z[,2:36] <- apply(chr_z[,2:36], 2, norm_z) 
+chr_z[,2:34] <- apply(chr_z[,2:34], 2, norm_z) 
 ```
 
 Creating overall rankings for outcomes and each of the four health factors based on weighted average.
@@ -205,6 +297,7 @@ chr_z <- chr_z %>%
   )
 ```
 
+
 Transforming the variables to be 0 to 1 scaled
 **Also making negative values worse by reversing the index**
 ```{r}
@@ -212,115 +305,177 @@ rev_index <- function(x){x * -1}
 
 chr_z[ ,45:50] <- apply(chr_z[ ,45:50], 2, rev_index)
 
+# 
+# rescale <- function(x){
+#   (x-min(x))/(max(x)-min(x))
+# }
+# chr_rescale <- chr_z
+# 
+# chr_rescale[ ,45:50] <- apply(chr_rescale[ ,45:50], 2, rescale)
 
-rescale <- function(x){
-  (x-min(x))/(max(x)-min(x))
-}
-chr_rescale <- chr_z
+factors <- chr_z[,45:50]
 
-chr_rescale[ ,45:50] <- apply(chr_rescale[ ,45:50], 2, rescale)
-
+health_data_fips = bind_cols(chr_named, factors)
+health_data_fips$year = 2017
 ```
+
+
+#Add Social Associations code from QP
+```{r}
+#Reading in and tidying data
+sc_data_5_6 <- cbp_read("input data/qp_input_data/Social Support 5_6", starting_year = 2005)
+sc_data_5_6 %<>% select(naics, FIPS, year, baseline, current, est)
+
+sc_data_7_14 <- cbp_read("input data/qp_input_data/Social Support 7_14", starting_year = 2007)
+sc_data_7_14 %<>% select(naics, FIPS, year, baseline, current, est)
+
+sc_data_15 <- read_csv("input data/qp_input_data/cbp15co.txt.zip", progress = FALSE)
+sc_data_15$year = 2015
+sc_data_15%<>%mutate(FIPS = paste(FIPSTATE, FIPSCTY, sep = ''))%>%
+  pull_peers_FIPS(.)%>%
+  select(naics = NAICS, FIPS, year, baseline, current, est = EST)
+
+sc_data<-bind_rows(sc_data_5_6, sc_data_7_14)
+sc_data<-bind_rows(sc_data, sc_data_15)
+
+#Pull St. Louis out of the Dataset and sum
+sc_data_no<-sc_data%>%filter(naics == 813410 | naics == 713950|
+                               naics == 713910 | naics == 713940|
+                               naics == 711211 | naics == 813110|
+                               naics == 813940 | naics == 813930|
+                               naics == 813910 | naics == 813920)%>%
+  filter(!(FIPS == 29189 | FIPS == 29510))%>%
+  group_by(year, FIPS, baseline, current)%>%
+  summarize(ss_est = sum(est))
+
+#Sum social support firms for all cities besides St. Louis
+stl_sc<-sc_data%>%filter(naics == 813410 | naics == 713950|
+                           naics == 713910 | naics == 713940|
+                           naics == 711211 | naics == 813110|
+                           naics == 813940 | naics == 813930|
+                           naics == 813910 | naics == 813920)%>%
+  filter(FIPS == 29189 | FIPS == 29510)%>%
+  group_by(year, baseline, current)%>%
+  summarize(ss_est = sum(est))
+stl_sc$FIPS <- NA
+stl_sc$FIPS <- "MERGED"
+
+#Add St. Louis back to the dataset
+sc_data <- bind_rows(sc_data_no, stl_sc)
+sc_data$FIPS[sc_data$FIPS == "01073"] = "1073"
+
+pop <- read_csv("input data/population_data_one_stl.csv")
+sc_data <- left_join(sc_data, pop, by = c("FIPS", "year"))
+
+sc_data %<>% mutate(ss_est_per_10000 = (ss_est/population)*10000)
+name_df <- read_csv("input data/FIPS one stl.csv")
+name_df %<>% select(FIPS, city)
+sc_data <- left_join(sc_data, name_df)
+
+
+health_data_fips <- full_join(sc_data, health_data_fips, by = c("FIPS", "year", "baseline","city","current"))
+health_data_fips %<>% select(-c(current_peer, baseline_peer))
+```
+
 
 Writing out the values
 ```{r}
-write_csv(chr_z, "C:/Users/natek/Dropbox/health_data.csv")
+write_csv(health_data_fips, "output data/health_data_fips.csv")
 ```
 
 
-Adding a function for graphing
-```{r}
-library(extrafont)
-library(classInt)
-library(ggthemes)
+<!-- Adding a function for graphing -->
+<!-- ```{r} -->
+<!-- library(extrafont) -->
+<!-- library(classInt) -->
+<!-- library(ggthemes) -->
 
-rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-                            plot_title="", caption_text = ""){
-  df$var <- df[[var]]
-  if(peers=="Current"){
-    df<-subset(df,current_peer ==1)
-  }
-  if(peers=="Baseline"){
-    df<-subset(df,baseline_peer ==1)
-  }
-  if(order=="Descending"){
-    d.order<-df[order(-df$var),]
-  }
-  if(order=="Ascending"){
-    d.order<-df[order(df$var),]
-  }
-  ranks<-1:length(df$var)
-  d.rank<-cbind(d.order,ranks)
-  names<-paste(d.rank$ranks,".",sep="")
-  names<-paste(names,d.rank$city)
-  d.graph<-cbind(d.rank,names)
-  
-  breaks<-classIntervals(d.graph$var,3,style="jenks")
-  d.graph$color<-NA
-  d.graph$color[d.graph$var<=breaks$brks[2]]<-"green"
-  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]]<-"yellow"
-  d.graph$color[d.graph$var>breaks$brks[3]]<-"red"
-  d.graph$round<-format(round(d.graph$var,1),nsmall=1)
-  d.graph$textfont<-"plain"
-  d.graph$textfont[d.graph$city == "Louisville"]<-"bold"
-  d.graph$linecolor<-"white"
-  d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7"
-  d.graph$textcolor<-"black"
-  d.graph$textcolor[d.graph$city == "Louisville"]<-"#00a9b7"
-  
-  
-  p<-ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
-                             y=var,fill=factor(color)))+guides(fill=FALSE)
-  p<-p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
-  if(order=="Ascending"){
-    p<-p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
-  }
-  if(order=="Descending"){
-    p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
-  }
-  p = p + theme(text = element_text(family = "Liberation Sans"),
-                plot.title = element_text(size = 18, hjust = 0.5),
-                axis.text.y=element_text(hjust=0, face = rev(d.graph$textfont),
-                                         size=12, color = rev(d.graph$textcolor)),
-                axis.ticks=element_blank(),
-                axis.text.x = element_blank(),
-                plot.caption = element_text(),
-                plot.subtitle = element_text(hjust = 0.5))
-  #p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Liberation Sans")
-  p<-p+labs(title = plot_title, y= "Average Peer City",
-            x = "", caption = caption_text)
-  p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1)
-  p
-}
+<!-- rank_and_nb_group<-function(df, var, order="Descending", peers="Current", -->
+<!--                             plot_title="", caption_text = ""){ -->
+<!--   df$var <- df[[var]] -->
+<!--   if(peers=="Current"){ -->
+<!--     df<-subset(df,current_peer ==1) -->
+<!--   } -->
+<!--   if(peers=="Baseline"){ -->
+<!--     df<-subset(df,baseline_peer ==1) -->
+<!--   } -->
+<!--   if(order=="Descending"){ -->
+<!--     d.order<-df[order(-df$var),] -->
+<!--   } -->
+<!--   if(order=="Ascending"){ -->
+<!--     d.order<-df[order(df$var),] -->
+<!--   } -->
+<!--   ranks<-1:length(df$var) -->
+<!--   d.rank<-cbind(d.order,ranks) -->
+<!--   names<-paste(d.rank$ranks,".",sep="") -->
+<!--   names<-paste(names,d.rank$city) -->
+<!--   d.graph<-cbind(d.rank,names) -->
 
-```
+<!--   breaks<-classIntervals(d.graph$var,3,style="jenks") -->
+<!--   d.graph$color<-NA -->
+<!--   d.graph$color[d.graph$var<=breaks$brks[2]]<-"green" -->
+<!--   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]]<-"yellow" -->
+<!--   d.graph$color[d.graph$var>breaks$brks[3]]<-"red" -->
+<!--   d.graph$round<-format(round(d.graph$var,1),nsmall=1) -->
+<!--   d.graph$textfont<-"plain" -->
+<!--   d.graph$textfont[d.graph$city == "Louisville"]<-"bold" -->
+<!--   d.graph$linecolor<-"white" -->
+<!--   d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7" -->
+<!--   d.graph$textcolor<-"black" -->
+<!--   d.graph$textcolor[d.graph$city == "Louisville"]<-"#00a9b7" -->
 
-Graphing outcomes
 
-```{r}
-rank_and_nb_group(chr_z, "outcomes", plot_title = "Health Outcomes, 2017", caption_text = "\n Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
+<!--   p<-ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))), -->
+<!--                              y=var,fill=factor(color)))+guides(fill=FALSE) -->
+<!--   p<-p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte() -->
+<!--   if(order=="Ascending"){ -->
+<!--     p<-p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600")) -->
+<!--   } -->
+<!--   if(order=="Descending"){ -->
+<!--     p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600")) -->
+<!--   } -->
+<!--   p = p + theme(text = element_text(family = "Liberation Sans"), -->
+<!--                 plot.title = element_text(size = 18, hjust = 0.5), -->
+<!--                 axis.text.y=element_text(hjust=0, face = rev(d.graph$textfont), -->
+<!--                                          size=12, color = rev(d.graph$textcolor)), -->
+<!--                 axis.ticks=element_blank(), -->
+<!--                 axis.text.x = element_blank(), -->
+<!--                 plot.caption = element_text(), -->
+<!--                 plot.subtitle = element_text(hjust = 0.5)) -->
+<!--   #p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Liberation Sans") -->
+<!--   p<-p+labs(title = plot_title, y= "Average Peer City", -->
+<!--             x = "", caption = caption_text) -->
+<!--   p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1) -->
+<!--   p -->
+<!-- } -->
 
-```{r}
-rank_and_nb_group(chr_rescale, "outcomes", plot_title = "Health Outcomes, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
-```{r}
-rank_and_nb_group(chr_z, "health_behaviors", plot_title = "Health Behaviors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
+<!-- ``` -->
 
-```{r}
-rank_and_nb_group(chr_z, "clinical_care", plot_title = "Clinical Care, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
+<!-- Graphing outcomes -->
 
-```{r}
-rank_and_nb_group(chr_z, "social_and_economic", plot_title = "Social and Economic Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
+<!-- ```{r} -->
+<!-- rank_and_nb_group(chr_z, "outcomes", plot_title = "Health Outcomes, 2017", caption_text = "\n Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation") -->
+<!-- ``` -->
 
-```{r}
-rank_and_nb_group(chr_z, "physical_environment", plot_title = "Physical Environment, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
+<!-- ```{r} -->
+<!-- rank_and_nb_group(chr_rescale, "outcomes", plot_title = "Health Outcomes, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation") -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- rank_and_nb_group(chr_z, "health_behaviors", plot_title = "Health Behaviors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation") -->
+<!-- ``` -->
 
-```{r}
-rank_and_nb_group(chr_z, "factors", plot_title = "Combined Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
+<!-- ```{r} -->
+<!-- rank_and_nb_group(chr_z, "clinical_care", plot_title = "Clinical Care, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation") -->
+<!-- ``` -->
 
+<!-- ```{r} -->
+<!-- rank_and_nb_group(chr_z, "social_and_economic", plot_title = "Social and Economic Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation") -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- rank_and_nb_group(chr_z, "physical_environment", plot_title = "Physical Environment, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation") -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- rank_and_nb_group(chr_z, "factors", plot_title = "Combined Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation") -->
+<!-- ``` -->
