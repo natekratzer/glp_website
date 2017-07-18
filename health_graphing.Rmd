@@ -5,6 +5,12 @@ output: html_notebook
 
 ##Graphing the health data
 
+Setting the working directory
+```{r "setup", include=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "~/Desktop/glp_website")
+```
+
 Loading libraries
 ```{r libraries, message = FALSE}
 library(showtext)
@@ -16,28 +22,21 @@ library(tidyverse)
 
 Reading in data
 ```{r data, message = FALSE}
-setwd("C:/Users/natek/Documents/Github/glp_website/data")
-health_values = read_csv("health data values.csv")
-health_z = read_csv("health data z_scores.csv")
+health_data_fips= read_csv("output data/health_data_fips.csv")
 ```
-
-Rescaling some health values
-```{r}
-#write_csv(health_values, "C:/Users/natek/Documents/Github/glp_website/data/health data values.csv")
-```
-
 
 
 The code for the rankings graphs
 ```{r rankings}
 rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-                            plot_title="", y_title = "Percent", caption_text = ""){
+                            plot_title="", y_title = "Percent", caption_text = "",
+                            sigfig = 3, num_dec = 1){
   df$var <- df[[var]]
   if(peers=="Current"){
-    df<-subset(df,current_peer ==1)
+    df<-subset(df,current ==1)
   }
   if(peers=="Baseline"){
-    df<-subset(df,baseline_peer ==1)
+    df<-subset(df,baseline ==1)
   }
   if(order=="Descending"){
     d.order<-df[order(-df$var),]
@@ -51,40 +50,136 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   names<-paste(names,d.rank$city)
   d.graph<-cbind(d.rank,names)
   
-  breaks<-classIntervals(d.graph$var,3,style="jenks")
-  d.graph$color<-NA
-  d.graph$color[d.graph$var<=breaks$brks[2]]<-"green"
-  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]]<-"yellow"
-  d.graph$color[d.graph$var>breaks$brks[3]]<-"red"
-  d.graph$round<-format(round(d.graph$var,1),nsmall=1)
-  d.graph$textfont<-"Museo Sans 300"
-  d.graph$textfont[d.graph$city == "Louisville"]<-"Museo Sans Italic"
-  d.graph$linecolor<-"white"
-  d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7"
-  d.graph$textcolor<-"black"
-  d.graph$textcolor[d.graph$city == "Louisville"]<-"#00a9b7"
+  breaks <- classIntervals(d.graph$var,3,style="jenks")
+  d.graph$color <- NA
+  d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
+  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
+  d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
+  d.graph$round <- format(signif(d.graph$var, digits = sigfig), nsmall = num_dec)
+  d.graph$textfont <- "Museo Sans 300"
+  d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
+  d.graph$linecolor <- "white"
+  d.graph$linecolor[d.graph$city == "Louisville"] <- "#00a9b7"
+  d.graph$textcolor <- "black"
+  d.graph$textcolor[d.graph$city == "Louisville"] <- "#00a9b7"
   
   
-  p<-ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
-                             y=var,fill=factor(color)))+guides(fill=FALSE)
-  p<-p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
+  p <- ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
+                               y=var,fill=factor(color)))+guides(fill=FALSE)
+  p <- p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
   if(order=="Ascending"){
-    p<-p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
+    p <- p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
   }
   if(order=="Descending"){
-    p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
+    p <- p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
   }
   p <- p + theme(text = element_text(family = "Museo Sans 300"),
-                plot.title = element_text(size = 18, hjust = 0.5),
-                axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
-                                         size=12, color = rev(d.graph$textcolor)),
-                axis.ticks=element_blank(),
-                axis.text.x = element_blank(),
-                plot.caption = element_text(),
-                plot.subtitle = element_text(hjust = 0.5))
+                 plot.title = element_text(size = 18, hjust = 0.5),
+                 axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
+                                          size=12, color = rev(d.graph$textcolor)),
+                 axis.ticks=element_blank(),
+                 axis.text.x = element_blank(),
+                 plot.caption = element_text(),
+                 plot.subtitle = element_text(hjust = 0.5))
   p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
-  p<-p+labs(title = plot_title, y= y_title,
-            x = "", caption = caption_text)
+  p <- p+labs(title = plot_title, y= y_title,
+              x = "", caption = caption_text)
+  p
+}
+
+##rolling mean functions for trendlines
+rollmean3 <- function(x){
+  n <- length(x)
+  y <- NA
+  for(i in 1:n){
+    y[i] <- mean(c(x[i-1],x[i],x[i+1]))
+    y[1] <- NA
+  }
+  y
+}
+
+rollmean5 <- function(x){
+  n <- length(x)
+  y <- NA
+  for(i in 1:n){
+    y[i] <- mean(c(x[i-2],x[i-1],x[i],x[i+1],x[i+2]))
+    y[1] <- NA
+    y[2] <- NA
+  }
+  y
+}
+
+##
+graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
+                          caption_text = "", subtitle_text = "", rollmean = 3,
+                          break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
+  df$var <- df[[var]]
+  df = df %>% filter(year != 2016)
+  
+  if(peers=="Current"){
+    df.wol <- subset(df,current == 1 & FIPS!=21111)
+  }
+  
+  if(peers=="Baseline"){
+    df.wol <- subset(df,baseline == 1 & FIPS!=21111)
+  }
+  
+  output_wol = df %>% 
+    group_by(year) %>%
+    summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
+              mean = mean(var),
+              third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
+  
+  lville = df %>% 
+    filter(FIPS == 21111) %>% 
+    select(var, year)
+  
+  dat = full_join(lville, output_wol, by = "year")
+  
+  if (rollmean == 3){
+    dat$var = rollmean3(dat$var)
+    dat$first_quarter = rollmean3(dat$first_quarter)
+    dat$mean = rollmean3(dat$mean)
+    dat$third_quarter = rollmean3(dat$third_quarter)
+    dat <- dat %>% filter(year > 2005 & year < 2015)
+  }
+  
+  if (rollmean == 5){
+    dat$var = rollmean5(dat$var)
+    dat$first_quarter = rollmean5(dat$first_quarter)
+    dat$mean = rollmean5(dat$mean)
+    dat$third_quarter = rollmean5(dat$third_quarter)
+    dat = dat %>% filter(year > 2006 & year < 2014)
+  }
+  
+  data_long <- melt(dat, id="year")
+  data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
+  
+  p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
+    geom_point(size = 1.8)+
+    geom_line(size = 1)
+  p <- p + theme_bw()
+  midpoint <- (max(data_long$value, na.rm = TRUE)+min(data_long$value, na.rm = TRUE))/2
+  border_space <- .1 * midpoint
+  p <- p + ylim(c(min(data_long$value, na.rm = TRUE) - border_space, max(data_long$value, na.rm=TRUE) + border_space))
+  p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
+  cPalette <- c("#00a9b7","grey50", "black","grey50")
+  p<-p+scale_colour_manual(values=cPalette,
+                           labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))+
+    scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
+                          labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))
+  p<-p+theme(text = element_text(family = "Museo Sans 300"),
+             legend.title=element_blank(),
+             legend.position = "top",
+             axis.text=element_text(size=12, family = "Museo Sans 300"),
+             axis.ticks.y=element_blank(),
+             plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
+                                     margin=margin(b=10,unit="pt")),
+             legend.text=element_text(size=12, family = "Museo Sans 300"),
+             plot.caption = element_text(family = "Museo Sans 300"),
+             plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
+  p<-p+labs(title=plot_title,x="Year",
+            y=y_title, caption = caption_text, subtitle = subtitle_text)
   p
 }
 
@@ -99,11 +194,11 @@ font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSan
 
 
 ```{r, message = FALSE}
-setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Health_Images")
 
 jpeg("health_outcomes_premature_death.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "premature_death", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), sigfig = 4, num_dec = 0, "premature_death", order = "Ascending",
                   plot_title = "Premature Death",
                   y_title = "Age-adjusted years of potential life lost rate per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings ")
@@ -112,7 +207,7 @@ dev.off()
 
 jpeg("health_outcomes_poor_or_fair_health.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "poor_or_fair_health", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "poor_or_fair_health", order = "Ascending",
                   plot_title = "Population Reporting Poor or Fair Health",
                   y_title = "Percent",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -121,7 +216,7 @@ dev.off()
 
 jpeg("health_outcomes_poor_physical_health_days.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "poor_physical_health_days", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "poor_physical_health_days", order = "Ascending", sigfig = 2,
                   plot_title = "Days of Poor Physical Health per Month",
                   y_title = "Days",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -130,7 +225,7 @@ dev.off()
 
 jpeg("health_outcomes_poor_mental_health_days.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "poor_mental_health_days", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "poor_mental_health_days", order = "Ascending", sigfig = 2,
                   plot_title = "Days of Poor Mental Health per Month",
                   y_title = "Days",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -139,7 +234,7 @@ dev.off()
 
 jpeg("health_outcomes_low_birthweight.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "low_birthweight", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "low_birthweight", order = "Ascending", sigfig = 2,
                   plot_title = "Low Birthweight",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -147,7 +242,7 @@ dev.off()
 
 jpeg("health_behaviors_adult_smoking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "adult_smoking", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "adult_smoking", order = "Ascending",
                   plot_title = "Smoking", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -155,7 +250,7 @@ dev.off()
 
 jpeg("health_behaviors_adult_obesity.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "adult_obesity", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "adult_obesity", order = "Ascending",
                   plot_title = "Adult Obesity", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -163,7 +258,7 @@ dev.off()
 
 jpeg("health_behaviors_food_environment_index.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "food_environment_index", order = "Descending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "food_environment_index", order = "Descending",
                   plot_title = "Food Environment Index", 
                   y_title = "Index constructed on a 0-10 scale",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -172,7 +267,7 @@ dev.off()
 
 jpeg("health_behaviors_physical_inactivity.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "physical_inactivity", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "physical_inactivity", order = "Ascending",
                   plot_title = "Physical Inactivity", 
                   y_title = "Percent reporting no leisure time physical activity",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -181,7 +276,7 @@ dev.off()
 
 jpeg("health_behaviors_access_to_exercise_opportunities.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "access_to_exercise_opportunities", order = "Descending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "access_to_exercise_opportunities", order = "Descending",
                   plot_title = "Access to Exercise Opportunities", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -189,7 +284,7 @@ dev.off()
 
 jpeg("health_behaviors_excessive_drinking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "excessive_drinking", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "excessive_drinking", order = "Ascending",
                   plot_title = "Excessive Drinking", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -197,7 +292,7 @@ dev.off()
 
 jpeg("health_behaviors_alcohol_impaired_driving_deaths.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "alcohol_impaired_driving_deaths", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "alcohol_impaired_driving_deaths", order = "Ascending",
                   plot_title = "Alcohol Impaired Driving Deaths", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -205,7 +300,7 @@ dev.off()
 
 jpeg("health_behaviors_sexually_transmitted_infections.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "sexually_transmitted_infections", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), sigfig = 4, "sexually_transmitted_infections", order = "Ascending",
                   plot_title = "Sexually Transmitted Infections", 
                   y_title = "Chlamydia per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -214,7 +309,7 @@ dev.off()
 
 jpeg("health_behaviors_teen_births.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "teen_births", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "teen_births", order = "Ascending",
                   plot_title = "Teen Births",
                   y_title = "Per 100,000 females aged 15-19",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -223,7 +318,7 @@ dev.off()
 
 jpeg("health_cc_uninsured.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "uninsured", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "uninsured", order = "Ascending",
                   plot_title = "Uninsured", 
                   y_title = "Percent of population under 65 without health insurance",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -232,7 +327,7 @@ dev.off()
 
 jpeg("health_cc_primary_care_physicians.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "primary_care_physicians", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "primary_care_physicians", order = "Ascending", sigfig = 3, num_dec = 0,
                   plot_title = "Primary Care Physicians", 
                   y_title = "Per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -241,7 +336,7 @@ dev.off()
 
 jpeg("health_cc_dentists.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "dentists", order = "Descending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "dentists", order = "Descending", sigfig = 2, num_dec = 0L,
                   plot_title = "Dentists", 
                   y_title = "Per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -250,7 +345,7 @@ dev.off()
 
 jpeg("health_cc_mental_health_providers.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "mental_health_providers", order = "Descending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "mental_health_providers", order = "Descending", sigfig = 3, num_dec = 0L,
                   plot_title = "Mental Health Providers",
                   y_title = "Per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -259,7 +354,7 @@ dev.off()
 
 jpeg("health_cc_preventable_hospital_stays.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "preventable_hospital_stays", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "preventable_hospital_stays", order = "Ascending",
                   plot_title = "Preventable Hospital Stays", 
                   y_title = "'Discharges for Ambulatory Care Sensitive Conditions per 1,000 Medicare Enrollees",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -268,7 +363,7 @@ dev.off()
 
 jpeg("health_cc_diabetes_monitoring.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "diabetes_monitoring", order = "Descending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "diabetes_monitoring", order = "Descending",
                   plot_title = "Diabetes Monitoring", 
                   y_title = "Percentage of diabetic Medicare enrollees receiving HbA1c test",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -277,7 +372,7 @@ dev.off()
 
 jpeg("health_cc_mammography_screening.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "mammography_screening", order = "Descending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "mammography_screening", order = "Descending",
                   plot_title = "Mammography Screening", 
                   y_title = "Percentage of female Medicare enrollees having at least 1 mammogram in 2 yrs (age 67-69)",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -286,16 +381,16 @@ dev.off()
 
 jpeg("health_sec_social_associations.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "social_associations", order = "Descending",
-                  plot_title = "Social Associations", 
-                  y_title = "Number of Associations per 10,000 population",
-                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+rank_and_nb_group(filter(health_data_fips, year == 2015), "ss_est_per_10000", order = "Descending", num_dec = 1,
+                  plot_title = "Social Support, 2015", 
+                  y_title = "Membership Associations per 10,000 population",
+                  caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census")
 showtext.end()
 dev.off()
 
 jpeg("health_sec_violent_crime.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "violent_crime", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "violent_crime", order = "Ascending", sigfig = 3, num_dec = 0,
                   plot_title = "Violent Crime", 
                   y_title = "Violent Crimes per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -304,7 +399,7 @@ dev.off()
 
 jpeg("health_sec_injury_deaths.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "injury_deaths", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "injury_deaths", order = "Ascending",
                   plot_title = "Injury Deaths", 
                   y_title = "Injury Mortality Rate per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -313,7 +408,7 @@ dev.off()
 
 jpeg("health_pe_air_pollution.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "air_pollution", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "air_pollution", order = "Ascending",
                   plot_title = "Air Pollution", 
                   y_title = "Average daily amount of fine particulate matter in micrograms per cubic meter",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -322,7 +417,7 @@ dev.off()
 
 # jpeg("health_pe_drinking_water.jpg", 900, 600, res = 100)
 # showtext.begin()
-# rank_and_nb_group(health_values, "drinking_water", order = "Ascending",
+# rank_and_nb_group(filter(health_data_fips, year == 2017), "drinking_water", order = "Ascending",
 #                   plot_title = "Drinking Water", 
 #                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 # showtext.end()
@@ -330,7 +425,7 @@ dev.off()
 
 jpeg("health_pe_severe_housing_problems.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "severe_housing_problems", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "severe_housing_problems", order = "Ascending",
                   plot_title = "Severe Housing Problems", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -338,7 +433,7 @@ dev.off()
 
 jpeg("health_pe_severe_housing_problems.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "severe_housing_problems", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "severe_housing_problems", order = "Ascending",
                   plot_title = "Severe Housing Problems", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -346,7 +441,7 @@ dev.off()
 
 jpeg("health_pe_driving_alone_to_work.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "driving_alone_to_work", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "driving_alone_to_work", order = "Ascending",
                   plot_title = "Driving Alone to Work", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -354,15 +449,30 @@ dev.off()
 
 jpeg("health_pe_long_commute.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(health_values, "long_commute", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), "long_commute", order = "Ascending",
                   plot_title = "Long Commute",
                   y_title = "Percent commuting more than 30 minutes",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
 dev.off()
-
-
-
-
 ```
 
+
+```{r}
+setwd("~/Desktop/glp_website/Images/Health_Images")
+
+jpeg("health_social_support_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(
+  as.data.frame(health_data_fips),
+  var = 'ss_est_per_10000',
+  rollmean = 1,
+  plot_title = "Social Support",
+  y_title = "Membership Associations per 10,000 residents",
+  caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census",
+  xmin = 2005,
+  xmax = 2015
+  )
+showtext.end()
+dev.off()
+```
