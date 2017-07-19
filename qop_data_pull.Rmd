@@ -730,11 +730,69 @@ v_data%<>%dplyr::rename(year = Year)
 #Create MSA Data
 qp_data_msa <- v_data
 ```
+Creating Map Data
+```{r}
+
+neighborhoods <- read_csv("~/Desktop/glp_website/map data/census tract neighborhoods.csv",col_types = cols(Id2 = col_character()))
+
+mpi_data_maps <- left_join(mpi_data, neighborhoods, by = c("Id2"))
+mpi_data_maps %<>% filter(FIPS == "21111")%>%
+  select(-population)
+```
+
+```{r}
+#White Data
+white_dat <- read_csv("input data/qp_input_data/ACS_14_5YR_B02001_with_ann.csv", skip = 1)
+white_dat %<>% select(Id, Id2, population = `Estimate; Total:`, 
+                      white_pop = `Estimate; Total: - White alone`)%>%
+  mutate(pct_white = white_pop/population)
+
+FIPS = substr(white_dat$Id2, 1,5)
+FIPS = data.frame(FIPS)
+white_dat = bind_cols(white_dat, FIPS)
+white_dat = filter(white_dat, FIPS == "21111" & population > 0 ) #Removes the airport
+
+total <- white_dat%>%
+  group_by(FIPS)%>%
+  summarize(total_pop = sum(population), 
+            total_white = sum(white_pop))%>%
+  mutate(total_white_pct = total_white/total_pop)
+
+
+white_dat$total_white_pct = 0.7317378
+
+#Computing the "Difference Score"
+white_dat %<>% mutate(dif_score = abs(pct_white - total_white_pct))%>%
+  select(-population)
+
+#Rescaling
+white_dat$pct_white = white_dat$pct_white*100
+white_dat$dif_score = white_dat$dif_score*100
+
+map_data <- left_join(mpi_data_maps, white_dat, by = c("Id2", "FIPS"))
+```
+
+```{r}
+#ACS Data Analysis
+med_inc <- read_csv(
+  "input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv",
+  skip = 1,
+  col_types = cols(Id2 = col_character(),
+  Id = col_character())
+  )
+
+med_inc %<>% select(Id, Id2, median_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)
+
+map_data <- map_data %>%
+  left_join(., med_inc, by = c("Id2", "Id"))
+```
+
 
 Output Data
 ```{r}
 write_csv(qp_data_fips, "~/Desktop/glp_website/output data/qp_data_fips.csv")
 write_csv(qp_data_msa, "~/Desktop/glp_website/output data/qp_data_msa.csv")
+write_csv(map_data, "~/Desktop/glp_website/map data/qp_map_data.csv")
 ```
 
 To be continued...

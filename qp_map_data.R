@@ -109,15 +109,10 @@ setwd("~/Desktop/glp_website")
 med_inc <- read_csv("ACS_15_5YR_B19013_with_ann.csv", skip = 1,
                     col_types = cols(Id2 = col_character(),
                                      Id = col_character()))
-# unemp <- read_csv("ACS_15_5YR_B23025_with_ann.csv", skip = 1,
-#                   col_types = cols(Id2 = col_character(),
-#                                    Id = col_character()))
+
 
 
 med_inc %<>% select(Id, Id2, median_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)
-# unemp %<>% select(Id, Id2, pop = `Estimate; In labor force: - Civilian labor force:`, 
-#                   unemp = `Estimate; In labor force: - Civilian labor force: - Unemployed`)%>%
-#   transmute(unemp_pct = unemp/pop, Id, Id2)
 
 map_data <- map_data%>%
   left_join(., med_inc, by = c("Id2", "Id"))

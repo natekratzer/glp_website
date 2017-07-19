@@ -17,6 +17,10 @@ library(reshape2)
 library(classInt)
 library(ggthemes)
 library(tidyverse)
+library(rgdal)
+library(leaflet)
+library(RColorBrewer)
+library(htmlwidgets)
 ```
 
 Reading in data
@@ -182,6 +186,79 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
 }
 
 
+make_map <- function(var, name, order = "Descending", units = "Percent", col_palette = "RdYlGn"){
+  map_jc@data$var <- map_jc@data[[var]]
+  if(units == "Percent"){
+    map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2),"%", sep = "")
+  }
+  if(units == "Dollars"){
+    map_jc@data$l_line3 <- paste(name, ": ","$", signif(map_jc@data$var, 3), sep = "")
+  }
+  if(units == "none"){
+  map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2), sep = "")
+}
+labels <- sprintf(
+  "%s<br/>%s<br/>%s",
+  map_jc@data$l_line1, map_jc@data$l_line2, map_jc@data$l_line3
+) %>% lapply(htmltools::HTML)
+
+
+if(order == "Ascending"){
+pal <- rev(brewer.pal(11, col_palette))
+}
+
+if(order == "Descending"){
+pal <- brewer.pal(11, col_palette)
+}
+
+pal <- colorNumeric(
+  palette = pal,
+  domain = map_jc@data$var
+)
+
+if(units == "Percent") {
+  title_text <- paste(name, "(%)", sep = ' ')
+}
+if(units == "Dollars") {
+  title_text <- paste(name, "($)", sep = ' ')
+}
+if(units == "none"){
+  title_text <- name
+}
+
+m <- leaflet(map_jc) %>%
+  addTiles() %>%
+  addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0.5,
+              fillColor = ~pal(var),
+              label = labels,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto"))%>%
+  addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
+            position = "bottomright")
+
+m
+}
+```
+
+Adding Map Data
+```{r}
+setwd("~/Desktop/glp_website/map data")
+map_data = read_csv("jobs_map_data.csv")
+
+map_data$unemp_pct = map_data$unemp_pct*100
+
+map_jc = readOGR("JC Tracts", layer = "JC Tracts",
+                 GDAL1_integer64_policy = TRUE)
+
+map_jc@data<-full_join(map_jc@data, map_data, by = c('GEO_ID' = 'Id'))
+
+map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+
+map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 ```
 
 Trendline Graphs
@@ -189,7 +266,7 @@ Trendline Graphs
 font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
 font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
 
-setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Jobs Images")
 
 
 ##trendlines
@@ -268,7 +345,7 @@ dat_14 <- dat %>% filter(year == 2014)
 font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
 font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
 
-setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Jobs Images")
 
 jpeg("jobs_earnings_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
@@ -322,69 +399,28 @@ Mapping
 Reading in data for mapping
 ```{r}
 
-jobs_map_data
-map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
-                 GDAL1_integer64_policy = TRUE)
-
-map_jc@data<-full_join(map_jc@data, jobs_map_data, by = c('GEO_ID' = 'Id'))
-
-map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
-
-map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
-map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
+# jobs_map_data
+# map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
+#                  GDAL1_integer64_policy = TRUE)
+# 
+# map_jc@data<-full_join(map_jc@data, jobs_map_data, by = c('GEO_ID' = 'Id'))
+# 
+# map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+# 
+# map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+# map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 
 
 ```
 
-Defining a function for mapping
-```{r}
-make_map <- function(var, name, order = "Descending"){
-  map_jc@data$var <- map_jc@data[[var]]
-  map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 0), "%", sep = "")
-
-labels <- sprintf(
-  "%s<br/>%s<br/>%s",
-  map_jc@data$l_line1, map_jc@data$l_line2, map_jc@data$l_line3
-) %>% lapply(htmltools::HTML)
-
-
-if(order == "Ascending"){
-pal <- rev(brewer.pal(11, "RdYlGn"))
-}
-
-if(order == "Descending"){
-pal <- brewer.pal(11, "RdYlGn")
-}
-
-pal <- colorNumeric(
-  palette = pal,
-  domain = map_jc@data$var
-)
-
-title_text <- paste(name, "(%)")
-
-m <- leaflet(map_jc) %>%
-  addTiles() %>%
-  addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
-              opacity = 1.0, fillOpacity = 0.5,
-              fillColor = ~pal(var),
-              label = labels,
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "15px",
-                direction = "auto"))%>%
-  addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
-            position = "bottomright")
-
-m
-}
-```
 
 Making and saving maps
 ```{r}
-setwd("C:/Users/natek/Documents/images")
-m <- make_map("child_per", "Child Poverty", order = "Ascending")
-saveWidget(m, "edu_child_pov_map.html")
+setwd("~/Desktop/glp_website/Images/Maps")
+# m <- make_map("child_per", "Child Poverty", order = "Ascending")
+# saveWidget(m, "edu_child_pov_map.html")
 
+m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "BuPu")
+saveWidget(m, "jobs_unemp_map.html")
 ```
 

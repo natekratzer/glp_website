@@ -376,13 +376,15 @@ rank_and_nb_group_mig<-function(df, var, order="Descending", peers="Current",
               x = "", caption = caption_text)
   p
 }
-
-make_map <- function(var, name, order = "Descending", percent = TRUE, col_palette = "RdYlBu"){
+make_map <- function(var, name, order = "Descending", units = "Percent", col_palette = "RdYlGn"){
   map_jc@data$var <- map_jc@data[[var]]
-  if(percent == TRUE){
+  if(units == "Percent"){
     map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2),"%", sep = "")
   }
-  else{
+  if(units == "Dollars"){
+    map_jc@data$l_line3 <- paste(name, ": ","$", signif(map_jc@data$var, 3), sep = "")
+  }
+  if(units == "none"){
   map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2), sep = "")
 }
 labels <- sprintf(
@@ -404,11 +406,13 @@ pal <- colorNumeric(
   domain = map_jc@data$var
 )
 
-if(percent == TRUE) {
-  title_text <- paste(name, "%", sep = ' ')
+if(units == "Percent") {
+  title_text <- paste(name, "(%)", sep = ' ')
 }
-
-else{
+if(units == "Dollars") {
+  title_text <- paste(name, "($)", sep = ' ')
+}
+if(units == "none"){
   title_text <- name
 }
 
@@ -442,7 +446,7 @@ Adding mapping data
 ```{r}
 setwd("~/Desktop/glp_website/map data")
 map_data = read_csv("qp_map_data.csv")
-map_data$z_overall = -1*map_data$z_overall
+map_data$mpi = -1*map_data$mpi
 
 map_jc = readOGR("JC Tracts", layer = "JC Tracts",
                  GDAL1_integer64_policy = TRUE)
@@ -893,18 +897,21 @@ dev.off()
 ```{r}
 setwd("~/Desktop/glp_website/Images/Maps")
 
-m <- make_map("z_overall", "MPI", order = "Descending", percent = FALSE)
-saveWidget(m, "mpi_map.html")
+m <- make_map("mpi", "MPI", order = "Descending", units = "none")
+saveWidget(m, "qp_mpi_map.html")
 
 m <- make_map("pct_white", "White Population", order = "Descending",
               col_palette = "BuPu")
-saveWidget(m, "pct_white_map_descending.html")
+saveWidget(m, "qp_pct_white_map_descending.html")
 
 
 m <- make_map("pct_white", "White Population", order = "Ascending",
               col_palette = "BuPu")
-saveWidget(m, "pct_white_map_ascending.html")
+saveWidget(m, "qp_pct_white_map_ascending.html")
 
 m <- make_map("dif_score", "Percent Difference from City Average", order = "Descending", col_palette = "Blues")
-saveWidget(m, "dif_score_map.html")
+saveWidget(m, "qp_dif_score_map.html")
+
+m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars")
+saveWidget(m, "qp_median_income_map.html")
 ```
