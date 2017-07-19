@@ -494,12 +494,12 @@ rank_and_nb_group(filter(health_data_fips, year == 2017), "driving_alone_to_work
 showtext.end()
 dev.off()
 
-jpeg("health_pe_long_commute.jpg", 900, 600, res = 100)
+jpeg("health_pe_commute_time_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), "long_commute", order = "Ascending",
-                  plot_title = "Long Commute",
-                  y_title = "Percent commuting more than 30 minutes",
-                  caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+rank_and_nb_group(filter(health_data_fips, year == 2015), "commute_time", order = "Ascending",
+                  plot_title = "Commute Time, 2015",
+                  y_title = "Commute Time (minutes)",
+                  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED")
 showtext.end()
 dev.off()
 
@@ -554,6 +554,21 @@ graph_trendline(
   y_title = "Membership Associations per 10,000 residents",
   caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census",
   xmin = 2005,
+  xmax = 2015
+  )
+showtext.end()
+dev.off()
+
+jpeg("health_pe_commute_time_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(
+  as.data.frame(health_data_fips),
+  var = 'commute_time',
+  rollmean = 1,
+  plot_title = "Commute Time",
+  y_title = "Commute Time (minutes)",
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+  xmin = 2009,
   xmax = 2015
   )
 showtext.end()
