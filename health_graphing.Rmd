@@ -30,7 +30,7 @@ The code for the rankings graphs
 ```{r rankings}
 rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
                             plot_title="", y_title = "Percent", caption_text = "",
-                            sigfig = 3, num_dec = 1){
+                            sigfig = 3, num_dec = 1, text = TRUE, h_line = FALSE){
   df$var <- df[[var]]
   if(peers=="Current"){
     df<-subset(df,current ==1)
@@ -55,7 +55,7 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
   d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(signif(d.graph$var, digits = sigfig), nsmall = num_dec)
+  d.graph$round <- format(round(signif(d.graph$var, digits = sigfig), digits = num_dec))
   d.graph$textfont <- "Museo Sans 300"
   d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
   d.graph$linecolor <- "white"
@@ -81,7 +81,18 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
                  axis.text.x = element_blank(),
                  plot.caption = element_text(),
                  plot.subtitle = element_text(hjust = 0.5))
-  p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
+  if (text == TRUE) {
+    p <-
+    p + geom_text(
+    aes(label = round),
+    hjust = 1.1,
+    size = 5,
+    family = "Museo Sans 300"
+    )
+  }
+  if (h_line == TRUE){
+    p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1)
+  }
   p <- p+labs(title = plot_title, y= y_title,
               x = "", caption = caption_text)
   p
@@ -363,7 +374,7 @@ dev.off()
 
 jpeg("health_cc_primary_care_physicians.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), "primary_care_physicians", order = "Ascending", sigfig = 3, num_dec = 0,
+rank_and_nb_group(filter(health_data_fips, year == 2017), "primary_care_physicians", order = "Descending", sigfig = 3, num_dec = 0,
                   plot_title = "Primary Care Physicians", 
                   y_title = "Per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -489,6 +500,42 @@ rank_and_nb_group(filter(health_data_fips, year == 2017), "long_commute", order 
                   plot_title = "Long Commute",
                   y_title = "Percent commuting more than 30 minutes",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
+showtext.end()
+dev.off()
+
+jpeg("health_outcomes_overall.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(health_data_fips, year == 2017), "outcomes", plot_title = "Health Outcomes, 2017", caption_text = "\n Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
+showtext.end()
+dev.off()
+
+jpeg("health_behaviors_overall.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(health_data_fips, year == 2017), "health_behaviors", plot_title = "Health Behaviors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
+showtext.end()
+dev.off()
+
+jpeg("health_cc_overall.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(health_data_fips, year == 2017), "clinical_care", plot_title = "Clinical Care, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
+showtext.end()
+dev.off()
+
+jpeg("health_sec_overall.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(health_data_fips, year == 2017), "social_and_economic", plot_title = "Social and Economic Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
+showtext.end()
+dev.off()
+
+jpeg("health_pe_overall.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(health_data_fips, year == 2017), "physical_environment", plot_title = "Physical Environment, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
+showtext.end()
+dev.off()
+
+jpeg("health_factors_overall.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(health_data_fips, year == 2017), "factors", plot_title = "Combined Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
 showtext.end()
 dev.off()
 ```

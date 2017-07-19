@@ -386,7 +386,5 @@ setwd("C:/Users/natek/Documents/images")
 m <- make_map("child_per", "Child Poverty", order = "Ascending")
 saveWidget(m, "edu_child_pov_map.html")
 
-```{r}
-
 ```
 

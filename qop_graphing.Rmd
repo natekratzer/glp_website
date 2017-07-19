@@ -10,6 +10,10 @@ library(ggthemes)
 library(reshape2)
 library(showtext)
 library(classInt)
+library(rgdal)
+library(leaflet)
+library(RColorBrewer)
+library(htmlwidgets)
 ```
 
 Necessary Functions
@@ -41,7 +45,7 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
   d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(signif(d.graph$var, digits = sigfig), nsmall = num_dec)
+  d.graph$round <- format(round(signif(d.graph$var, digits = sigfig), digits = num_dec))
   d.graph$textfont <- "Museo Sans 300"
   d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
   d.graph$linecolor <- "white"
@@ -372,9 +376,60 @@ rank_and_nb_group_mig<-function(df, var, order="Descending", peers="Current",
               x = "", caption = caption_text)
   p
 }
+
+make_map <- function(var, name, order = "Descending", percent = TRUE, col_palette = "RdYlBu"){
+  map_jc@data$var <- map_jc@data[[var]]
+  if(percent == TRUE){
+    map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2),"%", sep = "")
+  }
+  else{
+  map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2), sep = "")
+}
+labels <- sprintf(
+  "%s<br/>%s<br/>%s",
+  map_jc@data$l_line1, map_jc@data$l_line2, map_jc@data$l_line3
+) %>% lapply(htmltools::HTML)
+
+
+if(order == "Ascending"){
+pal <- rev(brewer.pal(11, col_palette))
+}
+
+if(order == "Descending"){
+pal <- brewer.pal(11, col_palette)
+}
+
+pal <- colorNumeric(
+  palette = pal,
+  domain = map_jc@data$var
+)
+
+if(percent == TRUE) {
+  title_text <- paste(name, "%", sep = ' ')
+}
+
+else{
+  title_text <- name
+}
+
+m <- leaflet(map_jc) %>%
+  addTiles() %>%
+  addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0.5,
+              fillColor = ~pal(var),
+              label = labels,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto"))%>%
+  addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
+            position = "bottomright")
+
+m
+}
 ```
 
-Read in data and set working directory
+Read in ranking and trend line data
 ```{r}
 setwd("~/Desktop/glp_website/output data")
 qp_data_fips<-read_csv("qp_data_fips.csv")
@@ -382,6 +437,24 @@ qp_data_msa<-read_csv("qp_data_msa.csv")
 font.add("Museo Sans 300", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300.otf")
 font.add("Museo Sans 300 Italic", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300_Italic.otf")
 ```
+
+Adding mapping data
+```{r}
+setwd("~/Desktop/glp_website/map data")
+map_data = read_csv("qp_map_data.csv")
+map_data$z_overall = -1*map_data$z_overall
+
+map_jc = readOGR("JC Tracts", layer = "JC Tracts",
+                 GDAL1_integer64_policy = TRUE)
+
+map_jc@data<-full_join(map_jc@data, map_data, by = c('GEO_ID' = 'Id'))
+
+map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+
+map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
+```
+
 
 Graphing Ranking Graphs
 ```{r}
@@ -817,7 +890,21 @@ dev.off()
 ```
 
 
+```{r}
+setwd("~/Desktop/glp_website/Images/Maps")
+
+m <- make_map("z_overall", "MPI", order = "Descending", percent = FALSE)
+saveWidget(m, "mpi_map.html")
+
+m <- make_map("pct_white", "White Population", order = "Descending",
+              col_palette = "BuPu")
+saveWidget(m, "pct_white_map_descending.html")
 
 
+m <- make_map("pct_white", "White Population", order = "Ascending",
+              col_palette = "BuPu")
+saveWidget(m, "pct_white_map_ascending.html")
 
-
+m <- make_map("dif_score", "Percent Difference from City Average", order = "Descending", col_palette = "Blues")
+saveWidget(m, "dif_score_map.html")
+```
