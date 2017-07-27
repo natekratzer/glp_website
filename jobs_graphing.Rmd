@@ -17,186 +17,66 @@ library(reshape2)
 library(classInt)
 library(ggthemes)
 library(tidyverse)
+library(rgdal)
+library(leaflet)
+library(RColorBrewer)
+library(htmlwidgets)
 ```
 
 Reading in data
 ```{r}
-dat <- read_csv("output data/jobs_data.csv")
+jobs_data_fips <- read_csv("output data/jobs_data_fips.csv")
+jobs_data_msa <- read_csv("output data/jobs_data_msa.csv")
 ```
 
 
-Defining graphing functions
+Reading in graphing functions and font
 ```{r}
-rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-                            plot_title="", y_title = "Percent", caption_text = ""){
-  df$var <- df[[var]]
-  if(peers=="Current"){
-    df<-subset(df,current_peer ==1)
-  }
-  if(peers=="Baseline"){
-    df<-subset(df,baseline_peer ==1)
-  }
-  if(order=="Descending"){
-    d.order<-df[order(-df$var),]
-  }
-  if(order=="Ascending"){
-    d.order<-df[order(df$var),]
-  }
-  ranks<-1:length(df$var)
-  d.rank<-cbind(d.order,ranks)
-  names<-paste(d.rank$ranks,".",sep="")
-  names<-paste(names,d.rank$city)
-  d.graph<-cbind(d.rank,names)
-  
-  breaks <- classIntervals(d.graph$var,3,style="jenks")
-  d.graph$color <- NA
-  d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
-  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
-  d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(round(d.graph$var,1),nsmall=1)
-  d.graph$textfont <- "Museo Sans 300"
-  d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans Italic"
-  d.graph$linecolor <- "white"
-  d.graph$linecolor[d.graph$city == "Louisville"] <- "#00a9b7"
-  d.graph$textcolor <- "black"
-  d.graph$textcolor[d.graph$city == "Louisville"] <- "#00a9b7"
-  
-  
-  p <- ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
-                             y=var,fill=factor(color)))+guides(fill=FALSE)
-  p <- p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
-  if(order=="Ascending"){
-    p <- p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
-  }
-  if(order=="Descending"){
-    p <- p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
-  }
-  p <- p + theme(text = element_text(family = "Museo Sans 300"),
-                 plot.title = element_text(size = 18, hjust = 0.5),
-                 axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
-                                          size=12, color = rev(d.graph$textcolor)),
-                 axis.ticks=element_blank(),
-                 axis.text.x = element_blank(),
-                 plot.caption = element_text(),
-                 plot.subtitle = element_text(hjust = 0.5))
-  p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
-  p <- p+labs(title = plot_title, y= y_title,
-            x = "", caption = caption_text)
-  p
-}
 
-##rolling mean functions for trendlines
-rollmean3 <- function(x){
-  n <- length(x)
-  y <- NA
-  for(i in 1:n){
-    y[i] <- mean(c(x[i-1],x[i],x[i+1]))
-    y[1] <- NA
-  }
-  y
-}
+if(!(
+  exists("rank_and_nb_group", mode = "function") &
+  exists("graph_trendline", mode = "function") &
+  exists("graph_trendline_msa", mode = "function") &
+  exists("make_map", mode = "function") &
+  exists("rank_and_nb_group_mig", mode = "function") &
+  exists("rollmean3", mode = "function") &
+  exists("rollmean5", mode = "function")
+  )) {
+  source("graphing_functions.R")
+} 
 
-rollmean5 <- function(x){
-  n <- length(x)
-  y <- NA
-  for(i in 1:n){
-    y[i] <- mean(c(x[i-2],x[i-1],x[i],x[i+1],x[i+2]))
-    y[1] <- NA
-    y[2] <- NA
-  }
-  y
-}
+font.add("Museo Sans 300", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300.otf")
+font.add("Museo Sans 300 Italic", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300_Italic.otf")
+```
 
-##
-graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
-                          caption_text = "", subtitle_text = "", rollmean = 3,
-                          break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
-  df$var <- df[[var]]
-  df = df %>% filter(year != 2016)
-  
-  if(peers=="Current"){
-    df.wol <- subset(df,current_peer == 1 & FIPS!=21111)
-  }
-  
-  if(peers=="Baseline"){
-    df.wol <- subset(df,baseline_peer == 1 & FIPS!=21111)
-  }
-  
-  output_wol = df %>% 
-    group_by(year) %>%
-    summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
-              mean = mean(var),
-              third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
-  
-  lville = df %>% 
-    filter(FIPS == 21111) %>% 
-    select(var, year)
-  
-  dat = full_join(lville, output_wol, by = "year")
-  
-  if (rollmean == 3){
-    dat$var = rollmean3(dat$var)
-    dat$first_quarter = rollmean3(dat$first_quarter)
-    dat$mean = rollmean3(dat$mean)
-    dat$third_quarter = rollmean3(dat$third_quarter)
-    dat <- dat %>% filter(year > 2005 & year < 2015)
-  }
-  
-  if (rollmean == 5){
-    dat$var = rollmean5(dat$var)
-    dat$first_quarter = rollmean5(dat$first_quarter)
-    dat$mean = rollmean5(dat$mean)
-    dat$third_quarter = rollmean5(dat$third_quarter)
-    dat = dat %>% filter(year > 2006 & year < 2014)
-  }
-  
-  data_long <- melt(dat, id="year")
-  data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
-  
-  p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
-    geom_point(size = 1.8)+
-    geom_line(size = 1)
-  p <- p + theme_bw()
-  midpoint <- (max(data_long$value)+min(data_long$value))/2
-  border_space <- .1 * midpoint
-  p <- p + ylim(c(min(data_long$value) - border_space, max(data_long$value + border_space)))
-  p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
-  cPalette <- c("#00a9b7","grey50", "black","grey50")
-  p<-p+scale_colour_manual(values=cPalette,
-                           labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))+
-    scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
-                          labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))
-  p<-p+theme(text = element_text(family = "Museo Sans 300"),
-             legend.title=element_blank(),
-             legend.position = "top",
-             axis.text=element_text(size=12, family = "Museo Sans 300"),
-             axis.ticks.y=element_blank(),
-             plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
-                                     margin=margin(b=10,unit="pt")),
-             legend.text=element_text(size=12, family = "Museo Sans 300"),
-             plot.caption = element_text(family = "Museo Sans 300"),
-             plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
-  p<-p+labs(title=plot_title,x="Year",
-            y=y_title, caption = caption_text, subtitle = subtitle_text)
-  p
-}
+Adding Map Data
+```{r}
+setwd("~/Desktop/glp_website/map data")
+map_data = read_csv("jobs_map_data.csv")
 
+map_data$unemp_pct = map_data$unemp_pct*100
 
+map_jc = readOGR("JC Tracts", layer = "JC Tracts",
+                 GDAL1_integer64_policy = TRUE)
+
+map_jc@data<-full_join(map_jc@data, map_data, by = c('GEO_ID' = 'Id'))
+
+map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+
+map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 ```
 
 Trendline Graphs
 ```{r}
-font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
-font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
-
-setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Jobs Images")
 
 
 ##trendlines
 
 jpeg("jobs_earnings_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(dat, "median_earnings",
+graph_trendline(jobs_data_fips, "median_earnings",
                 plot_title = "Median Earnings",
                 subtitle = "",
                 rollmean = 1,
@@ -207,9 +87,9 @@ showtext.end()
 dev.off()
 
 
-jpeg("qop_income_inequality_trendline.jpg", 900, 600, res = 100)
+jpeg("jobs_income_inequality_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(dat, "income_inequality",
+graph_trendline(jobs_data_fips, "income_inequality",
                 plot_title = "Income Inequality",
                 subtitle = "Mean income of top quintile divided by mean income of bottom quintile",
                 rollmean = 1,
@@ -221,7 +101,7 @@ dev.off()
 
 jpeg("jobs_median_household_income_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(dat, "median_household_income",
+graph_trendline(jobs_data_fips, "median_household_income",
                 plot_title = "Median Household Income",
                 subtitle = "Annual",
                 rollmean = 1,
@@ -234,7 +114,7 @@ dev.off()
 
 jpeg("jobs_personal_income_per_cap_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(dat, "personal_income_per_cap",
+graph_trendline(jobs_data_fips, "personal_income_per_cap",
                 plot_title = "Per Capita Personal Income",
                 subtitle = "Annual",
                 rollmean = 1,
@@ -245,9 +125,9 @@ showtext.end()
 dev.off()
 
 
-jpeg("jobs__unemployment_trendline.jpg", 900, 600, res = 100)
+jpeg("jobs_unemployment_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
-graph_trendline(dat, "unemployment",
+graph_trendline(jobs_data_fips, "unemployment",
                 plot_title = "Unemployment",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 subtitle = "Annual",
@@ -257,18 +137,115 @@ graph_trendline(dat, "unemployment",
 showtext.end()
 dev.off()
 
+jpeg("jobs_estabs_entry_rate_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'estabs_entry_rate',
+                       plot_title = "Establishment Entry Rate",
+                       subtitle = "3-year rolling average",
+                       rollmean = 3,
+                       caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                       break_settings = seq(2004,2014, 2),
+                       xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_creation_rate_births_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'job_creation_rate_births',
+                    plot_title = "Job Creation Birth Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                    break_settings = seq(2004,2014, 2),
+                    xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_destruction_rate_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'job_destruction_rate',
+                    plot_title = "Job Destruction Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                    break_settings = seq(2004,2014, 2),
+                    xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_destruction_rate_deaths_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'job_destruction_rate_deaths',
+                    plot_title = "Job Destruction Death Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                    break_settings = seq(2004,2014, 2),
+                    xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+jpeg("jobs_estabs_exit_rate_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'estabs_exit_rate',
+                    plot_title = "Establishment Exit Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                    break_settings = seq(2004,2014, 2),
+                    xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_creation_rate_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'job_creation_rate',
+                    plot_title = "Job Creation Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                    break_settings = seq(2004,2014, 2),
+                    xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+jpeg("jobs_net_est_entry_rate_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'estabs_entry_rate_minus_exit',
+                    plot_title = "Net Establishment Entry Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                    break_settings = seq(2004,2014, 2),
+                    xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+jpeg("jobs_net_job_creation_rate_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_msa(jobs_data_msa, 'net_job_creation_rate',
+                    plot_title = "Net Job Creation Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
+                    break_settings = seq(2004,2014, 2),
+                    xmin = 2004, xmax = 2013)
+showtext.end()
+dev.off()
+
+
 ```
 
 Rankings graphs
 
 ```{r}
-dat_15 <- dat %>% filter(year == 2015)
-dat_14 <- dat %>% filter(year == 2014)
+dat_15 <- jobs_data_fips %>% filter(year == 2015)
+dat_14 <- jobs_data_fips %>% filter(year == 2014)
 
 font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
 font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
 
-setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Jobs Images")
 
 jpeg("jobs_earnings_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
@@ -315,6 +292,87 @@ rank_and_nb_group(dat_15, "unemployment", order = "Ascending",
 showtext.end()
 dev.off()
 
+jpeg("jobs_estabs_entry_rate_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'estabs_entry_rate',
+                  order = "Descending",
+                  plot_title = "Establishment Entry Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_estabs_exit_rate_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'estabs_exit_rate',
+                  order = "Ascending",
+                  plot_title = "Establishment Exit Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_creation_rate_births_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'job_creation_rate_births',
+                  order = "Descending",
+                  plot_title = "Jobs Creation Birth Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_creation_rate_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'job_creation_rate',
+                  order = "Descending",
+                  plot_title = "Job Creation Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_destruction_rate_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'job_destruction_rate',
+                  order = "Ascending",
+                  plot_title = "Job Destruction Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_destruction_rate_deaths_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'job_destruction_rate_deaths',
+                  order = "Ascending",
+                  plot_title = "Job Destruction Death Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_job_creation_rate_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'job_creation_rate',
+                  order = "Descending",
+                  plot_title = "Job Creation Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_net_est_entry_rate_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'estabs_entry_rate_minus_exit',
+                  order = "Descending",
+                  plot_title = "Net Establishment Entry Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
+jpeg("jobs_net_job_creation_rate_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 'net_job_creation_rate',
+                  order = "Descending",
+                  plot_title = "Net Job Creation Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS")
+showtext.end()
+dev.off()
+
 ```
 
 
@@ -322,71 +380,28 @@ Mapping
 Reading in data for mapping
 ```{r}
 
-jobs_map_data
-map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
-                 GDAL1_integer64_policy = TRUE)
-
-map_jc@data<-full_join(map_jc@data, jobs_map_data, by = c('GEO_ID' = 'Id'))
-
-map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
-
-map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
-map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
+# jobs_map_data
+# map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
+#                  GDAL1_integer64_policy = TRUE)
+# 
+# map_jc@data<-full_join(map_jc@data, jobs_map_data, by = c('GEO_ID' = 'Id'))
+# 
+# map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+# 
+# map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+# map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 
 
 ```
 
-Defining a function for mapping
-```{r}
-make_map <- function(var, name, order = "Descending"){
-  map_jc@data$var <- map_jc@data[[var]]
-  map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 0), "%", sep = "")
-
-labels <- sprintf(
-  "%s<br/>%s<br/>%s",
-  map_jc@data$l_line1, map_jc@data$l_line2, map_jc@data$l_line3
-) %>% lapply(htmltools::HTML)
-
-
-if(order == "Ascending"){
-pal <- rev(brewer.pal(11, "RdYlGn"))
-}
-
-if(order == "Descending"){
-pal <- brewer.pal(11, "RdYlGn")
-}
-
-pal <- colorNumeric(
-  palette = pal,
-  domain = map_jc@data$var
-)
-
-title_text <- paste(name, "(%)")
-
-m <- leaflet(map_jc) %>%
-  addTiles() %>%
-  addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
-              opacity = 1.0, fillOpacity = 0.5,
-              fillColor = ~pal(var),
-              label = labels,
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "15px",
-                direction = "auto"))%>%
-  addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
-            position = "bottomright")
-
-m
-}
-```
 
 Making and saving maps
 ```{r}
-setwd("C:/Users/natek/Documents/images")
-m <- make_map("child_per", "Child Poverty", order = "Ascending")
-saveWidget(m, "edu_child_pov_map.html")
+setwd("~/Desktop/glp_website/Images/Maps")
+# m <- make_map("child_per", "Child Poverty", order = "Ascending")
+# saveWidget(m, "edu_child_pov_map.html")
 
-```{r}
-
+m <- make_map("unemp_pct", "Unemployment", order = "Ascending")
+saveWidget(m, "jobs_unemp_map.html")
 ```
 
