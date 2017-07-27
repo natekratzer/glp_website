@@ -239,7 +239,7 @@ Taking Z scores for everything. I wrote a simple function to take z-scores and t
 ```{r}
 chr_z <- chr_named
 
-chr_z[,2:34] <- apply(chr_z[,2:34], 2, norm_z) 
+chr_z[,2:35] <- apply(chr_z[,2:35], 2, norm_z) 
 ```
 
 Creating overall rankings for outcomes and each of the four health factors based on weighted average.

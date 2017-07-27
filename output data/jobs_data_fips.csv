@@ -1,4 +1,4 @@
-city,year,FIPS,median_earnings,income_inequality,median_household_income,personal_income_per_cap,unemployment,weights,county,state,display_name,current_peer,baseline_peer,population
+city,year,FIPS,median_earnings,income_inequality,median_household_income,personal_income_per_cap,unemployment,weights,county,state,display_name,current,baseline,population
 Charlotte,2005,37119,29491,NA,50484,44291,5,1,Mecklenberg,NC,CHA,1,1,780618
 Charlotte,2006,37119,29646,NA,52217,49774,4.5,1,Mecklenberg,NC,CHA,1,1,827445
 Charlotte,2007,37119,31973,NA,56114,56065,4.5,1,Mecklenberg,NC,CHA,1,1,867067

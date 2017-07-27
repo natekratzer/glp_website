@@ -662,6 +662,179 @@ cols(
 )
 See spec(...) for full column specifications.</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2NfZGF0YV81XzYgJTw+JSBzZWxlY3QobmFpY3MsIEZJUFMsIHllYXIsIGJhc2VsaW5lLCBjdXJyZW50LCBlc3QpXG5zY19kYXRhXzdfMTQgPC0gY2JwX3JlYWQoXCJpbnB1dCBkYXRhL3FwX2lucHV0X2RhdGEvU29jaWFsIFN1cHBvcnQgN18xNFwiLCBzdGFydGluZ195ZWFyID0gMjAwNylcbmBgYCJ9 -->
+<pre class="r"><code>sc_data_5_6 %&lt;&gt;% select(naics, FIPS, year, baseline, current, est)
+sc_data_7_14 &lt;- cbp_read(&quot;input data/qp_input_data/Social Support 7_14&quot;, starting_year = 2007)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTXVsdGlwbGUgZmlsZXMgaW4gemlwOiByZWFkaW5nICdjYnAwN2NvLnR4dCdcblBhcnNlZCB3aXRoIGNvbHVtbiBzcGVjaWZpY2F0aW9uOlxuY29scyhcbiAgLmRlZmF1bHQgPSBjb2xfaW50ZWdlcigpLFxuICBmaXBzdGF0ZSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZmlwc2N0eSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgbmFpY3MgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGVtcGZsYWcgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGVtcF9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgcXAxX25mID0gY29sX2NoYXJhY3RlcigpLFxuICBhcF9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgY2VuY3R5ID0gY29sX2NoYXJhY3RlcigpXG4pXG5TZWUgc3BlYyguLi4pIGZvciBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9ucy5cbk11bHRpcGxlIGZpbGVzIGluIHppcDogcmVhZGluZyAnY2JwMDhjby50eHQnXG5QYXJzZWQgd2l0aCBjb2x1bW4gc3BlY2lmaWNhdGlvbjpcbmNvbHMoXG4gIC5kZWZhdWx0ID0gY29sX2ludGVnZXIoKSxcbiAgZmlwc3RhdGUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGZpcHNjdHkgPSBjb2xfY2hhcmFjdGVyKCksXG4gIG5haWNzID0gY29sX2NoYXJhY3RlcigpLFxuICBlbXBmbGFnID0gY29sX2NoYXJhY3RlcigpLFxuICBlbXBfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHFwMV9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgYXBfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGNlbmN0eSA9IGNvbF9jaGFyYWN0ZXIoKVxuKVxuU2VlIHNwZWMoLi4uKSBmb3IgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbnMuXG5NdWx0aXBsZSBmaWxlcyBpbiB6aXA6IHJlYWRpbmcgJ2NicDA5Y28udHh0J1xuUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICAuZGVmYXVsdCA9IGNvbF9pbnRlZ2VyKCksXG4gIGZpcHN0YXRlID0gY29sX2NoYXJhY3RlcigpLFxuICBmaXBzY3R5ID0gY29sX2NoYXJhY3RlcigpLFxuICBuYWljcyA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZW1wZmxhZyA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZW1wX25mID0gY29sX2NoYXJhY3RlcigpLFxuICBxcDFfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGFwX25mID0gY29sX2NoYXJhY3RlcigpLFxuICBjZW5jdHkgPSBjb2xfY2hhcmFjdGVyKClcbilcblNlZSBzcGVjKC4uLikgZm9yIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb25zLlxuTXVsdGlwbGUgZmlsZXMgaW4gemlwOiByZWFkaW5nICdjYnAxMGNvLnR4dCdcblBhcnNlZCB3aXRoIGNvbHVtbiBzcGVjaWZpY2F0aW9uOlxuY29scyhcbiAgLmRlZmF1bHQgPSBjb2xfaW50ZWdlcigpLFxuICBmaXBzdGF0ZSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZmlwc2N0eSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgbmFpY3MgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGVtcGZsYWcgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGVtcF9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgcXAxX25mID0gY29sX2NoYXJhY3RlcigpLFxuICBhcF9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgY2VuY3R5ID0gY29sX2NoYXJhY3RlcigpXG4pXG5TZWUgc3BlYyguLi4pIGZvciBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9ucy5cbk11bHRpcGxlIGZpbGVzIGluIHppcDogcmVhZGluZyAnY2JwMTFjby50eHQnXG5QYXJzZWQgd2l0aCBjb2x1bW4gc3BlY2lmaWNhdGlvbjpcbmNvbHMoXG4gIC5kZWZhdWx0ID0gY29sX2ludGVnZXIoKSxcbiAgZmlwc3RhdGUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGZpcHNjdHkgPSBjb2xfY2hhcmFjdGVyKCksXG4gIG5haWNzID0gY29sX2NoYXJhY3RlcigpLFxuICBlbXBmbGFnID0gY29sX2NoYXJhY3RlcigpLFxuICBlbXBfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHFwMV9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgYXBfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGNlbmN0eSA9IGNvbF9jaGFyYWN0ZXIoKVxuKVxuU2VlIHNwZWMoLi4uKSBmb3IgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbnMuXG5NdWx0aXBsZSBmaWxlcyBpbiB6aXA6IHJlYWRpbmcgJ2NicDEyY28udHh0J1xuUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICAuZGVmYXVsdCA9IGNvbF9pbnRlZ2VyKCksXG4gIGZpcHN0YXRlID0gY29sX2NoYXJhY3RlcigpLFxuICBmaXBzY3R5ID0gY29sX2NoYXJhY3RlcigpLFxuICBuYWljcyA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZW1wZmxhZyA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZW1wX25mID0gY29sX2NoYXJhY3RlcigpLFxuICBxcDFfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGFwX25mID0gY29sX2NoYXJhY3RlcigpLFxuICBjZW5jdHkgPSBjb2xfY2hhcmFjdGVyKClcbilcblNlZSBzcGVjKC4uLikgZm9yIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb25zLlxuTXVsdGlwbGUgZmlsZXMgaW4gemlwOiByZWFkaW5nICdjYnAxM2NvLnR4dCdcblBhcnNlZCB3aXRoIGNvbHVtbiBzcGVjaWZpY2F0aW9uOlxuY29scyhcbiAgLmRlZmF1bHQgPSBjb2xfaW50ZWdlcigpLFxuICBmaXBzdGF0ZSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZmlwc2N0eSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgbmFpY3MgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGVtcGZsYWcgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGVtcF9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgcXAxX25mID0gY29sX2NoYXJhY3RlcigpLFxuICBhcF9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgY2VuY3R5ID0gY29sX2NoYXJhY3RlcigpXG4pXG5TZWUgc3BlYyguLi4pIGZvciBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9ucy5cbk11bHRpcGxlIGZpbGVzIGluIHppcDogcmVhZGluZyAnY2JwMTRjby50eHQnXG5QYXJzZWQgd2l0aCBjb2x1bW4gc3BlY2lmaWNhdGlvbjpcbmNvbHMoXG4gIC5kZWZhdWx0ID0gY29sX2ludGVnZXIoKSxcbiAgZmlwc3RhdGUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGZpcHNjdHkgPSBjb2xfY2hhcmFjdGVyKCksXG4gIG5haWNzID0gY29sX2NoYXJhY3RlcigpLFxuICBlbXBmbGFnID0gY29sX2NoYXJhY3RlcigpLFxuICBlbXBfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHFwMV9uZiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgYXBfbmYgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGNlbmN0eSA9IGNvbF9jaGFyYWN0ZXIoKVxuKVxuU2VlIHNwZWMoLi4uKSBmb3IgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbnMuXG4ifQ== -->
+<pre><code>Multiple files in zip: reading 'cbp07co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.
+Multiple files in zip: reading 'cbp08co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.
+Multiple files in zip: reading 'cbp09co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.
+Multiple files in zip: reading 'cbp10co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.
+Multiple files in zip: reading 'cbp11co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.
+Multiple files in zip: reading 'cbp12co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.
+Multiple files in zip: reading 'cbp13co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.
+Multiple files in zip: reading 'cbp14co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  fipstate = col_character(),
+  fipscty = col_character(),
+  naics = col_character(),
+  empflag = col_character(),
+  emp_nf = col_character(),
+  qp1_nf = col_character(),
+  ap_nf = col_character(),
+  cencty = col_character()
+)
+See spec(...) for full column specifications.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2NfZGF0YV83XzE0ICU8PiUgc2VsZWN0KG5haWNzLCBGSVBTLCB5ZWFyLCBiYXNlbGluZSwgY3VycmVudCwgZXN0KVxuc2NfZGF0YV8xNSA8LSByZWFkX2NzdihcImlucHV0IGRhdGEvcXBfaW5wdXRfZGF0YS9jYnAxNWNvLnR4dC56aXBcIiwgcHJvZ3Jlc3MgPSBGQUxTRSlcbmBgYCJ9 -->
+<pre class="r"><code>sc_data_7_14 %&lt;&gt;% select(naics, FIPS, year, baseline, current, est)
+sc_data_15 &lt;- read_csv(&quot;input data/qp_input_data/cbp15co.txt.zip&quot;, progress = FALSE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTXVsdGlwbGUgZmlsZXMgaW4gemlwOiByZWFkaW5nICdjYnAxNWNvLnR4dCdcblBhcnNlZCB3aXRoIGNvbHVtbiBzcGVjaWZpY2F0aW9uOlxuY29scyhcbiAgLmRlZmF1bHQgPSBjb2xfaW50ZWdlcigpLFxuICBGSVBTVEFURSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgRklQU0NUWSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgTkFJQ1MgPSBjb2xfY2hhcmFjdGVyKCksXG4gIEVNUEZMQUcgPSBjb2xfY2hhcmFjdGVyKCksXG4gIEVNUF9ORiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgUVAxX05GID0gY29sX2NoYXJhY3RlcigpLFxuICBBUF9ORiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgQ0VOQ1RZID0gY29sX2NoYXJhY3RlcigpXG4pXG5TZWUgc3BlYyguLi4pIGZvciBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9ucy5cbiJ9 -->
+<pre><code>Multiple files in zip: reading 'cbp15co.txt'
+Parsed with column specification:
+cols(
+  .default = col_integer(),
+  FIPSTATE = col_character(),
+  FIPSCTY = col_character(),
+  NAICS = col_character(),
+  EMPFLAG = col_character(),
+  EMP_NF = col_character(),
+  QP1_NF = col_character(),
+  AP_NF = col_character(),
+  CENCTY = col_character()
+)
+See spec(...) for full column specifications.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2NfZGF0YV8xNSR5ZWFyID0gMjAxNVxuc2NfZGF0YV8xNSU8PiVtdXRhdGUoRklQUyA9IHBhc3RlKEZJUFNUQVRFLCBGSVBTQ1RZLCBzZXAgPSAnJykpJT4lXG4gIHB1bGxfcGVlcnNfRklQUyguKSU+JVxuICBzZWxlY3QobmFpY3MgPSBOQUlDUywgRklQUywgeWVhciwgYmFzZWxpbmUsIGN1cnJlbnQsIGVzdCA9IEVTVClcbnNjX2RhdGE8LWJpbmRfcm93cyhzY19kYXRhXzVfNiwgc2NfZGF0YV83XzE0KVxuc2NfZGF0YTwtYmluZF9yb3dzKHNjX2RhdGEsIHNjX2RhdGFfMTUpXG4jUHVsbCBTdC4gTG91aXMgb3V0IG9mIHRoZSBEYXRhc2V0IGFuZCBzdW1cbnNjX2RhdGFfbm88LXNjX2RhdGElPiVmaWx0ZXIobmFpY3MgPT0gODEzNDEwIHwgbmFpY3MgPT0gNzEzOTUwfFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG5haWNzID09IDcxMzkxMCB8IG5haWNzID09IDcxMzk0MHxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuYWljcyA9PSA3MTEyMTEgfCBuYWljcyA9PSA4MTMxMTB8XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbmFpY3MgPT0gODEzOTQwIHwgbmFpY3MgPT0gODEzOTMwfFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG5haWNzID09IDgxMzkxMCB8IG5haWNzID09IDgxMzkyMCklPiVcbiAgZmlsdGVyKCEoRklQUyA9PSAyOTE4OSB8IEZJUFMgPT0gMjk1MTApKSU+JVxuICBncm91cF9ieSh5ZWFyLCBGSVBTLCBiYXNlbGluZSwgY3VycmVudCklPiVcbiAgc3VtbWFyaXplKHNzX2VzdCA9IHN1bShlc3QpKVxuI1N1bSBzb2NpYWwgc3VwcG9ydCBmaXJtcyBmb3IgYWxsIGNpdGllcyBiZXNpZGVzIFN0LiBMb3Vpc1xuc3RsX3NjPC1zY19kYXRhJT4lZmlsdGVyKG5haWNzID09IDgxMzQxMCB8IG5haWNzID09IDcxMzk1MHxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIG5haWNzID09IDcxMzkxMCB8IG5haWNzID09IDcxMzk0MHxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIG5haWNzID09IDcxMTIxMSB8IG5haWNzID09IDgxMzExMHxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIG5haWNzID09IDgxMzk0MCB8IG5haWNzID09IDgxMzkzMHxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIG5haWNzID09IDgxMzkxMCB8IG5haWNzID09IDgxMzkyMCklPiVcbiAgZmlsdGVyKEZJUFMgPT0gMjkxODkgfCBGSVBTID09IDI5NTEwKSU+JVxuICBncm91cF9ieSh5ZWFyLCBiYXNlbGluZSwgY3VycmVudCklPiVcbiAgc3VtbWFyaXplKHNzX2VzdCA9IHN1bShlc3QpKVxuc3RsX3NjJEZJUFMgPC0gTkFcbnN0bF9zYyRGSVBTIDwtIFwiTUVSR0VEXCJcbiNBZGQgU3QuIExvdWlzIGJhY2sgdG8gdGhlIGRhdGFzZXRcbnNjX2RhdGEgPC0gYmluZF9yb3dzKHNjX2RhdGFfbm8sIHN0bF9zYylcbnNjX2RhdGEkRklQU1tzY19kYXRhJEZJUFMgPT0gXCIwMTA3M1wiXSA9IFwiMTA3M1wiXG4jQ29tYmluZSB0byBRUCBGSVBTIGRhdGFcbnFwX2RhdGFfZmlwczwtbGVmdF9qb2luKHFwX2RhdGFfZmlwcywgc2NfZGF0YSwgYnkgPSBjKFwieWVhclwiLFwiRklQU1wiLFwiYmFzZWxpbmVcIixcImN1cnJlbnRcIikpXG4jQ3JlYXRlIHBlciAxMDAwMDAgcmF0ZSBmcm9tIHBvcHVsYXRpb24gZGF0YSBpbiB0aGUgUVAgRklQUyBkYXRhc2V0XG5xcF9kYXRhX2ZpcHMlPD4lIG11dGF0ZShzc19lc3RfcGVyXzEwMDAwID0gKHNzX2VzdC9wb3B1bGF0aW9uKSoxMDAwMClcbmBgYCJ9 -->
+<pre class="r"><code>sc_data_15$year = 2015
+sc_data_15%&lt;&gt;%mutate(FIPS = paste(FIPSTATE, FIPSCTY, sep = ''))%&gt;%
+  pull_peers_FIPS(.)%&gt;%
+  select(naics = NAICS, FIPS, year, baseline, current, est = EST)
+sc_data&lt;-bind_rows(sc_data_5_6, sc_data_7_14)
+sc_data&lt;-bind_rows(sc_data, sc_data_15)
+#Pull St. Louis out of the Dataset and sum
+sc_data_no&lt;-sc_data%&gt;%filter(naics == 813410 | naics == 713950|
+                               naics == 713910 | naics == 713940|
+                               naics == 711211 | naics == 813110|
+                               naics == 813940 | naics == 813930|
+                               naics == 813910 | naics == 813920)%&gt;%
+  filter(!(FIPS == 29189 | FIPS == 29510))%&gt;%
+  group_by(year, FIPS, baseline, current)%&gt;%
+  summarize(ss_est = sum(est))
+#Sum social support firms for all cities besides St. Louis
+stl_sc&lt;-sc_data%&gt;%filter(naics == 813410 | naics == 713950|
+                           naics == 713910 | naics == 713940|
+                           naics == 711211 | naics == 813110|
+                           naics == 813940 | naics == 813930|
+                           naics == 813910 | naics == 813920)%&gt;%
+  filter(FIPS == 29189 | FIPS == 29510)%&gt;%
+  group_by(year, baseline, current)%&gt;%
+  summarize(ss_est = sum(est))
+stl_sc$FIPS &lt;- NA
+stl_sc$FIPS &lt;- &quot;MERGED&quot;
+#Add St. Louis back to the dataset
+sc_data &lt;- bind_rows(sc_data_no, stl_sc)
+sc_data$FIPS[sc_data$FIPS == &quot;01073&quot;] = &quot;1073&quot;
+#Combine to QP FIPS data
+qp_data_fips&lt;-left_join(qp_data_fips, sc_data, by = c(&quot;year&quot;,&quot;FIPS&quot;,&quot;baseline&quot;,&quot;current&quot;))
+#Create per 100000 rate from population data in the QP FIPS dataset
+qp_data_fips%&lt;&gt;% mutate(ss_est_per_10000 = (ss_est/population)*10000)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>PCT Population in Core MSA County Analysis</p>
@@ -1245,20 +1418,9 @@ qp_data_msa &lt;- v_data</code></pre>
 <p>Creating Map Data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmVpZ2hib3Job29kcyA8LSByZWFkX2NzdihcIn4vRGVza3RvcC9nbHBfd2Vic2l0ZS9tYXAgZGF0YS9jZW5zdXMgdHJhY3QgbmVpZ2hib3Job29kcy5jc3ZcIixjb2xfdHlwZXMgPSBjb2xzKElkMiA9IGNvbF9jaGFyYWN0ZXIoKSkpXG5gYGAifQ== -->
-<pre class="r"><code>neighborhoods &lt;- read_csv(&quot;~/Desktop/glp_website/map data/census tract neighborhoods.csv&quot;,col_types = cols(Id2 = col_character()))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBtZXNzYWdlczpcbjE6IFVua25vd24gb3IgdW5pbml0aWFsaXNlZCBjb2x1bW46ICd0b3RhbF9jaXR5X3BvcCcuIFxuMjogVW5rbm93biBvciB1bmluaXRpYWxpc2VkIGNvbHVtbjogJ3RvdGFsX2NpdHlfaG91c2Vob2xkcycuIFxuMzogVW5rbm93biBvciB1bmluaXRpYWxpc2VkIGNvbHVtbjogJ3RvdGFsX2NpdHlfcG9wJy4gXG40OiBVbmtub3duIG9yIHVuaW5pdGlhbGlzZWQgY29sdW1uOiAndG90YWxfY2l0eV9ob3VzZWhvbGRzJy4gXG41OiBVbmtub3duIG9yIHVuaW5pdGlhbGlzZWQgY29sdW1uOiAndG90YWxfY2l0eV9wb3AnLiBcbjY6IFVua25vd24gb3IgdW5pbml0aWFsaXNlZCBjb2x1bW46ICd0b3RhbF9jaXR5X2hvdXNlaG9sZHMnLiBcbiJ9 -->
-<pre><code>Warning messages:
-1: Unknown or uninitialised column: 'total_city_pop'. 
-2: Unknown or uninitialised column: 'total_city_households'. 
-3: Unknown or uninitialised column: 'total_city_pop'. 
-4: Unknown or uninitialised column: 'total_city_households'. 
-5: Unknown or uninitialised column: 'total_city_pop'. 
-6: Unknown or uninitialised column: 'total_city_households'. </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXBpX2RhdGFfbWFwcyA8LSBsZWZ0X2pvaW4obXBpX2RhdGEsIG5laWdoYm9yaG9vZHMsIGJ5ID0gYyhcIklkMlwiKSlcbm1waV9kYXRhX21hcHMgJTw+JSBmaWx0ZXIoRklQUyA9PSBcIjIxMTExXCIpJT4lXG4gIHNlbGVjdCgtcG9wdWxhdGlvbilcbmBgYCJ9 -->
-<pre class="r"><code>mpi_data_maps &lt;- left_join(mpi_data, neighborhoods, by = c(&quot;Id2&quot;))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmVpZ2hib3Job29kcyA8LSByZWFkX2NzdihcIn4vRGVza3RvcC9nbHBfd2Vic2l0ZS9tYXAgZGF0YS9jZW5zdXMgdHJhY3QgbmVpZ2hib3Job29kcy5jc3ZcIixjb2xfdHlwZXMgPSBjb2xzKElkMiA9IGNvbF9jaGFyYWN0ZXIoKSkpXG5tcGlfZGF0YV9tYXBzIDwtIGxlZnRfam9pbihtcGlfZGF0YSwgbmVpZ2hib3Job29kcywgYnkgPSBjKFwiSWQyXCIpKVxubXBpX2RhdGFfbWFwcyAlPD4lIGZpbHRlcihGSVBTID09IFwiMjExMTFcIiklPiVcbiAgc2VsZWN0KC1wb3B1bGF0aW9uKVxuYGBgIn0= -->
+<pre class="r"><code>neighborhoods &lt;- read_csv(&quot;~/Desktop/glp_website/map data/census tract neighborhoods.csv&quot;,col_types = cols(Id2 = col_character()))
+mpi_data_maps &lt;- left_join(mpi_data, neighborhoods, by = c(&quot;Id2&quot;))
 mpi_data_maps %&lt;&gt;% filter(FIPS == &quot;21111&quot;)%&gt;%
   select(-population)</code></pre>
 <!-- rnb-source-end -->
@@ -1309,27 +1471,18 @@ map_data &lt;- left_join(mpi_data_maps, white_dat, by = c(&quot;Id2&quot;, &quot
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0FDUyBEYXRhIEFuYWx5c2lzXG5tZWRfaW5jIDwtIHJlYWRfY3N2KFxuICBcImlucHV0IGRhdGEvcXBfaW5wdXRfZGF0YS9BQ1NfMTVfNVlSX0IxOTAxM193aXRoX2Fubi5jc3ZcIixcbiAgc2tpcCA9IDEsXG4gIGNvbF90eXBlcyA9IGNvbHMoSWQyID0gY29sX2NoYXJhY3RlcigpLFxuICBJZCA9IGNvbF9jaGFyYWN0ZXIoKSlcbiAgKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0FDUyBEYXRhIEFuYWx5c2lzXG5tZWRfaW5jIDwtIHJlYWRfY3N2KFxuICBcImlucHV0IGRhdGEvcXBfaW5wdXRfZGF0YS9BQ1NfMTVfNVlSX0IxOTAxM193aXRoX2Fubi5jc3ZcIixcbiAgc2tpcCA9IDEsXG4gIGNvbF90eXBlcyA9IGNvbHMoSWQyID0gY29sX2NoYXJhY3RlcigpLFxuICBJZCA9IGNvbF9jaGFyYWN0ZXIoKSlcbiAgKVxubWVkX2luYyAlPD4lIHNlbGVjdChJZCwgSWQyLCBtZWRpYW5faW5jb21lID0gYEVzdGltYXRlOyBNZWRpYW4gaG91c2Vob2xkIGluY29tZSBpbiB0aGUgcGFzdCAxMiBtb250aHMgKGluIDIwMTUgSW5mbGF0aW9uLWFkanVzdGVkIGRvbGxhcnMpYClcbm1hcF9kYXRhIDwtIG1hcF9kYXRhICU+JVxuICBsZWZ0X2pvaW4oLiwgbWVkX2luYywgYnkgPSBjKFwiSWQyXCIsIFwiSWRcIikpXG5gYGAifQ== -->
 <pre class="r"><code>#ACS Data Analysis
 med_inc &lt;- read_csv(
   &quot;input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv&quot;,
   skip = 1,
   col_types = cols(Id2 = col_character(),
   Id = col_character())
-  )</code></pre>
+  )
+med_inc %&lt;&gt;% select(Id, Id2, median_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)
+map_data &lt;- map_data %&gt;%
+  left_join(., med_inc, by = c(&quot;Id2&quot;, &quot;Id&quot;))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBtZXNzYWdlczpcbjE6IFVua25vd24gb3IgdW5pbml0aWFsaXNlZCBjb2x1bW46ICd0b3RhbF9jaXR5X3BvcCcuIFxuMjogVW5rbm93biBvciB1bmluaXRpYWxpc2VkIGNvbHVtbjogJ3RvdGFsX2NpdHlfaG91c2Vob2xkcycuIFxuIn0= -->
-<pre><code>Warning messages:
-1: Unknown or uninitialised column: 'total_city_pop'. 
-2: Unknown or uninitialised column: 'total_city_households'. </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVkX2luYyAlPD4lIHNlbGVjdChJZCwgSWQyLCBtZWRpYW5faW5jb21lID0gYEVzdGltYXRlOyBNZWRpYW4gaG91c2Vob2xkIGluY29tZSBpbiB0aGUgcGFzdCAxMiBtb250aHMgKGluIDIwMTUgSW5mbGF0aW9uLWFkanVzdGVkIGRvbGxhcnMpYClcbmBgYCJ9 -->
-<pre class="r"><code>med_inc %&lt;&gt;% select(Id, Id2, median_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gbWVkX2luYyAlPD4lIHNlbGVjdChJZCwgSWQyLCBtZWRpYW5faW5jb21lID0gYEVzdGltYXRlOyBNZWRpYW4gaG91c2Vob2xkIGluY29tZSBpbiB0aGUgcGFzdCAxMiBtb250aHMgKGluIDIwMTUgSW5mbGF0aW9uLWFkanVzdGVkIGRvbGxhcnMpYCkgOiBcbiAgY291bGQgbm90IGZpbmQgZnVuY3Rpb24gXCIlPD4lXCJcbiJ9 -->
-<pre><code>Error in med_inc %&lt;&gt;% select(Id, Id2, median_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`) : 
-  could not find function &quot;%&lt;&gt;%&quot;</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Output Data</p>

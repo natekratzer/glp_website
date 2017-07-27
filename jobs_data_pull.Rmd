@@ -15,6 +15,7 @@ knitr::opts_knit$set(root.dir = normalizePath("~/Desktop/glp_website"))
 
 ```{r libraries, message = FALSE}
 library(tidyverse)
+library(magrittr)
 ```
 
 
@@ -206,11 +207,12 @@ dat <- left_join(dat, names, by = c("FIPS", "city"))
 population_data<-read_csv("input data/population_data_one_stl.csv", 
                           col_types = cols(FIPS = col_character()))
 dat <- left_join(dat, population_data, by = c("FIPS", "year"))
+dat %<>% rename(current = current_peer, baseline = baseline_peer)
 ```
 
 
 ```{r}
-bds_data = read_csv("input data/jobs_input_data/bds_f_agemsa_release.csv")
+bds_data = read_csv("input data/jobs_input_data/bds_f_msa_release.csv")
 # bds_data = rename(bds_data, MSA = msa)
 
 bds_data = bds_data %>%
@@ -241,7 +243,7 @@ bds_data$city[bds_data$MSA == 39580] = "Raleigh"
 bds_data$city[bds_data$MSA == 19380] = "Dayton"
 bds_data$city[bds_data$MSA == 40060] = "Richmond"
 
-bds_data<-mutate(bds_data, estabs_entry_rate_minus_exit = Estabs_Entry_Rate -Estabs_Exit_Rate)
+bds_data<-mutate(bds_data, estabs_entry_rate_minus_exit = estabs_entry_rate -estabs_exit_rate)
 ```
 
 Creating Map Data
