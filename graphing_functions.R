@@ -1,6 +1,6 @@
 rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
                             plot_title="", y_title = "Percent", caption_text = "",
-                            sigfig = 3, num_dec = 1){
+                            sigfig = 3, num_dec = 1, text = TRUE, h_line = FALSE){
   df$var <- df[[var]]
   if(peers=="Current"){
     df<-subset(df,current ==1)
@@ -51,7 +51,18 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
                  axis.text.x = element_blank(),
                  plot.caption = element_text(),
                  plot.subtitle = element_text(hjust = 0.5))
-  p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
+  if (text == TRUE) {
+    p <-
+      p + geom_text(
+        aes(label = round),
+        hjust = 1.1,
+        size = 5,
+        family = "Museo Sans 300"
+      )
+  }
+  if (h_line == TRUE){
+    p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1)
+  }
   p <- p+labs(title = plot_title, y= y_title,
               x = "", caption = caption_text)
   p
