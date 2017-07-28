@@ -179,8 +179,10 @@ acs_time <- function(folder, starting.year=2005){
                        |data$FIPS == 21111 |data$FIPS == 47157
                        |data$FIPS == 47037 |data$FIPS == 40109
                        |data$FIPS == 31055 |data$FIPS == 29189
-                       |data$FIPS == 29510 |data$FIPS == 40143 )
-    
+                       |data$FIPS == 29510 |data$FIPS == 40143
+                       |data$FIPS == 39113 |data$FIPS == 12031 
+                       |data$FIPS == 37183 |data$FIPS == 51760)
+  
     all.peers$year<-y
     y<-y+1
     
