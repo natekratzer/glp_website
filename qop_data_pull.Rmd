@@ -160,6 +160,41 @@ NormZ<-function(x){
   (x-mean(x))/sd(x)
 }
 
+#Function to read folders of ACS data with separate csv's
+acs_time <- function(folder, starting.year=2005){
+  wd <- getwd()
+  directory <- paste(wd, folder, sep = "")
+  file_names <- list.files(directory)
+  n<-length(file_names)
+  y<-starting.year
+  for (i in 1:n){
+    file_path <- paste(wd, folder, file_names[i], sep = "")
+    data<-read_csv(file_path,col_names = TRUE, skip=1)
+    names(data)[names(data) == 'Id2'] <- 'FIPS'
+    all.peers <-subset(data, data$FIPS == "01073" |data$FIPS == 37119
+                       |data$FIPS == 39061 |data$FIPS == 39049
+                       |data$FIPS == 26081 |data$FIPS == 37081
+                       |data$FIPS == 45045 |data$FIPS == 18097
+                       |data$FIPS == 29095 |data$FIPS == 47093
+                       |data$FIPS == 21111 |data$FIPS == 47157
+                       |data$FIPS == 47037 |data$FIPS == 40109
+                       |data$FIPS == 31055 |data$FIPS == 29189
+                       |data$FIPS == 29510 |data$FIPS == 40143 )
+    
+    all.peers$year<-y
+    y<-y+1
+    
+    if(i==1){
+     df<-all.peers 
+    }
+    else{
+      names(all.peers)<-names(df)
+      df<-rbind(df, all.peers)
+    }
+  }
+  df
+}
+
 ```
 
 GEOFred Data Analysis
@@ -787,6 +822,52 @@ map_data <- map_data %>%
   left_join(., med_inc, by = c("Id2", "Id"))
 ```
 
+
+
+```{r}
+#Millenial Migration Flow Analysis
+#Not included in the website, but was a seperate data pull for the Fund for the
+#Arts
+
+mill_mig_data<- acs_time("/input data/qp_input_data/B07001/", starting.year = 2010)
+
+mill_mig_data$FIPS[mill_mig_data$FIPS == "01073"] = "1073"
+
+mill_mig_data <- pull_peers_FIPS(mill_mig_data) %>%
+  select(
+  FIPS, year,
+  population = `Estimate; Total:`,
+  mig_dif_state_25_29 = `Estimate; Total: - Moved from different state: - 25 to 29 years`,
+  mig_dif_state_30_34 = `Estimate; Total: - Moved from different state: - 30 to 34 years`,
+  mig_abroad_25_29 = `Estimate; Total: - Moved from abroad: - 25 to 29 years`,
+  mig_abroad_30_34 = `Estimate; Total: - Moved from abroad: - 30 to 34 years`,
+  mig_dif_county_25_29 = `Estimate; Total: - Moved from different county within same state: - 25 to 29 years`,
+  mig_dif_county_30_34 = `Estimate; Total: - Moved from different county within same state: - 30 to 34 years`)
+
+
+
+stl_mig <- mill_mig_data %>%
+  filter(FIPS == 29189 | FIPS == 29510)%>%
+  select(-FIPS)%>%
+  group_by(year)%>%
+  summarise_all(sum)%>%
+  ungroup()
+stl_mig$FIPS <- "MERGED"
+
+
+
+mill_mig_data <- bind_rows(stl_mig, filter(mill_mig_data, !(FIPS == 29189 |FIPS ==29510)))
+
+mill_mig_data %<>% mutate(
+  mill_mig = mig_dif_state_25_29 + mig_dif_state_30_34 + mig_abroad_25_29 +
+  mig_abroad_30_34 + mig_dif_county_25_29 + mig_dif_county_30_34,
+  mil_mig_per_100000 = (mill_mig / population) * 100000
+  )%>%
+  rename(mig_population = population)
+
+qp_data_fips <- left_join(qp_data_fips, mill_mig_data, by = c("FIPS", "year"))
+
+```
 
 Output Data
 ```{r}

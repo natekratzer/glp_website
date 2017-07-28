@@ -109,7 +109,7 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   output_wol = df %>% 
     group_by(year) %>%
     summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
-              mean = mean(var),
+              mean = mean(var, na.rm = TRUE),
               third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
   
   lville = df %>% 

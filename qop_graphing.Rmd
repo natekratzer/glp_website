@@ -329,6 +329,20 @@ rank_and_nb_group(
 )
 showtext.end()
 dev.off()
+
+
+jpeg("qp_millenial_migration_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'mil_mig_per_100000',
+  order = "Descending",
+  y_title = "Number of Millenials (Ages 25-34) moving to the city from another county, state, or country\nper 100,000",
+  plot_title = "Millenial Immigration Patterns, 2015",
+  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B07001"
+)
+showtext.end()
+dev.off()
 ```
 
 Trendline Graphs
@@ -487,6 +501,17 @@ graph_trendline(qp_data_fips, "median_household_income",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 break_settings = seq(2005, 2014, 2),
                 xmin = 2005, xmax = 2014, y_title = "Dollars")
+showtext.end()
+dev.off()
+
+jpeg("qp_millenial_migration_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(qp_data_fips, "mil_mig_per_100000",
+                plot_title = "Millenial Immigration Patterns",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B07001",
+                break_settings = seq(2011, 2015, 2),
+                xmin = 2010, xmax = 2015, y_title = "Number of Millenials (Ages 25-34) moving to the city from another\ncounty, state, or country per 100,000")
 showtext.end()
 dev.off()
 ```
