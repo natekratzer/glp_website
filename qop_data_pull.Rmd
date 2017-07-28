@@ -7,7 +7,7 @@ Code for pulling quality of place data
 
 ```{r "setup", include=FALSE}
 require("knitr")
-opts_knit$set(root.dir = "~/Desktop/glp_website/input data/qp_input_data")
+opts_knit$set(root.dir = "~/Desktop/glp_website")
 ```
 
 Loading Libraries
@@ -57,7 +57,7 @@ pull_peers_FIPS <- function(dat){
                       |dat$FIPS == 29510 |dat$FIPS == 40143
                       |dat$FIPS == 12031 |dat$FIPS == 37183
                       |dat$FIPS == 39113 |dat$FIPS == 51760
-                      |dat$FIPS == 0 | dat$FIPS == "01073")
+                      | dat$FIPS == "01073")
   all.peers$baseline <- 1
   all.peers$current <- 1
   all.peers$baseline[all.peers$FIPS==26081|all.peers$FIPS==29189
@@ -76,7 +76,7 @@ cbp_read<-function(folder, starting_year){
   n <- length(file_names)
   y <- starting_year
   for(i in 1:n){
-    data<-read_csv(paste("/Users/BryceRowland/Desktop/glp_website/input data/qp_input_data",folder,file_names[i], sep = "/"), skip = 0, progress = FALSE)
+    data<-read_csv(paste(directory,file_names[i], sep = "/"), skip = 0, progress = FALSE)
     data%<>%mutate(FIPS = paste(fipstate, fipscty, sep = ''))
     all.peers <- filter(data, data$FIPS == "01073" |data$FIPS == 37119
                         |data$FIPS == 39061 |data$FIPS == 39049
@@ -164,18 +164,15 @@ NormZ<-function(x){
 
 GEOFred Data Analysis
 ```{r}
-# setwd("C:/Users/natek/Documents/GeoFRED data/")
-
-##all the other geofred data
-
-house_dat <- read_csv("all_transactions_house_price_index.csv", skip = 1, progress = FALSE)
-burdened_dat <- read_csv("burdened_households.csv", skip = 1, progress = FALSE)
-disconnected_dat <- read_csv("disconnected youth.csv", skip = 1, progress = FALSE)
-home_own_dat <- read_csv("homeownership_rate.csv", skip = 1, progress = FALSE)
-income_inequality_dat <- read_csv("income_inequality.csv", skip = 1, progress = FALSE)
-commute_time_dat <- read_csv("mean_commuting_time.csv", skip = 1, progress = FALSE)
-net_migration_flow_dat <- read_csv("net_migration_flow.csv", skip = 1, progress = FALSE)
-race_dat <- read_csv("white to nonwhite racial dissimilarity index.csv", skip = 1, progress = FALSE)
+house_dat <- read_csv("input data/qp_input_data/all_transactions_house_price_index.csv", skip = 1, progress = FALSE)
+burdened_dat <- read_csv("input data/qp_input_data/burdened_households.csv", skip = 1, progress = FALSE)
+disconnected_dat <- read_csv("input data/qp_input_data/disconnected youth.csv", skip = 1, progress = FALSE)
+home_own_dat <- read_csv("input data/qp_input_data/homeownership_rate.csv", skip = 1, progress = FALSE)
+income_inequality_dat <- read_csv("input data/qp_input_data/income_inequality.csv", skip = 1, progress = FALSE)
+commute_time_dat <- read_csv("input data/qp_input_data/mean_commuting_time.csv", skip = 1, progress = FALSE)
+net_migration_flow_dat <- read_csv("input data/qp_input_data/net_migration_flow.csv", skip = 1, progress = FALSE)
+race_dat <- read_csv("input data/qp_input_data/white to nonwhite racial dissimilarity index.csv", skip = 1, progress = FALSE)
+median_household_income_dat <- read_csv("input data/qp_input_data/median_household_income.csv", skip = 1)
 
 
 ##pulling peers
@@ -188,8 +185,8 @@ home_own_dat <- home_own_dat %>% rename(FIPS = `Region Code`)
 income_inequality_dat <- income_inequality_dat %>% rename(FIPS = `Region Code`)
 commute_time_dat <- commute_time_dat %>% rename(FIPS = `Region Code`)
 net_migration_flow_dat <- net_migration_flow_dat %>% rename(FIPS = `Region Code`)
-
 race_dat <- race_dat %>% rename(FIPS = `Region Code`)
+median_household_income_dat <- median_household_income_dat %>% rename(FIPS = `Region Code`)
 
 #pulling
 house_dat <- pull_peers_FIPS(house_dat)
@@ -200,6 +197,8 @@ income_inequality_dat <- pull_peers_FIPS(income_inequality_dat)
 commute_time_dat <- pull_peers_FIPS(commute_time_dat)
 net_migration_flow_dat <- pull_peers_FIPS(net_migration_flow_dat)
 race_dat <- pull_peers_FIPS(race_dat)
+median_household_income_dat <- pull_peers_FIPS(median_household_income_dat)
+
 
 
 ##reformatting
@@ -227,6 +226,9 @@ net_migration_flow_dat <- net_migration_flow_dat %>%
 race_dat <- race_dat %>%
   gather(4:10, key = "year", value = "racial_geography") #4:10 refers to column indexes for all the years
 
+median_household_income_dat <- median_household_income_dat %>%
+  gather(4:24, key = "year", value = "median_household_income") #4:24 refers to column indexes for all the years
+
 
 fred_dat <- full_join(burdened_dat, commute_time_dat, by = c("FIPS", "year",
                                                              "baseline", "current"))
@@ -237,11 +239,14 @@ fred_dat <- full_join(fred_dat, income_inequality_dat, by = c("FIPS", "year"))
 fred_dat <- full_join(fred_dat, net_migration_flow_dat, by = c("FIPS", "year"))
 fred_dat <- full_join(fred_dat, race_dat, by = c("FIPS", "year"))
 
+fred_dat <- full_join(fred_dat, median_household_income_dat, by = c("FIPS", "year"))
+fred_dat <- pull_peers_FIPS(fred_dat)
+
 fred_dat <- fred_dat %>% select(FIPS, year, baseline, current, 
                                 burdened_households, commute_time, disconnected_youth,
                                 home_ownership, housing_price_index,
                                 income_inequality, net_migration_flow,
-                                racial_geography)
+                                racial_geography,median_household_income)
 fred_dat$FIPS[fred_dat$FIPS == "01073"] = 1073
 
 
@@ -249,10 +254,11 @@ fred_dat$FIPS[fred_dat$FIPS == "01073"] = 1073
 fred_dat$year <- as.numeric(fred_dat$year)
 fred_dat$housing_price_index <- as.numeric(fred_dat$housing_price_index)
 fred_dat$racial_geography <- as.numeric(fred_dat$racial_geography)
+fred_dat$median_household_income <- as.numeric(fred_dat$median_household_income)
 
 #
 ##Now to give the FIPS codes names
-names <- read_csv("FIPS_two_stl.csv", col_types = cols(FIPS = col_integer()), progress = FALSE)
+names <- read_csv("input data/FIPS two stl.csv", col_types = cols(FIPS = col_integer()), progress = FALSE)
 names$FIPS <- as.character(names$FIPS)
 data_named <- left_join(fred_dat, names, by = "FIPS")
 
@@ -273,7 +279,7 @@ dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
 dat$FIPS <- as.factor(dat$FIPS)
 
 
-population_one_stl<-read_csv("population_data_one_stl.csv", progress = FALSE)
+population_one_stl<-read_csv("input data/population_data_one_stl.csv", progress = FALSE)
 population_one_stl$FIPS <- as.character(population_one_stl$FIPS)
 fred_dat <- left_join(dat, population_one_stl, by = c("FIPS", "year"))
 
@@ -282,20 +288,19 @@ fred_dat <- fred_dat %>%
   mutate(migration_pop = net_migration_flow/population)%>%
   select(-weights)
 
-
 qp_data_fips<-fred_dat
 ```
 
 Social Support Analysis
 ```{r}
 #Reading in and tidying data
-sc_data_5_6 <- cbp_read("Social Support 5_6", starting_year = 2005)
+sc_data_5_6 <- cbp_read("input data/qp_input_data/Social Support 5_6", starting_year = 2005)
 sc_data_5_6 %<>% select(naics, FIPS, year, baseline, current, est)
 
-sc_data_7_14 <- cbp_read("Social Support 7_14", starting_year = 2007)
+sc_data_7_14 <- cbp_read("input data/qp_input_data/Social Support 7_14", starting_year = 2007)
 sc_data_7_14 %<>% select(naics, FIPS, year, baseline, current, est)
 
-sc_data_15 <- read_csv("cbp15co.txt.zip", progress = FALSE)
+sc_data_15 <- read_csv("input data/qp_input_data/cbp15co.txt.zip", progress = FALSE)
 sc_data_15$year = 2015
 sc_data_15%<>%mutate(FIPS = paste(FIPSTATE, FIPSCTY, sep = ''))%>%
   pull_peers_FIPS(.)%>%
@@ -340,10 +345,10 @@ qp_data_fips%<>% mutate(ss_est_per_10000 = (ss_est/population)*10000)
 PCT Population in Core MSA County Analysis
 ```{r}
 #Read in data
-fips_core_county_pop<-read_csv("population_data_one_stl.csv", progress = FALSE)
+fips_core_county_pop<-read_csv("input data/population_data_one_stl.csv", progress = FALSE)
 
 #Create "key" for core FIPS county to MSA
-msa_fips_key<-read_csv("changed_msa_counties.csv", progress = FALSE)
+msa_fips_key<-read_csv("input data/qp_input_data/changed_msa_counties.csv", progress = FALSE)
 msa_fips_key%<>%pull_peers_FIPS(.)%>%
   distinct(MSA, .keep_all = TRUE)%>%
   select(FIPS, MSA)
@@ -355,7 +360,7 @@ fips_core_county_pop%<>%filter(year >= 2010)%>%
   dplyr::rename(Year = year)
 
 #Tidy MSA Population estimate Data
-msa_pop_est<-read_csv("cbsa-est2016-alldata.csv", n_max = 1581, progress = FALSE)
+msa_pop_est<-read_csv("input data/qp_input_data/cbsa-est2016-alldata.csv", n_max = 1581, progress = FALSE)
 msa_pop_est%<>%filter(LSAD == "Metropolitan Statistical Area")%>%
   pull_peers_MSA(.)%>%
   select(CBSA, POPESTIMATE2010:POPESTIMATE2015)%>%
@@ -382,7 +387,7 @@ qp_data_fips<-left_join(qp_data_fips, fips_core_county_pop, by = c("year", "FIPS
 Food Insecurity Analysis
 ```{r}
 #Read in data
-food_insec<-read_csv("GLP counties food insecure_PCT.csv", progress = FALSE)
+food_insec<-read_csv("input data/qp_input_data/GLP counties food insecure_PCT.csv", progress = FALSE)
 
 #Tidy
 food_insec%<>%
@@ -393,7 +398,7 @@ food_insec%<>%
 #Add weights for St. Louis
 weights <-
   read_csv(
-  "~/Desktop/glp_website/input data/qp_input_data/FIPS_two_stl.csv",
+  "input data/FIPS two stl.csv",
   col_types = cols(FIPS = col_integer()),
   progress = FALSE
   ) 
@@ -422,7 +427,7 @@ qp_data_fips<-left_join(qp_data_fips, food_insec, by = c("year", "FIPS", "city")
 Food Desert Analysis
 ```{r}
 #Read in Data
-fd_data <- read_csv("food_desert_2015.csv",
+fd_data <- read_csv("input data/qp_input_data/food_desert_2015.csv",
               col_types = cols(laasian20 = col_double(),
                                lanhopi20 = col_double(),
                                lanhopi20share = col_double(),
@@ -433,6 +438,7 @@ fd_data <- read_csv("food_desert_2015.csv",
                                laomultir20share = col_double(),
                                lahisp20 = col_double(),
                                lahisp20share = col_double()), progress = FALSE)
+
 
 #Creating FIPS Codes w/ only the first five digits of tract codes
 FIPS <- substr(fd_data$CensusTract, 1,5)
@@ -469,6 +475,7 @@ fd_data$total_city_households[fd_data$FIPS=="MERGED"] <- 546822
 # and live more than 1/2 a mile away from a supermarket, that also live in
 # a low income census tract (per 100,000 households).
 
+#Checking percentages
 fd_data <- fd_data %>%
   filter(LowIncomeTracts == 1) %>%
   group_by(FIPS,
@@ -484,7 +491,24 @@ fd_data <- fd_data %>%
     #1/2 mile
   ) %>%
   mutate(est_food_desert_households_per100000_lowIncTract =
-           est_food_desert_households / total_city_households * 100000)
+           est_food_desert_households / total_city_households * 100)
+
+# fd_data <- fd_data %>%
+#   filter(LowIncomeTracts == 1) %>%
+#   group_by(FIPS,
+#            total_city_pop,
+#            total_city_households,
+#            current,
+#            baseline) %>%
+#   summarise(
+#     est_food_desert_households = sum(lahunvhalf)
+#     #Total households without a car and beyond
+#     #1/2 mile from a supermarket in a Food Desert
+#     #Census tract determined by vehicle access and
+#     #1/2 mile
+#   ) %>%
+#   mutate(est_food_desert_households_per100000_lowIncTract =
+#            est_food_desert_households / total_city_households * 100000)
 #Grocery Store estimates are from a 2010 study. Population estimates are from 2015.
 fd_data$year<-2015
 fd_data <- ungroup(fd_data)
@@ -497,7 +521,7 @@ qp_data_fips<-left_join(qp_data_fips, fd_data, by = c("FIPS", "year"))
 County Health Rankings Data Analysis
 ```{r}
 #Reading in Data
-chr_df_17 <- read_csv("2017CHR_CSV_Analytic_Data.csv",
+chr_df_17 <- read_csv("input data/qp_input_data/2017CHR_CSV_Analytic_Data.csv",
                        col_types = cols(
                        measure_127_value = col_character(),
                        measure_131_value = col_character()
@@ -507,6 +531,8 @@ chr_df_17 <- read_csv("2017CHR_CSV_Analytic_Data.csv",
 chr_df_17 = chr_df_17 %>% rename(FIPS = fipscode) #renaming a variable for use in the function below
 
 chr_df_17 <- pull_peers_FIPS(chr_df_17)
+chr_df_17$FIPS[chr_df_17$FIPS == "01073"] <- "1073"
+
 
 #Selecting QP Variables
 chr_df_17 <- chr_df_17 %>%
@@ -522,10 +548,10 @@ chr_df_17 <- chr_df_17 %>%
 #Selecting Current Peers only
 chr_df_17 <- chr_df_17 %>% filter(current ==1)
 
-name_df <- read_csv("FIPS two stl.csv")
+name_df <- read_csv("input data/FIPS two stl.csv")
+name_df$FIPS <- as.character(name_df$FIPS)
 
 chr_named <- left_join(chr_df_17, name_df, by = "FIPS")
-
 chr_named$FIPS <- as.numeric(chr_named$FIPS)
 
 chr_stl <- chr_named %>%
@@ -549,19 +575,19 @@ qp_data_fips<-left_join(qp_data_fips, chr_stl, by = c("year", "FIPS"))
 MPI Analysis from Competative City Update 2015
 ```{r}
 #Reading in Data
-pc_ed_data<-read_csv("ACS_14_5YR_B23006_with_ann.csv", skip = 1)
+pc_ed_data<-read_csv("input data/qp_input_data/ACS_14_5YR_B23006_with_ann.csv", skip = 1)
 pc_ed_data%<>%select(Id2, ed_population = `Estimate; Total:`, 
                 less_than_hs = `Estimate; Less than high school graduate:`,
                 bachelors_up = `Estimate; Bachelor's degree or higher:`)%>%
   mutate(bachelors_degree = bachelors_up/ed_population,
                 no_hs_degree = less_than_hs/ed_population)
 
-pc_health_data<-read_csv("ACS_14_5YR_S2701_with_ann.csv", skip=1)
+pc_health_data<-read_csv("input data/qp_input_data/ACS_14_5YR_S2701_with_ann.csv", skip=1)
 pc_health_data%<>%select(Id2, health_population = `Total; Estimate; Total civilian noninstitutionalized population`, 
          uninsured = `Percent Uninsured; Estimate; Total civilian noninstitutionalized population`)
 pc_health_data$uninsured = as.numeric(as.character(pc_health_data$uninsured))
 
-pc_low_inc_data<-read_csv("ACS_14_5YR_C17002_with_ann.csv", skip=1)
+pc_low_inc_data<-read_csv("input data/qp_input_data/ACS_14_5YR_C17002_with_ann.csv", skip=1)
 pc_low_inc_data%<>%
   select(
     Id2,
@@ -576,7 +602,7 @@ pc_low_inc_data%<>%
     low_inc_population
     )
 
-pc_unemp_data<-read_csv("ACS_14_5YR_S2301_with_ann.csv",skip=1)
+pc_unemp_data<-read_csv("input data/qp_input_data/ACS_14_5YR_S2301_with_ann.csv",skip=1)
 pc_unemp_data%<>%
   select(Id2, 
          unemp_population = `Total; Estimate; Population 16 years and over`,
@@ -653,8 +679,7 @@ qp_data_fips = left_join(qp_data_fips, mpi_city, by = c("FIPS", "year"))
 Volunteer Data Analysis
 ```{r}
 #Reading in Data
-setwd("~/Desktop/glp_website/input data/qp_input_data")
-v_2015 <- read_csv("~/Desktop/glp_website/input data/qp_input_data/volunteer2015.csv", progress = FALSE)
+v_2015 <- read_csv("input data/qp_input_data/volunteer2015.csv", progress = FALSE)
 
 #Adding MSA codes
 v_2015$MSA <- NA
@@ -705,11 +730,69 @@ v_data%<>%dplyr::rename(year = Year)
 #Create MSA Data
 qp_data_msa <- v_data
 ```
+Creating Map Data
+```{r}
+
+neighborhoods <- read_csv("~/Desktop/glp_website/map data/census tract neighborhoods.csv",col_types = cols(Id2 = col_character()))
+
+mpi_data_maps <- left_join(mpi_data, neighborhoods, by = c("Id2"))
+mpi_data_maps %<>% filter(FIPS == "21111")%>%
+  select(-population)
+```
+
+```{r}
+#White Data
+white_dat <- read_csv("input data/qp_input_data/ACS_14_5YR_B02001_with_ann.csv", skip = 1)
+white_dat %<>% select(Id, Id2, population = `Estimate; Total:`, 
+                      white_pop = `Estimate; Total: - White alone`)%>%
+  mutate(pct_white = white_pop/population)
+
+FIPS = substr(white_dat$Id2, 1,5)
+FIPS = data.frame(FIPS)
+white_dat = bind_cols(white_dat, FIPS)
+white_dat = filter(white_dat, FIPS == "21111" & population > 0 ) #Removes the airport
+
+total <- white_dat%>%
+  group_by(FIPS)%>%
+  summarize(total_pop = sum(population), 
+            total_white = sum(white_pop))%>%
+  mutate(total_white_pct = total_white/total_pop)
+
+
+white_dat$total_white_pct = 0.7317378
+
+#Computing the "Difference Score"
+white_dat %<>% mutate(dif_score = abs(pct_white - total_white_pct))%>%
+  select(-population)
+
+#Rescaling
+white_dat$pct_white = white_dat$pct_white*100
+white_dat$dif_score = white_dat$dif_score*100
+
+map_data <- left_join(mpi_data_maps, white_dat, by = c("Id2", "FIPS"))
+```
+
+```{r}
+#ACS Data Analysis
+med_inc <- read_csv(
+  "input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv",
+  skip = 1,
+  col_types = cols(Id2 = col_character(),
+  Id = col_character())
+  )
+
+med_inc %<>% select(Id, Id2, median_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)
+
+map_data <- map_data %>%
+  left_join(., med_inc, by = c("Id2", "Id"))
+```
+
 
 Output Data
 ```{r}
 write_csv(qp_data_fips, "~/Desktop/glp_website/output data/qp_data_fips.csv")
 write_csv(qp_data_msa, "~/Desktop/glp_website/output data/qp_data_msa.csv")
+write_csv(map_data, "~/Desktop/glp_website/map data/qp_map_data.csv")
 ```
 
 To be continued...

@@ -10,296 +10,28 @@ library(ggthemes)
 library(reshape2)
 library(showtext)
 library(classInt)
+library(rgdal)
+library(leaflet)
+library(RColorBrewer)
+library(htmlwidgets)
 ```
 
 Necessary Functions
 ```{r}
-rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-                            plot_title="", y_title = "Percent", caption_text = ""){
-  df$var <- df[[var]]
-  if(peers=="Current"){
-    df<-subset(df,current ==1)
-  }
-  if(peers=="Baseline"){
-    df<-subset(df,baseline ==1)
-  }
-  if(order=="Descending"){
-    d.order<-df[order(-df$var),]
-  }
-  if(order=="Ascending"){
-    d.order<-df[order(df$var),]
-  }
-  ranks<-1:length(df$var)
-  d.rank<-cbind(d.order,ranks)
-  names<-paste(d.rank$ranks,".",sep="")
-  names<-paste(names,d.rank$city)
-  d.graph<-cbind(d.rank,names)
-  
-  breaks <- classIntervals(d.graph$var,3,style="jenks")
-  d.graph$color <- NA
-  d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
-  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
-  d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(round(d.graph$var,1),nsmall=1)
-  d.graph$textfont <- "Museo Sans 300"
-  d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
-  d.graph$linecolor <- "white"
-  d.graph$linecolor[d.graph$city == "Louisville"] <- "#00a9b7"
-  d.graph$textcolor <- "black"
-  d.graph$textcolor[d.graph$city == "Louisville"] <- "#00a9b7"
-  
-  
-  p <- ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
-                               y=var,fill=factor(color)))+guides(fill=FALSE)
-  p <- p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
-  if(order=="Ascending"){
-    p <- p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
-  }
-  if(order=="Descending"){
-    p <- p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
-  }
-  p <- p + theme(text = element_text(family = "Museo Sans 300"),
-                 plot.title = element_text(size = 18, hjust = 0.5),
-                 axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
-                                          size=12, color = rev(d.graph$textcolor)),
-                 axis.ticks=element_blank(),
-                 axis.text.x = element_blank(),
-                 plot.caption = element_text(),
-                 plot.subtitle = element_text(hjust = 0.5))
-  p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
-  p <- p+labs(title = plot_title, y= y_title,
-              x = "", caption = caption_text)
-  p
-}
-
-##rolling mean functions for trendlines
-rollmean3 <- function(x){
-  n <- length(x)
-  y <- NA
-  for(i in 1:n){
-    y[i] <- mean(c(x[i-1],x[i],x[i+1]))
-    y[1] <- NA
-  }
-  y
-}
-
-rollmean5 <- function(x){
-  n <- length(x)
-  y <- NA
-  for(i in 1:n){
-    y[i] <- mean(c(x[i-2],x[i-1],x[i],x[i+1],x[i+2]))
-    y[1] <- NA
-    y[2] <- NA
-  }
-  y
-}
-
-##
-graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
-                          caption_text = "", subtitle_text = "", rollmean = 3,
-                          break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
-  df$var <- df[[var]]
-  df = df %>% filter(year != 2016)
-  
-  if(peers=="Current"){
-    df.wol <- subset(df,current == 1 & FIPS!=21111)
-  }
-  
-  if(peers=="Baseline"){
-    df.wol <- subset(df,baseline == 1 & FIPS!=21111)
-  }
-  
-  output_wol = df %>% 
-    group_by(year) %>%
-    summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
-              mean = mean(var),
-              third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
-  
-  lville = df %>% 
-    filter(FIPS == 21111) %>% 
-    select(var, year)
-  
-  dat = full_join(lville, output_wol, by = "year")
-  
-  if (rollmean == 3){
-    dat$var = rollmean3(dat$var)
-    dat$first_quarter = rollmean3(dat$first_quarter)
-    dat$mean = rollmean3(dat$mean)
-    dat$third_quarter = rollmean3(dat$third_quarter)
-    dat <- dat %>% filter(year > 2005 & year < 2015)
-  }
-  
-  if (rollmean == 5){
-    dat$var = rollmean5(dat$var)
-    dat$first_quarter = rollmean5(dat$first_quarter)
-    dat$mean = rollmean5(dat$mean)
-    dat$third_quarter = rollmean5(dat$third_quarter)
-    dat = dat %>% filter(year > 2006 & year < 2014)
-  }
-  
-  data_long <- melt(dat, id="year")
-  data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
-  
-  p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
-    geom_point(size = 1.8)+
-    geom_line(size = 1)
-  p <- p + theme_bw()
-  midpoint <- (max(data_long$value, na.rm = TRUE)+min(data_long$value, na.rm = TRUE))/2
-  border_space <- .1 * midpoint
-  p <- p + ylim(c(min(data_long$value, na.rm = TRUE) - border_space, max(data_long$value, na.rm=TRUE) + border_space))
-  p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
-  cPalette <- c("#00a9b7","grey50", "black","grey50")
-  p<-p+scale_colour_manual(values=cPalette,
-                           labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))+
-    scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
-                          labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))
-  p<-p+theme(text = element_text(family = "Museo Sans 300"),
-             legend.title=element_blank(),
-             legend.position = "top",
-             axis.text=element_text(size=12, family = "Museo Sans 300"),
-             axis.ticks.y=element_blank(),
-             plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
-                                     margin=margin(b=10,unit="pt")),
-             legend.text=element_text(size=12, family = "Museo Sans 300"),
-             plot.caption = element_text(family = "Museo Sans 300"),
-             plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
-  p<-p+labs(title=plot_title,x="Year",
-            y=y_title, caption = caption_text, subtitle = subtitle_text)
-  p
-}
-
-graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
-                              caption_text = "", subtitle_text = "", rollmean = 3,
-                              break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
-  df$var <- df[[var]]
-  df = df %>% filter(year != 2016)
-  if(peers=="Current"){
-    df.wol <- filter(df,current == 1 & MSA!=31140)
-  }
-  if(peers=="Baseline"){
-    df.wol <- filter(df,baseline == 1 & MSA!=31140)
-  }
-  output_wol = df %>% 
-    group_by(year) %>%
-    summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
-              mean = mean(var),
-              third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
-  lville = df %>% 
-    filter(MSA == 31140) %>% 
-    select(var, year)
-  dat = full_join(lville, output_wol, by = "year")
-  if (rollmean == 3){
-    dat$var = rollmean3(dat$var)
-    dat$first_quarter = rollmean3(dat$first_quarter)
-    dat$mean = rollmean3(dat$mean)
-    dat$third_quarter = rollmean3(dat$third_quarter)
-    dat <- dat %>% filter(year > 2003 & year < 2014)
-  }
-  if (rollmean == 5){
-    dat$var = rollmean5(dat$var)
-    dat$first_quarter = rollmean5(dat$first_quarter)
-    dat$mean = rollmean5(dat$mean)
-    dat$third_quarter = rollmean5(dat$third_quarter)
-    dat = dat %>% filter(year > 2006 & year < 2014)
-  }
-  dat
-  data_long <- melt(dat, id="year")
-  data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
-  p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
-    geom_point(size = 1.8)+
-    geom_line(size = 1)
-  p <- p + theme_bw()
-  midpoint <- (max(data_long$value)+min(data_long$value))/2
-  border_space <- .1 * midpoint
-  p <- p + ylim(c(min(data_long$value) - border_space, max(data_long$value + border_space)))
-  p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
-  cPalette <- c("#00a9b7","grey50", "black","grey50")
-  p<-p+scale_colour_manual(values=cPalette,
-                           labels=c("Louisville", "25th Percentile", "Peer City Mean", "75th Percentile"))+
-    scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
-                          labels=c("Louisville", "25th Percentile", "Peer City Mean", "75th Percentile"))
-  p<-p+theme(text = element_text(family = "Museo Sans 300"),
-             legend.title=element_blank(),
-             legend.position = "top",
-             axis.text=element_text(size=12, family = "Museo Sans 300"),
-             axis.ticks.y=element_blank(),
-             plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
-                                     margin=margin(b=10,unit="pt")),
-             legend.text=element_text(size=12, family = "Museo Sans 300"),
-             plot.caption = element_text(family = "Museo Sans 300"),
-             plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
-  p<-p+labs(title=plot_title,x="Year",
-            y=y_title, caption = caption_text, subtitle = subtitle_text)
-  p
-}
-
-#Made a few special adjustments for the net migration variable.
-rank_and_nb_group_mig<-function(df, var, order="Descending", peers="Current",
-                            plot_title="", y_title = "Percent", caption_text = ""){
-  df$var <- df[[var]]
-  if(peers=="Current"){
-    df<-subset(df,current ==1)
-  }
-  if(peers=="Baseline"){
-    df<-subset(df,baseline ==1)
-  }
-  if(order=="Descending"){
-    d.order<-df[order(-df$var),]
-  }
-  if(order=="Ascending"){
-    d.order<-df[order(df$var),]
-  }
-  ranks<-1:length(df$var)
-  d.rank<-cbind(d.order,ranks)
-  names<-paste(d.rank$ranks,".",sep="")
-  names<-paste(names,d.rank$city)
-  d.graph<-cbind(d.rank,names)
-  
-  breaks <- classIntervals(d.graph$var,3,style="jenks")
-  d.graph$color <- NA
-  d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
-  d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
-  d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(round(d.graph$var,0),nsmall=0)
-  d.graph$textfont <- "Museo Sans 300"
-  d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
-  d.graph$linecolor <- "white"
-  d.graph$linecolor[d.graph$city == "Louisville"] <- "#00a9b7"
-  d.graph$textcolor <- "black"
-  d.graph$textcolor[d.graph$city == "Louisville"] <- "#00a9b7"
-  
-  
-  p <- ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
-                               y=var,fill=factor(color)))+guides(fill=FALSE)
-  p <- p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
-  if(order=="Ascending"){
-    p <- p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
-  }
-  if(order=="Descending"){
-    p <- p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
-  }
-  p <- p + theme(text = element_text(family = "Museo Sans 300"),
-                 plot.title = element_text(size = 18, hjust = 0.5),
-                 axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
-                                          size=12, color = rev(d.graph$textcolor)),
-                 axis.ticks=element_blank(),
-                 axis.text.x = element_blank(),
-                 plot.caption = element_text(),
-                 plot.subtitle = element_text(hjust = 0.5))
-  p <-
-    p + geom_text(
-    aes(label = round),
-    hjust = ifelse(d.graph$var > 1000, 1.1, ifelse(
-    d.graph$var > 0, .2, ifelse(d.graph$var > -1000, 1.0, -.1))),
-    size = 5,
-    family = "Museo Sans 300")
-  p <- p+labs(title = plot_title, y= y_title,
-              x = "", caption = caption_text)
-  p
-}
+if(!(
+  exists("rank_and_nb_group", mode = "function") &
+  exists("graph_trendline", mode = "function") &
+  exists("graph_trendline_msa", mode = "function") &
+  exists("make_map", mode = "function") &
+  exists("rank_and_nb_group_mig", mode = "function") &
+  exists("rollmean3", mode = "function") &
+  exists("rollmean5", mode = "function")
+  )) {
+  source("graphing_functions.R")
+  } 
 ```
 
-Read in data and set working directory
+Read in ranking and trend line data
 ```{r}
 setwd("~/Desktop/glp_website/output data")
 qp_data_fips<-read_csv("qp_data_fips.csv")
@@ -307,6 +39,24 @@ qp_data_msa<-read_csv("qp_data_msa.csv")
 font.add("Museo Sans 300", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300.otf")
 font.add("Museo Sans 300 Italic", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300_Italic.otf")
 ```
+
+Adding mapping data
+```{r}
+setwd("~/Desktop/glp_website/map data")
+map_data = read_csv("qp_map_data.csv")
+map_data$mpi = -1*map_data$mpi
+
+map_jc = readOGR("JC Tracts", layer = "JC Tracts",
+                 GDAL1_integer64_policy = TRUE)
+
+map_jc@data<-full_join(map_jc@data, map_data, by = c('GEO_ID' = 'Id'))
+
+map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+
+map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
+```
+
 
 Graphing Ranking Graphs
 ```{r}
@@ -355,7 +105,7 @@ rank_and_nb_group(
   'est_food_desert_households_per100000_lowIncTract',
   order = "Ascending",
   plot_title = "Households Living in a Food Desert, 2010",
-  y_title = "Households Living in a Low Income Census Tract With No Vehicle and Limited Access to Food\n(per 100,000 households)",
+  y_title = "Percent of Households Living in a Low Income Census Tract With No Vehicle and Limited Access to Food\n",
   caption_text = "Source: Greater Louisville Project \nData from USDA, Food Atlas 2015"
 )
 showtext.end()
@@ -411,10 +161,23 @@ rank_and_nb_group(
 showtext.end()
 dev.off()
 
+jpeg("qp_median_household_income_ranking.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  filter(qp_data_fips, year == 2014),
+  "median_household_income", sigfig = 3, num_dec = 0,
+  order = "Descending",
+  plot_title = "Median Household Income, 2015",
+  y_title = "Dollars",
+  caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
+  )
+showtext.end()
+dev.off()
+
 jpeg("qp_housing_price_index_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
-  as.data.frame(filter(qp_data_fips, year == 2015)),
+  as.data.frame(filter(qp_data_fips, year == 2015)),sigfig = 4,
   'housing_price_index',
   order = "Ascending",
   y_title = "Index Score",
@@ -424,14 +187,14 @@ rank_and_nb_group(
 showtext.end()
 dev.off()
 
-jpeg("qp_home_ownership_rankings.jpg", 900, 600, res = 100)
+jpeg("qp_homeownership_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'home_ownership',
   order = "Descending",
   y_title = "Percent",
-  plot_title = "Home Ownership, 2015",
+  plot_title = "Homeownership, 2015",
   caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED"
 )
 showtext.end()
@@ -493,7 +256,7 @@ jpeg("qp_violent_crime_rankings.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
-  'violent_crime',
+  'violent_crime', num_dec = 0,
   order = "Ascending",
   y_title = "Violent Crimes per 100,000",
   plot_title = "Violent Crime",
@@ -675,10 +438,10 @@ graph_trendline(as.data.frame(qp_data_fips), var = 'housing_price_index', rollme
 showtext.end()
 dev.off()
 
-jpeg("qp_home_ownership_trendline.jpg", 900, 600, res = 100)
+jpeg("qp_homeownership_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'home_ownership', rollmean = 1,
-                plot_title = "Home Ownership",
+                plot_title = "Homeownership",
                 y_title = "Percent",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 xmin = 2009, xmax = 2015)
@@ -700,7 +463,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'disconnected_youth', rollmean = 1,
                 plot_title = "Disconnected Youth",
                 y_title = "Percent",
-                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED", order = "Ascending",
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
@@ -714,10 +477,39 @@ graph_trendline(as.data.frame(qp_data_fips), var = 'racial_geography', rollmean 
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
+
+jpeg("qp_median_household_income_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(qp_data_fips, "median_household_income",
+                plot_title = "Median Household Income",
+                subtitle = "Annual",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
+                break_settings = seq(2005, 2014, 2),
+                xmin = 2005, xmax = 2014, y_title = "Dollars")
+showtext.end()
+dev.off()
 ```
 
 
+```{r}
+setwd("~/Desktop/glp_website/Images/Maps")
+
+m <- make_map("mpi", "MPI", order = "Ascending", units = "none")
+saveWidget(m, "qp_mpi_map.html")
+
+m <- make_map("pct_white", "White Population", order = "Descending",
+              col_palette = "BuPu")
+saveWidget(m, "qp_pct_white_map_descending.html")
 
 
+m <- make_map("pct_white", "White Population", order = "Ascending",
+              col_palette = "BuPu")
+saveWidget(m, "qp_pct_white_map_ascending.html")
 
+m <- make_map("dif_score", "Percent Difference from City Average", order = "Descending", col_palette = "Blues")
+saveWidget(m, "qp_dif_score_map.html")
 
+m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "BuPu")
+saveWidget(m, "qp_median_income_map.html")
+```
