@@ -1,4 +1,4 @@
-city,county,state,display_name,FIPS,current_peer,baseline_peer
+city,county,state,display_name,FIPS,current,baseline
 Grand Rapids,Kent,MI,GR,26081,1,0
 St. Louis,St. Louis both city and county,MO,STL,MERGED,1,0
 Oklahoma City,Oklahoma,OK,OKC,40109,1,0

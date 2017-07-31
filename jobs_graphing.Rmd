@@ -405,8 +405,18 @@ setwd("~/Desktop/glp_website/Images/Maps")
 # m <- make_map("child_per", "Child Poverty", order = "Ascending")
 # saveWidget(m, "edu_child_pov_map.html")
 
-m <- make_map("unemp_pct", "Unemployment", order = "Ascending")
-saveWidget(m, "jobs_unemp_map.html")
+
+m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "BuPu")
+saveWidget(m, "jobs_unemp_map-1.html")
+
+m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "Oranges")
+saveWidget(m, "jobs_unemp_map-2.html")
+
+m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "Greens")
+saveWidget(m, "jobs_unemp_map-3.html")
+
+m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "Greys")
+saveWidget(m, "jobs_unemp_map-4.html")
 ```
 
 

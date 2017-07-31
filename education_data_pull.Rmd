@@ -1,7 +1,26 @@
-library(dplyr)
+---
+title: "edu_data_pull"
+output: html_notebook
+---
 
-setwd("C:/Users/natek/Documents/GitHub/glp_website/input data")
+Code for pulling education data
 
+```{r "setup", include=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "~/Desktop/glp_website")
+```
+
+Loading Libraries
+```{r}
+library(showtext)
+library(reshape2)
+library(classInt)
+library(ggthemes)
+library(tidyverse)
+library(magrittr)
+```
+
+```{r}
 acs_time<-function(folder, starting.year=2005){
   initial_wd <- getwd()
   directory <- paste(initial_wd, folder, sep = "")
@@ -40,53 +59,162 @@ acs_time<-function(folder, starting.year=2005){
   df
 }
 
-data = acs_time("/B17001")
+ccr_read <- function(folder) {
+  initial_wd <- getwd()
+  directory <- paste(initial_wd, folder, sep = "/")
+  file_names <- list.files(directory)
+  n <- length(file_names)
+  for (i in 1:n) {
+    data <-
+      read_csv(paste(directory, file_names[i], sep = "/"),
+               skip = 0,
+               progress = FALSE, 
+               col_types = cols(PCT_CCR_NO_BONUS = col_double(),
+                                NBR_GRADUATES_WITH_DIPLOMA = col_double()))
+    data$SCH_NAME[data$SCH_NAME == "--District Total--"] = "---District Total---"
+    data %<>% filter(SCH_NAME == "---District Total---")%>%
+      select(school_year = SCH_YEAR, dist_name = DIST_NAME, SCH_NAME,
+                     label = DISAGG_LABEL, pct_ccr = PCT_CCR_NO_BONUS,
+                     number_grads = NBR_GRADUATES_WITH_DIPLOMA)
+
+    if (i == 1) {
+      df <- data
+    }
+    else{
+
+      df <- bind_rows(df, data)
+    }
+  }
+  df
+}
+
+act_read <- function(folder) {
+  initial_wd <- getwd()
+  directory <- paste(initial_wd, folder, sep = "/")
+  file_names <- list.files(directory)
+  n <- length(file_names)
+  for (i in 1:n) {
+    data <-
+      read_csv(paste(directory, file_names[i], sep = "/"),
+               skip = 0,
+               progress = FALSE, 
+               col_types = cols(STDNT_TESTED_CNT = col_double(),
+                                ENGLISH_MEAN_SCORE = col_double(),
+                                MATHEMATICS_MEAN_SCORE = col_double(),
+                                READING_MEAN_SCORE = col_double(),
+                                SCIENCE_MEAN_SCORE = col_double(),
+                                COMPOSITE_MEAN_SCORE = col_double()))
+    data$SCH_NAME[data$SCH_NAME == "--- District Total ---"] = "---District Total---"
+    data %<>% filter(SCH_NAME == "---District Total---")%>%
+      select(school_year = SCH_YEAR, dist_name = DIST_NAME, SCH_NAME,
+             label = DISAGG_LABEL,
+             num_students_tested = STDNT_TESTED_CNT,
+             english_score = ENGLISH_MEAN_SCORE,
+             math_score = MATHEMATICS_MEAN_SCORE,
+             reading_score = READING_MEAN_SCORE,
+             science_score = SCIENCE_MEAN_SCORE,
+             composite_score = COMPOSITE_MEAN_SCORE)
+    
+    if (i == 1) {
+      df <- data
+    }
+    else{
+      
+      df <- bind_rows(df, data)
+    }
+  }
+  df
+}
+
+rename_cols <- function(df, text){
+  names <- colnames(df)
+  new <- paste(names, text, sep = "_")
+  colnames(df) <- new
+  df
+}
+
+tidy <- function(data, var, key){
+  data$var <- data[[var]]
+  data$key <- data[[key]]
+  data %<>% mutate(key = tolower(gsub(" ", "_", key)))
+  data$key[data$key == "white_(non-hispanic)"] = "white"
+  data %<>% select(var, key, year, dist_name) %>%
+    spread(key = key, value = var)
+  data = bind_cols(data[,1:2], rename_cols(data[,3:9], var))
+  data
+}
+
+restore_ky_ed_data <- function(data){
+  var_names <- colnames(data)
+  var_names <- var_names[4:11]
+  n <- length(var_names)
+  for(i in 1:n){
+    df = tidy(data, var_names[i], key = "label")
+    if(i == 1){
+      tidy_df <- df
+    }
+    else{
+      tidy_df <- left_join(tidy_df, df, by = c("year", "dist_name"))
+    }
+  }
+  return(tidy_df)
+}
+```
+
+Reading in ACS Data
+```{r}
+data = acs_time("/input data/educ_input_data/B17001")
 
 data = data %>%
-  mutate(under_5_per = (Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years)/
-           (Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
-            Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years+
-              Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
-              Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years),
-         five_to_17_under =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....6.to.11.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....12.to.14.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....15.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Male....16.and.17.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....5.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....6.to.11.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....12.to.14.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....15.years+
-                             Estimate..Income.in.the.past.12.months.below.poverty.level....Female....16.and.17.years,
-         five_to_17_over =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....6.to.11.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....12.to.14.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....15.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....16.and.17.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....5.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....6.to.11.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....12.to.14.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....15.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....16.and.17.years,
-         five_to_17_per = five_to_17_under/(five_to_17_over+five_to_17_under),
-         child_under = five_to_17_under +
-                        Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
-                        Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years,
-         child_over = five_to_17_over +
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years,
-         child_per = child_under/(child_over+child_under)
-            )
+mutate(
+under_5_per = (
+Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years
+) /
+(
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years
+),
+five_to_17_under =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Male....6.to.11.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Male....12.to.14.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Male....15.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Male....16.and.17.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....5.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....6.to.11.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....12.to.14.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....15.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....16.and.17.years,
+five_to_17_over =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....6.to.11.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....12.to.14.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....15.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....16.and.17.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....5.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....6.to.11.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....12.to.14.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....15.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....16.and.17.years,
+five_to_17_per = five_to_17_under / (five_to_17_over + five_to_17_under),
+child_under = five_to_17_under +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years +
+Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years,
+child_over = five_to_17_over +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years +
+Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years,
+child_per = child_under / (child_over + child_under)
+)
 
-child_pov_data = data %>% 
-  select(FIPS, year, under_5_per, five_to_17_per, child_per)
+child_pov_data = data %>%
+select(FIPS, year, under_5_per, five_to_17_per, child_per)
 
-write.csv(child_pov_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/child_pov_data.csv", row.names = FALSE)
 
-data = acs_time("/S1401/Y5to7")
-data_2 = acs_time("/S1401/Y8to14", starting.year = 2008)
-data_3 = acs_time("/S1401/Y15", starting.year = 2015)
+
+data = acs_time("/input data/educ_input_data/S1401/Y5to7")
+data_2 = acs_time("/input data/educ_input_data/S1401/Y8to14", starting.year = 2008)
+data_3 = acs_time("/input data/educ_input_data/S1401/Y15", starting.year = 2015)
 
 data = data %>% 
   select(enrolled_3_4 = Total..Estimate..Percent.of.age.group.enrolled.in.school......3.and.4.years,
@@ -98,11 +226,11 @@ data_3 = data_3 %>%
   select(enrolled_3_4 = Percent..Estimate..Population.3.to.4.years...3.to.4.year.olds.enrolled.in.school,
          FIPS, year)
 
-df = rbind(data, data_2, data_3)
+enroll_3_4_data = rbind(data, data_2, data_3)
 
-write.csv(df, "C:/Users/natek/Documents/GitHub/glp_website/output data/enroll_3_4_data.csv", row.names = FALSE)
 
-data = acs_time("/B15001")
+
+data = acs_time("/input data/educ_input_data/B15001")
 
 data = data %>%
   mutate(num_m_25_34_assoc_plus = Estimate..Male....25.to.34.years....Associate.s.degree +
@@ -189,9 +317,8 @@ degree_data = data %>%
   select(FIPS, year, per_25_64_assoc_plus, per_25_64_bach_plus, per_25_64_grad,
          per_25_34_assoc_plus, per_25_34_bach_plus, per_25_34_grad)
 
-write.csv(degree_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_data.csv", row.names = FALSE)
 
-degree_all_races = acs_time("/B15002")
+degree_all_races = acs_time("/input data/educ_input_data/B15002")
 
 degree_all_races = degree_all_races %>%
   mutate(bach_plus_per_all = (Estimate..Female....Bachelor.s.degree+
@@ -205,10 +332,11 @@ degree_all_races = degree_all_races %>%
 degree_all_races = degree_all_races %>%
   select(FIPS, year, bach_plus_per_all)
 
-write.csv(degree_all_races, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_all_races.csv", row.names = FALSE)
 
-degree_white_05 = acs_time("/B15002A/Y05", starting.year = 2005)
-degree_white_08 = acs_time("/B15002A/Y08", starting.year = 2008)
+
+
+degree_white_05 = acs_time("/input data/educ_input_data/B15002A/Y05", starting.year = 2005)
+degree_white_08 = acs_time("/input data/educ_input_data/B15002A/Y08", starting.year = 2008)
 
 degree_white_05 = degree_white_05 %>%
   mutate(bach_plus_per_white = (Estimate..Female....Bachelor.s.degree+
@@ -232,10 +360,10 @@ degree_white_08 = degree_white_08 %>%
 
 degree_white = rbind(degree_white_05, degree_white_08)
 
-write.csv(degree_white, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_white.csv", row.names = FALSE)
 
-degree_black_05 = acs_time("/B15002B/Y05", starting.year = 2005)
-degree_black_08 = acs_time("/B15002B/Y08", starting.year = 2008)
+
+degree_black_05 = acs_time("/input data/educ_input_data/B15002B/Y05", starting.year = 2005)
+degree_black_08 = acs_time("/input data/educ_input_data/B15002B/Y08", starting.year = 2008)
 
 degree_black_05 = degree_black_05 %>%
   mutate(bach_plus_per_black = (Estimate..Female....Bachelor.s.degree+
@@ -259,11 +387,10 @@ degree_black_08 = degree_black_08 %>%
 
 degree_black = rbind(degree_black_05, degree_black_08)
 
-write.csv(degree_black, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_black.csv", row.names = FALSE)
 
 
-degree_hispanic_05 = acs_time("/B15002I/Y05", starting.year = 2005)
-degree_hispanic_08 = acs_time("/B15002I/Y08", starting.year = 2008)
+degree_hispanic_05 = acs_time("/input data/educ_input_data/B15002I/Y05", starting.year = 2005)
+degree_hispanic_08 = acs_time("/input data/educ_input_data/B15002I/Y08", starting.year = 2008)
 
 degree_hispanic_05 = degree_hispanic_05 %>%
   mutate(bach_plus_per_hispanic = (Estimate..Female....Bachelor.s.degree+
@@ -287,11 +414,12 @@ degree_hispanic_08 = degree_hispanic_08 %>%
 
 degree_hispanic = rbind(degree_hispanic_05, degree_hispanic_08)
 
-write.csv(degree_hispanic, "C:/Users/natek/Documents/GitHub/glp_website/output data/degree_hispanic.csv", row.names = FALSE)
 
-occupation_05 = acs_time("/S2401/Y05", starting.year = 2005)
-occupation_10 = acs_time("/S2401/Y10", starting.year = 2010)
-occupation_15 = acs_time("/S2401/Y15", starting.year = 2015)
+
+
+occupation_05 = acs_time("/input data/educ_input_data/S2401/Y05", starting.year = 2005)
+occupation_10 = acs_time("/input data/educ_input_data/S2401/Y10", starting.year = 2010)
+occupation_15 = acs_time("/input data/educ_input_data/S2401/Y15", starting.year = 2015)
 
 occupation_05 = occupation_05 %>%
   mutate(per_high_wage = (as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Management..professional..and.related.occupations.)+
@@ -316,67 +444,105 @@ occupation_10 = occupation_10 %>% select(FIPS, year, per_high_wage)
 occupation_15 = occupation_15 %>% select(FIPS, year, per_high_wage)
 
 occupation_data = rbind(occupation_05, occupation_10, occupation_15)
+```
 
-write.csv(occupation_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/occupation_data.csv", row.names = FALSE)
-
-
-####################
-##Merging the Data##
-####################
-
-child_pov_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/child_pov_data.csv")
-degree_all_races = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_all_races.csv")
-degree_black = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_black.csv")
-degree_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_data.csv")
-degree_hispanic = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_hispanic.csv")
-degree_white = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/degree_white.csv")
-enroll_3_4_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/enroll_3_4_data.csv", stringsAsFactors = FALSE)
-jcps_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/jcps_data.csv")
-naep_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/naep_data.csv")
-occupation_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/output data/occupation_data.csv")
-population_data = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/population_data.csv")
-
+Merging the Data
+```{r}
 data = full_join(child_pov_data, degree_all_races, by = c("FIPS", "year"))
 data = full_join(data, degree_black, by = c("FIPS", "year"))
 data = full_join(data, degree_data, by = c("FIPS", "year"))
 data = full_join(data, degree_hispanic, by = c("FIPS", "year"))
 data = full_join(data, degree_white, by = c("FIPS", "year"))
 data = full_join(data, enroll_3_4_data, by = c("FIPS", "year"))
-data = full_join(data, jcps_data, by = c("FIPS", "year"))
-data = full_join(data, naep_data, by = c("FIPS", "year"))
+# data = full_join(data, jcps_data, by = c("FIPS", "year"))
+# data = full_join(data, naep_data, by = c("FIPS", "year"))
 data = full_join(data, occupation_data, by = c("FIPS", "year"))
-data = full_join(data, population_data, by = c("FIPS", "year"))
+data$FIPS<-as.character(data$FIPS)
+population_data <- read_csv("input data/population_data.csv", col_types = cols(FIPS = col_character()))
+data = as.tibble(full_join(data, population_data, by = c("FIPS", "year")))
+data$enrolled_3_4 = as.numeric(data$enrolled_3_4)/100
 
-##Now to give the FIPS codes names
-names = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/FIPS two stl.csv")
-data$FIPS <- as.integer(data$FIPS)
 
-data_named = left_join(data, names, by = "FIPS")
+stl_data <- data %>%
+  filter(FIPS == 29189 | FIPS == 29510) %>%
+  group_by(year) %>%
+  summarise_each(funs(weighted.mean(.,population)), -c(FIPS,population))
+stl_data$FIPS <- "MERGED"
 
-##and merge St. Louis city and St. Louis county
+names = read_csv("input data/FIPS one stl.csv")
 
-data = data_named %>%
-  select(-county, -state) %>%
-  group_by(city, year) %>%
-  summarise_each(funs(weighted.mean(.,population)), -population)
+education_data <- data %>%
+  filter(!(FIPS == 29189 | FIPS == 29510)) %>%
+  bind_rows(stl_data) %>%
+  left_join(names, by = "FIPS")
+```
 
-# give St. Louis Merged a new FIPS
-data$FIPS = as.character(data$FIPS)
-data$FIPS[data$city == "St. Louis"] = "MERGED"
-data$FIPS = as.factor(data$FIPS)
 
-# and then add the other stuff for each city again
-names = read.csv("C:/Users/natek/Documents/GitHub/glp_website/input data/FIPS one stl.csv")
+ACT and CCR Data for Kentucky
+```{r}
+ccr <- ccr_read("input data/educ_input_data/CCR_acc_data")
+act<- act_read("input data/educ_input_data/ACT_data")
 
-education_data = left_join(data, names, by = "FIPS")
+#CCR Scores
 
-write.csv(education_data, "C:/Users/natek/Documents/GitHub/glp_website/output data/education data.csv", row.names = FALSE)
 
-#################
-####Map Data#####
-#################
+ccr_new <- ccr %>%
+  filter((
+    label == "All Students" |
+      label == "Male" |
+      label == "Female" |
+      label == "White (Non-Hispanic)" |
+      label == "African American" |
+      label == "Hispanic" |
+      label == "Asian"
+  )
+  )
 
-data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_B17001_with_ann.csv", skip = 1)
+
+
+#ACT Scores
+
+
+act_new <- act %>%
+  filter((
+    label == "All Students" |
+      label == "Male" |
+      label == "Female" |
+      label == "White (Non-Hispanic)" |
+      label == "African American" |
+      label == "Hispanic" |
+      label == "Asian"
+  )
+  )
+
+ky_new <-left_join(act_new, ccr_new, by = c("school_year","dist_name","SCH_NAME", "label"))
+ky_new %<>%  mutate(year = as.numeric(substr(school_year,5,8)))%>%
+  select(year,dist_name,label,num_students_tested:number_grads)
+
+
+#Tidy this very untidy dataset - See recursively defined functions above.
+ky_tidy_new <- restore_ky_ed_data(ky_new)
+```
+
+
+NAEP Data for Kentucky
+```{r}
+naep_math <- read_csv("input data/educ_input_data/naep_math_data.csv")
+naep_reading <- read_csv("input data/educ_input_data/naep_reading_data.csv")
+
+naep_reading %<>% select(Year, Jurisdiction, naep_reading_score = `Average scale score`, 
+                         reading_sd = `Standard Error`)
+naep_math %<>% select(Year, Jurisdiction, naep_math_score = `Average scale score`, 
+                      math_sd = `Standard Error`)
+
+naep_data <- left_join(naep_reading, naep_math, by = c("Year", "Jurisdiction"))
+naep_data %<>% rename(year = Year)
+```
+
+
+Map Data
+```{r}
+data = read.csv("input data/educ_input_data/ACS_15_5YR_B17001_with_ann.csv", skip = 1)
 
 data = data %>%
   mutate(under_5_per = (Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
@@ -418,13 +584,13 @@ data = data %>%
 child_pov_data = data %>% 
   select(Id, Geography, under_5_per, five_to_17_per, child_per)
 
-data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_S1401_with_ann.csv", skip = 1)
+data = read.csv("input data/educ_input_data/ACS_15_5YR_S1401_with_ann.csv", skip = 1)
 
 enroll_data = data %>% 
   select(enrolled_3_4 = Percent..Estimate..Population.3.to.4.years...3.to.4.year.olds.enrolled.in.school,
          Id, Geography)
 
-data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_B15001_with_ann.csv", skip = 1)
+data = read.csv("input data/educ_input_data/ACS_15_5YR_B15001_with_ann.csv", skip = 1)
 
 data = data %>%
   mutate(num_m_25_34_assoc_plus = Estimate..Male....25.to.34.years....Associate.s.degree +
@@ -512,7 +678,7 @@ degree_data = data %>%
          per_25_34_assoc_plus, per_25_34_bach_plus, per_25_34_grad)
 
 
-data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/ACS_15_5YR_S2401_with_ann.csv", skip = 1)
+data = read.csv("input data/educ_input_data/ACS_15_5YR_S2401_with_ann.csv", skip = 1)
 
 data = data %>%
   mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
@@ -522,15 +688,33 @@ data = data %>%
 
 occupation_data = data %>% select(Id, Geography, per_high_wage)
 
-name_data = read.csv("C:/Users/natek/Dropbox/GLP/Web Update/education map data/census tract neighborhoods.csv")
+name_data = read.csv("map data/census tract neighborhoods.csv")
 
 
 map_data = full_join(child_pov_data, degree_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, enroll_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, occupation_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, name_data, by = "Id2")
+```
 
 
-write.csv(map_data, "C:/Users/natek/Dropbox/GLP/Web Update/education map data/map data.csv", row.names = FALSE)
+```{r}
+write_csv(ky_tidy_new, "output data/education_data_act_ccr.csv")
+write_csv(naep_data, "output data/education_data_naep.csv")
+write_csv(education_data, "output data/education_data_fips.csv")
+write_csv(map_data, "output data/education_map_data.csv")
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 

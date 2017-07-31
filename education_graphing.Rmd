@@ -3,7 +3,13 @@ title: "Education Graphing"
 output: html_notebook
 ---
 
-##Graphing the education data
+Graphing the Education Data
+
+```{r "setup", include=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "~/Desktop/glp_website")
+```
+
 
 Loading libraries
 ```{r libraries, message = FALSE}
@@ -16,16 +22,41 @@ library(rgdal)
 library(htmlwidgets)
 library(RColorBrewer)
 library(tidyverse)
+library(magrittr)
+library(wesanderson)
 ```
 
 Reading in data
 ```{r data}
-setwd("C:/Users/natek/Documents/Github/glp_website/data")
-educ_data = read_csv("education peer data.csv")
+educ_data = read_csv("output data/education_data_fips.csv")
 
 rescale <- function(x){new_value <- x*100}
-educ_data[ ,c(9:21, 23:40)] = apply(educ_data[ ,c(9:21, 23:40)], 2, rescale)
+educ_data[ ,c(3:17)] = apply(educ_data[ ,c(3:17)], 2, rescale)
 educ_data_15 <- educ_data %>% filter(year == 2015)
+
+
+naep_data <- read_csv("output data/education_data_naep.csv")
+act_ccr_data <- read_csv("output data/education_data_act_ccr.csv")
+
+#Plot ACT by Ethnicity for JCPS
+jeff_eth_act <- act_ccr_data %>%
+  filter(dist_name == "Jefferson County")%>%
+  select(year, white_composite_score, african_american_composite_score,
+         asian_composite_score, hispanic_composite_score)%>%
+  gather(white_composite_score:hispanic_composite_score, key = "var",
+         value = "value")%>%
+  arrange(var)
+jeff_eth_act$var <- factor(jeff_eth_act$var, levels = unique(jeff_eth_act$var))
+
+
+#Plot CCR by Ethnicity for JCPS
+jeff_eth_ccr <- act_ccr_data %>%
+  filter(dist_name == "Jefferson County")%>%
+  select(year, white_pct_ccr, african_american_pct_ccr,
+         asian_pct_ccr, hispanic_pct_ccr)%>%
+  gather(white_pct_ccr:hispanic_pct_ccr, key = "var", value = "value")%>%
+  arrange(var)
+jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 
 ```
 
@@ -38,66 +69,10 @@ if(!(exists("rank_and_nb_group", mode = "function") &
      exists("make_map", mode = "function") &
      exists("rank_and_nb_group_mig", mode = "function") &
      exists("rollmean3", mode = "function") &
-     exists("rollmean5", mode = "function")
+     exists("rollmean5", mode = "function") &
+     exists("ky_ed_data_long_trendline", mode = "function") & 
+     exists("graph_trendline_ky_ed")
 )){source("graphing_functions.R")} 
-
-# rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-#                             plot_title="", y_title = "Percent", caption_text = ""){
-#   df$var <- df[[var]]
-#   if(peers=="Current"){
-#     df<-subset(df,current_peer ==1)
-#   }
-#   if(peers=="Baseline"){
-#     df<-subset(df,baseline_peer ==1)
-#   }
-#   if(order=="Descending"){
-#     d.order<-df[order(-df$var),]
-#   }
-#   if(order=="Ascending"){
-#     d.order<-df[order(df$var),]
-#   }
-#   ranks<-1:length(df$var)
-#   d.rank<-cbind(d.order,ranks)
-#   names<-paste(d.rank$ranks,".",sep="")
-#   names<-paste(names,d.rank$city)
-#   d.graph<-cbind(d.rank,names)
-#   
-#   breaks<-classIntervals(d.graph$var,3,style="jenks")
-#   d.graph$color<-NA
-#   d.graph$color[d.graph$var<=breaks$brks[2]]<-"green"
-#   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]]<-"yellow"
-#   d.graph$color[d.graph$var>breaks$brks[3]]<-"red"
-#   d.graph$round<-format(round(d.graph$var,1),nsmall=1)
-#   d.graph$textfont<-"Museo Sans 300"
-#   d.graph$textfont[d.graph$city == "Louisville"]<-"Museo Sans Italic"
-#   d.graph$linecolor<-"white"
-#   d.graph$linecolor[d.graph$city == "Louisville"]<-"#00a9b7"
-#   d.graph$textcolor<-"black"
-#   d.graph$textcolor[d.graph$city == "Louisville"]<-"#00a9b7"
-#   
-#   
-#   p<-ggplot(data=d.graph,aes(x=factor(names, levels=rev(unique(names))),
-#                              y=var,fill=factor(color)))+guides(fill=FALSE)
-#   p<-p+geom_bar(stat="identity",color=rev(d.graph$linecolor), size = 1)+coord_flip()+theme_tufte()
-#   if(order=="Ascending"){
-#     p<-p+scale_fill_manual(values=c("#96ca4f","#db2834","#ffd600"))
-#   }
-#   if(order=="Descending"){
-#     p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
-#   }
-#   p <- p + theme(text = element_text(family = "Museo Sans 300"),
-#                 plot.title = element_text(size = 18, hjust = .5),
-#                 axis.text.y=element_text(hjust=0, family = rev(d.graph$textfont),
-#                                          size=12, color = rev(d.graph$textcolor)),
-#                 axis.ticks=element_blank(),
-#                 axis.text.x = element_blank(),
-#                 plot.caption = element_text(),
-#                 plot.subtitle = element_text(hjust = .5))
-#   p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Museo Sans 300")
-#   p<-p+labs(title = plot_title, y= y_title,
-#             x = "", caption = caption_text)
-#   p
-# }
 
 ```
 
@@ -113,7 +88,7 @@ font.add("Museo Sans 300 Italic", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoS
 
 
 ```{r, message = FALSE}
-setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Edu_Images")
 
 jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
@@ -245,115 +220,16 @@ showtext.end()
 dev.off()
 ```
 
-Now two functions for taking rolling means that will be used for the graph trendlines function
-```{r rolling means}
-# rollmean3 <- function(x){
-#   n <- length(x)
-#   y <- NA
-#   for(i in 1:n){
-#     y[i] <- mean(c(x[i-1],x[i],x[i+1]))
-#     y[1] <- NA
-#   }
-#   y
-# }
-# 
-# rollmean5 <- function(x){
-#   n <- length(x)
-#   y <- NA
-#   for(i in 1:n){
-#     y[i] <- mean(c(x[i-2],x[i-1],x[i],x[i+1],x[i+2]))
-#     y[1] <- NA
-#     y[2] <- NA
-#   }
-#   y
-# }
-# ```
-# 
-# And then the function for graphing trendlines
-# ```{r trendline graph}
-# graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
-#                           caption_text = "", subtitle_text = "", rollmean = 3){
-#   df$var <- df[[var]]
-#   df = df %>% filter(year != 2016)
-#   
-#   if(peers=="Current"){
-#     df.wol <- subset(df,current_peer == 1 & FIPS!=21111)
-#   }
-#   
-#   if(peers=="Baseline"){
-#     df.wol <- subset(df,baseline_peer == 1 & FIPS!=21111)
-#   }
-#   
-#   output_wol = df %>% 
-#     group_by(year) %>%
-#     summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
-#               mean = mean(var),
-#               third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
-#   
-#   lville = df %>% 
-#     filter(FIPS == 21111) %>% 
-#     select(var, year)
-#   
-#   dat = full_join(lville, output_wol, by = "year")
-#   
-#   if (rollmean == 3){
-#     dat$var = rollmean3(dat$var)
-#     dat$first_quarter = rollmean3(dat$first_quarter)
-#     dat$mean = rollmean3(dat$mean)
-#     dat$third_quarter = rollmean3(dat$third_quarter)
-#     dat <- dat %>% filter(year > 2005 & year < 2015)
-#   }
-#   
-#   if (rollmean == 5){
-#     dat$var = rollmean5(dat$var)
-#     dat$first_quarter = rollmean5(dat$first_quarter)
-#     dat$mean = rollmean5(dat$mean)
-#     dat$third_quarter = rollmean5(dat$third_quarter)
-#     dat = dat %>% filter(year > 2006 & year < 2014)
-#   }
-#   
-#   data_long <- melt(dat, id="year")
-#   data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
-#   
-#   p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
-#               geom_point(size = 1.8)+
-#               geom_line(size = 1)
-#   p <- p + theme_bw()
-#   midpoint <- (max(data_long$value)+min(data_long$value))/2
-#   border_space <- .1 * midpoint
-#   p <- p + ylim(c(min(data_long$value) - border_space, max(data_long$value + border_space)))
-#   p<-p+scale_x_continuous(breaks=seq(2005, 2015, 2))
-#   cPalette <- c("#00a9b7","grey50", "black","grey50")
-#   p<-p+scale_colour_manual(values=cPalette,
-#                            labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))+
-#     scale_linetype_manual(values=c("solid","dashed","dashed","dashed"),
-#                           labels=c("Louisville", "75th Percentile", "Peer City Mean", "25th Percentile"))
-#   p<-p+theme(text = element_text(family = "Museo Sans 300"),
-#              legend.title=element_blank(),
-#              legend.position = "top",
-#              axis.text=element_text(size=12, family = "Museo Sans 300"),
-#              axis.ticks.y=element_blank(),
-#              plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
-#                                      margin=margin(b=10,unit="pt")),
-#              legend.text=element_text(size=12, family = "Museo Sans 300"),
-#              plot.caption = element_text(family = "Museo Sans 300"),
-#              plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
-#   p<-p+labs(title=plot_title,x="Year",
-#             y=y_title, caption = caption_text, subtitle = subtitle_text)
-#   p
-# }
-```
-
-
 
 ```{r}
-setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Edu_Images")
 
 jpeg("edu_under_5_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "under_5_per",
                   plot_title = "Children Under 5 in Poverty",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
 dev.off()
@@ -362,7 +238,8 @@ jpeg("edu_five_to_17_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "five_to_17_per", 
                   plot_title = "Children Ages 5 to 17 in Poverty",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
 dev.off()
@@ -371,7 +248,8 @@ jpeg("edu_child_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "child_per",
                   plot_title = "Child Poverty",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
 dev.off()
@@ -381,7 +259,7 @@ showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_all",
                   plot_title = "Bachelor's Degree or Higher, All Races",
                   subtitle = "5-year rolling average",
-                  rollmean = 5,
+                  rollmean = 5, xmin = 2007, xmax = 2013,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002")
 showtext.end()
 dev.off()
@@ -391,7 +269,7 @@ showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_black",
                   plot_title = "Bachelor's Degree or Higher, Black",
                   subtitle = "5-year rolling average",
-                  rollmean = 5,
+                  rollmean = 5, xmin = 2007, xmax = 2013,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B")
 showtext.end()
 dev.off()
@@ -400,7 +278,8 @@ jpeg("edu_25_64_assoc_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_64_assoc_plus",
                   plot_title = "Associate's Degree or Higher, Ages 25-64",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average",rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -409,7 +288,8 @@ jpeg("edu_25_64_bach_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_64_bach_plus",
                   plot_title = "Bachelor's Degree or Higher, Ages 25-64",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -418,7 +298,8 @@ jpeg("edu_25_64_grad_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_64_grad",
                   plot_title = "Graduate Degree, Ages 25-64",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -435,7 +316,8 @@ jpeg("edu_25_34_bach_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_34_bach_plus",
                   plot_title = "Bachelor's Degree or Higher, Ages 25-34",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -445,7 +327,7 @@ showtext.begin()
 graph_trendline(educ_data, "per_25_34_grad",
                   plot_title = "Graduate Degree, Ages 25-34",
                   subtitle = "5-year rolling average",
-                  rollmean = 5,
+                  rollmean = 5,xmin = 2007, xmax = 2013,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -464,7 +346,7 @@ showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_hispanic",
                   plot_title = "Bachelor's Degree or Higher, Hispanic",
                   subtitle = "5-year rolling average",
-                  rollmean = 5,
+                  rollmean = 5,xmin = 2007, xmax = 2013,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I")
 showtext.end()
 dev.off()
@@ -474,7 +356,7 @@ showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_white",
                   plot_title = "Bachelor's Degree or Higher, White",
                   subtitle = "5-year rolling average",
-                  rollmean = 5,
+                  rollmean = 5,xmin = 2007, xmax = 2013,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A")
 showtext.end()
 dev.off()
@@ -484,7 +366,7 @@ showtext.begin()
 graph_trendline(educ_data, "enrolled_3_4",
                   plot_title = "Children ages 3 and 4 enrolled in preschool",
                   subtitle = "5-year rolling average",
-                  rollmean = 5,
+                  rollmean = 5,xmin = 2007, xmax = 2013,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S1401")
 showtext.end()
 dev.off()
@@ -493,26 +375,118 @@ jpeg("edu_per_high_wage_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_high_wage",
                   plot_title = "Population in High Wage Occupations",
-                  subtitle = "3-year rolling average",
+                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
+                  xmax = 2014,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S2401")
+showtext.end()
+dev.off()
+
+jpeg("edu_ccr_ethnicity_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+ky_ed_data_long_trendline(
+jeff_eth_ccr,
+break_settings = seq(2012, 2016, 2),
+xmin = 2012,
+xmax = 2016,
+plot_title = "College and Career Readiness by Ethnicity, JCPS",
+labels = c("African American", "Asian", "Hispanic", "White"),
+y_title = "Percent",
+color_pal = wes_palette("Moonrise2"),
+caption = "Source: Greater Louisville Project
+Data from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
+
+
+jpeg("edu_act_ethnicity_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+ky_ed_data_long_trendline(
+jeff_eth_act,
+break_settings = seq(2012, 2016, 2),
+xmin = 2012,
+xmax = 2016,
+plot_title = "ACT Scores by Ethnicity, JCPS",
+labels = c("African American", "Asian", "Hispanic", "White"),
+y_title = "Composite Score",
+color_pal = wes_palette("Moonrise2"),
+caption = "Source: Greater Louisville Project
+Data from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
+
+
+jpeg("edu_act_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_ky_ed(
+  act_ccr_data,
+  "all_students_composite_score",
+  plot_title = "ACT Composite Scores",
+  y_title = "Composite Score",
+  xmin = 2012,
+  xmax = 2016,
+  break_settings = seq(2012, 2016, 2),
+  caption = "Source: Greater Louisville Project
+Data from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
+
+jpeg("edu_ccr_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_ky_ed(
+  act_ccr_data,
+  "all_students_pct_ccr",
+  plot_title = "College and Career Readiness",
+  y_title = "Percent",
+  xmin = 2012,
+  xmax = 2016,
+  break_settings = seq(2012, 2016, 2),
+  caption = "Source: Greater Louisville ProjectData from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
+
+
+jpeg("edu_naep_reading_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+ky_ed_data_long_trendline(naep_data, var = "Jurisdiction", value = "naep_reading_score", break_settings = seq(2009, 2016,2), xmin = 2009,
+                xmax = 2015, plot_title = "NAEP 4th Grade Reading Score",
+                labels = c("JCPS", "Kentucky School District Mean"),
+                y_title = "Composite Score", color_pal = c("#00a9b7", "black"),
+caption = "Source: Greater Louisville Project\nData from National Center for Education
+Statistics")
+showtext.end()
+dev.off()
+
+jpeg("edu_naep_math_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+ky_ed_data_long_trendline(naep_data, var = "Jurisdiction", value = "naep_math_score", break_settings = seq(2009, 2016,2), xmin = 2009,
+                xmax = 2015, plot_title = "NAEP 4th Grade Math Score",
+                labels = c("JCPS", "Kentucky School District Mean"),
+                y_title = "Composite Score", color_pal = c("#00a9b7", "black"),
+caption = "Source: Greater Louisville Project\nData from National Center for Education
+Statistics")
 showtext.end()
 dev.off()
 ```
 
 Adding mapping data
 ```{r}
-setwd("C:/Users/natek/Documents/Github/glp_website/data")
-map_data = read_csv("education map data.csv")
+map_data = read_csv("output data/education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
 
 rescale <- function(x){new_value <- x*100}
-map_data[ ,c(5:13, 15)] = apply(map_data[ ,c(5:13, 15)], 2, rescale)
+map_data[ ,c(3:5, 7:14)] = apply(map_data[ ,c(3:5, 7:14)], 2, rescale)
 
 ```
 
 Reading in data for mapping
 ```{r}
 
-setwd("C:/Users/natek/Documents/Github/glp_website/map data")
+# setwd("C:/Users/natek/Documents/Github/glp_website/map data")
+setwd("~/Desktop/glp_website/map data")
+
 map_jc = readOGR("JC Tracts", layer = "JC Tracts",
                  GDAL1_integer64_policy = TRUE)
 
@@ -526,54 +500,13 @@ map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 
 ```
 
-Defining a function for mapping
-```{r}
-# make_map <- function(var, name, order = "Descending"){
-#   map_jc@data$var <- map_jc@data[[var]]
-#   map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 0), "%", sep = "")
-# 
-# labels <- sprintf(
-#   "%s<br/>%s<br/>%s",
-#   map_jc@data$l_line1, map_jc@data$l_line2, map_jc@data$l_line3
-# ) %>% lapply(htmltools::HTML)
-# 
-# 
-# if(order == "Ascending"){
-# pal <- rev(brewer.pal(11, "RdYlGn"))
-# }
-# 
-# if(order == "Descending"){
-# pal <- brewer.pal(11, "RdYlGn")
-# }
-# 
-# pal <- colorNumeric(
-#   palette = pal,
-#   domain = map_jc@data$var
-# )
-# 
-# title_text <- paste(name, "(%)")
-# 
-# m <- leaflet(map_jc) %>%
-#   addTiles() %>%
-#   addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
-#               opacity = 1.0, fillOpacity = 0.5,
-#               fillColor = ~pal(var),
-#               label = labels,
-#               labelOptions = labelOptions(
-#                 style = list("font-weight" = "normal", padding = "3px 8px"),
-#                 textsize = "15px",
-#                 direction = "auto"))%>%
-#   addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
-#             position = "bottomright")
-# 
-# m
-# }
-```
 
 Making and saving maps
 ```{r}
-setwd("C:/Users/natek/Documents/images")
-m <- make_map("child_per", "Child Poverty", order = "Ascending")
+# setwd("C:/Users/natek/Documents/images")
+setwd("~/Desktop/glp_website/Images/Maps")
+
+m <- make_map("child_per", "Child Poverty", order = "Descending", col_palette = "RdYlBu")
 saveWidget(m, "edu_child_pov_map.html")
 
 m <- make_map("per_25_64_assoc_plus", "Associate Degrees, 25-64")

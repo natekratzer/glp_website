@@ -329,6 +329,20 @@ rank_and_nb_group(
 )
 showtext.end()
 dev.off()
+
+
+jpeg("qp_millennial_migration_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  as.data.frame(filter(qp_data_fips, year == 2015)),
+  'mil_mig_per_100000',
+  order = "Descending",
+  y_title = "Number of Millennials (Ages 25-34) moving to the city from another county, state, or country\nper 100,000",
+  plot_title = "Millennial Immigration Patterns, 2015",
+  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B07001"
+)
+showtext.end()
+dev.off()
 ```
 
 Trendline Graphs
@@ -489,27 +503,59 @@ graph_trendline(qp_data_fips, "median_household_income",
                 xmin = 2005, xmax = 2014, y_title = "Dollars")
 showtext.end()
 dev.off()
+
+jpeg("qp_millennial_migration_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(qp_data_fips, "mil_mig_per_100000",
+                plot_title = "Millennial Immigration Patterns",
+                rollmean = 1,
+                caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B07001",
+                break_settings = seq(2011, 2015, 2),
+                xmin = 2010, xmax = 2015, y_title = "Number of Millennials (Ages 25-34) moving to the city from another\ncounty, state, or country per 100,000")
+showtext.end()
+dev.off()
+
+
+
 ```
 
 
 ```{r}
 setwd("~/Desktop/glp_website/Images/Maps")
 
-m <- make_map("mpi", "MPI", order = "Ascending", units = "none")
+m <- make_map("mpi", "MPI", order = "Descending", units = "none")
 saveWidget(m, "qp_mpi_map.html")
 
 m <- make_map("pct_white", "White Population", order = "Descending",
               col_palette = "BuPu")
 saveWidget(m, "qp_pct_white_map_descending.html")
 
+m <- make_map("pct_white", "White Population", order = "Descending",
+              col_palette = "Oranges")
+saveWidget(m, "qp_pct_white_map_descending-1.html")
+
+m <- make_map("pct_white", "White Population", order = "Descending",
+              col_palette = "Greens")
+saveWidget(m, "qp_pct_white_map_descending-2.html")
+
+m <- make_map("pct_white", "White Population", order = "Descending",
+              col_palette = "Greys")
+saveWidget(m, "qp_pct_white_map_descending-3.html")
+
 
 m <- make_map("pct_white", "White Population", order = "Ascending",
-              col_palette = "BuPu")
+              col_palette = "GnBu")
 saveWidget(m, "qp_pct_white_map_ascending.html")
 
 m <- make_map("dif_score", "Percent Difference from City Average", order = "Descending", col_palette = "Blues")
 saveWidget(m, "qp_dif_score_map.html")
 
-m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "BuPu")
+m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdYlGn")
 saveWidget(m, "qp_median_income_map.html")
+
+m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdBu")
+saveWidget(m, "qp_median_income_map-2.html")
+
+m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdYlBu")
+saveWidget(m, "qp_median_income_map-3.html")
 ```
