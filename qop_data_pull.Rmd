@@ -1,5 +1,5 @@
 ---
-title: "QOP_pull"
+title: "qop_data_pull"
 output: html_notebook
 ---
 
@@ -869,6 +869,22 @@ mill_mig_data %<>% mutate(
 
 qp_data_fips <- left_join(qp_data_fips, mill_mig_data, by = c("FIPS", "year"))
 
+```
+
+Optional code for exporting the millennial migration data to the KY Fund for the
+Arts.
+```{r}
+# names<-read_csv("input data/FIPS one stl.csv")
+
+# excel_mil <- mill_mig_data %>%
+#   left_join(names, by = "FIPS")%>%
+#   select(-c(mig_dif_state_25_29:mig_dif_county_30_34))%>%
+#   rename(Population = mig_population, `Number Millennials Immigrating` = mill_mig,
+#          `Number Millennials Immigrating per 100,000 population` = mil_mig_per_100000, `Current GLP Peer City` = current, `Baseline GLP Peer City` = baseline)%>%
+#            arrange(year, city)
+# 
+# setwd("~/Desktop")
+# write_csv(excel_mil,"millenial_migration_data_GLP.csv")
 ```
 
 Output Data

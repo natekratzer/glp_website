@@ -93,7 +93,7 @@ rollmean5 <- function(x){
 ##
 graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
                           caption_text = "", subtitle_text = "", rollmean = 1,
-                          break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016,
+                          break_settings = seq(2005, 2015, 2), xmin = 2005, xmax = 2015,
                           order = "Descending"){
   df$var <- df[[var]]
   df = df %>% filter(year != 2016)
@@ -422,4 +422,137 @@ make_map <- function(var, name, order = "Descending", units = "Percent", col_pal
               position = "bottomright")
   
   m
+}
+
+
+##
+graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent", 
+                                caption_text = "", subtitle_text = "", rollmean = 1,
+                                break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016,
+                                order = "Descending"){
+  df$var <- df[[var]]
+  # df = df %>% filter(year != 2016)
+  output_wol = df %>% 
+    group_by(year) %>%
+    summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
+              mean = mean(var, na.rm = TRUE),
+              third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
+  lville = df %>% 
+    filter(dist_name == "Jefferson County") %>% 
+    select(var, year)
+  dat = full_join(lville, output_wol, by = "year")
+  if (rollmean == 3){
+    dat$var = rollmean3(dat$var)
+    dat$first_quarter = rollmean3(dat$first_quarter)
+    dat$mean = rollmean3(dat$mean)
+    dat$third_quarter = rollmean3(dat$third_quarter)
+    dat <- dat %>% filter(year > 2005 & year < 2015)
+  }
+  
+  if (rollmean == 5){
+    dat$var = rollmean5(dat$var)
+    dat$first_quarter = rollmean5(dat$first_quarter)
+    dat$mean = rollmean5(dat$mean)
+    dat$third_quarter = rollmean5(dat$third_quarter)
+    dat = dat %>% filter(year > 2006 & year < 2014)
+  }
+  
+  data_long <- melt(dat, id="year")
+  data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
+  p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
+    geom_point(size = 1.8)+
+    geom_line(size = 1)
+  p <- p + theme_bw()
+  midpoint <- (max(data_long$value, na.rm = TRUE)+min(data_long$value, na.rm = TRUE))/2
+  border_space <- .1 * midpoint
+  p <- p + ylim(c(min(data_long$value, na.rm = TRUE) - border_space, max(data_long$value, na.rm=TRUE) + border_space))
+  p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
+  cPalette <- c("#00a9b7","grey50", "black","grey50")
+  if(order == "Descending") {
+    p <- p + scale_colour_manual(
+      values = cPalette,
+      labels = c(
+        "JCPS",
+        "75th Percentile",
+        "KY School District Mean",
+        "25th Percentile"
+      )
+    ) +
+      scale_linetype_manual(
+        values = c("solid", "dashed", "dashed", "dashed"),
+        labels = c(
+          "JCPS",
+          "75th Percentile",
+          "KY School District Mean",
+          "25th Percentile"
+        )
+      )
+  }
+  if(order == "Ascending"){
+    p <- p + scale_colour_manual(
+      values = cPalette,
+      labels = c(
+        "JCPS",
+        "25th Percentile",
+        "KY School District Mean",
+        "75th Percentile"
+      )
+    ) +
+      scale_linetype_manual(
+        values = c("solid", "dashed", "dashed", "dashed"),
+        labels = c(
+          "JCPS",
+          "25th Percentile",
+          "KY School District Mean",
+          "75th Percentile"
+        )
+      )
+  }
+  p<-p+theme(text = element_text(family = "Museo Sans 300"),
+             legend.title=element_blank(),
+             legend.position = "top",
+             axis.text=element_text(size=12, family = "Museo Sans 300"),
+             axis.ticks.y=element_blank(),
+             plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
+                                     margin=margin(b=10,unit="pt")),
+             legend.text=element_text(size=12, family = "Museo Sans 300"),
+             plot.caption = element_text(family = "Museo Sans 300"),
+             plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
+  p<-p+labs(title=plot_title,x="Year",
+            y=y_title, caption = caption_text, subtitle = subtitle_text)
+  p
+}
+
+
+ky_ed_data_long_trendline <- function(data_long, var = "var", value = "value", plot_title="",y_title="Percent", 
+                                      caption_text = "", subtitle_text = "", rollmean = 1,
+                                      break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016,
+                                      order = "Descending", labels, color_pal){
+  data_long$var <- data_long[[var]]
+  data_long$value<-data_long[[value]]
+  data_long %<>% select(year, var, value)
+  data_long <- arrange(data_long, as.character(var))
+  p <- ggplot(data=data_long,aes(x=year,y=value,colour=var))+
+    geom_point(size = 1.8)+
+    geom_line(size = 1)
+  p <- p + theme_bw()
+  midpoint <- (max(data_long$value, na.rm = TRUE)+min(data_long$value, na.rm = TRUE))/2
+  border_space <- .1 * midpoint
+  p <- p + ylim(c(min(data_long$value, na.rm = TRUE) - border_space, max(data_long$value, na.rm=TRUE) + border_space))
+  p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
+  cPalette <- color_pal
+  p <- p + scale_colour_manual(values = cPalette, labels = labels)
+  p<-p+theme(text = element_text(family = "Museo Sans 300"),
+             legend.title=element_blank(),
+             legend.position = "top",
+             axis.text=element_text(size=12, family = "Museo Sans 300"),
+             axis.ticks.y=element_blank(),
+             plot.title=element_text(size=18, hjust=.5, family = "Museo Sans 300",
+                                     margin=margin(b=10,unit="pt")),
+             legend.text=element_text(size=12, family = "Museo Sans 300"),
+             plot.caption = element_text(family = "Museo Sans 300"),
+             plot.subtitle = element_text(family = "Museo Sans 300", hjust = 0.5))
+  p<-p+labs(title=plot_title,x="Year",
+            y=y_title, caption = caption_text, subtitle = subtitle_text)
+  p
 }
