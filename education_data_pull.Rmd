@@ -59,6 +59,7 @@ acs_time<-function(folder, starting.year=2005){
   df
 }
 
+#Read in data and compute own district totals for CCR
 ccr_read <- function(folder) {
   initial_wd <- getwd()
   directory <- paste(initial_wd, folder, sep = "/")
@@ -72,21 +73,34 @@ ccr_read <- function(folder) {
                col_types = cols(PCT_CCR_NO_BONUS = col_double(),
                                 NBR_GRADUATES_WITH_DIPLOMA = col_double()))
     data$SCH_NAME[data$SCH_NAME == "--District Total--"] = "---District Total---"
-    data %<>% filter(SCH_NAME == "---District Total---")%>%
-      select(school_year = SCH_YEAR, dist_name = DIST_NAME, SCH_NAME,
-                     label = DISAGG_LABEL, pct_ccr = PCT_CCR_NO_BONUS,
-                     number_grads = NBR_GRADUATES_WITH_DIPLOMA)
-
+    data %<>% filter(SCH_NAME == "---District Total---") %>%
+      select(school_year = SCH_YEAR,
+             dist_name = DIST_NAME, SCH_NAME,
+             label = DISAGG_LABEL,
+             number_grads_ccr = NBR_GRADUATES_WITH_DIPLOMA,
+             pct_ccr = PCT_CCR_NO_BONUS
+      ) %>%
+      filter(
+        label == "All Students" |
+        label == "Male" |
+        label == "Female" |
+        label == "White (Non-Hispanic)" |
+        label == "African American" |
+        label == "Hispanic" |
+        label == "Asian"
+        ) %>%
+      mutate(school_year = as.numeric(substr(school_year, 5, 8))) %>%
+      select(-SCH_NAME)
     if (i == 1) {
       df <- data
     }
     else{
-
-      df <- bind_rows(df, data)
+      df %<>% bind_rows(data)
     }
   }
   df
 }
+
 
 act_read <- function(folder) {
   initial_wd <- getwd()
@@ -105,15 +119,26 @@ act_read <- function(folder) {
                                 SCIENCE_MEAN_SCORE = col_double(),
                                 COMPOSITE_MEAN_SCORE = col_double()))
     data$SCH_NAME[data$SCH_NAME == "--- District Total ---"] = "---District Total---"
-    data %<>% filter(SCH_NAME == "---District Total---")%>%
-      select(school_year = SCH_YEAR, dist_name = DIST_NAME, SCH_NAME,
+    data %<>% filter(SCH_NAME == "---District Total---") %>%
+      select(school_year = SCH_YEAR, 
+             dist_name = DIST_NAME,
              label = DISAGG_LABEL,
-             num_students_tested = STDNT_TESTED_CNT,
+             num_students_tested_act = STDNT_TESTED_CNT,
              english_score = ENGLISH_MEAN_SCORE,
              math_score = MATHEMATICS_MEAN_SCORE,
              reading_score = READING_MEAN_SCORE,
              science_score = SCIENCE_MEAN_SCORE,
-             composite_score = COMPOSITE_MEAN_SCORE)
+             composite_score = COMPOSITE_MEAN_SCORE)%>%
+      filter(
+        label == "All Students" |
+        label == "Male" |
+        label == "Female" |
+        label == "White (Non-Hispanic)" |
+        label == "African American" |
+        label == "Hispanic" |
+        label == "Asian"
+        ) %>%
+      mutate(school_year = as.numeric(substr(school_year, 5, 8)))
     
     if (i == 1) {
       df <- data
@@ -126,39 +151,76 @@ act_read <- function(folder) {
   df
 }
 
-rename_cols <- function(df, text){
-  names <- colnames(df)
-  new <- paste(names, text, sep = "_")
-  colnames(df) <- new
+
+kscreen_read <- function(folder) {
+  initial_wd <- getwd()
+  directory <- paste(initial_wd, folder, sep = "/")
+  file_names <- list.files(directory)
+  n <- length(file_names)
+  for (i in 1:n) {
+    data <-
+      read_csv(paste(directory, file_names[i], sep = "/"),
+               skip = 0,
+               progress = FALSE, 
+               col_types = cols(COMP_AND_DOMAIN_NUMTESTED = col_double(),
+                                 KR_KINDERGARTENREADY = col_double()))
+    data$SCH_NAME[data$SCH_NAME == "--- District Total ---"] = "---District Total---"
+    data %<>% filter(
+      SCH_NAME == "---District Total---" &
+      (
+      DISAGG_LABEL == "All Students" |
+      DISAGG_LABEL == "Male" |
+      DISAGG_LABEL == "Female" |
+      DISAGG_LABEL == "White (Non-Hispanic)" |
+      DISAGG_LABEL == "African American" |
+      DISAGG_LABEL == "Hispanic" |
+      DISAGG_LABEL == "Asian"
+      ) & PRIOR_SETTING == "All Students"
+      ) %>% 
+      select(school_year = SCH_YEAR, dist_name = DIST_NAME,
+             label = DISAGG_LABEL,
+             num_students_tested_kscreen = COMP_AND_DOMAIN_NUMTESTED,
+             kind_ready = KR_KINDERGARTENREADY)%>%
+      mutate(school_year = as.numeric(substr(school_year, 5, 8)))
+    if (i == 1) {
+      df <- data
+    }
+    else{
+      df <- bind_rows(df, data)
+    }
+  }
   df
 }
 
-tidy <- function(data, var, key){
-  data$var <- data[[var]]
-  data$key <- data[[key]]
-  data %<>% mutate(key = tolower(gsub(" ", "_", key)))
-  data$key[data$key == "white_(non-hispanic)"] = "white"
-  data %<>% select(var, key, year, dist_name) %>%
-    spread(key = key, value = var)
-  data = bind_cols(data[,1:2], rename_cols(data[,3:9], var))
+
+graduation_read <- function(df_name, grad_var, target_label = TRUE) {
+  data <- read_csv(df_name,
+  skip = 0,
+  progress = FALSE)
+  data$var <- data[[grad_var]]
+  data$SCH_NAME[data$SCH_NAME == "--District Total--"] = "---District Total---"
+  data %<>% filter(
+    SCH_NAME == "---District Total---" &
+    (
+    DISAGG_LABEL == "All Students" |
+    DISAGG_LABEL == "Male" |
+    DISAGG_LABEL == "Female" |
+    DISAGG_LABEL == "White (Non-Hispanic)" |
+    DISAGG_LABEL == "African American" |
+    DISAGG_LABEL == "Hispanic" |
+    DISAGG_LABEL == "Asian"
+    ) &
+    COHORT_TYPE == "FOUR YEAR"
+     & TARGET_LABEL == "Actual Score") %>%
+    select(school_year = SCH_YEAR,
+           dist_name = DIST_NAME,
+           label = DISAGG_LABEL,
+           cohort_grad_rate = var) %>% 
+    mutate(school_year = as.numeric(substr(school_year, 5,8)),
+           cohort_grad_rate = as.numeric(cohort_grad_rate))
   data
 }
 
-restore_ky_ed_data <- function(data){
-  var_names <- colnames(data)
-  var_names <- var_names[4:11]
-  n <- length(var_names)
-  for(i in 1:n){
-    df = tidy(data, var_names[i], key = "label")
-    if(i == 1){
-      tidy_df <- df
-    }
-    else{
-      tidy_df <- left_join(tidy_df, df, by = c("year", "dist_name"))
-    }
-  }
-  return(tidy_df)
-}
 ```
 
 Reading in ACS Data
@@ -478,50 +540,84 @@ education_data <- data %>%
 ```
 
 
-ACT and CCR Data for Kentucky
+ACT, CCR, and KSCREEN Data for Kentucky
 ```{r}
+
 ccr <- ccr_read("input data/educ_input_data/CCR_acc_data")
 act<- act_read("input data/educ_input_data/ACT_data")
+kscreen <- kscreen_read("input data/educ_input_data/KSCREEN")
 
-#CCR Scores
+#Formatted differently from other Graduation Rate files so is read in separately
+grad_data_13 <- read_csv("input data/educ_input_data/graduation_rate/graduation_rate_12_13.csv", progress = FALSE,
+                         col_types = cols(COHORT_NUMERATOR = col_double(), 
+                                          COHORT_DENOMINATOR = col_double()))
+grad_data_13$SCH_NAME[grad_data_13$SCH_NAME == "--District Total--"] = "---District Total---"
+grad_data_13 %<>% filter(SCH_NAME == "---District Total---" &
+                           (
+    DISAGG_LABEL == "All Students" |
+    DISAGG_LABEL == "Male" |
+    DISAGG_LABEL == "Female" |
+    DISAGG_LABEL == "White (Non-Hispanic)" |
+    DISAGG_LABEL == "African American" |
+    DISAGG_LABEL == "Hispanic" |
+    DISAGG_LABEL == "Asian"
+    )) %>%
+  transmute(
+    school_year = as.numeric(substr(SCH_YEAR,5,8)),
+    dist_name = DIST_NAME,
+    label = DISAGG_LABEL,
+    cohort_grad_rate = as.numeric(COHORT_RATE)
+    )
+
+grad_data <- grad_data_13 %>%
+  bind_rows(graduation_read("input data/educ_input_data/graduation_rate/graduation_rate_13_14.csv", "COHORT_2014")) %>%
+  bind_rows(graduation_read("input data/educ_input_data/graduation_rate/graduation_rate_14_15.csv", "COHORT_2015")) %>%
+  bind_rows(graduation_read("input data/educ_input_data/graduation_rate/graduation_rate_15_16.csv", "REPORTYEAR_2016"))
 
 
-ccr_new <- ccr %>%
-  filter((
-    label == "All Students" |
-      label == "Male" |
-      label == "Female" |
-      label == "White (Non-Hispanic)" |
-      label == "African American" |
-      label == "Hispanic" |
-      label == "Asian"
-  )
-  )
+ky_new <- act %>%
+  full_join(ccr, by = c("school_year","dist_name", "label"))%>%
+  full_join(kscreen, by = c("school_year","dist_name", "label")) %>%
+  full_join(grad_data, by = c("school_year","dist_name","label"))
 
+rename_cols <- function(df, text){
+  names <- colnames(df)
+  new <- paste(names, text, sep = "_")
+  colnames(df) <- new
+  df
+}
 
+tidy <- function(data, var, key){
+  data$var <- data[[var]]
+  data$key <- data[[key]]
+  data %<>% mutate(key = tolower(gsub(" ", "_", key)))
+  data$key[data$key == "white_(non-hispanic)"] = "white"
+  data %<>% select(var, key, school_year, dist_name) %>%
+    spread(key = key, value = var)
+  data = bind_cols(data[,1:2], rename_cols(data[,3:9], var))
+  data
+}
 
-#ACT Scores
-
-
-act_new <- act %>%
-  filter((
-    label == "All Students" |
-      label == "Male" |
-      label == "Female" |
-      label == "White (Non-Hispanic)" |
-      label == "African American" |
-      label == "Hispanic" |
-      label == "Asian"
-  )
-  )
-
-ky_new <-left_join(act_new, ccr_new, by = c("school_year","dist_name","SCH_NAME", "label"))
-ky_new %<>%  mutate(year = as.numeric(substr(school_year,5,8)))%>%
-  select(year,dist_name,label,num_students_tested:number_grads)
+restore_ky_ed_data <- function(data){
+  var_names <- colnames(data)
+  var_names <- var_names[4:14]
+  n <- length(var_names)
+  for(i in 1:n){
+    df = tidy(data, var_names[i], key = "label")
+    if(i == 1){
+      tidy_df <- df
+    }
+    else{
+      tidy_df <- left_join(tidy_df, df, by = c("school_year", "dist_name"))
+    }
+  }
+  return(tidy_df)
+}
 
 
 #Tidy this very untidy dataset - See recursively defined functions above.
-ky_tidy_new <- restore_ky_ed_data(ky_new)
+ky_tidy_new <- restore_ky_ed_data(ky_new) %>%
+  rename(year = school_year)
 ```
 
 
