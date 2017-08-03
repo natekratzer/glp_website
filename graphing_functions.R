@@ -93,8 +93,7 @@ rollmean5 <- function(x){
 ##
 graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
                           caption_text = "", subtitle_text = "", rollmean = 1,
-                          break_settings = seq(2005, 2015, 2), xmin = 2005, xmax = 2015,
-                          order = "Descending"){
+                          break_settings = seq(2005, 2015, 2), xmin = 2005, xmax = 2015){
   df$var <- df[[var]]
   df = df %>% filter(year != 2016)
   
@@ -146,46 +145,24 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   p <- p + ylim(c(min(data_long$value, na.rm = TRUE) - border_space, max(data_long$value, na.rm=TRUE) + border_space))
   p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
   cPalette <- c("#00a9b7","grey50", "black","grey50")
-  if(order == "Descending") {
-    p <- p + scale_colour_manual(
-      values = cPalette,
-      labels = c(
-        "Louisville",
-        "75th Percentile",
-        "Peer City Mean",
-        "25th Percentile"
-      )
-    ) +
-      scale_linetype_manual(
-        values = c("solid", "dashed", "dashed", "dashed"),
-        labels = c(
-          "Louisville",
-          "75th Percentile",
-          "Peer City Mean",
-          "25th Percentile"
-        )
-      )
-  }
-  if(order == "Ascending"){
-    p <- p + scale_colour_manual(
-      values = cPalette,
+  p <- p + scale_colour_manual(
+    values = cPalette,
+    labels = c(
+      "Louisville",
+      "25th Percentile",
+      "Peer City Mean",
+      "75th Percentile"
+    )
+  ) +
+    scale_linetype_manual(
+      values = c("solid", "dashed", "dashed", "dashed"),
       labels = c(
         "Louisville",
         "25th Percentile",
         "Peer City Mean",
         "75th Percentile"
       )
-    ) +
-      scale_linetype_manual(
-        values = c("solid", "dashed", "dashed", "dashed"),
-        labels = c(
-          "Louisville",
-          "25th Percentile",
-          "Peer City Mean",
-          "75th Percentile"
-        )
-      )
-  }
+    )
   p<-p+theme(text = element_text(family = "Museo Sans 300"),
              legend.title=element_blank(),
              legend.position = "top",
@@ -205,7 +182,7 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent",
                               peers = "Current", caption_text = "", 
                               subtitle_text = "", rollmean = 3,
                               break_settings = seq(2005, 2015, 2), 
-                              xmin = 1996, xmax = 2016, order = "Descending"){
+                              xmin = 1996, xmax = 2016){
   df$var <- df[[var]]
   df = df %>% filter(year != 2016)
   if(peers=="Current"){
@@ -249,46 +226,24 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent",
   p <- p + ylim(c(min(data_long$value) - border_space, max(data_long$value + border_space)))
   p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
   cPalette <- c("#00a9b7","grey50", "black","grey50")
-  if(order == "Descending") {
-    p <- p + scale_colour_manual(
-      values = cPalette,
+  p <- p + scale_colour_manual(
+    values = cPalette,
+    labels = c(
+      "Louisville",
+      "25th Percentile",
+      "Peer City Mean",
+      "75th Percentile"
+    )
+  ) +
+    scale_linetype_manual(
+      values = c("solid", "dashed", "dashed", "dashed"),
       labels = c(
         "Louisville",
         "25th Percentile",
         "Peer City Mean",
         "75th Percentile"
       )
-    ) +
-      scale_linetype_manual(
-        values = c("solid", "dashed", "dashed", "dashed"),
-        labels = c(
-          "Louisville",
-          "25th Percentile",
-          "Peer City Mean",
-          "75th Percentile"
-        )
-      )
-  }
-  if(order == "Ascending"){
-    p <- p + scale_colour_manual(
-      values = cPalette,
-      labels = c(
-        "Louisville",
-        "75th Percentile",
-        "Peer City Mean",
-        "25th Percentile"
-      )
-    ) +
-      scale_linetype_manual(
-        values = c("solid", "dashed", "dashed", "dashed"),
-        labels = c(
-          "Louisville",
-          "75th Percentile",
-          "Peer City Mean",
-          "25th Percentile"
-        )
-      )
-  }
+    )
   p<-p+theme(text = element_text(family = "Museo Sans 300"),
              legend.title=element_blank(),
              legend.position = "top",
@@ -435,8 +390,7 @@ make_map <- function(var, name, units = "Percent",
 ##
 graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent", 
                                 caption_text = "", subtitle_text = "", rollmean = 1,
-                                break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016,
-                                order = "Descending"){
+                                break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
   df$var <- df[[var]]
   # df = df %>% filter(year != 2016)
   output_wol = df %>% 
@@ -475,46 +429,24 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
   p <- p + ylim(c(min(data_long$value, na.rm = TRUE) - border_space, max(data_long$value, na.rm=TRUE) + border_space))
   p<-p+scale_x_continuous(limits = c(xmin, xmax), breaks = break_settings)
   cPalette <- c("#00a9b7","grey50", "black","grey50")
-  if(order == "Descending") {
-    p <- p + scale_colour_manual(
-      values = cPalette,
+  p <- p + scale_colour_manual(
+    values = cPalette,
+    labels = c(
+      "JCPS",
+      "75th Percentile",
+      "KY School District Mean",
+      "25th Percentile"
+    )
+  ) +
+    scale_linetype_manual(
+      values = c("solid", "dashed", "dashed", "dashed"),
       labels = c(
         "JCPS",
         "75th Percentile",
         "KY School District Mean",
         "25th Percentile"
       )
-    ) +
-      scale_linetype_manual(
-        values = c("solid", "dashed", "dashed", "dashed"),
-        labels = c(
-          "JCPS",
-          "75th Percentile",
-          "KY School District Mean",
-          "25th Percentile"
-        )
-      )
-  }
-  if(order == "Ascending"){
-    p <- p + scale_colour_manual(
-      values = cPalette,
-      labels = c(
-        "JCPS",
-        "25th Percentile",
-        "KY School District Mean",
-        "75th Percentile"
-      )
-    ) +
-      scale_linetype_manual(
-        values = c("solid", "dashed", "dashed", "dashed"),
-        labels = c(
-          "JCPS",
-          "25th Percentile",
-          "KY School District Mean",
-          "75th Percentile"
-        )
-      )
-  }
+    )
   p<-p+theme(text = element_text(family = "Museo Sans 300"),
              legend.title=element_blank(),
              legend.position = "top",
@@ -534,7 +466,7 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
 ky_ed_data_long_trendline <- function(data_long, var = "var", value = "value", plot_title="",y_title="Percent", 
                                       caption_text = "", subtitle_text = "", rollmean = 1,
                                       break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016,
-                                      order = "Descending", labels, color_pal){
+                                      labels, color_pal){
   data_long$var <- data_long[[var]]
   data_long$value<-data_long[[value]]
   data_long %<>% select(year, var, value)

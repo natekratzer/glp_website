@@ -467,7 +467,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'disconnected_youth', rollmean = 1,
                 plot_title = "Disconnected Youth",
                 y_title = "Percent",
-                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED", order = "Ascending",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED", 
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()

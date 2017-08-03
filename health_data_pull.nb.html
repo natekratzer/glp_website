@@ -684,7 +684,7 @@ cols(
 sc_data %&lt;&gt;% mutate(ss_est_per_10000 = (ss_est/population)*10000)
 name_df &lt;- read_csv(&quot;input data/FIPS one stl.csv&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICBjaXR5ID0gY29sX2NoYXJhY3RlcigpLFxuICBjb3VudHkgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHN0YXRlID0gY29sX2NoYXJhY3RlcigpLFxuICBkaXNwbGF5X25hbWUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIEZJUFMgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGN1cnJlbnRfcGVlciA9IGNvbF9pbnRlZ2VyKCksXG4gIGJhc2VsaW5lX3BlZXIgPSBjb2xfaW50ZWdlcigpXG4pXG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICBjaXR5ID0gY29sX2NoYXJhY3RlcigpLFxuICBjb3VudHkgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHN0YXRlID0gY29sX2NoYXJhY3RlcigpLFxuICBkaXNwbGF5X25hbWUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIEZJUFMgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGN1cnJlbnQgPSBjb2xfaW50ZWdlcigpLFxuICBiYXNlbGluZSA9IGNvbF9pbnRlZ2VyKClcbilcbiJ9 -->
 <pre><code>Parsed with column specification:
 cols(
   city = col_character(),
@@ -692,8 +692,8 @@ cols(
   state = col_character(),
   display_name = col_character(),
   FIPS = col_character(),
-  current_peer = col_integer(),
-  baseline_peer = col_integer()
+  current = col_integer(),
+  baseline = col_integer()
 )</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZV9kZiAlPD4lIHNlbGVjdChGSVBTLCBjaXR5KVxuc2NfZGF0YSA8LSBsZWZ0X2pvaW4oc2NfZGF0YSwgbmFtZV9kZilcbmBgYCJ9 -->
@@ -703,10 +703,13 @@ sc_data &lt;- left_join(sc_data, name_df)</code></pre>
 <!-- rnb-output-begin eyJkYXRhIjoiSm9pbmluZywgYnkgPSBcIkZJUFNcIlxuIn0= -->
 <pre><code>Joining, by = &quot;FIPS&quot;</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhbHRoX2RhdGFfZmlwcyA8LSBmdWxsX2pvaW4oc2NfZGF0YSwgaGVhbHRoX2RhdGFfZmlwcywgYnkgPSBjKFwiRklQU1wiLCBcInllYXJcIiwgXCJiYXNlbGluZVwiLFwiY2l0eVwiLFwiY3VycmVudFwiKSlcbmhlYWx0aF9kYXRhX2ZpcHMgJTw+JSBzZWxlY3QoLWMoY3VycmVudF9wZWVyLCBiYXNlbGluZV9wZWVyKSlcbmBgYCJ9 -->
-<pre class="r"><code>health_data_fips &lt;- full_join(sc_data, health_data_fips, by = c(&quot;FIPS&quot;, &quot;year&quot;, &quot;baseline&quot;,&quot;city&quot;,&quot;current&quot;))
-health_data_fips %&lt;&gt;% select(-c(current_peer, baseline_peer))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhbHRoX2RhdGFfZmlwcyA8LSBmdWxsX2pvaW4oc2NfZGF0YSwgaGVhbHRoX2RhdGFfZmlwcywgYnkgPSBjKFwiRklQU1wiLCBcInllYXJcIiwgXCJiYXNlbGluZVwiLFwiY2l0eVwiLFwiY3VycmVudFwiKSlcbmBgYCJ9 -->
+<pre class="r"><code>health_data_fips &lt;- full_join(sc_data, health_data_fips, by = c(&quot;FIPS&quot;, &quot;year&quot;, &quot;baseline&quot;,&quot;city&quot;,&quot;current&quot;))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gZnVsbF9qb2luX2ltcGwoeCwgeSwgYnkkeCwgYnkkeSwgc3VmZml4JHgsIHN1ZmZpeCR5KSA6IFxuICAnYmFzZWxpbmUnIGNvbHVtbiBub3QgZm91bmQgaW4gbGhzLCBjYW5ub3Qgam9pblxuIn0= -->
+<pre><code>Error in full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y) : 
+  'baseline' column not found in lhs, cannot join</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Add GeoFRED Commute Time Data Analysis</p>
