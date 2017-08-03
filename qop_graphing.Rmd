@@ -18,17 +18,7 @@ library(htmlwidgets)
 
 Necessary Functions
 ```{r}
-if(!(
-  exists("rank_and_nb_group", mode = "function") &
-  exists("graph_trendline", mode = "function") &
-  exists("graph_trendline_msa", mode = "function") &
-  exists("make_map", mode = "function") &
-  exists("rank_and_nb_group_mig", mode = "function") &
-  exists("rollmean3", mode = "function") &
-  exists("rollmean5", mode = "function")
-  )) {
-  source("graphing_functions.R")
-  } 
+source("graphing_functions.R")
 ```
 
 Read in ranking and trend line data
@@ -521,41 +511,20 @@ dev.off()
 
 
 ```{r}
-setwd("~/Desktop/glp_website/Images/Maps")
+setwd("~/Desktop/glp_website/Images/Maps/qp_maps")
 
-m <- make_map("mpi", "MPI", order = "Descending", units = "none")
+m <- make_map("mpi", "MPI", legend_title = "MPI", map_style = "Divergent", units = "none")
 saveWidget(m, "qp_mpi_map.html")
 
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "BuPu")
-saveWidget(m, "qp_pct_white_map_descending.html")
+m <- make_map("pct_white", "White Population", legend_title = "White<br/>Population<br/>")
+saveWidget(m, "qp_pct_white_map.html")
 
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "Oranges")
-saveWidget(m, "qp_pct_white_map_descending-1.html")
+# m <- make_map("dif_score", "Percent Difference from City Average")
+# saveWidget(m, "qp_dif_score_map.html")
 
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "Greens")
-saveWidget(m, "qp_pct_white_map_descending-2.html")
-
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "Greys")
-saveWidget(m, "qp_pct_white_map_descending-3.html")
-
-
-m <- make_map("pct_white", "White Population", order = "Ascending",
-              col_palette = "GnBu")
-saveWidget(m, "qp_pct_white_map_ascending.html")
-
-m <- make_map("dif_score", "Percent Difference from City Average", order = "Descending", col_palette = "Blues")
-saveWidget(m, "qp_dif_score_map.html")
-
-m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdYlGn")
+m <- make_map("median_income", "Median Household Income", map_style = "divergent", 
+              legend_title = "Median<br/>Household<br/>Income",
+              units = "Dollars")
 saveWidget(m, "qp_median_income_map.html")
 
-m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdBu")
-saveWidget(m, "qp_median_income_map-2.html")
-
-m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdYlBu")
-saveWidget(m, "qp_median_income_map-3.html")
 ```

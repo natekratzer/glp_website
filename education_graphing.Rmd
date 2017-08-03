@@ -86,18 +86,7 @@ jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 
 The code for the rankings graphs
 ```{r rankings}
-
-if(!(exists("rank_and_nb_group", mode = "function") &
-     exists("graph_trendline", mode = "function") &
-     exists("graph_trendline_msa", mode = "function") &
-     exists("make_map", mode = "function") &
-     exists("rank_and_nb_group_mig", mode = "function") &
-     exists("rollmean3", mode = "function") &
-     exists("rollmean5", mode = "function") &
-     exists("ky_ed_data_long_trendline", mode = "function") & 
-     exists("graph_trendline_ky_ed")
-)){source("graphing_functions.R")} 
-
+source("graphing_functions.R")
 ```
 
 Adding fonts
@@ -563,10 +552,10 @@ dev.off()
 
 Adding mapping data
 ```{r}
-map_data = read_csv("output data/education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
+map_data = read_csv("map data/education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
 
 rescale <- function(x){new_value <- x*100}
-map_data[ ,c(3:5, 7:14)] = apply(map_data[ ,c(3:5, 7:14)], 2, rescale)
+map_data[ ,c(3:5, 7:12, 14)] = apply(map_data[ ,c(3:5, 7:12, 14)], 2, rescale)
 
 ```
 
@@ -593,30 +582,31 @@ map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 Making and saving maps
 ```{r}
 # setwd("C:/Users/natek/Documents/images")
-setwd("~/Desktop/glp_website/Images/Maps")
+setwd("~/Desktop/glp_website/Images/Maps/edu_maps")
 
-m <- make_map("child_per", "Child Poverty", order = "Descending", col_palette = "RdYlBu")
+m <- make_map("child_per", name = "Child Poverty", legend_title = "Child<br>Poverty", map_style = "sequential")
 saveWidget(m, "edu_child_pov_map.html")
 
-m <- make_map("per_25_64_assoc_plus", "Associate Degrees, 25-64")
+m <- make_map("per_25_64_assoc_plus", name = "Associate Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Associate Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_64_assoc_map.html")
 
-m <- make_map("per_25_64_bach_plus", "Bachelor's Degrees, 25-64")
+m <- make_map("per_25_64_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Bachelor's Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_64_bach_map.html")
 
-m <- make_map("per_25_64_grad", "Graduate Degrees, 25-64")
+m <- make_map("per_25_64_grad", "Graduate Degree, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Graduate Degree", units = "Percent")
 saveWidget(m, "edu_25_64_grad_map.html")
 
-m <- make_map("per_25_34_assoc_plus", "Associate Degrees, 25-34")
+m <- make_map("per_25_34_assoc_plus", name = "Associate Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Associate's Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_assoc_25_34_map.html")
 
-m <- make_map("per_25_34_bach_plus", "Bachelor's Degrees, 25-34")
+m <- make_map("per_25_34_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Bachelor's Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_34_bach_map.html")
 
-m <- make_map("per_25_34_grad", "Graduate Degrees, 25-34")
+m <- make_map("per_25_34_grad", name = "Graduate Degree, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Graduate Degree", units = "Percent")
 saveWidget(m, "edu_25_34_grad_map.html")
 
-m <- make_map("per_high_wage", "High Wage Occupations")
+m <- make_map("per_high_wage", "Population in High Wage Occupations",
+              legend_title = "Population in<br/>High Wage<br/>Occupations")
 saveWidget(m, "edu_per_high_wage_map.html")
 ```
 

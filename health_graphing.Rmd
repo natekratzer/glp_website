@@ -29,14 +29,7 @@ health_data_fips= read_csv("output data/health_data_fips.csv")
 The code for importing graphing functions
 ```{r rankings}
 
-if(!(exists("rank_and_nb_group", mode = "function") &
-     exists("graph_trendline", mode = "function") &
-     exists("graph_trendline_msa", mode = "function") &
-     exists("make_map", mode = "function") &
-     exists("rank_and_nb_group_mig", mode = "function") &
-     exists("rollmean3", mode = "function") &
-     exists("rollmean5", mode = "function")
-     )){source("graphing_functions.R")} 
+source("graphing_functions.R")
 
 ```
 

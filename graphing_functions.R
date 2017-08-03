@@ -368,13 +368,23 @@ rank_and_nb_group_mig<-function(df, var, order="Descending", peers="Current",
               x = "", caption = caption_text)
   p
 }
-make_map <- function(var, name, order = "Descending", units = "Percent", col_palette = "RdYlGn"){
+
+make_map <- function(var, name, units = "Percent",
+                     map_style = "sequential", legend_title = ""){
   map_jc@data$var <- map_jc@data[[var]]
   if(units == "Percent"){
     map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2),"%", sep = "")
   }
   if(units == "Dollars"){
-    map_jc@data$l_line3 <- paste(name, ": ","$", signif(map_jc@data$var, 3), sep = "")
+    map_jc@data$l_line3 <- paste(name,
+                                 ": ",
+                                 "$",
+                                 prettyNum(
+                                   signif(map_jc@data$var, 3),
+                                   big.mark = ",",
+                                   preserve.width = "none"
+                                 ),
+                                 sep = "")
   }
   if(units == "none"){
     map_jc@data$l_line3 <- paste(name, ": ", round(map_jc@data$var, 2), sep = "")
@@ -383,29 +393,26 @@ make_map <- function(var, name, order = "Descending", units = "Percent", col_pal
     "%s<br/>%s<br/>%s",
     map_jc@data$l_line1, map_jc@data$l_line2, map_jc@data$l_line3
   ) %>% lapply(htmltools::HTML)
-  
-  
-  if(order == "Ascending"){
-    pal <- rev(brewer.pal(11, col_palette))
+  if(map_style == "sequential" | map_style == "Sequential"){
+    col_palette = "BuPu"
   }
-  
-  if(order == "Descending"){
-    pal <- brewer.pal(11, col_palette)
+  if(map_style == "divergent" | map_style == "Divergent"){
+    col_palette = "RdYlGn"
   }
-  
+  pal <- brewer.pal(11, col_palette)
   pal <- colorNumeric(
     palette = pal,
     domain = map_jc@data$var
   )
   
   if(units == "Percent") {
-    title_text <- paste(name, "(%)", sep = ' ')
+    title_text <- paste(legend_title, "(%)", sep = ' ')
   }
   if(units == "Dollars") {
-    title_text <- paste(name, "($)", sep = ' ')
+    title_text <- paste(legend_title, "($)", sep = ' ')
   }
   if(units == "none"){
-    title_text <- name
+    title_text <- legend_title
   }
   
   m <- leaflet(map_jc) %>%

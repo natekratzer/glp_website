@@ -32,18 +32,7 @@ jobs_data_msa <- read_csv("output data/jobs_data_msa.csv")
 
 Reading in graphing functions and font
 ```{r}
-
-if(!(
-  exists("rank_and_nb_group", mode = "function") &
-  exists("graph_trendline", mode = "function") &
-  exists("graph_trendline_msa", mode = "function") &
-  exists("make_map", mode = "function") &
-  exists("rank_and_nb_group_mig", mode = "function") &
-  exists("rollmean3", mode = "function") &
-  exists("rollmean5", mode = "function")
-  )) {
-  source("graphing_functions.R")
-} 
+source("graphing_functions.R")
 
 font.add("Museo Sans 300", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300.otf")
 font.add("Museo Sans 300 Italic", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300_Italic.otf")
@@ -380,16 +369,17 @@ Mapping
 Reading in data for mapping
 ```{r}
 
-# jobs_map_data
-# map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
-#                  GDAL1_integer64_policy = TRUE)
-# 
-# map_jc@data<-full_join(map_jc@data, jobs_map_data, by = c('GEO_ID' = 'Id'))
-# 
-# map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
-# 
-# map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
-# map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
+map_data = read_csv("map data/jobs_map_data.csv")
+
+map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
+                 GDAL1_integer64_policy = TRUE)
+
+map_jc@data<-full_join(map_jc@data, jobs_map_data, by = c('GEO_ID' = 'Id'))
+
+map_jc@data$tract_num <- substr(map_jc@data$Id2, 6, 11)
+
+map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
+map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 
 
 ```
@@ -397,21 +387,27 @@ Reading in data for mapping
 
 Making and saving maps
 ```{r}
-setwd("~/Desktop/glp_website/Images/Maps")
-# m <- make_map("child_per", "Child Poverty", order = "Ascending")
-# saveWidget(m, "edu_child_pov_map.html")
+setwd("~/Desktop/glp_website/Images/Maps/jobs_maps")
 
+m <- make_map("unemp_pct", "Unemployment", legend_title = "Unemployment<br/>")
+saveWidget(m, "jobs_unemp_map.html")
 
-m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "BuPu")
-saveWidget(m, "jobs_unemp_map-1.html")
+m <- make_map(
+  "median_household_income",
+  "Median Household Income",
+  legend_title = "Median<br/>Household<br/>Income",
+  units = "Dollars",
+  map_style = "Divergent"
+  )
+saveWidget(m, "jobs_median_household_income_map.html")
 
-m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "Oranges")
-saveWidget(m, "jobs_unemp_map-2.html")
-
-m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "Greens")
-saveWidget(m, "jobs_unemp_map-3.html")
-
-m <- make_map("unemp_pct", "Unemployment", order = "Descending", col_palette = "Greys")
-saveWidget(m, "jobs_unemp_map-4.html")
+m <- make_map(
+  "median_earnings",
+  "Median Earnings",
+  legend_title = "Median<br/>Earnings<br/>",
+  units = "Dollars",
+  map_style = "Divergent"
+  )
+saveWidget(m, "jobs_median_earnings_map.html")
 ```
 

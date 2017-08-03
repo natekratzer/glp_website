@@ -798,7 +798,7 @@ map_data = full_join(map_data, name_data, by = "Id2")
 write_csv(ky_tidy_new, "output data/education_data_ky.csv")
 write_csv(naep_data, "output data/education_data_naep.csv")
 write_csv(education_data, "output data/education_data_fips.csv")
-write_csv(map_data, "output data/education_map_data.csv")
+write_csv(map_data, "map data/education_map_data.csv")
 ```
 
 
