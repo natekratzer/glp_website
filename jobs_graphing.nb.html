@@ -192,22 +192,25 @@ $(document).ready(function () {
 <!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBzeXNmb250c1xuIn0= -->
 <pre><code>Loading required package: sysfonts</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZXNoYXBlMilcbmBgYCJ9 -->
-<pre class="r"><code>library(reshape2)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYcmVzaGFwZTLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3QgaXMgbWFza2VkIGZyb20g4oCYcGFja2FnZTp0aWR5cuKAmTpcblxuICAgIHNtaXRoc1xuIn0= -->
-<pre><code>
-Attaching package: ‘reshape2’
-
-The following object is masked from ‘package:tidyr’:
-
-    smiths</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShjbGFzc0ludClcbmxpYnJhcnkoZ2d0aGVtZXMpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkocmdkYWwpXG5gYGAifQ== -->
-<pre class="r"><code>library(classInt)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZXNoYXBlMilcbmxpYnJhcnkoY2xhc3NJbnQpXG5saWJyYXJ5KGdndGhlbWVzKVxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
+<pre class="r"><code>library(reshape2)
+library(classInt)
 library(ggthemes)
-library(tidyverse)
-library(rgdal)</code></pre>
+library(tidyverse)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyB0aWR5dmVyc2U6IGdncGxvdDJcbkxvYWRpbmcgdGlkeXZlcnNlOiB0aWJibGVcbkxvYWRpbmcgdGlkeXZlcnNlOiB0aWR5clxuTG9hZGluZyB0aWR5dmVyc2U6IHJlYWRyXG5Mb2FkaW5nIHRpZHl2ZXJzZTogcHVycnJcbkxvYWRpbmcgdGlkeXZlcnNlOiBkcGx5clxuQ29uZmxpY3RzIHdpdGggdGlkeSBwYWNrYWdlcyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXG5maWx0ZXIoKTogZHBseXIsIHN0YXRzXG5sYWcoKTogICAgZHBseXIsIHN0YXRzXG4ifQ== -->
+<pre><code>Loading tidyverse: ggplot2
+Loading tidyverse: tibble
+Loading tidyverse: tidyr
+Loading tidyverse: readr
+Loading tidyverse: purrr
+Loading tidyverse: dplyr
+Conflicts with tidy packages ----------------------------------------------------
+filter(): dplyr, stats
+lag():    dplyr, stats</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZ2RhbClcbmBgYCJ9 -->
+<pre class="r"><code>library(rgdal)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoicmdkYWw6IHZlcnNpb246IDEuMi03LCAoU1ZOIHJldmlzaW9uIDY2MClcbiBHZW9zcGF0aWFsIERhdGEgQWJzdHJhY3Rpb24gTGlicmFyeSBleHRlbnNpb25zIHRvIFIgc3VjY2Vzc2Z1bGx5IGxvYWRlZFxuIExvYWRlZCBHREFMIHJ1bnRpbWU6IEdEQUwgMi4xLjMsIHJlbGVhc2VkIDIwMTcvMjAvMDFcbiBQYXRoIHRvIEdEQUwgc2hhcmVkIGZpbGVzOiAvTGlicmFyeS9GcmFtZXdvcmtzL1IuZnJhbWV3b3JrL1ZlcnNpb25zLzMuNC9SZXNvdXJjZXMvbGlicmFyeS9yZ2RhbC9nZGFsXG4gTG9hZGVkIFBST0ouNCBydW50aW1lOiBSZWwuIDQuOS4zLCAxNSBBdWd1c3QgMjAxNiwgW1BKX1ZFUlNJT046IDQ5M11cbiBQYXRoIHRvIFBST0ouNCBzaGFyZWQgZmlsZXM6IC9MaWJyYXJ5L0ZyYW1ld29ya3MvUi5mcmFtZXdvcmsvVmVyc2lvbnMvMy40L1Jlc291cmNlcy9saWJyYXJ5L3JnZGFsL3Byb2pcbiBMaW5raW5nIHRvIHNwIHZlcnNpb246IDEuMi00IFxuIn0= -->
 <pre><code>rgdal: version: 1.2-7, (SVN revision 660)

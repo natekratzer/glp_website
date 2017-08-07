@@ -149,18 +149,18 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
     values = cPalette,
     labels = c(
       "Louisville",
-      "25th Percentile",
+      "75th Percentile",
       "Peer City Mean",
-      "75th Percentile"
+      "25th Percentile"
     )
   ) +
     scale_linetype_manual(
       values = c("solid", "dashed", "dashed", "dashed"),
       labels = c(
         "Louisville",
-        "25th Percentile",
+        "75th Percentile",
         "Peer City Mean",
-        "75th Percentile"
+        "25th Percentile"
       )
     )
   p<-p+theme(text = element_text(family = "Museo Sans 300"),
@@ -230,18 +230,18 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent",
     values = cPalette,
     labels = c(
       "Louisville",
-      "25th Percentile",
+      "75th Percentile",
       "Peer City Mean",
-      "75th Percentile"
+      "25th Percentile"
     )
   ) +
     scale_linetype_manual(
       values = c("solid", "dashed", "dashed", "dashed"),
       labels = c(
         "Louisville",
-        "25th Percentile",
+        "75th Percentile",
         "Peer City Mean",
-        "75th Percentile"
+        "25th Percentile"
       )
     )
   p<-p+theme(text = element_text(family = "Museo Sans 300"),

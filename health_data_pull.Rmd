@@ -230,7 +230,7 @@ chr_stl$FIPS[chr_stl$city == "St. Louis"] <- "MERGED"
 name_df <- read_csv("input data/FIPS one stl.csv")
 name_df <- name_df %>% select(-city) #avoiding duplication
 
-chr_named <- left_join(chr_stl, name_df, by = "FIPS")
+chr_named <- left_join(chr_stl, name_df, by = c("FIPS", "current", "baseline"))
 
 ```
 
@@ -239,7 +239,7 @@ Taking Z scores for everything. I wrote a simple function to take z-scores and t
 ```{r}
 chr_z <- chr_named
 
-chr_z[,2:35] <- apply(chr_z[,2:35], 2, norm_z) 
+chr_z[,2:35] <- apply(chr_z[,2:35], 2, norm_z)
 ```
 
 Creating overall rankings for outcomes and each of the four health factors based on weighted average.
@@ -304,7 +304,7 @@ Transforming the variables to be 0 to 1 scaled
 ```{r}
 rev_index <- function(x){x * -1}
 
-chr_z[ ,45:50] <- apply(chr_z[ ,45:50], 2, rev_index)
+chr_z[ ,43:48] <- apply(chr_z[ ,43:48], 2, rev_index)
 
 # 
 # rescale <- function(x){
@@ -314,7 +314,7 @@ chr_z[ ,45:50] <- apply(chr_z[ ,45:50], 2, rev_index)
 # 
 # chr_rescale[ ,45:50] <- apply(chr_rescale[ ,45:50], 2, rescale)
 
-factors <- chr_z[,45:50]
+factors <- chr_z[,43:48]
 
 health_data_fips = bind_cols(chr_named, factors)
 health_data_fips$year = 2017
@@ -375,7 +375,7 @@ sc_data <- left_join(sc_data, name_df)
 
 
 health_data_fips <- full_join(sc_data, health_data_fips, by = c("FIPS", "year", "baseline","city","current"))
-health_data_fips %<>% select(-c(current_peer, baseline_peer))
+
 ```
 
 Add GeoFRED Commute Time Data Analysis

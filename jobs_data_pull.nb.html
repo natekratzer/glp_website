@@ -545,7 +545,7 @@ bds_data&lt;-mutate(bds_data, estabs_entry_rate_minus_exit = estabs_entry_rate -
 <p>Creating Map Data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5lbXAgPC1cbiAgcmVhZF9jc3YoXG4gIFwiaW5wdXQgZGF0YS9qb2JzX2lucHV0X2RhdGEvQUNTXzE1XzVZUl9CMjMwMjVfd2l0aF9hbm4uY3N2XCIsXG4gIHNraXAgPSAxLFxuICBjb2xfdHlwZXMgPSBjb2xzKElkMiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgSWQgPSBjb2xfY2hhcmFjdGVyKCkpXG4gIClcblxubWVkX2luYyA8LSByZWFkX2NzdihcbiAgXCJpbnB1dCBkYXRhL3FwX2lucHV0X2RhdGEvQUNTXzE1XzVZUl9CMTkwMTNfd2l0aF9hbm4uY3N2XCIsXG4gIHNraXAgPSAxLFxuICBjb2xfdHlwZXMgPSBjb2xzKElkMiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgSWQgPSBjb2xfY2hhcmFjdGVyKCkpXG4gIClcblxuZWFybl9kYXRhIDwtIHJlYWRfY3N2KFwiaW5wdXQgZGF0YS9qb2JzX2lucHV0X2RhdGEvQUNTXzE1XzVZUl9TMjAwMV93aXRoX2Fubi5jc3ZcIiwgc2tpcCA9IDEsXG4gICAgICAgICAgICAgICAgICAgICAgY29sX3R5cGVzID0gY29scyhJZDIgPSBjb2xfY2hhcmFjdGVyKCkpKVxuXG5lYXJuX2RhdGEgJTw+JSBzZWxlY3QoSWQsIElkMiwgbWVkaWFuX2Vhcm5pbmdzID0gYFRvdGFsOyBFc3RpbWF0ZTsgTWVkaWFuIGVhcm5pbmdzIChkb2xsYXJzKWApICU+JVxuICBtdXRhdGUobWVkaWFuX2Vhcm5pbmdzID0gc2lnbmlmKGFzLm51bWVyaWMobWVkaWFuX2Vhcm5pbmdzKSwgMykpXG5cbnVuZW1wICU8PiUgc2VsZWN0KElkLCBJZDIsIHBvcCA9IGBFc3RpbWF0ZTsgSW4gbGFib3IgZm9yY2U6IC0gQ2l2aWxpYW4gbGFib3IgZm9yY2U6YCxcbiAgICAgICAgICAgICAgICAgIHVuZW1wID0gYEVzdGltYXRlOyBJbiBsYWJvciBmb3JjZTogLSBDaXZpbGlhbiBsYWJvciBmb3JjZTogLSBVbmVtcGxveWVkYCklPiVcbiAgdHJhbnNtdXRlKHVuZW1wX3BjdCA9IHVuZW1wL3BvcCwgSWQsIElkMiklPiVcbiAgbXV0YXRlKHVuZW1wX3BjdCA9IGFzLm51bWVyaWModW5lbXBfcGN0KSoxMDApXG5cbm1lZF9pbmMgJTw+JSBzZWxlY3QoSWQsIElkMiwgbWVkaWFuX2hvdXNlaG9sZF9pbmNvbWUgPSBgRXN0aW1hdGU7IE1lZGlhbiBob3VzZWhvbGQgaW5jb21lIGluIHRoZSBwYXN0IDEyIG1vbnRocyAoaW4gMjAxNSBJbmZsYXRpb24tYWRqdXN0ZWQgZG9sbGFycylgKSU+JVxuICBtdXRhdGUobWVkaWFuX2hvdXNlaG9sZF9pbmNvbWUgPSBzaWduaWYoYXMubnVtZXJpYyhtZWRpYW5faG91c2Vob2xkX2luY29tZSksMykpXG5cbm5laWdoYm9yaG9vZHMgPC0gcmVhZF9jc3YoXCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvbWFwIGRhdGEvY2Vuc3VzIHRyYWN0IG5laWdoYm9yaG9vZHMuY3N2XCIsY29sX3R5cGVzID0gY29scyhJZDIgPSBjb2xfY2hhcmFjdGVyKCkpKVxuXG5qb2JzX21hcF9kYXRhPC0gbGVmdF9qb2luKG5laWdoYm9yaG9vZHMsIHVuZW1wLCBieSA9IGMoXCJJZDJcIikpXG5qb2JzX21hcF9kYXRhICU8PiUgbGVmdF9qb2luKG1lZF9pbmMsIGJ5ID0gYyhcIklkMlwiLCBcIklkXCIpKSAlPiVcbiAgbGVmdF9qb2luKGVhcm5fZGF0YSwgYnkgPSBjKFwiSWQyXCIsIFwiSWRcIikpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5lbXAgPC1cbiAgcmVhZF9jc3YoXG4gIFwiaW5wdXQgZGF0YS9qb2JzX2lucHV0X2RhdGEvQUNTXzE1XzVZUl9CMjMwMjVfd2l0aF9hbm4uY3N2XCIsXG4gIHNraXAgPSAxLFxuICBjb2xfdHlwZXMgPSBjb2xzKElkMiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgSWQgPSBjb2xfY2hhcmFjdGVyKCkpXG4gIClcbm1lZF9pbmMgPC0gcmVhZF9jc3YoXG4gIFwiaW5wdXQgZGF0YS9xcF9pbnB1dF9kYXRhL0FDU18xNV81WVJfQjE5MDEzX3dpdGhfYW5uLmNzdlwiLFxuICBza2lwID0gMSxcbiAgY29sX3R5cGVzID0gY29scyhJZDIgPSBjb2xfY2hhcmFjdGVyKCksXG4gIElkID0gY29sX2NoYXJhY3RlcigpKVxuICApXG5lYXJuX2RhdGEgPC0gcmVhZF9jc3YoXCJpbnB1dCBkYXRhL2pvYnNfaW5wdXRfZGF0YS9BQ1NfMTVfNVlSX1MyMDAxX3dpdGhfYW5uLmNzdlwiLCBza2lwID0gMSxcbiAgICAgICAgICAgICAgICAgICAgICBjb2xfdHlwZXMgPSBjb2xzKElkMiA9IGNvbF9jaGFyYWN0ZXIoKSkpXG5gYGAifQ== -->
 <pre class="r"><code>unemp &lt;-
   read_csv(
   &quot;input data/jobs_input_data/ACS_15_5YR_B23025_with_ann.csv&quot;,
@@ -553,30 +553,38 @@ bds_data&lt;-mutate(bds_data, estabs_entry_rate_minus_exit = estabs_entry_rate -
   col_types = cols(Id2 = col_character(),
   Id = col_character())
   )
-
 med_inc &lt;- read_csv(
   &quot;input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv&quot;,
   skip = 1,
   col_types = cols(Id2 = col_character(),
   Id = col_character())
   )
-
 earn_data &lt;- read_csv(&quot;input data/jobs_input_data/ACS_15_5YR_S2001_with_ann.csv&quot;, skip = 1,
-                      col_types = cols(Id2 = col_character()))
-
-earn_data %&lt;&gt;% select(Id, Id2, median_earnings = `Total; Estimate; Median earnings (dollars)`) %&gt;%
-  mutate(median_earnings = signif(as.numeric(median_earnings), 3))
-
-unemp %&lt;&gt;% select(Id, Id2, pop = `Estimate; In labor force: - Civilian labor force:`,
+                      col_types = cols(Id2 = col_character()))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRHVwbGljYXRlZCBjb2x1bW4gbmFtZXMgZGVkdXBsaWNhdGVkOiAnVG90YWw7IEVzdGltYXRlOyBNZWRpYW4gZWFybmluZ3MgKGRvbGxhcnMpJyA9PiAnVG90YWw7IEVzdGltYXRlOyBNZWRpYW4gZWFybmluZ3MgKGRvbGxhcnMpXzEnIFs3Nl0sICdUb3RhbDsgTWFyZ2luIG9mIEVycm9yOyBNZWRpYW4gZWFybmluZ3MgKGRvbGxhcnMpJyA9PiAnVG90YWw7IE1hcmdpbiBvZiBFcnJvcjsgTWVkaWFuIGVhcm5pbmdzIChkb2xsYXJzKV8xJyBbNzddLCAnTWFsZTsgRXN0aW1hdGU7IE1lZGlhbiBlYXJuaW5ncyAoZG9sbGFycyknID0+ICdNYWxlOyBFc3RpbWF0ZTsgTWVkaWFuIGVhcm5pbmdzIChkb2xsYXJzKV8xJyBbNzhdLCAnTWFsZTsgTWFyZ2luIG9mIEVycm9yOyBNZWRpYW4gZWFybmluZ3MgKGRvbGxhcnMpJyA9PiAnTWFsZTsgTWFyZ2luIG9mIEVycm9yOyBNZWRpYW4gZWFybmluZ3MgKGRvbGxhcnMpXzEnIFs3OV0sICdGZW1hbGU7IEVzdGltYXRlOyBNZWRpYW4gZWFybmluZ3MgKGRvbGxhcnMpJyA9PiAnRmVtYWxlOyBFc3RpbWF0ZTsgTWVkaWFuIGVhcm5pbmdzIChkb2xsYXJzKV8xJyBbODBdLCAnRmVtYWxlOyBNYXJnaW4gb2YgRXJyb3I7IE1lZGlhbiBlYXJuaW5ncyAoZG9sbGFycyknID0+ICdGZW1hbGU7IE1hcmdpbiBvZiBFcnJvcjsgTWVkaWFuIGVhcm5pbmdzIChkb2xsYXJzKV8xJyBbODFdXG4ifQ== -->
+<pre><code>Duplicated column names deduplicated: 'Total; Estimate; Median earnings (dollars)' =&gt; 'Total; Estimate; Median earnings (dollars)_1' [76], 'Total; Margin of Error; Median earnings (dollars)' =&gt; 'Total; Margin of Error; Median earnings (dollars)_1' [77], 'Male; Estimate; Median earnings (dollars)' =&gt; 'Male; Estimate; Median earnings (dollars)_1' [78], 'Male; Margin of Error; Median earnings (dollars)' =&gt; 'Male; Margin of Error; Median earnings (dollars)_1' [79], 'Female; Estimate; Median earnings (dollars)' =&gt; 'Female; Estimate; Median earnings (dollars)_1' [80], 'Female; Margin of Error; Median earnings (dollars)' =&gt; 'Female; Margin of Error; Median earnings (dollars)_1' [81]</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZWFybl9kYXRhICU8PiUgc2VsZWN0KElkLCBJZDIsIG1lZGlhbl9lYXJuaW5ncyA9IGBUb3RhbDsgRXN0aW1hdGU7IE1lZGlhbiBlYXJuaW5ncyAoZG9sbGFycylgKSAlPiVcbiAgbXV0YXRlKG1lZGlhbl9lYXJuaW5ncyA9IHNpZ25pZihhcy5udW1lcmljKG1lZGlhbl9lYXJuaW5ncyksIDMpKVxuYGBgIn0= -->
+<pre class="r"><code>earn_data %&lt;&gt;% select(Id, Id2, median_earnings = `Total; Estimate; Median earnings (dollars)`) %&gt;%
+  mutate(median_earnings = signif(as.numeric(median_earnings), 3))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTkFzIGludHJvZHVjZWQgYnkgY29lcmNpb25cbiJ9 -->
+<pre><code>NAs introduced by coercion</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5lbXAgJTw+JSBzZWxlY3QoSWQsIElkMiwgcG9wID0gYEVzdGltYXRlOyBJbiBsYWJvciBmb3JjZTogLSBDaXZpbGlhbiBsYWJvciBmb3JjZTpgLFxuICAgICAgICAgICAgICAgICAgdW5lbXAgPSBgRXN0aW1hdGU7IEluIGxhYm9yIGZvcmNlOiAtIENpdmlsaWFuIGxhYm9yIGZvcmNlOiAtIFVuZW1wbG95ZWRgKSU+JVxuICB0cmFuc211dGUodW5lbXBfcGN0ID0gdW5lbXAvcG9wLCBJZCwgSWQyKSU+JVxuICBtdXRhdGUodW5lbXBfcGN0ID0gYXMubnVtZXJpYyh1bmVtcF9wY3QpKjEwMClcbm1lZF9pbmMgJTw+JSBzZWxlY3QoSWQsIElkMiwgbWVkaWFuX2hvdXNlaG9sZF9pbmNvbWUgPSBgRXN0aW1hdGU7IE1lZGlhbiBob3VzZWhvbGQgaW5jb21lIGluIHRoZSBwYXN0IDEyIG1vbnRocyAoaW4gMjAxNSBJbmZsYXRpb24tYWRqdXN0ZWQgZG9sbGFycylgKSU+JVxuICBtdXRhdGUobWVkaWFuX2hvdXNlaG9sZF9pbmNvbWUgPSBzaWduaWYoYXMubnVtZXJpYyhtZWRpYW5faG91c2Vob2xkX2luY29tZSksMykpXG5gYGAifQ== -->
+<pre class="r"><code>unemp %&lt;&gt;% select(Id, Id2, pop = `Estimate; In labor force: - Civilian labor force:`,
                   unemp = `Estimate; In labor force: - Civilian labor force: - Unemployed`)%&gt;%
   transmute(unemp_pct = unemp/pop, Id, Id2)%&gt;%
   mutate(unemp_pct = as.numeric(unemp_pct)*100)
-
 med_inc %&lt;&gt;% select(Id, Id2, median_household_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)%&gt;%
-  mutate(median_household_income = signif(as.numeric(median_household_income),3))
-
-neighborhoods &lt;- read_csv(&quot;~/Desktop/glp_website/map data/census tract neighborhoods.csv&quot;,col_types = cols(Id2 = col_character()))
-
+  mutate(median_household_income = signif(as.numeric(median_household_income),3))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTkFzIGludHJvZHVjZWQgYnkgY29lcmNpb25cbiJ9 -->
+<pre><code>NAs introduced by coercion</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmVpZ2hib3Job29kcyA8LSByZWFkX2NzdihcIn4vRGVza3RvcC9nbHBfd2Vic2l0ZS9tYXAgZGF0YS9jZW5zdXMgdHJhY3QgbmVpZ2hib3Job29kcy5jc3ZcIixjb2xfdHlwZXMgPSBjb2xzKElkMiA9IGNvbF9jaGFyYWN0ZXIoKSkpXG5qb2JzX21hcF9kYXRhPC0gbGVmdF9qb2luKG5laWdoYm9yaG9vZHMsIHVuZW1wLCBieSA9IGMoXCJJZDJcIikpXG5qb2JzX21hcF9kYXRhICU8PiUgbGVmdF9qb2luKG1lZF9pbmMsIGJ5ID0gYyhcIklkMlwiLCBcIklkXCIpKSAlPiVcbiAgbGVmdF9qb2luKGVhcm5fZGF0YSwgYnkgPSBjKFwiSWQyXCIsIFwiSWRcIikpXG5gYGAifQ== -->
+<pre class="r"><code>neighborhoods &lt;- read_csv(&quot;~/Desktop/glp_website/map data/census tract neighborhoods.csv&quot;,col_types = cols(Id2 = col_character()))
 jobs_map_data&lt;- left_join(neighborhoods, unemp, by = c(&quot;Id2&quot;))
 jobs_map_data %&lt;&gt;% left_join(med_inc, by = c(&quot;Id2&quot;, &quot;Id&quot;)) %&gt;%
   left_join(earn_data, by = c(&quot;Id2&quot;, &quot;Id&quot;))</code></pre>
