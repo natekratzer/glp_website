@@ -713,6 +713,58 @@ mpi_city$FIPS = as.character(mpi_city$FIPS)
 qp_data_fips = left_join(qp_data_fips, mpi_city, by = c("FIPS", "year"))
 ```
 
+```{r}
+data = acs_time("/input data/qp_input_data/B17001/")
+
+data = data %>%
+mutate(
+under_5_per = (
+`Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` +
+`Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`
+) /
+(
+`Estimate; Income in the past 12 months at or above poverty level: - Male: - Under 5 years` +
+`Estimate; Income in the past 12 months at or above poverty level: - Female: - Under 5 years` +
+`Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` +
+`Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`
+),
+five_to_17_under = (`Estimate; Income in the past 12 months below poverty level: - Male: - 5 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 6 to 11 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 12 to 14 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 15 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 16 and 17 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 5 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 6 to 11 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 12 to 14 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 15 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 16 and 17 years`),
+
+five_to_17_over =  `Estimate; Income in the past 12 months at or above poverty level: - Male: - 5 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 6 to 11 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 12 to 14 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 15 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 16 and 17 years` + 
+  `Estimate; Income in the past 12 months at or above poverty level: - Female: - 5 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 6 to 11 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 12 to 14 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 15 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 16 and 17 years`,
+
+five_to_17_per = five_to_17_under / (five_to_17_over + five_to_17_under),
+child_under = five_to_17_under +
+  `Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`,
+child_over = five_to_17_over + `Estimate; Income in the past 12 months at or above poverty level: - Female: - Under 5 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - Under 5 years`,
+child_total = child_under + child_over,
+child_per = child_under / (child_total)
+)
+
+child_pov_data = data %>%
+select(FIPS, year, child_per, child_total)
+child_pov_data$FIPS[child_pov_data$FIPS == "01073"] = "1073"
+
+child_pov_stl <- child_pov_data %>%
+  filter(FIPS == 29189 | FIPS == 29510) %>%
+  select(-FIPS) %>%
+  group_by(year) %>%
+  summarise_each(funs(weighted.mean(.,child_total)), -child_total) %>%
+  ungroup()
+
+child_pov_stl$FIPS <- "MERGED"
+  
+child_pov_data <- child_pov_data %>%
+  filter(!(FIPS == 29189 | FIPS == 29510)) %>%
+  bind_rows(child_pov_stl) %>%
+  mutate(child_per = child_per *100)%>%
+  select(-child_total)
+
+qp_data_fips %<>% left_join(child_pov_data, by = c("FIPS", "year"))
+```
+
+
+
 Volunteer Data Analysis
 ```{r}
 #Reading in Data

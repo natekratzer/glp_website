@@ -334,12 +334,16 @@ font.add(&quot;Museo Sans 300 Italic&quot;, &quot;/Users/BryceRowland/Desktop/GL
 <!-- rnb-output-begin eyJkYXRhIjoiVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdhcyBjaGFuZ2VkIHRvIC9Vc2Vycy9CcnljZVJvd2xhbmQvRGVza3RvcC9nbHBfd2Vic2l0ZS9JbWFnZXMvRWR1X0ltYWdlcyBpbnNpZGUgYSBub3RlYm9vayBjaHVuay4gVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdpbGwgYmUgcmVzZXQgd2hlbiB0aGUgY2h1bmsgaXMgZmluaXNoZWQgcnVubmluZy4gVXNlIHRoZSBrbml0ciByb290LmRpciBvcHRpb24gaW4gdGhlIHNldHVwIGNodW5rIHRvIGNoYW5nZSB0aGUgdGhlIHdvcmtpbmcgZGlyZWN0b3J5IGZvciBub3RlYm9vayBjaHVua3MuXG4ifQ== -->
 <pre><code>The working directory was changed to /Users/BryceRowland/Desktop/glp_website/Images/Edu_Images inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the the working directory for notebook chunks.</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV91bmRlcl81X3Bvdl9yYW5raW5nLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInVuZGVyXzVfcGVyXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIFVuZGVyIDUgaW4gUG92ZXJ0eSwgMjAxNVwiLCBcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNzAwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV91bmRlcl81X3Bvdl9yYW5raW5nLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cInVuZGVyXzVfcGVyXCIsXG5vcmRlciA9IFwiQXNjZW5kaW5nXCIsXG5wbG90X3RpdGxlID0gXCJDaGlsZHJlbiBVbmRlciA1IGluIFBvdmVydHksIDIwMTVcIixcbmNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNzAwMVwiXG4pXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_under_5_pov_ranking.jpg&quot;, 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;under_5_per&quot;, order = &quot;Ascending&quot;,
-                  plot_title = &quot;Children Under 5 in Poverty, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;under_5_per&quot;,
+order = &quot;Ascending&quot;,
+plot_title = &quot;Children Under 5 in Poverty, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -350,11 +354,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9maXZlX3RvXzE3X3Bvdl9yYW5raW5nLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_five_to_17_pov_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcImZpdmVfdG9fMTdfcGVyXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIEFnZXMgNSB0byAxNyBpbiBQb3ZlcnR5LCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cImZpdmVfdG9fMTdfcGVyXCIsXG5vcmRlciA9IFwiQXNjZW5kaW5nXCIsXG5wbG90X3RpdGxlID0gXCJDaGlsZHJlbiBBZ2VzIDUgdG8gMTcgaW4gUG92ZXJ0eSwgMjAxNVwiLFxuY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxXCJcbilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;five_to_17_per&quot;, order = &quot;Ascending&quot;,
-                  plot_title = &quot;Children Ages 5 to 17 in Poverty, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;five_to_17_per&quot;,
+order = &quot;Ascending&quot;,
+plot_title = &quot;Children Ages 5 to 17 in Poverty, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -365,11 +373,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9jaGlsZF9wb3ZfcmFua2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_child_pov_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcImNoaWxkX3BlclwiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJDaGlsZCBQb3ZlcnR5LCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cImNoaWxkX3BlclwiLFxub3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxucGxvdF90aXRsZSA9IFwiQ2hpbGQgUG92ZXJ0eSwgMjAxNVwiLFxuY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxXCJcbilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;child_per&quot;, order = &quot;Ascending&quot;,
-                  plot_title = &quot;Child Poverty, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;child_per&quot;,
+order = &quot;Ascending&quot;,
+plot_title = &quot;Child Poverty, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -380,11 +392,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfYWxsX3JhbmtpbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_all_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcImJhY2hfcGx1c19wZXJfYWxsXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBBbGwgUmFjZXMsIDIwMTVcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDJcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LFxuXCJiYWNoX3BsdXNfcGVyX2FsbFwiLFxucGxvdF90aXRsZSA9IFwiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBBbGwgUmFjZXMsIDIwMTVcIixcbmNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMlwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;bach_plus_per_all&quot;, 
-                  plot_title = &quot;Bachelor's Degree or Higher, All Races, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002&quot;)
+rank_and_nb_group(educ_data_15,
+&quot;bach_plus_per_all&quot;,
+plot_title = &quot;Bachelor's Degree or Higher, All Races, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002&quot;)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -395,11 +408,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfYmxhY2tfcmFua2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_black_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcImJhY2hfcGx1c19wZXJfYmxhY2tcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEJsYWNrLCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyQlwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cImJhY2hfcGx1c19wZXJfYmxhY2tcIixcbnBsb3RfdGl0bGUgPSBcIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQmxhY2ssIDIwMTVcIixcbmNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMkJcIlxuKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;bach_plus_per_black&quot;, 
-                  plot_title = &quot;Bachelor's Degree or Higher, Black, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;bach_plus_per_black&quot;,
+plot_title = &quot;Bachelor's Degree or Higher, Black, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -410,11 +426,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV82NF9hc3NvY19wbHVzX3JhbmtpbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_25_64_assoc_plus_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl8yNV82NF9hc3NvY19wbHVzXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NCwgMjAxNVwiLCBcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cInBlcl8yNV82NF9hc3NvY19wbHVzXCIsXG5wbG90X3RpdGxlID0gXCJBc3NvY2lhdGUncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTY0LCAyMDE1XCIsXG5jYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIlxuKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_25_64_assoc_plus&quot;, 
-                  plot_title = &quot;Associate's Degree or Higher, Ages 25-64, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;per_25_64_assoc_plus&quot;,
+plot_title = &quot;Associate's Degree or Higher, Ages 25-64, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -425,11 +444,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV82NF9iYWNoX3BsdXNfcmFua2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_25_64_bach_plus_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl8yNV82NF9iYWNoX3BsdXNcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjQsIDIwMTVcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cInBlcl8yNV82NF9iYWNoX3BsdXNcIixcbnBsb3RfdGl0bGUgPSBcIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NCwgMjAxNVwiLFxuY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCJcbilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_25_64_bach_plus&quot;, 
-                  plot_title = &quot;Bachelor's Degree or Higher, Ages 25-64, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;per_25_64_bach_plus&quot;,
+plot_title = &quot;Bachelor's Degree or Higher, Ages 25-64, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -440,11 +462,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV82NF9ncmFkX3JhbmtpbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_25_64_grad_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl8yNV82NF9ncmFkXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTY0LCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LFxuXCJwZXJfMjVfNjRfZ3JhZFwiLFxucGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTY0LCAyMDE1XCIsXG5jYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_25_64_grad&quot;, 
-                  plot_title = &quot;Graduate Degree, Ages 25-64, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
+rank_and_nb_group(educ_data_15,
+&quot;per_25_64_grad&quot;,
+plot_title = &quot;Graduate Degree, Ages 25-64, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -455,11 +478,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV8zNF9hc3NvY19wbHVzX3JhbmtpbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_25_34_assoc_plus_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl8yNV8zNF9hc3NvY19wbHVzXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNCwgMjAxNVwiLCBcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cInBlcl8yNV8zNF9hc3NvY19wbHVzXCIsXG5wbG90X3RpdGxlID0gXCJBc3NvY2lhdGUncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTM0LCAyMDE1XCIsXG5jYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIlxuKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_25_34_assoc_plus&quot;, 
-                  plot_title = &quot;Associate's Degree or Higher, Ages 25-34, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;per_25_34_assoc_plus&quot;,
+plot_title = &quot;Associate's Degree or Higher, Ages 25-34, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -470,11 +496,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV8zNF9iYWNoX3BsdXNfcmFua2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_25_34_bach_plus_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl8yNV8zNF9iYWNoX3BsdXNcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtMzQsIDIwMTVcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cInBlcl8yNV8zNF9iYWNoX3BsdXNcIixcbnBsb3RfdGl0bGUgPSBcIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNCwgMjAxNVwiLFxuY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCJcbilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_25_34_bach_plus&quot;, 
-                  plot_title = &quot;Bachelor's Degree or Higher, Ages 25-34, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;per_25_34_bach_plus&quot;,
+plot_title = &quot;Bachelor's Degree or Higher, Ages 25-34, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -485,26 +514,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV8zNF9ncmFkX3JhbmtpbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_25_34_grad_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl8yNV8zNF9ncmFkXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTM0LCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LFxuXCJwZXJfMjVfMzRfZ3JhZFwiLFxucGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTM0LCAyMDE1XCIsXG5jYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_25_34_grad&quot;, 
-                  plot_title = &quot;Graduate Degree, Ages 25-34, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
-showtext.end()
-dev.off()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
-<pre><code>null device 
-          1 </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9wZXJfMjVfNjRfYmFjaF9wbHVzX3JhbmtpbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
-<pre class="r"><code>jpeg(&quot;edu_per_25_64_bach_plus_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl8yNV82NF9iYWNoX3BsdXNcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjQsIDIwMTVcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_25_64_bach_plus&quot;, 
-                  plot_title = &quot;Bachelor's Degree or Higher, Ages 25-64, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
+rank_and_nb_group(educ_data_15,
+&quot;per_25_34_grad&quot;,
+plot_title = &quot;Graduate Degree, Ages 25-34, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -515,11 +530,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfaGlzcGFuaWNfcmFua2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_hispanic_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcImJhY2hfcGx1c19wZXJfaGlzcGFuaWNcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEhpc3BhbmljLCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAySVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cImJhY2hfcGx1c19wZXJfaGlzcGFuaWNcIixcbnBsb3RfdGl0bGUgPSBcIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgSGlzcGFuaWMsIDIwMTVcIixcbmNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMklcIlxuKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;bach_plus_per_hispanic&quot;, 
-                  plot_title = &quot;Bachelor's Degree or Higher, Hispanic, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;bach_plus_per_hispanic&quot;,
+plot_title = &quot;Bachelor's Degree or Higher, Hispanic, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -530,11 +548,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfd2hpdGVfcmFua2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_white_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcImJhY2hfcGx1c19wZXJfd2hpdGVcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIFdoaXRlLCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyQVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoXG5lZHVjX2RhdGFfMTUsXG5cImJhY2hfcGx1c19wZXJfd2hpdGVcIixcbnBsb3RfdGl0bGUgPSBcIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgV2hpdGUsIDIwMTVcIixcbmNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMkFcIlxuKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;bach_plus_per_white&quot;, 
-                  plot_title = &quot;Bachelor's Degree or Higher, White, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A&quot;)
+rank_and_nb_group(
+educ_data_15,
+&quot;bach_plus_per_white&quot;,
+plot_title = &quot;Bachelor's Degree or Higher, White, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A&quot;
+)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -545,11 +566,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9lbnJvbGxlZF8zXzRfcmFua2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_enrolled_3_4_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcImVucm9sbGVkXzNfNFwiLCBcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIGFnZXMgMyBhbmQgNCBlbnJvbGxlZCBpbiBwcmVzY2hvb2wsIDIwMTVcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBTMTQwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LFxuXCJlbnJvbGxlZF8zXzRcIixcbnBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIGFnZXMgMyBhbmQgNCBlbnJvbGxlZCBpbiBwcmVzY2hvb2wsIDIwMTVcIixcbmNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIFMxNDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;enrolled_3_4&quot;, 
-                  plot_title = &quot;Children ages 3 and 4 enrolled in preschool, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table S1401&quot;)
+rank_and_nb_group(educ_data_15,
+&quot;enrolled_3_4&quot;,
+plot_title = &quot;Children ages 3 and 4 enrolled in preschool, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table S1401&quot;)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -560,11 +582,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9wZXJfaGlnaF93YWdlX3JhbmtpbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_per_high_wage_ranking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCBcInBlcl9oaWdoX3dhZ2VcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJQb3B1bGF0aW9uIGluIEhpZ2ggV2FnZSBPY2N1cGF0aW9ucywgMjAxNVwiLCBcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIFMyNDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LFxuXCJwZXJfaGlnaF93YWdlXCIsXG5wbG90X3RpdGxlID0gXCJQb3B1bGF0aW9uIGluIEhpZ2ggV2FnZSBPY2N1cGF0aW9ucywgMjAxNVwiLFxuY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgUzI0MDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
-rank_and_nb_group(educ_data_15, &quot;per_high_wage&quot;, 
-                  plot_title = &quot;Population in High Wage Occupations, 2015&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table S2401&quot;)
+rank_and_nb_group(educ_data_15,
+&quot;per_high_wage&quot;,
+plot_title = &quot;Population in High Wage Occupations, 2015&quot;,
+caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table S2401&quot;)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -582,13 +605,13 @@ dev.off()</code></pre>
 <!-- rnb-output-begin eyJkYXRhIjoiVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdhcyBjaGFuZ2VkIHRvIC9Vc2Vycy9CcnljZVJvd2xhbmQvRGVza3RvcC9nbHBfd2Vic2l0ZS9JbWFnZXMvRWR1X0ltYWdlcyBpbnNpZGUgYSBub3RlYm9vayBjaHVuay4gVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdpbGwgYmUgcmVzZXQgd2hlbiB0aGUgY2h1bmsgaXMgZmluaXNoZWQgcnVubmluZy4gVXNlIHRoZSBrbml0ciByb290LmRpciBvcHRpb24gaW4gdGhlIHNldHVwIGNodW5rIHRvIGNoYW5nZSB0aGUgdGhlIHdvcmtpbmcgZGlyZWN0b3J5IGZvciBub3RlYm9vayBjaHVua3MuXG4ifQ== -->
 <pre><code>The working directory was changed to /Users/BryceRowland/Desktop/glp_website/Images/Edu_Images inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the the working directory for notebook chunks.</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV91bmRlcl81X3Bvdl90cmVuZGxpbmUuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5zaG93dGV4dC5iZWdpbigpXG5ncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCBcInVuZGVyXzVfcGVyXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJDaGlsZHJlbiBVbmRlciA1IGluIFBvdmVydHlcIixcbiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gXCIzLXllYXIgcm9sbGluZyBhdmVyYWdlXCIsIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDYsIFxuICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTQsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV91bmRlcl81X3Bvdl90cmVuZGxpbmUuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5zaG93dGV4dC5iZWdpbigpXG5ncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCBcInVuZGVyXzVfcGVyXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJDaGlsZHJlbiBVbmRlciA1IGluIFBvdmVydHlcIixcbiAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA1LCBcbiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE1LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_under_5_pov_trendline.jpg&quot;, 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, &quot;under_5_per&quot;,
                   plot_title = &quot;Children Under 5 in Poverty&quot;,
-                  subtitle = &quot;3-year rolling average&quot;, rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -600,12 +623,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9maXZlX3RvXzE3X3Bvdl90cmVuZGxpbmUuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_five_to_17_pov_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJmaXZlX3RvXzE3X3BlclwiLCBcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIEFnZXMgNSB0byAxNyBpbiBQb3ZlcnR5XCIsXG4gICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9IFwiMy15ZWFyIHJvbGxpbmcgYXZlcmFnZVwiLCByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA2LCBcbiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJmaXZlX3RvXzE3X3BlclwiLCBcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIEFnZXMgNSB0byAxNyBpbiBQb3ZlcnR5XCIsXG4gICAgICAgICAgICAgICAgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNSwgXG4gICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;five_to_17_per&quot;, 
                   plot_title = &quot;Children Ages 5 to 17 in Poverty&quot;,
-                  subtitle = &quot;3-year rolling average&quot;, rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015, 
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -617,12 +640,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9jaGlsZF9wb3ZfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_child_pov_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJjaGlsZF9wZXJcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkIFBvdmVydHlcIixcbiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gXCIzLXllYXIgcm9sbGluZyBhdmVyYWdlXCIsIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDYsIFxuICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTQsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJjaGlsZF9wZXJcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkIFBvdmVydHlcIiwgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNSwgXG4gICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNzAwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;child_per&quot;,
-                  plot_title = &quot;Child Poverty&quot;,
-                  subtitle = &quot;3-year rolling average&quot;, rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                  plot_title = &quot;Child Poverty&quot;, rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B17001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -634,12 +656,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfYWxsX3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_all_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX2FsbFwiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBBbGwgUmFjZXNcIixcbiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gXCI1LXllYXIgcm9sbGluZyBhdmVyYWdlXCIsXG4gICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUsIHhtaW4gPSAyMDA3LCB4bWF4ID0gMjAxMyxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMlwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX2FsbFwiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBBbGwgUmFjZXNcIixcbiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSwgeG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;bach_plus_per_all&quot;,
                   plot_title = &quot;Bachelor's Degree or Higher, All Races&quot;,
-                  subtitle = &quot;5-year rolling average&quot;,
-                  rollmean = 5, xmin = 2007, xmax = 2013,
+                  rollmean = 5, xmin = 2005, xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -651,12 +672,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfYmxhY2tfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_black_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX2JsYWNrXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEJsYWNrXCIsXG4gICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9IFwiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZVwiLFxuICAgICAgICAgICAgICAgICAgcm9sbG1lYW4gPSA1LCB4bWluID0gMjAwNywgeG1heCA9IDIwMTMsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDJCXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX2JsYWNrXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEJsYWNrXCIsXG4gICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUsIHhtaW4gPSAyMDA1LCB4bWF4ID0gMjAxNSxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMkJcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;bach_plus_per_black&quot;,
                   plot_title = &quot;Bachelor's Degree or Higher, Black&quot;,
-                  subtitle = &quot;5-year rolling average&quot;,
-                  rollmean = 5, xmin = 2007, xmax = 2013,
+                  rollmean = 5, xmin = 2005, xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -668,12 +688,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV82NF9hc3NvY19wbHVzX3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_25_64_assoc_plus_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfNjRfYXNzb2NfcGx1c1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NFwiLFxuICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSBcIjMteWVhciByb2xsaW5nIGF2ZXJhZ2VcIixyb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA2LCBcbiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfNjRfYXNzb2NfcGx1c1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NFwiLFxuICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIFxuICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;per_25_64_assoc_plus&quot;,
                   plot_title = &quot;Associate's Degree or Higher, Ages 25-64&quot;,
-                  subtitle = &quot;3-year rolling average&quot;,rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -685,12 +705,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV82NF9iYWNoX3BsdXNfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_25_64_bach_plus_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfNjRfYmFjaF9wbHVzXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjRcIixcbiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gXCIzLXllYXIgcm9sbGluZyBhdmVyYWdlXCIsIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDYsIFxuICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTQsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfNjRfYmFjaF9wbHVzXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjRcIixcbiByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA1LCBcbiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE1LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;per_25_64_bach_plus&quot;,
                   plot_title = &quot;Bachelor's Degree or Higher, Ages 25-64&quot;,
-                  subtitle = &quot;3-year rolling average&quot;, rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+ rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -702,12 +722,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV82NF9ncmFkX3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_25_64_grad_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfNjRfZ3JhZFwiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTY0XCIsXG4gICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9IFwiMy15ZWFyIHJvbGxpbmcgYXZlcmFnZVwiLCByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA2LCBcbiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfNjRfZ3JhZFwiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTY0XCIsXG4gICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA1LCBcbiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE1LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;per_25_64_grad&quot;,
                   plot_title = &quot;Graduate Degree, Ages 25-64&quot;,
-                  subtitle = &quot;3-year rolling average&quot;, rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                  rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -719,10 +739,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV8zNF9hc3NvY19wbHVzX3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_25_34_assoc_plus_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfMzRfYXNzb2NfcGx1c1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNFwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfMzRfYXNzb2NfcGx1c1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNFwiLFxuICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;per_25_34_assoc_plus&quot;,
                   plot_title = &quot;Associate's Degree or Higher, Ages 25-34&quot;,
+                rollmean = 3, xmin = 2005, xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -734,12 +755,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV8zNF9iYWNoX3BsdXNfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_25_34_bach_plus_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfMzRfYmFjaF9wbHVzXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtMzRcIixcbiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gXCIzLXllYXIgcm9sbGluZyBhdmVyYWdlXCIsIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDYsIFxuICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTQsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfMzRfYmFjaF9wbHVzXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtMzRcIixcbiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIFxuICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;per_25_34_bach_plus&quot;,
                   plot_title = &quot;Bachelor's Degree or Higher, Ages 25-34&quot;,
-                  subtitle = &quot;3-year rolling average&quot;, rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                  rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -751,27 +772,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV8yNV8zNF9ncmFkX3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_25_34_grad_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfMzRfZ3JhZFwiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTM0XCIsXG4gICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9IFwiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZVwiLFxuICAgICAgICAgICAgICAgICAgcm9sbG1lYW4gPSA1LHhtaW4gPSAyMDA3LCB4bWF4ID0gMjAxMyxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfMzRfZ3JhZFwiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTM0XCIsXG4gICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA1LCB4bWF4ID0gMjAxNSxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;per_25_34_grad&quot;,
                   plot_title = &quot;Graduate Degree, Ages 25-34&quot;,
-                  subtitle = &quot;5-year rolling average&quot;,
-                  rollmean = 5,xmin = 2007, xmax = 2013,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
-showtext.end()
-dev.off()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
-<pre><code>null device 
-          1 </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9wZXJfMjVfNjRfYmFjaF9wbHVzX3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
-<pre class="r"><code>jpeg(&quot;edu_per_25_64_bach_plus_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfMjVfNjRfYmFjaF9wbHVzXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjRcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-graph_trendline(educ_data, &quot;per_25_64_bach_plus&quot;,
-                  plot_title = &quot;Bachelor's Degree or Higher, Ages 25-64&quot;,
+                  rollmean = 3, xmin = 2005, xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15001&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -783,12 +788,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfaGlzcGFuaWNfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_hispanic_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX2hpc3BhbmljXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEhpc3BhbmljXCIsXG4gICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9IFwiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZVwiLFxuICAgICAgICAgICAgICAgICAgcm9sbG1lYW4gPSA1LHhtaW4gPSAyMDA3LCB4bWF4ID0gMjAxMyxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMklcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX2hpc3BhbmljXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEhpc3BhbmljXCIsXG4gICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUseG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAySVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;bach_plus_per_hispanic&quot;,
                   plot_title = &quot;Bachelor's Degree or Higher, Hispanic&quot;,
-                  subtitle = &quot;5-year rolling average&quot;,
-                  rollmean = 5,xmin = 2007, xmax = 2013,
+                  rollmean = 5,xmin = 2005, xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -800,12 +804,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9iYWNoX3BsdXNfd2hpdGVfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_bach_plus_white_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX3doaXRlXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIFdoaXRlXCIsXG4gICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9IFwiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZVwiLFxuICAgICAgICAgICAgICAgICAgcm9sbG1lYW4gPSA1LHhtaW4gPSAyMDA3LCB4bWF4ID0gMjAxMyxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMkFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJiYWNoX3BsdXNfcGVyX3doaXRlXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIFdoaXRlXCIsXG4gICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUseG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyQVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;bach_plus_per_white&quot;,
                   plot_title = &quot;Bachelor's Degree or Higher, White&quot;,
-                  subtitle = &quot;5-year rolling average&quot;,
-                  rollmean = 5,xmin = 2007, xmax = 2013,
+                  rollmean = 5,xmin = 2005, xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -817,12 +820,11 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9lbnJvbGxlZF8zXzRfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_enrolled_3_4_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJlbnJvbGxlZF8zXzRcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIGFnZXMgMyBhbmQgNCBlbnJvbGxlZCBpbiBwcmVzY2hvb2xcIixcbiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gXCI1LXllYXIgcm9sbGluZyBhdmVyYWdlXCIsXG4gICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUseG1pbiA9IDIwMDcsIHhtYXggPSAyMDEzLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgUzE0MDFcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJlbnJvbGxlZF8zXzRcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNoaWxkcmVuIGFnZXMgMyBhbmQgNCBlbnJvbGxlZCBpbiBwcmVzY2hvb2xcIixcbiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSx4bWluID0gMjAwNSwgeG1heCA9IDIwMTUsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBTMTQwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;enrolled_3_4&quot;,
                   plot_title = &quot;Children ages 3 and 4 enrolled in preschool&quot;,
-                  subtitle = &quot;5-year rolling average&quot;,
-                  rollmean = 5,xmin = 2007, xmax = 2013,
+                  rollmean = 5,xmin = 2005, xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table S1401&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -834,12 +836,12 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9wZXJfaGlnaF93YWdlX3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_per_high_wage_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfaGlnaF93YWdlXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJQb3B1bGF0aW9uIGluIEhpZ2ggV2FnZSBPY2N1cGF0aW9uc1wiLFxuICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSBcIjMteWVhciByb2xsaW5nIGF2ZXJhZ2VcIiwgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNiwgXG4gICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNCxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIFMyNDAxXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgXCJwZXJfaGlnaF93YWdlXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJQb3B1bGF0aW9uIGluIEhpZ2ggV2FnZSBPY2N1cGF0aW9uc1wiLFxuICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIFxuICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBTMjQwMVwiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 graph_trendline(educ_data, &quot;per_high_wage&quot;,
                   plot_title = &quot;Population in High Wage Occupations&quot;,
-                  subtitle = &quot;3-year rolling average&quot;, rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = &quot;Source: Greater Louisville Project \nData from the American Community Survey, Table S2401&quot;)
 showtext.end()
 dev.off()</code></pre>
@@ -899,7 +901,7 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9ncmFkX3JhdGVfZXRobmljaXR5X3RyZW5kbGluZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;edu_grad_rate_ethnicity_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxua3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZShcbmplZmZfZXRoX2dyYWRfcmF0ZSxcbmJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTMsIDIwMTYsIDIpLFxueG1pbiA9IDIwMTMsXG54bWF4ID0gMjAxNixcbnBsb3RfdGl0bGUgPSBcIkZvdXIgWWVhciBHcmFkdWF0aW9uIFJhdGUgYnkgRXRobmljaXR5LCBKQ1BTXCIsXG5sYWJlbHMgPSBjKFwiQWZyaWNhbiBBbWVyaWNhblwiLCBcIkFzaWFuXCIsIFwiSGlzcGFuaWNcIiwgXCJXaGl0ZVwiKSxcbnlfdGl0bGUgPSBcIkZvdXIgWWVhciBHcmFkdWF0aW9uIFJhdGVcIixcbmNvbG9yX3BhbCA9IHdlc19wYWxldHRlKFwiTW9vbnJpc2UyXCIpLFxuY2FwdGlvbiA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdFxuRGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZFwiXG4pXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxua3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZShcbmplZmZfZXRoX2dyYWRfcmF0ZSxcbmJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTMsIDIwMTYsIDIpLFxueG1pbiA9IDIwMTMsXG54bWF4ID0gMjAxNixcbnBsb3RfdGl0bGUgPSBcIkZvdXIgWWVhciBHcmFkdWF0aW9uIFJhdGUgYnkgRXRobmljaXR5LCBKQ1BTXCIsXG5sYWJlbHMgPSBjKFwiQWZyaWNhbiBBbWVyaWNhblwiLCBcIkFzaWFuXCIsIFwiSGlzcGFuaWNcIiwgXCJXaGl0ZVwiKSxcbnlfdGl0bGUgPSBcIkZvdXIgWWVhciBHcmFkdWF0aW9uIFJhdGVcIixcbmNvbG9yX3BhbCA9IHdlc19wYWxldHRlKFwiTW9vbnJpc2UyXCIpLFxuY2FwdGlvbiA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdFxcbkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmRcIlxuKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 ky_ed_data_long_trendline(
 jeff_eth_grad_rate,
@@ -910,8 +912,7 @@ plot_title = &quot;Four Year Graduation Rate by Ethnicity, JCPS&quot;,
 labels = c(&quot;African American&quot;, &quot;Asian&quot;, &quot;Hispanic&quot;, &quot;White&quot;),
 y_title = &quot;Four Year Graduation Rate&quot;,
 color_pal = wes_palette(&quot;Moonrise2&quot;),
-caption = &quot;Source: Greater Louisville Project
-Data from Kentucky Department of Education School Report Card&quot;
+caption = &quot;Source: Greater Louisville Project\nData from Kentucky Department of Education School Report Card&quot;
 )
 showtext.end()
 dev.off()</code></pre>
@@ -947,7 +948,7 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9hY3RfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_act_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19jb21wb3NpdGVfc2NvcmVcIixcbiAgcGxvdF90aXRsZSA9IFwiQUNUIENvbXBvc2l0ZSBTY29yZXNcIixcbiAgeV90aXRsZSA9IFwiQ29tcG9zaXRlIFNjb3JlXCIsXG4gIHhtaW4gPSAyMDEyLFxuICB4bWF4ID0gMjAxNixcbiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMiwgMjAxNiwgMiksXG4gIGNhcHRpb24gPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmRcIlxuKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19jb21wb3NpdGVfc2NvcmVcIixcbiAgcGxvdF90aXRsZSA9IFwiQUNUIENvbXBvc2l0ZSBTY29yZXNcIixcbiAgeV90aXRsZSA9IFwiQ29tcG9zaXRlIFNjb3JlXCIsXG4gIHhtaW4gPSAyMDEyLFxuICB4bWF4ID0gMjAxNixcbiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMiwgMjAxNiwgMiksXG4gIGNhcHRpb24gPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmRcIlxuKVxuYGBgIn0= -->
 <pre class="r"><code>showtext.begin()
 graph_trendline_ky_ed(
   ky_ed_data,
@@ -959,8 +960,13 @@ graph_trendline_ky_ed(
   break_settings = seq(2012, 2016, 2),
   caption = &quot;Source: Greater Louisville Project
 Data from Kentucky Department of Education School Report Card&quot;
-)
-showtext.end()
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoidGhlIGNvbmRpdGlvbiBoYXMgbGVuZ3RoID4gMSBhbmQgb25seSB0aGUgZmlyc3QgZWxlbWVudCB3aWxsIGJlIHVzZWRcbiJ9 -->
+<pre><code>the condition has length &gt; 1 and only the first element will be used</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -970,7 +976,7 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9jY3JfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_ccr_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19wY3RfY2NyXCIsXG4gIHBsb3RfdGl0bGUgPSBcIkNvbGxlZ2UgYW5kIENhcmVlciBSZWFkaW5lc3NcIixcbiAgeV90aXRsZSA9IFwiUGVyY2VudFwiLFxuICB4bWluID0gMjAxMixcbiAgeG1heCA9IDIwMTYsXG4gIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTIsIDIwMTYsIDIpLFxuICBjYXB0aW9uID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0RGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZFwiXG4pXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19wY3RfY2NyXCIsXG4gIHBsb3RfdGl0bGUgPSBcIkNvbGxlZ2UgYW5kIENhcmVlciBSZWFkaW5lc3NcIixcbiAgeV90aXRsZSA9IFwiUGVyY2VudFwiLFxuICB4bWluID0gMjAxMixcbiAgeG1heCA9IDIwMTYsXG4gIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTIsIDIwMTYsIDIpLFxuICBjYXB0aW9uID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0RGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZFwiXG4pXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 graph_trendline_ky_ed(
   ky_ed_data,
@@ -981,8 +987,13 @@ graph_trendline_ky_ed(
   xmax = 2016,
   break_settings = seq(2012, 2016, 2),
   caption = &quot;Source: Greater Louisville ProjectData from Kentucky Department of Education School Report Card&quot;
-)
-showtext.end()
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoidGhlIGNvbmRpdGlvbiBoYXMgbGVuZ3RoID4gMSBhbmQgb25seSB0aGUgZmlyc3QgZWxlbWVudCB3aWxsIGJlIHVzZWRcbiJ9 -->
+<pre><code>the condition has length &gt; 1 and only the first element will be used</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -992,7 +1003,7 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9raW5kZXJnYXJ0ZW5fcHJlcF90cmVuZGxpbmUuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;edu_kindergarten_prep_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19raW5kX3JlYWR5XCIsXG4gIHBsb3RfdGl0bGUgPSBcIktpbmRlcmdhcnRlbiBQcmVwYXJlZG5lc3NcIixcbiAgeV90aXRsZSA9IFwiUGVyY2VudFwiLFxuICB4bWluID0gMjAxNCxcbiAgeG1heCA9IDIwMTYsXG4gIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTQsIDIwMTYsIDIpLFxuICBjYXB0aW9uID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0RGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZFwiXG4pXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19raW5kX3JlYWR5XCIsXG4gIHBsb3RfdGl0bGUgPSBcIktpbmRlcmdhcnRlbiBQcmVwYXJlZG5lc3NcIixcbiAgeV90aXRsZSA9IFwiUGVyY2VudFwiLFxuICB4bWluID0gMjAxNCxcbiAgeG1heCA9IDIwMTYsXG4gIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTQsIDIwMTYsIDIpLFxuICBjYXB0aW9uID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0XFxuRGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZFwiXG4pXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 graph_trendline_ky_ed(
   ky_ed_data,
@@ -1002,9 +1013,14 @@ graph_trendline_ky_ed(
   xmin = 2014,
   xmax = 2016,
   break_settings = seq(2014, 2016, 2),
-  caption = &quot;Source: Greater Louisville ProjectData from Kentucky Department of Education School Report Card&quot;
-)
-showtext.end()
+  caption = &quot;Source: Greater Louisville Project\nData from Kentucky Department of Education School Report Card&quot;
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoidGhlIGNvbmRpdGlvbiBoYXMgbGVuZ3RoID4gMSBhbmQgb25seSB0aGUgZmlyc3QgZWxlbWVudCB3aWxsIGJlIHVzZWRcbiJ9 -->
+<pre><code>the condition has length &gt; 1 and only the first element will be used</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -1014,7 +1030,7 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9ncmFkdWF0aW9uX3JhdGVfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_graduation_rate_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19jb2hvcnRfZ3JhZF9yYXRlXCIsXG4gIHBsb3RfdGl0bGUgPSBcIkdyYWR1YXRpb24gUmF0ZVwiLFxuICB5X3RpdGxlID0gXCJQZXJjZW50XCIsXG4gIHhtaW4gPSAyMDEzLFxuICB4bWF4ID0gMjAxNixcbiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMywgMjAxNiwgMiksXG4gIGNhcHRpb24gPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3REYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkXCJcbilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKFxuICBreV9lZF9kYXRhLFxuICBcImFsbF9zdHVkZW50c19jb2hvcnRfZ3JhZF9yYXRlXCIsXG4gIHBsb3RfdGl0bGUgPSBcIkdyYWR1YXRpb24gUmF0ZVwiLFxuICB5X3RpdGxlID0gXCJQZXJjZW50XCIsXG4gIHhtaW4gPSAyMDEzLFxuICB4bWF4ID0gMjAxNixcbiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMywgMjAxNiwgMiksXG4gIGNhcHRpb24gPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcXG5EYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkXCJcbilcbmBgYCJ9 -->
 <pre class="r"><code>showtext.begin()
 graph_trendline_ky_ed(
   ky_ed_data,
@@ -1024,9 +1040,14 @@ graph_trendline_ky_ed(
   xmin = 2013,
   xmax = 2016,
   break_settings = seq(2013, 2016, 2),
-  caption = &quot;Source: Greater Louisville ProjectData from Kentucky Department of Education School Report Card&quot;
-)
-showtext.end()
+  caption = &quot;Source: Greater Louisville Project\nData from Kentucky Department of Education School Report Card&quot;
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoidGhlIGNvbmRpdGlvbiBoYXMgbGVuZ3RoID4gMSBhbmQgb25seSB0aGUgZmlyc3QgZWxlbWVudCB3aWxsIGJlIHVzZWRcbiJ9 -->
+<pre><code>the condition has length &gt; 1 and only the first element will be used</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -1036,14 +1057,13 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9uYWVwX3JlYWRpbmdfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_naep_reading_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxua3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZShuYWVwX2RhdGEsIHZhciA9IFwiSnVyaXNkaWN0aW9uXCIsIHZhbHVlID0gXCJuYWVwX3JlYWRpbmdfc2NvcmVcIiwgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAwOSwgMjAxNiwyKSwgeG1pbiA9IDIwMDksXG4gICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsIHBsb3RfdGl0bGUgPSBcIk5BRVAgNHRoIEdyYWRlIFJlYWRpbmcgU2NvcmVcIixcbiAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKFwiSkNQU1wiLCBcIktlbnR1Y2t5IFNjaG9vbCBEaXN0cmljdCBNZWFuXCIpLFxuICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkNvbXBvc2l0ZSBTY29yZVwiLCBjb2xvcl9wYWwgPSBjKFwiIzAwYTliN1wiLCBcImJsYWNrXCIpLFxuY2FwdGlvbiA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdFxcbkRhdGEgZnJvbSBOYXRpb25hbCBDZW50ZXIgZm9yIEVkdWNhdGlvblxuU3RhdGlzdGljc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxua3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZShuYWVwX2RhdGEsIHZhciA9IFwiSnVyaXNkaWN0aW9uXCIsIHZhbHVlID0gXCJuYWVwX3JlYWRpbmdfc2NvcmVcIiwgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAwOSwgMjAxNiwyKSwgeG1pbiA9IDIwMDksXG4gICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsIHBsb3RfdGl0bGUgPSBcIk5BRVAgNHRoIEdyYWRlIFJlYWRpbmcgU2NvcmVcIixcbiAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKFwiSkNQU1wiLCBcIktlbnR1Y2t5IFNjaG9vbCBEaXN0cmljdCBNZWFuXCIpLFxuICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkNvbXBvc2l0ZSBTY29yZVwiLCBjb2xvcl9wYWwgPSBjKFwiIzAwYTliN1wiLCBcImJsYWNrXCIpLFxuY2FwdGlvbiA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdFxcbkRhdGEgZnJvbSBOYXRpb25hbCBDZW50ZXIgZm9yIEVkdWNhdGlvbiBTdGF0aXN0aWNzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 ky_ed_data_long_trendline(naep_data, var = &quot;Jurisdiction&quot;, value = &quot;naep_reading_score&quot;, break_settings = seq(2009, 2016,2), xmin = 2009,
                 xmax = 2015, plot_title = &quot;NAEP 4th Grade Reading Score&quot;,
                 labels = c(&quot;JCPS&quot;, &quot;Kentucky School District Mean&quot;),
                 y_title = &quot;Composite Score&quot;, color_pal = c(&quot;#00a9b7&quot;, &quot;black&quot;),
-caption = &quot;Source: Greater Louisville Project\nData from National Center for Education
-Statistics&quot;)
+caption = &quot;Source: Greater Louisville Project\nData from National Center for Education Statistics&quot;)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -1054,14 +1074,13 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImVkdV9uYWVwX21hdGhfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;edu_naep_math_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxua3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZShuYWVwX2RhdGEsIHZhciA9IFwiSnVyaXNkaWN0aW9uXCIsIHZhbHVlID0gXCJuYWVwX21hdGhfc2NvcmVcIiwgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAwOSwgMjAxNiwyKSwgeG1pbiA9IDIwMDksXG4gICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsIHBsb3RfdGl0bGUgPSBcIk5BRVAgNHRoIEdyYWRlIE1hdGggU2NvcmVcIixcbiAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKFwiSkNQU1wiLCBcIktlbnR1Y2t5IFNjaG9vbCBEaXN0cmljdCBNZWFuXCIpLFxuICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkNvbXBvc2l0ZSBTY29yZVwiLCBjb2xvcl9wYWwgPSBjKFwiIzAwYTliN1wiLCBcImJsYWNrXCIpLFxuY2FwdGlvbiA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdFxcbkRhdGEgZnJvbSBOYXRpb25hbCBDZW50ZXIgZm9yIEVkdWNhdGlvblxuU3RhdGlzdGljc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxua3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZShuYWVwX2RhdGEsIHZhciA9IFwiSnVyaXNkaWN0aW9uXCIsIHZhbHVlID0gXCJuYWVwX21hdGhfc2NvcmVcIiwgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAwOSwgMjAxNiwyKSwgeG1pbiA9IDIwMDksXG4gICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsIHBsb3RfdGl0bGUgPSBcIk5BRVAgNHRoIEdyYWRlIE1hdGggU2NvcmVcIixcbiAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKFwiSkNQU1wiLCBcIktlbnR1Y2t5IFNjaG9vbCBEaXN0cmljdCBNZWFuXCIpLFxuICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkNvbXBvc2l0ZSBTY29yZVwiLCBjb2xvcl9wYWwgPSBjKFwiIzAwYTliN1wiLCBcImJsYWNrXCIpLFxuY2FwdGlvbiA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdFxcbkRhdGEgZnJvbSBOYXRpb25hbCBDZW50ZXIgZm9yIEVkdWNhdGlvbiBTdGF0aXN0aWNzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>showtext.begin()
 ky_ed_data_long_trendline(naep_data, var = &quot;Jurisdiction&quot;, value = &quot;naep_math_score&quot;, break_settings = seq(2009, 2016,2), xmin = 2009,
                 xmax = 2015, plot_title = &quot;NAEP 4th Grade Math Score&quot;,
                 labels = c(&quot;JCPS&quot;, &quot;Kentucky School District Mean&quot;),
                 y_title = &quot;Composite Score&quot;, color_pal = c(&quot;#00a9b7&quot;, &quot;black&quot;),
-caption = &quot;Source: Greater Louisville Project\nData from National Center for Education
-Statistics&quot;)
+caption = &quot;Source: Greater Louisville Project\nData from National Center for Education Statistics&quot;)
 showtext.end()
 dev.off()</code></pre>
 <!-- rnb-source-end -->
@@ -1201,7 +1220,7 @@ Returning the palette you asked for with that many colors</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRWR1Y2F0aW9uIEdyYXBoaW5nIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpHcmFwaGluZyB0aGUgRWR1Y2F0aW9uIERhdGEKCmBgYHtyICJzZXR1cCIsIGluY2x1ZGU9RkFMU0V9CnJlcXVpcmUoImtuaXRyIikKb3B0c19rbml0JHNldChyb290LmRpciA9ICJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUiKQpgYGAKCgpMb2FkaW5nIGxpYnJhcmllcwpgYGB7ciBsaWJyYXJpZXMsIG1lc3NhZ2UgPSBGQUxTRX0KbGlicmFyeShzaG93dGV4dCkKbGlicmFyeShjbGFzc0ludCkKbGlicmFyeShnZ3RoZW1lcykKbGlicmFyeShyZXNoYXBlMikKbGlicmFyeShsZWFmbGV0KQpsaWJyYXJ5KHJnZGFsKQpsaWJyYXJ5KGh0bWx3aWRnZXRzKQpsaWJyYXJ5KFJDb2xvckJyZXdlcikKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkobWFncml0dHIpCmxpYnJhcnkod2VzYW5kZXJzb24pCmBgYAoKUmVhZGluZyBpbiBkYXRhCmBgYHtyIGRhdGF9CmVkdWNfZGF0YSA9IHJlYWRfY3N2KCJvdXRwdXQgZGF0YS9lZHVjYXRpb25fZGF0YV9maXBzLmNzdiIpCgpyZXNjYWxlIDwtIGZ1bmN0aW9uKHgpe25ld192YWx1ZSA8LSB4KjEwMH0KZWR1Y19kYXRhWyAsYygzOjE3KV0gPSBhcHBseShlZHVjX2RhdGFbICxjKDM6MTcpXSwgMiwgcmVzY2FsZSkKZWR1Y19kYXRhXzE1IDwtIGVkdWNfZGF0YSAlPiUgZmlsdGVyKHllYXIgPT0gMjAxNSkKCgpuYWVwX2RhdGEgPC0gcmVhZF9jc3YoIm91dHB1dCBkYXRhL2VkdWNhdGlvbl9kYXRhX25hZXAuY3N2IikKa3lfZWRfZGF0YSA8LSByZWFkX2Nzdigib3V0cHV0IGRhdGEvZWR1Y2F0aW9uX2RhdGFfa3kuY3N2IikKYGBgCgpDcmVhdGluZyBuZXcgZGF0YXNldHMgdG8gYnJlYWsgZG93biBtZXRyaWNzIGJ5IHJhY2UvZXRobmljaXR5IGZvciBKQ1BTCmBgYHtyfQojQUNUIGJ5IEV0aG5pY2l0eSBmb3IgSkNQUwpqZWZmX2V0aF9hY3QgPC0ga3lfZWRfZGF0YSAlPiUKICBmaWx0ZXIoZGlzdF9uYW1lID09ICJKZWZmZXJzb24gQ291bnR5IiklPiUKICBzZWxlY3QoeWVhciwgd2hpdGVfY29tcG9zaXRlX3Njb3JlLCBhZnJpY2FuX2FtZXJpY2FuX2NvbXBvc2l0ZV9zY29yZSwKICAgICAgICAgYXNpYW5fY29tcG9zaXRlX3Njb3JlLCBoaXNwYW5pY19jb21wb3NpdGVfc2NvcmUpJT4lCiAgZ2F0aGVyKHdoaXRlX2NvbXBvc2l0ZV9zY29yZTpoaXNwYW5pY19jb21wb3NpdGVfc2NvcmUsIGtleSA9ICJ2YXIiLAogICAgICAgICB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpCmplZmZfZXRoX2FjdCR2YXIgPC0gZmFjdG9yKGplZmZfZXRoX2FjdCR2YXIsIGxldmVscyA9IHVuaXF1ZShqZWZmX2V0aF9hY3QkdmFyKSkKCgojQ0NSIGJ5IEV0aG5pY2l0eSBmb3IgSkNQUwpqZWZmX2V0aF9jY3IgPC0ga3lfZWRfZGF0YSAlPiUKICBmaWx0ZXIoZGlzdF9uYW1lID09ICJKZWZmZXJzb24gQ291bnR5IiklPiUKICBzZWxlY3QoeWVhciwgd2hpdGVfcGN0X2NjciwgYWZyaWNhbl9hbWVyaWNhbl9wY3RfY2NyLAogICAgICAgICBhc2lhbl9wY3RfY2NyLCBoaXNwYW5pY19wY3RfY2NyKSU+JQogIGdhdGhlcih3aGl0ZV9wY3RfY2NyOmhpc3BhbmljX3BjdF9jY3IsIGtleSA9ICJ2YXIiLCB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpCmplZmZfZXRoX2NjciR2YXIgPC0gZmFjdG9yKGplZmZfZXRoX2NjciR2YXIsIGxldmVscyA9IHVuaXF1ZShqZWZmX2V0aF9jY3IkdmFyKSkKCgojS2luZGVyZ2FydGVuIFByZXBhcmVkbmVzcyBieSBFdGhuaWNpdHkgZm9yIEpDUFMKamVmZl9ldGhfa3NjcmVlbiA8LSBreV9lZF9kYXRhICU+JQogIGZpbHRlcihkaXN0X25hbWUgPT0gIkplZmZlcnNvbiBDb3VudHkiKSU+JQogIHNlbGVjdCh5ZWFyLCB3aGl0ZV9raW5kX3JlYWR5LCBhZnJpY2FuX2FtZXJpY2FuX2tpbmRfcmVhZHksIAogICAgICAgICBhc2lhbl9raW5kX3JlYWR5LCBoaXNwYW5pY19raW5kX3JlYWR5KSU+JQogIGdhdGhlcih3aGl0ZV9raW5kX3JlYWR5Omhpc3BhbmljX2tpbmRfcmVhZHksIGtleSA9ICJ2YXIiLCB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpJT4lCiAgZmlsdGVyKHZhbHVlID49IDApCmplZmZfZXRoX2NjciR2YXIgPC0gZmFjdG9yKGplZmZfZXRoX2NjciR2YXIsIGxldmVscyA9IHVuaXF1ZShqZWZmX2V0aF9jY3IkdmFyKSkKCgojR3JhZHVhdGlvbiBSYXRlIGJ5IEV0aG5pY2l0eSBmb3IgSkNQUwpqZWZmX2V0aF9ncmFkX3JhdGUgPC0ga3lfZWRfZGF0YSAlPiUKICBmaWx0ZXIoZGlzdF9uYW1lID09ICJKZWZmZXJzb24gQ291bnR5IiklPiUKICBzZWxlY3QoeWVhciwgd2hpdGVfY29ob3J0X2dyYWRfcmF0ZSwgYWZyaWNhbl9hbWVyaWNhbl9jb2hvcnRfZ3JhZF9yYXRlLAogICAgICAgICBhc2lhbl9jb2hvcnRfZ3JhZF9yYXRlLCBoaXNwYW5pY19jb2hvcnRfZ3JhZF9yYXRlKSU+JQogIGdhdGhlcih3aGl0ZV9jb2hvcnRfZ3JhZF9yYXRlOmhpc3BhbmljX2NvaG9ydF9ncmFkX3JhdGUsIGtleSA9ICJ2YXIiLCB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpICU+JQogIGZpbHRlcih2YWx1ZSA+PSAwKQpqZWZmX2V0aF9jY3IkdmFyIDwtIGZhY3RvcihqZWZmX2V0aF9jY3IkdmFyLCBsZXZlbHMgPSB1bmlxdWUoamVmZl9ldGhfY2NyJHZhcikpCmBgYAoKVGhlIGNvZGUgZm9yIHRoZSByYW5raW5ncyBncmFwaHMKYGBge3IgcmFua2luZ3N9CnNvdXJjZSgiZ3JhcGhpbmdfZnVuY3Rpb25zLlIiKQpgYGAKCkFkZGluZyBmb250cwpgYGB7cn0KIyBmb250LmFkZCgiTXVzZW8gU2FucyAzMDAiLCAiQzovVXNlcnMvbmF0ZWsvRG9jdW1lbnRzL2ZvbnRzL011c2VvU2Fucy9NdXNlb1NhbnNfMzAwLm90ZiIpCiMgZm9udC5hZGQoIk11c2VvIFNhbnMgSXRhbGljIiwgIkM6L1VzZXJzL25hdGVrL0RvY3VtZW50cy9mb250cy9NdXNlb1NhbnMvTXVzZW9TYW5zXzMwMF9JdGFsaWMub3RmIikKCgpmb250LmFkZCgiTXVzZW8gU2FucyAzMDAiLCAiL1VzZXJzL0JyeWNlUm93bGFuZC9EZXNrdG9wL0dMUC9SIENvZGUvTXVzZW9TYW5zXzMwMC5vdGYiKQpmb250LmFkZCgiTXVzZW8gU2FucyAzMDAgSXRhbGljIiwgIi9Vc2Vycy9CcnljZVJvd2xhbmQvRGVza3RvcC9HTFAvUiBDb2RlL011c2VvU2Fuc18zMDBfSXRhbGljLm90ZiIpCmBgYAoKCmBgYHtyLCBtZXNzYWdlID0gRkFMU0V9CnNldHdkKCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvSW1hZ2VzL0VkdV9JbWFnZXMiKQoKanBlZygiZWR1X3VuZGVyXzVfcG92X3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChlZHVjX2RhdGFfMTUsICJ1bmRlcl81X3BlciIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQ2hpbGRyZW4gVW5kZXIgNSBpbiBQb3ZlcnR5LCAyMDE1IiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9maXZlX3RvXzE3X3Bvdl9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCAiZml2ZV90b18xN19wZXIiLCBvcmRlciA9ICJBc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkNoaWxkcmVuIEFnZXMgNSB0byAxNyBpbiBQb3ZlcnR5LCAyMDE1IiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9jaGlsZF9wb3ZfcmFua2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGVkdWNfZGF0YV8xNSwgImNoaWxkX3BlciIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQ2hpbGQgUG92ZXJ0eSwgMjAxNSIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX2FsbF9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCAiYmFjaF9wbHVzX3Blcl9hbGwiLCAKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFsbCBSYWNlcywgMjAxNSIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX2JsYWNrX3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChlZHVjX2RhdGFfMTUsICJiYWNoX3BsdXNfcGVyX2JsYWNrIiwgCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBCbGFjaywgMjAxNSIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyQiIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1XzI1XzY0X2Fzc29jX3BsdXNfcmFua2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGVkdWNfZGF0YV8xNSwgInBlcl8yNV82NF9hc3NvY19wbHVzIiwgCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NCwgMjAxNSIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfNjRfYmFjaF9wbHVzX3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChlZHVjX2RhdGFfMTUsICJwZXJfMjVfNjRfYmFjaF9wbHVzIiwgCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTY0LCAyMDE1IiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV82NF9ncmFkX3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChlZHVjX2RhdGFfMTUsICJwZXJfMjVfNjRfZ3JhZCIsIAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkdyYWR1YXRlIERlZ3JlZSwgQWdlcyAyNS02NCwgMjAxNSIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfMzRfYXNzb2NfcGx1c19yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCAicGVyXzI1XzM0X2Fzc29jX3BsdXMiLCAKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBc3NvY2lhdGUncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTM0LCAyMDE1IiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV8zNF9iYWNoX3BsdXNfcmFua2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGVkdWNfZGF0YV8xNSwgInBlcl8yNV8zNF9iYWNoX3BsdXMiLCAKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtMzQsIDIwMTUiLCAKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1XzI1XzM0X2dyYWRfcmFua2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGVkdWNfZGF0YV8xNSwgInBlcl8yNV8zNF9ncmFkIiwgCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTM0LCAyMDE1IiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCgpqcGVnKCJlZHVfcGVyXzI1XzY0X2JhY2hfcGx1c19yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCAicGVyXzI1XzY0X2JhY2hfcGx1cyIsIAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NCwgMjAxNSIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX2hpc3BhbmljX3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChlZHVjX2RhdGFfMTUsICJiYWNoX3BsdXNfcGVyX2hpc3BhbmljIiwgCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBIaXNwYW5pYywgMjAxNSIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAySSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2JhY2hfcGx1c193aGl0ZV9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCAiYmFjaF9wbHVzX3Blcl93aGl0ZSIsIAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgV2hpdGUsIDIwMTUiLCAKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMkEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9lbnJvbGxlZF8zXzRfcmFua2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGVkdWNfZGF0YV8xNSwgImVucm9sbGVkXzNfNCIsIAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkNoaWxkcmVuIGFnZXMgMyBhbmQgNCBlbnJvbGxlZCBpbiBwcmVzY2hvb2wsIDIwMTUiLCAKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIFMxNDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfcGVyX2hpZ2hfd2FnZV9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LCAicGVyX2hpZ2hfd2FnZSIsIAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlBvcHVsYXRpb24gaW4gSGlnaCBXYWdlIE9jY3VwYXRpb25zLCAyMDE1IiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBTMjQwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQpgYGAKCgpgYGB7cn0Kc2V0d2QoIn4vRGVza3RvcC9nbHBfd2Vic2l0ZS9JbWFnZXMvRWR1X0ltYWdlcyIpCgpqcGVnKCJlZHVfdW5kZXJfNV9wb3ZfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgInVuZGVyXzVfcGVyIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJDaGlsZHJlbiBVbmRlciA1IGluIFBvdmVydHkiLAogICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9ICIzLXllYXIgcm9sbGluZyBhdmVyYWdlIiwgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNiwgCiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfZml2ZV90b18xN19wb3ZfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgImZpdmVfdG9fMTdfcGVyIiwgCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQ2hpbGRyZW4gQWdlcyA1IHRvIDE3IGluIFBvdmVydHkiLAogICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9ICIzLXllYXIgcm9sbGluZyBhdmVyYWdlIiwgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNiwgCiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfY2hpbGRfcG92X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJjaGlsZF9wZXIiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkNoaWxkIFBvdmVydHkiLAogICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9ICIzLXllYXIgcm9sbGluZyBhdmVyYWdlIiwgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNiwgCiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX2FsbF90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAiYmFjaF9wbHVzX3Blcl9hbGwiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWxsIFJhY2VzIiwKICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSAiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZSIsCiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSwgeG1pbiA9IDIwMDcsIHhtYXggPSAyMDEzLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX2JsYWNrX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJiYWNoX3BsdXNfcGVyX2JsYWNrIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEJsYWNrIiwKICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSAiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZSIsCiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSwgeG1pbiA9IDIwMDcsIHhtYXggPSAyMDEzLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyQiIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1XzI1XzY0X2Fzc29jX3BsdXNfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgInBlcl8yNV82NF9hc3NvY19wbHVzIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBc3NvY2lhdGUncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTY0IiwKICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSAiMy15ZWFyIHJvbGxpbmcgYXZlcmFnZSIscm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNiwgCiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfNjRfYmFjaF9wbHVzX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJwZXJfMjVfNjRfYmFjaF9wbHVzIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjQiLAogICAgICAgICAgICAgICAgICBzdWJ0aXRsZSA9ICIzLXllYXIgcm9sbGluZyBhdmVyYWdlIiwgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNiwgCiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE0LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfNjRfZ3JhZF90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAicGVyXzI1XzY0X2dyYWQiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkdyYWR1YXRlIERlZ3JlZSwgQWdlcyAyNS02NCIsCiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gIjMteWVhciByb2xsaW5nIGF2ZXJhZ2UiLCByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA2LCAKICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTQsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV8zNF9hc3NvY19wbHVzX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJwZXJfMjVfMzRfYXNzb2NfcGx1cyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQXNzb2NpYXRlJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNCIsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV8zNF9iYWNoX3BsdXNfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgInBlcl8yNV8zNF9iYWNoX3BsdXMiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNCIsCiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gIjMteWVhciByb2xsaW5nIGF2ZXJhZ2UiLCByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA2LCAKICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTQsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV8zNF9ncmFkX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJwZXJfMjVfMzRfZ3JhZCIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTM0IiwKICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSAiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZSIsCiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSx4bWluID0gMjAwNywgeG1heCA9IDIwMTMsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCgpqcGVnKCJlZHVfcGVyXzI1XzY0X2JhY2hfcGx1c190cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAicGVyXzI1XzY0X2JhY2hfcGx1cyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTY0IiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2JhY2hfcGx1c19oaXNwYW5pY190cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAiYmFjaF9wbHVzX3Blcl9oaXNwYW5pYyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBIaXNwYW5pYyIsCiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gIjUteWVhciByb2xsaW5nIGF2ZXJhZ2UiLAogICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUseG1pbiA9IDIwMDcsIHhtYXggPSAyMDEzLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAySSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2JhY2hfcGx1c193aGl0ZV90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAiYmFjaF9wbHVzX3Blcl93aGl0ZSIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBXaGl0ZSIsCiAgICAgICAgICAgICAgICAgIHN1YnRpdGxlID0gIjUteWVhciByb2xsaW5nIGF2ZXJhZ2UiLAogICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUseG1pbiA9IDIwMDcsIHhtYXggPSAyMDEzLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyQSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2Vucm9sbGVkXzNfNF90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAiZW5yb2xsZWRfM180IiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJDaGlsZHJlbiBhZ2VzIDMgYW5kIDQgZW5yb2xsZWQgaW4gcHJlc2Nob29sIiwKICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSAiNS15ZWFyIHJvbGxpbmcgYXZlcmFnZSIsCiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSx4bWluID0gMjAwNywgeG1heCA9IDIwMTMsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBTMTQwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X3Blcl9oaWdoX3dhZ2VfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgInBlcl9oaWdoX3dhZ2UiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlBvcHVsYXRpb24gaW4gSGlnaCBXYWdlIE9jY3VwYXRpb25zIiwKICAgICAgICAgICAgICAgICAgc3VidGl0bGUgPSAiMy15ZWFyIHJvbGxpbmcgYXZlcmFnZSIsIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDYsIAogICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNCwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIFMyNDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfY2NyX2V0aG5pY2l0eV90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpreV9lZF9kYXRhX2xvbmdfdHJlbmRsaW5lKApqZWZmX2V0aF9jY3IsCmJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTIsIDIwMTYsIDIpLAp4bWluID0gMjAxMiwKeG1heCA9IDIwMTYsCnBsb3RfdGl0bGUgPSAiQ29sbGVnZSBhbmQgQ2FyZWVyIFJlYWRpbmVzcyBieSBFdGhuaWNpdHksIEpDUFMiLApsYWJlbHMgPSBjKCJBZnJpY2FuIEFtZXJpY2FuIiwgIkFzaWFuIiwgIkhpc3BhbmljIiwgIldoaXRlIiksCnlfdGl0bGUgPSAiUGVyY2VudCIsCmNvbG9yX3BhbCA9IHdlc19wYWxldHRlKCJNb29ucmlzZTIiKSwKY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0CkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmQiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgoKanBlZygiZWR1X2FjdF9ldGhuaWNpdHlfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKa3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZSgKamVmZl9ldGhfYWN0LApicmVha19zZXR0aW5ncyA9IHNlcSgyMDEyLCAyMDE2LCAyKSwKeG1pbiA9IDIwMTIsCnhtYXggPSAyMDE2LApwbG90X3RpdGxlID0gIkFDVCBTY29yZXMgYnkgRXRobmljaXR5LCBKQ1BTIiwKbGFiZWxzID0gYygiQWZyaWNhbiBBbWVyaWNhbiIsICJBc2lhbiIsICJIaXNwYW5pYyIsICJXaGl0ZSIpLAp5X3RpdGxlID0gIkNvbXBvc2l0ZSBTY29yZSIsCmNvbG9yX3BhbCA9IHdlc19wYWxldHRlKCJNb29ucmlzZTIiKSwKY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0CkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmQiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgoKanBlZygiZWR1X2dyYWRfcmF0ZV9ldGhuaWNpdHlfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKa3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZSgKamVmZl9ldGhfZ3JhZF9yYXRlLApicmVha19zZXR0aW5ncyA9IHNlcSgyMDEzLCAyMDE2LCAyKSwKeG1pbiA9IDIwMTMsCnhtYXggPSAyMDE2LApwbG90X3RpdGxlID0gIkZvdXIgWWVhciBHcmFkdWF0aW9uIFJhdGUgYnkgRXRobmljaXR5LCBKQ1BTIiwKbGFiZWxzID0gYygiQWZyaWNhbiBBbWVyaWNhbiIsICJBc2lhbiIsICJIaXNwYW5pYyIsICJXaGl0ZSIpLAp5X3RpdGxlID0gIkZvdXIgWWVhciBHcmFkdWF0aW9uIFJhdGUiLApjb2xvcl9wYWwgPSB3ZXNfcGFsZXR0ZSgiTW9vbnJpc2UyIiksCmNhcHRpb24gPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdApEYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKCmpwZWcoImVkdV9raW5kZXJnYXJ0ZW5fcHJlcF9ldGhuaWNpdHlfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKa3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZSgKamVmZl9ldGhfa3NjcmVlbiwKYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxNCwgMjAxNiwgMiksCnhtaW4gPSAyMDE0LAp4bWF4ID0gMjAxNiwKcGxvdF90aXRsZSA9ICJLaW5kZXJnYXJ0ZW4gUHJlcGFyZWRuZXNzIGJ5IEV0aG5pY2l0eSwgSkNQUyIsCmxhYmVscyA9IGMoIkFmcmljYW4gQW1lcmljYW4iLCAiQXNpYW4iLCAiSGlzcGFuaWMiLCAiV2hpdGUiKSwKeV90aXRsZSA9ICJQZXJjZW50IiwKY29sb3JfcGFsID0gd2VzX3BhbGV0dGUoIk1vb25yaXNlMiIpLApjYXB0aW9uID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QKRGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZCIKKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCgpqcGVnKCJlZHVfYWN0X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZV9reV9lZCgKICBreV9lZF9kYXRhLAogICJhbGxfc3R1ZGVudHNfY29tcG9zaXRlX3Njb3JlIiwKICBwbG90X3RpdGxlID0gIkFDVCBDb21wb3NpdGUgU2NvcmVzIiwKICB5X3RpdGxlID0gIkNvbXBvc2l0ZSBTY29yZSIsCiAgeG1pbiA9IDIwMTIsCiAgeG1heCA9IDIwMTYsCiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMiwgMjAxNiwgMiksCiAgY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0CkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmQiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfY2NyX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZV9reV9lZCgKICBreV9lZF9kYXRhLAogICJhbGxfc3R1ZGVudHNfcGN0X2NjciIsCiAgcGxvdF90aXRsZSA9ICJDb2xsZWdlIGFuZCBDYXJlZXIgUmVhZGluZXNzIiwKICB5X3RpdGxlID0gIlBlcmNlbnQiLAogIHhtaW4gPSAyMDEyLAogIHhtYXggPSAyMDE2LAogIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTIsIDIwMTYsIDIpLAogIGNhcHRpb24gPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdERhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmQiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfa2luZGVyZ2FydGVuX3ByZXBfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKAogIGt5X2VkX2RhdGEsCiAgImFsbF9zdHVkZW50c19raW5kX3JlYWR5IiwKICBwbG90X3RpdGxlID0gIktpbmRlcmdhcnRlbiBQcmVwYXJlZG5lc3MiLAogIHlfdGl0bGUgPSAiUGVyY2VudCIsCiAgeG1pbiA9IDIwMTQsCiAgeG1heCA9IDIwMTYsCiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxNCwgMjAxNiwgMiksCiAgY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0XG5EYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2dyYWR1YXRpb25fcmF0ZV90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmVfa3lfZWQoCiAga3lfZWRfZGF0YSwKICAiYWxsX3N0dWRlbnRzX2NvaG9ydF9ncmFkX3JhdGUiLAogIHBsb3RfdGl0bGUgPSAiR3JhZHVhdGlvbiBSYXRlIiwKICB5X3RpdGxlID0gIlBlcmNlbnQiLAogIHhtaW4gPSAyMDEzLAogIHhtYXggPSAyMDE2LAogIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMTMsIDIwMTYsIDIpLAogIGNhcHRpb24gPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdERhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmQiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfbmFlcF9yZWFkaW5nX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmt5X2VkX2RhdGFfbG9uZ190cmVuZGxpbmUobmFlcF9kYXRhLCB2YXIgPSAiSnVyaXNkaWN0aW9uIiwgdmFsdWUgPSAibmFlcF9yZWFkaW5nX3Njb3JlIiwgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAwOSwgMjAxNiwyKSwgeG1pbiA9IDIwMDksCiAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSwgcGxvdF90aXRsZSA9ICJOQUVQIDR0aCBHcmFkZSBSZWFkaW5nIFNjb3JlIiwKICAgICAgICAgICAgICAgIGxhYmVscyA9IGMoIkpDUFMiLCAiS2VudHVja3kgU2Nob29sIERpc3RyaWN0IE1lYW4iKSwKICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiQ29tcG9zaXRlIFNjb3JlIiwgY29sb3JfcGFsID0gYygiIzAwYTliNyIsICJibGFjayIpLApjYXB0aW9uID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbkRhdGEgZnJvbSBOYXRpb25hbCBDZW50ZXIgZm9yIEVkdWNhdGlvbgpTdGF0aXN0aWNzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfbmFlcF9tYXRoX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmt5X2VkX2RhdGFfbG9uZ190cmVuZGxpbmUobmFlcF9kYXRhLCB2YXIgPSAiSnVyaXNkaWN0aW9uIiwgdmFsdWUgPSAibmFlcF9tYXRoX3Njb3JlIiwgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAwOSwgMjAxNiwyKSwgeG1pbiA9IDIwMDksCiAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSwgcGxvdF90aXRsZSA9ICJOQUVQIDR0aCBHcmFkZSBNYXRoIFNjb3JlIiwKICAgICAgICAgICAgICAgIGxhYmVscyA9IGMoIkpDUFMiLCAiS2VudHVja3kgU2Nob29sIERpc3RyaWN0IE1lYW4iKSwKICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiQ29tcG9zaXRlIFNjb3JlIiwgY29sb3JfcGFsID0gYygiIzAwYTliNyIsICJibGFjayIpLApjYXB0aW9uID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbkRhdGEgZnJvbSBOYXRpb25hbCBDZW50ZXIgZm9yIEVkdWNhdGlvbgpTdGF0aXN0aWNzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCmBgYAoKQWRkaW5nIG1hcHBpbmcgZGF0YQpgYGB7cn0KbWFwX2RhdGEgPSByZWFkX2NzdigibWFwIGRhdGEvZWR1Y2F0aW9uX21hcF9kYXRhLmNzdiIsIGNvbF90eXBlcyA9IGNvbHMoZW5yb2xsZWRfM180ID0gY29sX2RvdWJsZSgpKSkKCnJlc2NhbGUgPC0gZnVuY3Rpb24oeCl7bmV3X3ZhbHVlIDwtIHgqMTAwfQptYXBfZGF0YVsgLGMoMzo1LCA3OjEyLCAxNCldID0gYXBwbHkobWFwX2RhdGFbICxjKDM6NSwgNzoxMiwgMTQpXSwgMiwgcmVzY2FsZSkKCmBgYAoKUmVhZGluZyBpbiBkYXRhIGZvciBtYXBwaW5nCmBgYHtyfQoKIyBzZXR3ZCgiQzovVXNlcnMvbmF0ZWsvRG9jdW1lbnRzL0dpdGh1Yi9nbHBfd2Vic2l0ZS9tYXAgZGF0YSIpCnNldHdkKCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvbWFwIGRhdGEiKQoKbWFwX2pjID0gcmVhZE9HUigiSkMgVHJhY3RzIiwgbGF5ZXIgPSAiSkMgVHJhY3RzIiwKICAgICAgICAgICAgICAgICBHREFMMV9pbnRlZ2VyNjRfcG9saWN5ID0gVFJVRSkKCm1hcF9qY0BkYXRhPC1mdWxsX2pvaW4obWFwX2pjQGRhdGEsIG1hcF9kYXRhLCBieSA9IGMoJ0dFT19JRCcgPSAnSWQnKSkKCm1hcF9qY0BkYXRhJHRyYWN0X251bSA8LSBzdWJzdHIobWFwX2pjQGRhdGEkSWQyLCA2LCAxMSkKCm1hcF9qY0BkYXRhJGxfbGluZTEgPC0gcGFzdGUoIlRyYWN0ICM6IiwgbWFwX2pjQGRhdGEkdHJhY3RfbnVtLCAiaW4gdGhlIikKbWFwX2pjQGRhdGEkbF9saW5lMiA8LSBwYXN0ZShtYXBfamNAZGF0YSROZWlnaGJvcmhvb2QsICJuZWlnaGJvcmhvb2QiKQoKCmBgYAoKCk1ha2luZyBhbmQgc2F2aW5nIG1hcHMKYGBge3J9CiMgc2V0d2QoIkM6L1VzZXJzL25hdGVrL0RvY3VtZW50cy9pbWFnZXMiKQpzZXR3ZCgifi9EZXNrdG9wL2dscF93ZWJzaXRlL0ltYWdlcy9NYXBzL2VkdV9tYXBzIikKCm0gPC0gbWFrZV9tYXAoImNoaWxkX3BlciIsIG5hbWUgPSAiQ2hpbGQgUG92ZXJ0eSIsIGxlZ2VuZF90aXRsZSA9ICJDaGlsZDxicj5Qb3ZlcnR5IiwgbWFwX3N0eWxlID0gInNlcXVlbnRpYWwiKQpzYXZlV2lkZ2V0KG0sICJlZHVfY2hpbGRfcG92X21hcC5odG1sIikKCm0gPC0gbWFrZV9tYXAoInBlcl8yNV82NF9hc3NvY19wbHVzIiwgbmFtZSA9ICJBc3NvY2lhdGUgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NCIsIGxlZ2VuZF90aXRsZSA9ICJBZ2VzIDI1IHRvIDY0IHdpdGg8YnIvPkFzc29jaWF0ZSBEZWdyZWU8YnIvPm9yIGhpZ2hlciIsIHVuaXRzID0gIlBlcmNlbnQiKQpzYXZlV2lkZ2V0KG0sICJlZHVfMjVfNjRfYXNzb2NfbWFwLmh0bWwiKQoKbSA8LSBtYWtlX21hcCgicGVyXzI1XzY0X2JhY2hfcGx1cyIsIG5hbWUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTY0IiwgbGVnZW5kX3RpdGxlID0gIkFnZXMgMjUgdG8gNjQgd2l0aDxici8+QmFjaGVsb3IncyBEZWdyZWU8YnIvPm9yIGhpZ2hlciIsIHVuaXRzID0gIlBlcmNlbnQiKQpzYXZlV2lkZ2V0KG0sICJlZHVfMjVfNjRfYmFjaF9tYXAuaHRtbCIpCgptIDwtIG1ha2VfbWFwKCJwZXJfMjVfNjRfZ3JhZCIsICJHcmFkdWF0ZSBEZWdyZWUsIEFnZXMgMjUtNjQiLCBsZWdlbmRfdGl0bGUgPSAiQWdlcyAyNSB0byA2NCB3aXRoPGJyLz5HcmFkdWF0ZSBEZWdyZWUiLCB1bml0cyA9ICJQZXJjZW50IikKc2F2ZVdpZGdldChtLCAiZWR1XzI1XzY0X2dyYWRfbWFwLmh0bWwiKQoKbSA8LSBtYWtlX21hcCgicGVyXzI1XzM0X2Fzc29jX3BsdXMiLCBuYW1lID0gIkFzc29jaWF0ZSBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTM0IiwgbGVnZW5kX3RpdGxlID0gIkFnZXMgMjUgdG8gMzQgd2l0aDxici8+QXNzb2NpYXRlJ3MgRGVncmVlPGJyLz5vciBoaWdoZXIiLCB1bml0cyA9ICJQZXJjZW50IikKc2F2ZVdpZGdldChtLCAiZWR1X2Fzc29jXzI1XzM0X21hcC5odG1sIikKCm0gPC0gbWFrZV9tYXAoInBlcl8yNV8zNF9iYWNoX3BsdXMiLCBuYW1lID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNCIsIGxlZ2VuZF90aXRsZSA9ICJBZ2VzIDI1IHRvIDM0IHdpdGg8YnIvPkJhY2hlbG9yJ3MgRGVncmVlPGJyLz5vciBoaWdoZXIiLCB1bml0cyA9ICJQZXJjZW50IikKc2F2ZVdpZGdldChtLCAiZWR1XzI1XzM0X2JhY2hfbWFwLmh0bWwiKQoKbSA8LSBtYWtlX21hcCgicGVyXzI1XzM0X2dyYWQiLCBuYW1lID0gIkdyYWR1YXRlIERlZ3JlZSwgQWdlcyAyNS0zNCIsIGxlZ2VuZF90aXRsZSA9ICJBZ2VzIDI1IHRvIDM0IHdpdGg8YnIvPkdyYWR1YXRlIERlZ3JlZSIsIHVuaXRzID0gIlBlcmNlbnQiKQpzYXZlV2lkZ2V0KG0sICJlZHVfMjVfMzRfZ3JhZF9tYXAuaHRtbCIpCgptIDwtIG1ha2VfbWFwKCJwZXJfaGlnaF93YWdlIiwgIlBvcHVsYXRpb24gaW4gSGlnaCBXYWdlIE9jY3VwYXRpb25zIiwKICAgICAgICAgICAgICBsZWdlbmRfdGl0bGUgPSAiUG9wdWxhdGlvbiBpbjxici8+SGlnaCBXYWdlPGJyLz5PY2N1cGF0aW9ucyIpCnNhdmVXaWRnZXQobSwgImVkdV9wZXJfaGlnaF93YWdlX21hcC5odG1sIikKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRWR1Y2F0aW9uIEdyYXBoaW5nIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpHcmFwaGluZyB0aGUgRWR1Y2F0aW9uIERhdGEKCmBgYHtyICJzZXR1cCIsIGluY2x1ZGU9RkFMU0V9CnJlcXVpcmUoImtuaXRyIikKb3B0c19rbml0JHNldChyb290LmRpciA9ICJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUiKQpgYGAKCgpMb2FkaW5nIGxpYnJhcmllcwpgYGB7ciBsaWJyYXJpZXMsIG1lc3NhZ2UgPSBGQUxTRX0KbGlicmFyeShzaG93dGV4dCkKbGlicmFyeShjbGFzc0ludCkKbGlicmFyeShnZ3RoZW1lcykKbGlicmFyeShyZXNoYXBlMikKbGlicmFyeShsZWFmbGV0KQpsaWJyYXJ5KHJnZGFsKQpsaWJyYXJ5KGh0bWx3aWRnZXRzKQpsaWJyYXJ5KFJDb2xvckJyZXdlcikKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkobWFncml0dHIpCmxpYnJhcnkod2VzYW5kZXJzb24pCmBgYAoKUmVhZGluZyBpbiBkYXRhCmBgYHtyIGRhdGF9CmVkdWNfZGF0YSA9IHJlYWRfY3N2KCJvdXRwdXQgZGF0YS9lZHVjYXRpb25fZGF0YV9maXBzLmNzdiIpCgpyZXNjYWxlIDwtIGZ1bmN0aW9uKHgpe25ld192YWx1ZSA8LSB4KjEwMH0KZWR1Y19kYXRhWyAsYygzOjE3KV0gPSBhcHBseShlZHVjX2RhdGFbICxjKDM6MTcpXSwgMiwgcmVzY2FsZSkKZWR1Y19kYXRhXzE1IDwtIGVkdWNfZGF0YSAlPiUgZmlsdGVyKHllYXIgPT0gMjAxNSkKCgpuYWVwX2RhdGEgPC0gcmVhZF9jc3YoIm91dHB1dCBkYXRhL2VkdWNhdGlvbl9kYXRhX25hZXAuY3N2IikKa3lfZWRfZGF0YSA8LSByZWFkX2Nzdigib3V0cHV0IGRhdGEvZWR1Y2F0aW9uX2RhdGFfa3kuY3N2IikKYGBgCgpDcmVhdGluZyBuZXcgZGF0YXNldHMgdG8gYnJlYWsgZG93biBtZXRyaWNzIGJ5IHJhY2UvZXRobmljaXR5IGZvciBKQ1BTCmBgYHtyfQojQUNUIGJ5IEV0aG5pY2l0eSBmb3IgSkNQUwpqZWZmX2V0aF9hY3QgPC0ga3lfZWRfZGF0YSAlPiUKICBmaWx0ZXIoZGlzdF9uYW1lID09ICJKZWZmZXJzb24gQ291bnR5IiklPiUKICBzZWxlY3QoeWVhciwgd2hpdGVfY29tcG9zaXRlX3Njb3JlLCBhZnJpY2FuX2FtZXJpY2FuX2NvbXBvc2l0ZV9zY29yZSwKICAgICAgICAgYXNpYW5fY29tcG9zaXRlX3Njb3JlLCBoaXNwYW5pY19jb21wb3NpdGVfc2NvcmUpJT4lCiAgZ2F0aGVyKHdoaXRlX2NvbXBvc2l0ZV9zY29yZTpoaXNwYW5pY19jb21wb3NpdGVfc2NvcmUsIGtleSA9ICJ2YXIiLAogICAgICAgICB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpCmplZmZfZXRoX2FjdCR2YXIgPC0gZmFjdG9yKGplZmZfZXRoX2FjdCR2YXIsIGxldmVscyA9IHVuaXF1ZShqZWZmX2V0aF9hY3QkdmFyKSkKCgojQ0NSIGJ5IEV0aG5pY2l0eSBmb3IgSkNQUwpqZWZmX2V0aF9jY3IgPC0ga3lfZWRfZGF0YSAlPiUKICBmaWx0ZXIoZGlzdF9uYW1lID09ICJKZWZmZXJzb24gQ291bnR5IiklPiUKICBzZWxlY3QoeWVhciwgd2hpdGVfcGN0X2NjciwgYWZyaWNhbl9hbWVyaWNhbl9wY3RfY2NyLAogICAgICAgICBhc2lhbl9wY3RfY2NyLCBoaXNwYW5pY19wY3RfY2NyKSU+JQogIGdhdGhlcih3aGl0ZV9wY3RfY2NyOmhpc3BhbmljX3BjdF9jY3IsIGtleSA9ICJ2YXIiLCB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpCmplZmZfZXRoX2NjciR2YXIgPC0gZmFjdG9yKGplZmZfZXRoX2NjciR2YXIsIGxldmVscyA9IHVuaXF1ZShqZWZmX2V0aF9jY3IkdmFyKSkKCgojS2luZGVyZ2FydGVuIFByZXBhcmVkbmVzcyBieSBFdGhuaWNpdHkgZm9yIEpDUFMKamVmZl9ldGhfa3NjcmVlbiA8LSBreV9lZF9kYXRhICU+JQogIGZpbHRlcihkaXN0X25hbWUgPT0gIkplZmZlcnNvbiBDb3VudHkiKSU+JQogIHNlbGVjdCh5ZWFyLCB3aGl0ZV9raW5kX3JlYWR5LCBhZnJpY2FuX2FtZXJpY2FuX2tpbmRfcmVhZHksIAogICAgICAgICBhc2lhbl9raW5kX3JlYWR5LCBoaXNwYW5pY19raW5kX3JlYWR5KSU+JQogIGdhdGhlcih3aGl0ZV9raW5kX3JlYWR5Omhpc3BhbmljX2tpbmRfcmVhZHksIGtleSA9ICJ2YXIiLCB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpJT4lCiAgZmlsdGVyKHZhbHVlID49IDApCmplZmZfZXRoX2NjciR2YXIgPC0gZmFjdG9yKGplZmZfZXRoX2NjciR2YXIsIGxldmVscyA9IHVuaXF1ZShqZWZmX2V0aF9jY3IkdmFyKSkKCgojR3JhZHVhdGlvbiBSYXRlIGJ5IEV0aG5pY2l0eSBmb3IgSkNQUwpqZWZmX2V0aF9ncmFkX3JhdGUgPC0ga3lfZWRfZGF0YSAlPiUKICBmaWx0ZXIoZGlzdF9uYW1lID09ICJKZWZmZXJzb24gQ291bnR5IiklPiUKICBzZWxlY3QoeWVhciwgd2hpdGVfY29ob3J0X2dyYWRfcmF0ZSwgYWZyaWNhbl9hbWVyaWNhbl9jb2hvcnRfZ3JhZF9yYXRlLAogICAgICAgICBhc2lhbl9jb2hvcnRfZ3JhZF9yYXRlLCBoaXNwYW5pY19jb2hvcnRfZ3JhZF9yYXRlKSU+JQogIGdhdGhlcih3aGl0ZV9jb2hvcnRfZ3JhZF9yYXRlOmhpc3BhbmljX2NvaG9ydF9ncmFkX3JhdGUsIGtleSA9ICJ2YXIiLCB2YWx1ZSA9ICJ2YWx1ZSIpJT4lCiAgYXJyYW5nZSh2YXIpICU+JQogIGZpbHRlcih2YWx1ZSA+PSAwKQpqZWZmX2V0aF9jY3IkdmFyIDwtIGZhY3RvcihqZWZmX2V0aF9jY3IkdmFyLCBsZXZlbHMgPSB1bmlxdWUoamVmZl9ldGhfY2NyJHZhcikpCmBgYAoKVGhlIGNvZGUgZm9yIHRoZSByYW5raW5ncyBncmFwaHMKYGBge3IgcmFua2luZ3N9CnNvdXJjZSgiZ3JhcGhpbmdfZnVuY3Rpb25zLlIiKQpgYGAKCkFkZGluZyBmb250cwpgYGB7cn0KIyBmb250LmFkZCgiTXVzZW8gU2FucyAzMDAiLCAiQzovVXNlcnMvbmF0ZWsvRG9jdW1lbnRzL2ZvbnRzL011c2VvU2Fucy9NdXNlb1NhbnNfMzAwLm90ZiIpCiMgZm9udC5hZGQoIk11c2VvIFNhbnMgSXRhbGljIiwgIkM6L1VzZXJzL25hdGVrL0RvY3VtZW50cy9mb250cy9NdXNlb1NhbnMvTXVzZW9TYW5zXzMwMF9JdGFsaWMub3RmIikKCgpmb250LmFkZCgiTXVzZW8gU2FucyAzMDAiLCAiL1VzZXJzL0JyeWNlUm93bGFuZC9EZXNrdG9wL0dMUC9SIENvZGUvTXVzZW9TYW5zXzMwMC5vdGYiKQpmb250LmFkZCgiTXVzZW8gU2FucyAzMDAgSXRhbGljIiwgIi9Vc2Vycy9CcnljZVJvd2xhbmQvRGVza3RvcC9HTFAvUiBDb2RlL011c2VvU2Fuc18zMDBfSXRhbGljLm90ZiIpCmBgYAoKCmBgYHtyLCBtZXNzYWdlID0gRkFMU0V9CnNldHdkKCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvSW1hZ2VzL0VkdV9JbWFnZXMiKQoKanBlZygiZWR1X3VuZGVyXzVfcG92X3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cCgKZWR1Y19kYXRhXzE1LAoidW5kZXJfNV9wZXIiLApvcmRlciA9ICJBc2NlbmRpbmciLApwbG90X3RpdGxlID0gIkNoaWxkcmVuIFVuZGVyIDUgaW4gUG92ZXJ0eSwgMjAxNSIsCmNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDEiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfZml2ZV90b18xN19wb3ZfcmFua2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKAplZHVjX2RhdGFfMTUsCiJmaXZlX3RvXzE3X3BlciIsCm9yZGVyID0gIkFzY2VuZGluZyIsCnBsb3RfdGl0bGUgPSAiQ2hpbGRyZW4gQWdlcyA1IHRvIDE3IGluIFBvdmVydHksIDIwMTUiLApjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE3MDAxIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2NoaWxkX3Bvdl9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoCmVkdWNfZGF0YV8xNSwKImNoaWxkX3BlciIsCm9yZGVyID0gIkFzY2VuZGluZyIsCnBsb3RfdGl0bGUgPSAiQ2hpbGQgUG92ZXJ0eSwgMjAxNSIsCmNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDEiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX2FsbF9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LAoiYmFjaF9wbHVzX3Blcl9hbGwiLApwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWxsIFJhY2VzLCAyMDE1IiwKY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMiIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2JhY2hfcGx1c19ibGFja19yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoCmVkdWNfZGF0YV8xNSwKImJhY2hfcGx1c19wZXJfYmxhY2siLApwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQmxhY2ssIDIwMTUiLApjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyQiIKKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV82NF9hc3NvY19wbHVzX3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cCgKZWR1Y19kYXRhXzE1LAoicGVyXzI1XzY0X2Fzc29jX3BsdXMiLApwbG90X3RpdGxlID0gIkFzc29jaWF0ZSdzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjQsIDIwMTUiLApjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1XzI1XzY0X2JhY2hfcGx1c19yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoCmVkdWNfZGF0YV8xNSwKInBlcl8yNV82NF9iYWNoX3BsdXMiLApwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NCwgMjAxNSIsCmNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfNjRfZ3JhZF9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LAoicGVyXzI1XzY0X2dyYWQiLApwbG90X3RpdGxlID0gIkdyYWR1YXRlIERlZ3JlZSwgQWdlcyAyNS02NCwgMjAxNSIsCmNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV8zNF9hc3NvY19wbHVzX3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cCgKZWR1Y19kYXRhXzE1LAoicGVyXzI1XzM0X2Fzc29jX3BsdXMiLApwbG90X3RpdGxlID0gIkFzc29jaWF0ZSdzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtMzQsIDIwMTUiLApjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1XzI1XzM0X2JhY2hfcGx1c19yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoCmVkdWNfZGF0YV8xNSwKInBlcl8yNV8zNF9iYWNoX3BsdXMiLApwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNCwgMjAxNSIsCmNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfMzRfZ3JhZF9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LAoicGVyXzI1XzM0X2dyYWQiLApwbG90X3RpdGxlID0gIkdyYWR1YXRlIERlZ3JlZSwgQWdlcyAyNS0zNCwgMjAxNSIsCmNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9iYWNoX3BsdXNfaGlzcGFuaWNfcmFua2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKAplZHVjX2RhdGFfMTUsCiJiYWNoX3BsdXNfcGVyX2hpc3BhbmljIiwKcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEhpc3BhbmljLCAyMDE1IiwKY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMkkiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX3doaXRlX3JhbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cCgKZWR1Y19kYXRhXzE1LAoiYmFjaF9wbHVzX3Blcl93aGl0ZSIsCnBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBXaGl0ZSwgMjAxNSIsCmNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDJBIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2Vucm9sbGVkXzNfNF9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LAoiZW5yb2xsZWRfM180IiwKcGxvdF90aXRsZSA9ICJDaGlsZHJlbiBhZ2VzIDMgYW5kIDQgZW5yb2xsZWQgaW4gcHJlc2Nob29sLCAyMDE1IiwKY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIFMxNDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfcGVyX2hpZ2hfd2FnZV9yYW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZWR1Y19kYXRhXzE1LAoicGVyX2hpZ2hfd2FnZSIsCnBsb3RfdGl0bGUgPSAiUG9wdWxhdGlvbiBpbiBIaWdoIFdhZ2UgT2NjdXBhdGlvbnMsIDIwMTUiLApjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgUzI0MDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKYGBgCgoKYGBge3J9CnNldHdkKCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvSW1hZ2VzL0VkdV9JbWFnZXMiKQoKanBlZygiZWR1X3VuZGVyXzVfcG92X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJ1bmRlcl81X3BlciIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQ2hpbGRyZW4gVW5kZXIgNSBpbiBQb3ZlcnR5IiwKICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIAogICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNzAwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2ZpdmVfdG9fMTdfcG92X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJmaXZlX3RvXzE3X3BlciIsIAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkNoaWxkcmVuIEFnZXMgNSB0byAxNyBpbiBQb3ZlcnR5IiwKICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIAogICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTcwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9jaGlsZF9wb3ZfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgImNoaWxkX3BlciIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQ2hpbGQgUG92ZXJ0eSIsIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIAogICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNzAwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2JhY2hfcGx1c19hbGxfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgImJhY2hfcGx1c19wZXJfYWxsIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFsbCBSYWNlcyIsCiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSwgeG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAyIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfYmFjaF9wbHVzX2JsYWNrX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJiYWNoX3BsdXNfcGVyX2JsYWNrIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEJsYWNrIiwKICAgICAgICAgICAgICAgICAgcm9sbG1lYW4gPSA1LCB4bWluID0gMjAwNSwgeG1heCA9IDIwMTUsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDJCIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfNjRfYXNzb2NfcGx1c190cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAicGVyXzI1XzY0X2Fzc29jX3BsdXMiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkFzc29jaWF0ZSdzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjQiLAogICAgICAgICAgICAgICAgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNSwgCiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE1LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfNjRfYmFjaF9wbHVzX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJwZXJfMjVfNjRfYmFjaF9wbHVzIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjQiLAogcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNSwgCiAgICAgICAgICAgICAgICAgIHhtYXggPSAyMDE1LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfNjRfZ3JhZF90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAicGVyXzI1XzY0X2dyYWQiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkdyYWR1YXRlIERlZ3JlZSwgQWdlcyAyNS02NCIsCiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIAogICAgICAgICAgICAgICAgICB4bWF4ID0gMjAxNSwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXksIFRhYmxlIEIxNTAwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1XzI1XzM0X2Fzc29jX3BsdXNfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgInBlcl8yNV8zNF9hc3NvY19wbHVzIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBc3NvY2lhdGUncyBEZWdyZWUgb3IgSGlnaGVyLCBBZ2VzIDI1LTM0IiwKICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gMywgeG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAxIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfMjVfMzRfYmFjaF9wbHVzX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJwZXJfMjVfMzRfYmFjaF9wbHVzIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtMzQiLAogICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA1LCAKICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV8yNV8zNF9ncmFkX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJwZXJfMjVfMzRfZ3JhZCIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTM0IiwKICAgICAgICAgICAgICAgICAgcm9sbG1lYW4gPSAzLCB4bWluID0gMjAwNSwgeG1heCA9IDIwMTUsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9iYWNoX3BsdXNfaGlzcGFuaWNfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKGVkdWNfZGF0YSwgImJhY2hfcGx1c19wZXJfaGlzcGFuaWMiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgSGlzcGFuaWMiLAogICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUseG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgQjE1MDAySSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2JhY2hfcGx1c193aGl0ZV90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoZWR1Y19kYXRhLCAiYmFjaF9wbHVzX3Blcl93aGl0ZSIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQmFjaGVsb3IncyBEZWdyZWUgb3IgSGlnaGVyLCBXaGl0ZSIsCiAgICAgICAgICAgICAgICAgIHJvbGxtZWFuID0gNSx4bWluID0gMjAwNSwgeG1heCA9IDIwMTUsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBCMTUwMDJBIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfZW5yb2xsZWRfM180X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJlbnJvbGxlZF8zXzQiLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkNoaWxkcmVuIGFnZXMgMyBhbmQgNCBlbnJvbGxlZCBpbiBwcmVzY2hvb2wiLAogICAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDUseG1pbiA9IDIwMDUsIHhtYXggPSAyMDE1LAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSwgVGFibGUgUzE0MDEiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9wZXJfaGlnaF93YWdlX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZShlZHVjX2RhdGEsICJwZXJfaGlnaF93YWdlIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJQb3B1bGF0aW9uIGluIEhpZ2ggV2FnZSBPY2N1cGF0aW9ucyIsCiAgICAgICAgICAgICAgICByb2xsbWVhbiA9IDMsIHhtaW4gPSAyMDA1LCAKICAgICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5LCBUYWJsZSBTMjQwMSIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X2Njcl9ldGhuaWNpdHlfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKa3lfZWRfZGF0YV9sb25nX3RyZW5kbGluZSgKamVmZl9ldGhfY2NyLApicmVha19zZXR0aW5ncyA9IHNlcSgyMDEyLCAyMDE2LCAyKSwKeG1pbiA9IDIwMTIsCnhtYXggPSAyMDE2LApwbG90X3RpdGxlID0gIkNvbGxlZ2UgYW5kIENhcmVlciBSZWFkaW5lc3MgYnkgRXRobmljaXR5LCBKQ1BTIiwKbGFiZWxzID0gYygiQWZyaWNhbiBBbWVyaWNhbiIsICJBc2lhbiIsICJIaXNwYW5pYyIsICJXaGl0ZSIpLAp5X3RpdGxlID0gIlBlcmNlbnQiLApjb2xvcl9wYWwgPSB3ZXNfcGFsZXR0ZSgiTW9vbnJpc2UyIiksCmNhcHRpb24gPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdApEYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKCmpwZWcoImVkdV9hY3RfZXRobmljaXR5X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmt5X2VkX2RhdGFfbG9uZ190cmVuZGxpbmUoCmplZmZfZXRoX2FjdCwKYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMiwgMjAxNiwgMiksCnhtaW4gPSAyMDEyLAp4bWF4ID0gMjAxNiwKcGxvdF90aXRsZSA9ICJBQ1QgU2NvcmVzIGJ5IEV0aG5pY2l0eSwgSkNQUyIsCmxhYmVscyA9IGMoIkFmcmljYW4gQW1lcmljYW4iLCAiQXNpYW4iLCAiSGlzcGFuaWMiLCAiV2hpdGUiKSwKeV90aXRsZSA9ICJDb21wb3NpdGUgU2NvcmUiLApjb2xvcl9wYWwgPSB3ZXNfcGFsZXR0ZSgiTW9vbnJpc2UyIiksCmNhcHRpb24gPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdApEYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKCmpwZWcoImVkdV9ncmFkX3JhdGVfZXRobmljaXR5X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmt5X2VkX2RhdGFfbG9uZ190cmVuZGxpbmUoCmplZmZfZXRoX2dyYWRfcmF0ZSwKYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMywgMjAxNiwgMiksCnhtaW4gPSAyMDEzLAp4bWF4ID0gMjAxNiwKcGxvdF90aXRsZSA9ICJGb3VyIFllYXIgR3JhZHVhdGlvbiBSYXRlIGJ5IEV0aG5pY2l0eSwgSkNQUyIsCmxhYmVscyA9IGMoIkFmcmljYW4gQW1lcmljYW4iLCAiQXNpYW4iLCAiSGlzcGFuaWMiLCAiV2hpdGUiKSwKeV90aXRsZSA9ICJGb3VyIFllYXIgR3JhZHVhdGlvbiBSYXRlIiwKY29sb3JfcGFsID0gd2VzX3BhbGV0dGUoIk1vb25yaXNlMiIpLApjYXB0aW9uID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmQiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgoKanBlZygiZWR1X2tpbmRlcmdhcnRlbl9wcmVwX2V0aG5pY2l0eV90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpreV9lZF9kYXRhX2xvbmdfdHJlbmRsaW5lKApqZWZmX2V0aF9rc2NyZWVuLApicmVha19zZXR0aW5ncyA9IHNlcSgyMDE0LCAyMDE2LCAyKSwKeG1pbiA9IDIwMTQsCnhtYXggPSAyMDE2LApwbG90X3RpdGxlID0gIktpbmRlcmdhcnRlbiBQcmVwYXJlZG5lc3MgYnkgRXRobmljaXR5LCBKQ1BTIiwKbGFiZWxzID0gYygiQWZyaWNhbiBBbWVyaWNhbiIsICJBc2lhbiIsICJIaXNwYW5pYyIsICJXaGl0ZSIpLAp5X3RpdGxlID0gIlBlcmNlbnQiLApjb2xvcl9wYWwgPSB3ZXNfcGFsZXR0ZSgiTW9vbnJpc2UyIiksCmNhcHRpb24gPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdApEYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKCmpwZWcoImVkdV9hY3RfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKAogIGt5X2VkX2RhdGEsCiAgImFsbF9zdHVkZW50c19jb21wb3NpdGVfc2NvcmUiLAogIHBsb3RfdGl0bGUgPSAiQUNUIENvbXBvc2l0ZSBTY29yZXMiLAogIHlfdGl0bGUgPSAiQ29tcG9zaXRlIFNjb3JlIiwKICB4bWluID0gMjAxMiwKICB4bWF4ID0gMjAxNiwKICBicmVha19zZXR0aW5ncyA9IHNlcSgyMDEyLCAyMDE2LCAyKSwKICBjYXB0aW9uID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QKRGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZCIKKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9jY3JfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lX2t5X2VkKAogIGt5X2VkX2RhdGEsCiAgImFsbF9zdHVkZW50c19wY3RfY2NyIiwKICBwbG90X3RpdGxlID0gIkNvbGxlZ2UgYW5kIENhcmVlciBSZWFkaW5lc3MiLAogIHlfdGl0bGUgPSAiUGVyY2VudCIsCiAgeG1pbiA9IDIwMTIsCiAgeG1heCA9IDIwMTYsCiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMiwgMjAxNiwgMiksCiAgY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0RGF0YSBmcm9tIEtlbnR1Y2t5IERlcGFydG1lbnQgb2YgRWR1Y2F0aW9uIFNjaG9vbCBSZXBvcnQgQ2FyZCIKKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImVkdV9raW5kZXJnYXJ0ZW5fcHJlcF90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmVfa3lfZWQoCiAga3lfZWRfZGF0YSwKICAiYWxsX3N0dWRlbnRzX2tpbmRfcmVhZHkiLAogIHBsb3RfdGl0bGUgPSAiS2luZGVyZ2FydGVuIFByZXBhcmVkbmVzcyIsCiAgeV90aXRsZSA9ICJQZXJjZW50IiwKICB4bWluID0gMjAxNCwKICB4bWF4ID0gMjAxNiwKICBicmVha19zZXR0aW5ncyA9IHNlcSgyMDE0LCAyMDE2LCAyKSwKICBjYXB0aW9uID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbkRhdGEgZnJvbSBLZW50dWNreSBEZXBhcnRtZW50IG9mIEVkdWNhdGlvbiBTY2hvb2wgUmVwb3J0IENhcmQiCikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJlZHVfZ3JhZHVhdGlvbl9yYXRlX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZV9reV9lZCgKICBreV9lZF9kYXRhLAogICJhbGxfc3R1ZGVudHNfY29ob3J0X2dyYWRfcmF0ZSIsCiAgcGxvdF90aXRsZSA9ICJHcmFkdWF0aW9uIFJhdGUiLAogIHlfdGl0bGUgPSAiUGVyY2VudCIsCiAgeG1pbiA9IDIwMTMsCiAgeG1heCA9IDIwMTYsCiAgYnJlYWtfc2V0dGluZ3MgPSBzZXEoMjAxMywgMjAxNiwgMiksCiAgY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0XG5EYXRhIGZyb20gS2VudHVja3kgRGVwYXJ0bWVudCBvZiBFZHVjYXRpb24gU2Nob29sIFJlcG9ydCBDYXJkIgopCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X25hZXBfcmVhZGluZ190cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpreV9lZF9kYXRhX2xvbmdfdHJlbmRsaW5lKG5hZXBfZGF0YSwgdmFyID0gIkp1cmlzZGljdGlvbiIsIHZhbHVlID0gIm5hZXBfcmVhZGluZ19zY29yZSIsIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMDksIDIwMTYsMiksIHhtaW4gPSAyMDA5LAogICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsIHBsb3RfdGl0bGUgPSAiTkFFUCA0dGggR3JhZGUgUmVhZGluZyBTY29yZSIsCiAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKCJKQ1BTIiwgIktlbnR1Y2t5IFNjaG9vbCBEaXN0cmljdCBNZWFuIiksCiAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkNvbXBvc2l0ZSBTY29yZSIsIGNvbG9yX3BhbCA9IGMoIiMwMGE5YjciLCAiYmxhY2siKSwKY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0XG5EYXRhIGZyb20gTmF0aW9uYWwgQ2VudGVyIGZvciBFZHVjYXRpb24gU3RhdGlzdGljcyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiZWR1X25hZXBfbWF0aF90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpreV9lZF9kYXRhX2xvbmdfdHJlbmRsaW5lKG5hZXBfZGF0YSwgdmFyID0gIkp1cmlzZGljdGlvbiIsIHZhbHVlID0gIm5hZXBfbWF0aF9zY29yZSIsIGJyZWFrX3NldHRpbmdzID0gc2VxKDIwMDksIDIwMTYsMiksIHhtaW4gPSAyMDA5LAogICAgICAgICAgICAgICAgeG1heCA9IDIwMTUsIHBsb3RfdGl0bGUgPSAiTkFFUCA0dGggR3JhZGUgTWF0aCBTY29yZSIsCiAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKCJKQ1BTIiwgIktlbnR1Y2t5IFNjaG9vbCBEaXN0cmljdCBNZWFuIiksCiAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkNvbXBvc2l0ZSBTY29yZSIsIGNvbG9yX3BhbCA9IGMoIiMwMGE5YjciLCAiYmxhY2siKSwKY2FwdGlvbiA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0XG5EYXRhIGZyb20gTmF0aW9uYWwgQ2VudGVyIGZvciBFZHVjYXRpb24gU3RhdGlzdGljcyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQpgYGAKCkFkZGluZyBtYXBwaW5nIGRhdGEKYGBge3J9Cm1hcF9kYXRhID0gcmVhZF9jc3YoIm1hcCBkYXRhL2VkdWNhdGlvbl9tYXBfZGF0YS5jc3YiLCBjb2xfdHlwZXMgPSBjb2xzKGVucm9sbGVkXzNfNCA9IGNvbF9kb3VibGUoKSkpCgpyZXNjYWxlIDwtIGZ1bmN0aW9uKHgpe25ld192YWx1ZSA8LSB4KjEwMH0KbWFwX2RhdGFbICxjKDM6NSwgNzoxMiwgMTQpXSA9IGFwcGx5KG1hcF9kYXRhWyAsYygzOjUsIDc6MTIsIDE0KV0sIDIsIHJlc2NhbGUpCgpgYGAKClJlYWRpbmcgaW4gZGF0YSBmb3IgbWFwcGluZwpgYGB7cn0KCiMgc2V0d2QoIkM6L1VzZXJzL25hdGVrL0RvY3VtZW50cy9HaXRodWIvZ2xwX3dlYnNpdGUvbWFwIGRhdGEiKQpzZXR3ZCgifi9EZXNrdG9wL2dscF93ZWJzaXRlL21hcCBkYXRhIikKCm1hcF9qYyA9IHJlYWRPR1IoIkpDIFRyYWN0cyIsIGxheWVyID0gIkpDIFRyYWN0cyIsCiAgICAgICAgICAgICAgICAgR0RBTDFfaW50ZWdlcjY0X3BvbGljeSA9IFRSVUUpCgptYXBfamNAZGF0YTwtZnVsbF9qb2luKG1hcF9qY0BkYXRhLCBtYXBfZGF0YSwgYnkgPSBjKCdHRU9fSUQnID0gJ0lkJykpCgptYXBfamNAZGF0YSR0cmFjdF9udW0gPC0gc3Vic3RyKG1hcF9qY0BkYXRhJElkMiwgNiwgMTEpCgptYXBfamNAZGF0YSRsX2xpbmUxIDwtIHBhc3RlKCJUcmFjdCAjOiIsIG1hcF9qY0BkYXRhJHRyYWN0X251bSwgImluIHRoZSIpCm1hcF9qY0BkYXRhJGxfbGluZTIgPC0gcGFzdGUobWFwX2pjQGRhdGEkTmVpZ2hib3Job29kLCAibmVpZ2hib3Job29kIikKCgpgYGAKCgpNYWtpbmcgYW5kIHNhdmluZyBtYXBzCmBgYHtyfQojIHNldHdkKCJDOi9Vc2Vycy9uYXRlay9Eb2N1bWVudHMvaW1hZ2VzIikKc2V0d2QoIn4vRGVza3RvcC9nbHBfd2Vic2l0ZS9JbWFnZXMvTWFwcy9lZHVfbWFwcyIpCgptIDwtIG1ha2VfbWFwKCJjaGlsZF9wZXIiLCBuYW1lID0gIkNoaWxkIFBvdmVydHkiLCBsZWdlbmRfdGl0bGUgPSAiQ2hpbGQ8YnI+UG92ZXJ0eSIsIG1hcF9zdHlsZSA9ICJzZXF1ZW50aWFsIikKc2F2ZVdpZGdldChtLCAiZWR1X2NoaWxkX3Bvdl9tYXAuaHRtbCIpCgptIDwtIG1ha2VfbWFwKCJwZXJfMjVfNjRfYXNzb2NfcGx1cyIsIG5hbWUgPSAiQXNzb2NpYXRlIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtNjQiLCBsZWdlbmRfdGl0bGUgPSAiQWdlcyAyNSB0byA2NCB3aXRoPGJyLz5Bc3NvY2lhdGUgRGVncmVlPGJyLz5vciBoaWdoZXIiLCB1bml0cyA9ICJQZXJjZW50IikKc2F2ZVdpZGdldChtLCAiZWR1XzI1XzY0X2Fzc29jX21hcC5odG1sIikKCm0gPC0gbWFrZV9tYXAoInBlcl8yNV82NF9iYWNoX3BsdXMiLCBuYW1lID0gIkJhY2hlbG9yJ3MgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS02NCIsIGxlZ2VuZF90aXRsZSA9ICJBZ2VzIDI1IHRvIDY0IHdpdGg8YnIvPkJhY2hlbG9yJ3MgRGVncmVlPGJyLz5vciBoaWdoZXIiLCB1bml0cyA9ICJQZXJjZW50IikKc2F2ZVdpZGdldChtLCAiZWR1XzI1XzY0X2JhY2hfbWFwLmh0bWwiKQoKbSA8LSBtYWtlX21hcCgicGVyXzI1XzY0X2dyYWQiLCAiR3JhZHVhdGUgRGVncmVlLCBBZ2VzIDI1LTY0IiwgbGVnZW5kX3RpdGxlID0gIkFnZXMgMjUgdG8gNjQgd2l0aDxici8+R3JhZHVhdGUgRGVncmVlIiwgdW5pdHMgPSAiUGVyY2VudCIpCnNhdmVXaWRnZXQobSwgImVkdV8yNV82NF9ncmFkX21hcC5odG1sIikKCm0gPC0gbWFrZV9tYXAoInBlcl8yNV8zNF9hc3NvY19wbHVzIiwgbmFtZSA9ICJBc3NvY2lhdGUgRGVncmVlIG9yIEhpZ2hlciwgQWdlcyAyNS0zNCIsIGxlZ2VuZF90aXRsZSA9ICJBZ2VzIDI1IHRvIDM0IHdpdGg8YnIvPkFzc29jaWF0ZSdzIERlZ3JlZTxici8+b3IgaGlnaGVyIiwgdW5pdHMgPSAiUGVyY2VudCIpCnNhdmVXaWRnZXQobSwgImVkdV9hc3NvY18yNV8zNF9tYXAuaHRtbCIpCgptIDwtIG1ha2VfbWFwKCJwZXJfMjVfMzRfYmFjaF9wbHVzIiwgbmFtZSA9ICJCYWNoZWxvcidzIERlZ3JlZSBvciBIaWdoZXIsIEFnZXMgMjUtMzQiLCBsZWdlbmRfdGl0bGUgPSAiQWdlcyAyNSB0byAzNCB3aXRoPGJyLz5CYWNoZWxvcidzIERlZ3JlZTxici8+b3IgaGlnaGVyIiwgdW5pdHMgPSAiUGVyY2VudCIpCnNhdmVXaWRnZXQobSwgImVkdV8yNV8zNF9iYWNoX21hcC5odG1sIikKCm0gPC0gbWFrZV9tYXAoInBlcl8yNV8zNF9ncmFkIiwgbmFtZSA9ICJHcmFkdWF0ZSBEZWdyZWUsIEFnZXMgMjUtMzQiLCBsZWdlbmRfdGl0bGUgPSAiQWdlcyAyNSB0byAzNCB3aXRoPGJyLz5HcmFkdWF0ZSBEZWdyZWUiLCB1bml0cyA9ICJQZXJjZW50IikKc2F2ZVdpZGdldChtLCAiZWR1XzI1XzM0X2dyYWRfbWFwLmh0bWwiKQoKbSA8LSBtYWtlX21hcCgicGVyX2hpZ2hfd2FnZSIsICJQb3B1bGF0aW9uIGluIEhpZ2ggV2FnZSBPY2N1cGF0aW9ucyIsCiAgICAgICAgICAgICAgbGVnZW5kX3RpdGxlID0gIlBvcHVsYXRpb24gaW48YnIvPkhpZ2ggV2FnZTxici8+T2NjdXBhdGlvbnMiKQpzYXZlV2lkZ2V0KG0sICJlZHVfcGVyX2hpZ2hfd2FnZV9tYXAuaHRtbCIpCmBgYAoK</div>
 
 
 

@@ -1,6 +1,7 @@
 rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
                             plot_title="", y_title = "Percent", caption_text = "",
-                            sigfig = 3, num_dec = 1, text = TRUE, h_line = FALSE){
+                            sigfig = 3, num_dec = 1, text = TRUE, h_line = FALSE,
+                            thousands_comma = T){
   df$var <- df[[var]]
   if(peers=="Current"){
     df<-subset(df,current ==1)
@@ -25,7 +26,7 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
   d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
   d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(round(signif(d.graph$var, digits = sigfig), digits = num_dec))
+  d.graph$round <- format(round(signif(d.graph$var, digits = sigfig), digits = num_dec), big.mark = if_else(thousands_comma == TRUE, ",", ""))
   d.graph$textfont <- "Museo Sans 300"
   d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
   d.graph$linecolor <- "white"
@@ -92,11 +93,11 @@ rollmean5 <- function(x){
 
 ##
 graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Current", 
-                          caption_text = "", subtitle_text = "", rollmean = 1,
-                          break_settings = seq(2005, 2015, 2), xmin = 2005, xmax = 2015){
+                          caption_text = "", subtitle_text = "",
+                          rollmean = 1, xmin = 2005, xmax = 2015,
+                          break_settings = ""){
   df$var <- df[[var]]
   df = df %>% filter(year != 2016)
-  
   if(peers=="Current"){
     df.wol <- subset(df,current == 1 & FIPS!=21111)
   }
@@ -116,23 +117,29 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
     select(var, year)
   
   dat = full_join(lville, output_wol, by = "year")
-  
   if (rollmean == 3){
     dat$var = rollmean3(dat$var)
     dat$first_quarter = rollmean3(dat$first_quarter)
     dat$mean = rollmean3(dat$mean)
     dat$third_quarter = rollmean3(dat$third_quarter)
-    dat <- dat %>% filter(year > 2005 & year < 2015)
+    dat <- dat %>% filter((year > xmin) & (year < xmax))
+    xmin = xmin +1
+    xmax = xmax -1
+    subtitle_text = "3-year rolling average"
   }
-  
   if (rollmean == 5){
     dat$var = rollmean5(dat$var)
     dat$first_quarter = rollmean5(dat$first_quarter)
     dat$mean = rollmean5(dat$mean)
     dat$third_quarter = rollmean5(dat$third_quarter)
-    dat = dat %>% filter(year > 2006 & year < 2014)
+    dat = dat %>% filter((year > xmin+1) & (year < xmax-1))
+    xmin = xmin + 2
+    xmax = xmax - 2
+    subtitle_text = "5-year rolling average"
   }
-  
+  if(break_settings == ""){
+    break_settings = seq(xmin, xmax, 2)
+  }
   data_long <- melt(dat, id="year")
   data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
   
@@ -178,11 +185,13 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   p
 }
 
+#For the trendline function, xmax and xmin represent the years for which
+#you would like to plot the data. The function already accounts for the 
+#shrinkage that occurs when one uses a rolling mean of 3 or 5. 
 graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent", 
                               peers = "Current", caption_text = "", 
-                              subtitle_text = "", rollmean = 3,
-                              break_settings = seq(2005, 2015, 2), 
-                              xmin = 1996, xmax = 2016){
+                              subtitle_text = "", rollmean = 1, break_settings = "", 
+                              xmin = 2005, xmax = 2015){
   df$var <- df[[var]]
   df = df %>% filter(year != 2016)
   if(peers=="Current"){
@@ -205,14 +214,23 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent",
     dat$first_quarter = rollmean3(dat$first_quarter)
     dat$mean = rollmean3(dat$mean)
     dat$third_quarter = rollmean3(dat$third_quarter)
-    dat <- dat %>% filter(year > 2003 & year < 2014)
+    dat <- dat %>% filter((year > xmin) & (year < xmax))
+    xmin = xmin +1
+    xmax = xmax -1
+    subtitle_text = "3-year rolling average"
   }
   if (rollmean == 5){
     dat$var = rollmean5(dat$var)
     dat$first_quarter = rollmean5(dat$first_quarter)
     dat$mean = rollmean5(dat$mean)
     dat$third_quarter = rollmean5(dat$third_quarter)
-    dat = dat %>% filter(year > 2006 & year < 2014)
+    dat = dat %>% filter((year > xmin+1) & (year < xmax-1))
+    xmin = xmin + 2
+    xmax = xmax - 2
+    subtitle_text = "5-year rolling average"
+  }
+  if(break_settings == ""){
+    break_settings = seq(xmin, xmax, 2)
   }
   dat
   data_long <- melt(dat, id="year")
@@ -261,7 +279,9 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent",
 
 #Made a few special adjustments for the net migration variable.
 rank_and_nb_group_mig<-function(df, var, order="Descending", peers="Current",
-                                plot_title="", y_title = "Percent", caption_text = ""){
+                                plot_title="", y_title = "Percent", caption_text = "",
+                                sigfig = 3, num_dec = 1, thousands_comma = T,
+                                h_line = F){
   df$var <- df[[var]]
   if(peers=="Current"){
     df<-subset(df,current ==1)
@@ -286,7 +306,7 @@ rank_and_nb_group_mig<-function(df, var, order="Descending", peers="Current",
   d.graph$color[d.graph$var<=breaks$brks[2]] <- "green"
   d.graph$color[d.graph$var>breaks$brks[2] & d.graph$var<=breaks$brks[3]] <- "yellow"
   d.graph$color[d.graph$var>breaks$brks[3]] <- "red"
-  d.graph$round <- format(round(d.graph$var,0),nsmall=0)
+  d.graph$round <- format(round(signif(d.graph$var, digits = sigfig), digits = num_dec), big.mark = if_else(thousands_comma == TRUE, ",", ""))
   d.graph$textfont <- "Museo Sans 300"
   d.graph$textfont[d.graph$city == "Louisville"] <- "Museo Sans 300 Italic"
   d.graph$linecolor <- "white"
@@ -319,6 +339,9 @@ rank_and_nb_group_mig<-function(df, var, order="Descending", peers="Current",
         d.graph$var > 0, .2, ifelse(d.graph$var > -1000, 1.0, -.1))),
       size = 5,
       family = "Museo Sans 300")
+  if (h_line == TRUE){
+    p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1)
+  }
   p <- p+labs(title = plot_title, y= y_title,
               x = "", caption = caption_text)
   p
@@ -390,9 +413,8 @@ make_map <- function(var, name, units = "Percent",
 ##
 graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent", 
                                 caption_text = "", subtitle_text = "", rollmean = 1,
-                                break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016){
+                                break_settings = "", xmin = 2005, xmax = 2015){
   df$var <- df[[var]]
-  # df = df %>% filter(year != 2016)
   output_wol = df %>% 
     group_by(year) %>%
     summarise(first_quarter = quantile(var, prob = 0.25, na.rm = TRUE),
@@ -407,17 +429,24 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
     dat$first_quarter = rollmean3(dat$first_quarter)
     dat$mean = rollmean3(dat$mean)
     dat$third_quarter = rollmean3(dat$third_quarter)
-    dat <- dat %>% filter(year > 2005 & year < 2015)
+    dat <- dat %>% filter((year > xmin) & (year < xmax))
+    xmin = xmin +1
+    xmax = xmax -1
+    subtitle_text = "3-year rolling average"
   }
-  
   if (rollmean == 5){
     dat$var = rollmean5(dat$var)
     dat$first_quarter = rollmean5(dat$first_quarter)
     dat$mean = rollmean5(dat$mean)
     dat$third_quarter = rollmean5(dat$third_quarter)
-    dat = dat %>% filter(year > 2006 & year < 2014)
+    dat = dat %>% filter((year > xmin+1) & (year < xmax-1))
+    xmin = xmin + 2
+    xmax = xmax - 2
+    subtitle_text = "5-year rolling average"
   }
-  
+  if(break_settings == ""){
+    break_settings = seq(xmin, xmax, 2)
+  }
   data_long <- melt(dat, id="year")
   data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
   p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+

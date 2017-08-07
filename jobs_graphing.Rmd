@@ -70,7 +70,6 @@ graph_trendline(jobs_data_fips, "median_earnings",
                 subtitle = "",
                 rollmean = 1,
                 caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S2001",
-                break_settings = seq(2005, 2015, 2),
                 xmin = 2005, xmax = 2015, y_title = "Dollars")
 showtext.end()
 dev.off()
@@ -83,7 +82,6 @@ graph_trendline(jobs_data_fips, "income_inequality",
                 subtitle = "Mean income of top quintile divided by mean income of bottom quintile",
                 rollmean = 1,
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
-                break_settings = seq(2010, 2015, 2),
                 xmin = 2010, xmax = 2015, y_title = "Ratio")
 showtext.end()
 dev.off()
@@ -95,7 +93,6 @@ graph_trendline(jobs_data_fips, "median_household_income",
                 subtitle = "Annual",
                 rollmean = 1,
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
-                break_settings = seq(2005, 2014, 2),
                 xmin = 2005, xmax = 2014, y_title = "Dollars")
 showtext.end()
 dev.off()
@@ -108,7 +105,6 @@ graph_trendline(jobs_data_fips, "personal_income_per_cap",
                 subtitle = "Annual",
                 rollmean = 1,
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
-                break_settings = seq(2005, 2015, 2),
                 xmin = 2005, xmax = 2015, y_title = "Dollars")
 showtext.end()
 dev.off()
@@ -121,7 +117,6 @@ graph_trendline(jobs_data_fips, "unemployment",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
                 subtitle = "Annual",
                 rollmean = 1,
-                break_settings = seq(2005, 2015, 2),
                 xmin = 2005, xmax = 2015)
 showtext.end()
 dev.off()
@@ -133,8 +128,7 @@ graph_trendline_msa(jobs_data_msa, 'estabs_entry_rate',
                        subtitle = "3-year rolling average",
                        rollmean = 3,
                        caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                       break_settings = seq(2004,2014, 2),
-                       xmin = 2004, xmax = 2013)
+                       xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -145,8 +139,7 @@ graph_trendline_msa(jobs_data_msa, 'job_creation_rate_births',
                     subtitle = "3-year rolling average",
                     rollmean = 3,
                     caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                    break_settings = seq(2004,2014, 2),
-                    xmin = 2004, xmax = 2013)
+                    xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -157,8 +150,7 @@ graph_trendline_msa(jobs_data_msa, 'job_destruction_rate',
                     subtitle = "3-year rolling average",
                     rollmean = 3,
                     caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                    break_settings = seq(2004,2014, 2),
-                    xmin = 2004, xmax = 2013)
+                    xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -169,8 +161,7 @@ graph_trendline_msa(jobs_data_msa, 'job_destruction_rate_deaths',
                     subtitle = "3-year rolling average",
                     rollmean = 3,
                     caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                    break_settings = seq(2004,2014, 2),
-                    xmin = 2004, xmax = 2013)
+                    xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -181,8 +172,7 @@ graph_trendline_msa(jobs_data_msa, 'estabs_exit_rate',
                     subtitle = "3-year rolling average",
                     rollmean = 3,
                     caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                    break_settings = seq(2004,2014, 2),
-                    xmin = 2004, xmax = 2013)
+                    xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -193,8 +183,7 @@ graph_trendline_msa(jobs_data_msa, 'job_creation_rate',
                     subtitle = "3-year rolling average",
                     rollmean = 3,
                     caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                    break_settings = seq(2004,2014, 2),
-                    xmin = 2004, xmax = 2013)
+                    xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -202,11 +191,9 @@ jpeg("jobs_net_est_entry_rate_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline_msa(jobs_data_msa, 'estabs_entry_rate_minus_exit',
                     plot_title = "Net Establishment Entry Rate",
-                    subtitle = "3-year rolling average",
                     rollmean = 3,
                     caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                    break_settings = seq(2004,2014, 2),
-                    xmin = 2004, xmax = 2013)
+                    xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -217,8 +204,7 @@ graph_trendline_msa(jobs_data_msa, 'net_job_creation_rate',
                     subtitle = "3-year rolling average",
                     rollmean = 3,
                     caption_text = "Source: Greater Louisville Project \nData from United States Census Bureau, BDS",
-                    break_settings = seq(2004,2014, 2),
-                    xmin = 2004, xmax = 2013)
+                    xmin = 2003, xmax = 2014)
 showtext.end()
 dev.off()
 
@@ -369,7 +355,7 @@ Mapping
 Reading in data for mapping
 ```{r}
 
-map_data = read_csv("map data/jobs_map_data.csv")
+jobs_map_data = read_csv("map data/jobs_map_data.csv")
 
 map_jc = readOGR("map data/JC Tracts", layer = "JC Tracts",
                  GDAL1_integer64_policy = TRUE)

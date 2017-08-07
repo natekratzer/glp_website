@@ -211,6 +211,37 @@ dat <- left_join(dat, population_data, by = c("FIPS", "year"))
 # dat %<>% rename(current = current_peer, baseline = baseline_peer)
 ```
 
+High Wage Employment Data
+```{r}
+occupation_05 = acs_time("/input data/educ_input_data/S2401/Y05", starting.year = 2005)
+occupation_10 = acs_time("/input data/educ_input_data/S2401/Y10", starting.year = 2010)
+occupation_15 = acs_time("/input data/educ_input_data/S2401/Y15", starting.year = 2015)
+
+occupation_05 = occupation_05 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Management..professional..and.related.occupations.)+
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Construction..extraction..maintenance..and.repair.occupations....Installation..maintenance..and.repair.occupations))/
+  as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_10 = occupation_10 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
+                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_15 = occupation_15 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
+                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_05 = occupation_05 %>% select(FIPS, year, per_high_wage)
+occupation_10 = occupation_10 %>% select(FIPS, year, per_high_wage)
+occupation_15 = occupation_15 %>% select(FIPS, year, per_high_wage)
+
+occupation_data = rbind(occupation_05, occupation_10, occupation_15)
+```
+
 
 ```{r}
 bds_data = read_csv("input data/jobs_input_data/bds_f_msa_release.csv")

@@ -333,6 +333,19 @@ rank_and_nb_group(
 )
 showtext.end()
 dev.off()
+
+jpeg("qp_child_poverty_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  qp_data_fips %>% filter(year == 2015) %>% as.data.frame(),
+  'child_per',
+  order = "Ascending",
+  y_title = "Percent",
+  plot_title = "Child Poverty, 2015",
+  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001"
+)
+showtext.end()
+dev.off()
 ```
 
 Trendline Graphs
@@ -438,7 +451,7 @@ graph_trendline(as.data.frame(qp_data_fips), var = 'housing_price_index', rollme
                 plot_title = "Housing Price Index",
                 y_title = "Index Score",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
-                xmin = 2010, xmax = 2015)
+                xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
 
@@ -506,7 +519,15 @@ showtext.end()
 dev.off()
 
 
-
+jpeg("qp_child_poverty_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(qp_data_fips, "child_per",
+                plot_title = "Child Poverty",
+                rollmean = 3,
+                caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001",
+                xmin = 2005, xmax = 2015, y_title = "Percent")
+showtext.end()
+dev.off()
 ```
 
 
