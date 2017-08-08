@@ -83,6 +83,7 @@ dev.off()
 jpeg("health_outcomes_low_birthweight.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "low_birthweight", order = "Ascending", sigfig = 2,
+                  y_title = "Percent of Births Where the Infant Weighed Less than 2,500 grams",
                   plot_title = "Low Birthweight",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -295,6 +296,7 @@ dev.off()
 jpeg("health_pe_driving_alone_to_work.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "driving_alone_to_work", order = "Ascending",
+                  y_title = "Percent of Workforce that Usually Drives Alone to Work",
                   plot_title = "Driving Alone to Work", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -344,6 +346,12 @@ showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "factors", plot_title = "Combined Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
 showtext.end()
 dev.off()
+
+jpeg("health_sec_child_poverty_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_data_fips %>% filter(year == 2015), "child_per", plot_title = "Child Poverty, 2015", caption_text = "Source: Greater Louisville Project \n Data from American Community Survey Table B17001", y_title = "Percent", order = "Ascending")
+showtext.end()
+dev.off()
 ```
 
 
@@ -375,6 +383,21 @@ graph_trendline(
   y_title = "Commute Time (minutes)",
   caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
   xmin = 2009,
+  xmax = 2015
+  )
+showtext.end()
+dev.off()
+
+jpeg("health_sec_child_poverty_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(
+  as.data.frame(health_data_fips),
+  var = 'child_per',
+  rollmean = 3,
+  plot_title = "Child Poverty",
+  y_title = "Percent",
+  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001",
+  xmin = 2005,
   xmax = 2015
   )
 showtext.end()
