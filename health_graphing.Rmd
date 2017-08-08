@@ -28,23 +28,13 @@ health_data_fips= read_csv("output data/health_data_fips.csv")
 
 The code for importing graphing functions
 ```{r rankings}
-
-if(!(exists("rank_and_nb_group", mode = "function") &
-     exists("graph_trendline", mode = "function") &
-     exists("graph_trendline_msa", mode = "function") &
-     exists("make_map", mode = "function") &
-     exists("rank_and_nb_group_mig", mode = "function") &
-     exists("rollmean3", mode = "function") &
-     exists("rollmean5", mode = "function")
-     )){source("graphing_functions.R")} 
-
+source("graphing_functions.R")
 ```
 
 Adding fonts
 ```{r}
 # font.add("Museo Sans 300", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf")
 # font.add("Museo Sans Italic", "C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf")
-
 
 font.add("Museo Sans 300", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300.otf")
 font.add("Museo Sans 300 Italic", "/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300_Italic.otf")
@@ -93,6 +83,7 @@ dev.off()
 jpeg("health_outcomes_low_birthweight.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "low_birthweight", order = "Ascending", sigfig = 2,
+                  y_title = "Percent of Births Where the Infant Weighed Less than 2,500 grams",
                   plot_title = "Low Birthweight",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -102,6 +93,7 @@ jpeg("health_behaviors_adult_smoking.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "adult_smoking", order = "Ascending",
                   plot_title = "Smoking", 
+                  y_title = "Percent of Adults who Smoke Every Day or Most Days",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
 dev.off()
@@ -109,6 +101,7 @@ dev.off()
 jpeg("health_behaviors_adult_obesity.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "adult_obesity", order = "Ascending",
+                  y_title = "Percent of Adult Population (20 and Older) with a BMI greater than or equal to 30",
                   plot_title = "Adult Obesity", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -135,6 +128,7 @@ dev.off()
 jpeg("health_behaviors_access_to_exercise_opportunities.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "access_to_exercise_opportunities", order = "Descending",
+                  y_title = "Percent of Individuals Living Close to a Location for Physical Activity",
                   plot_title = "Access to Exercise Opportunities", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -143,6 +137,7 @@ dev.off()
 jpeg("health_behaviors_excessive_drinking.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "excessive_drinking", order = "Ascending",
+                  y_title = "Percent of Adults Reporting Binge or Heavy Drinking in Past 30 Days",
                   plot_title = "Excessive Drinking", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -151,6 +146,7 @@ dev.off()
 jpeg("health_behaviors_alcohol_impaired_driving_deaths.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "alcohol_impaired_driving_deaths", order = "Ascending",
+                  y_title = "Percent of Motor Vehichle Crash Deaths with Alcohol Involvement",
                   plot_title = "Alcohol Impaired Driving Deaths", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -158,7 +154,7 @@ dev.off()
 
 jpeg("health_behaviors_sexually_transmitted_infections.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), sigfig = 4, "sexually_transmitted_infections", order = "Ascending",
+rank_and_nb_group(filter(health_data_fips, year == 2017), sigfig = 3, num_dec = 1, "sexually_transmitted_infections", order = "Ascending",
                   plot_title = "Sexually Transmitted Infections", 
                   y_title = "Chlamydia per 100,000",
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
@@ -300,6 +296,7 @@ dev.off()
 jpeg("health_pe_driving_alone_to_work.jpg", 900, 600, res = 100)
 showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "driving_alone_to_work", order = "Ascending",
+                  y_title = "Percent of Workforce that Usually Drives Alone to Work",
                   plot_title = "Driving Alone to Work", 
                   caption_text = "Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 showtext.end()
@@ -349,6 +346,12 @@ showtext.begin()
 rank_and_nb_group(filter(health_data_fips, year == 2017), "factors", plot_title = "Combined Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation", y_title = "Average Peer City", text = FALSE, h_line = TRUE)
 showtext.end()
 dev.off()
+
+jpeg("health_sec_child_poverty_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(health_data_fips %>% filter(year == 2015), "child_per", plot_title = "Child Poverty, 2015", caption_text = "Source: Greater Louisville Project \n Data from American Community Survey Table B17001", y_title = "Percent", order = "Ascending")
+showtext.end()
+dev.off()
 ```
 
 
@@ -380,6 +383,21 @@ graph_trendline(
   y_title = "Commute Time (minutes)",
   caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
   xmin = 2009,
+  xmax = 2015
+  )
+showtext.end()
+dev.off()
+
+jpeg("health_sec_child_poverty_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(
+  as.data.frame(health_data_fips),
+  var = 'child_per',
+  rollmean = 3,
+  plot_title = "Child Poverty",
+  y_title = "Percent",
+  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001",
+  xmin = 2005,
   xmax = 2015
   )
 showtext.end()

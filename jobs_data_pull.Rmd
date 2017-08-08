@@ -211,6 +211,37 @@ dat <- left_join(dat, population_data, by = c("FIPS", "year"))
 # dat %<>% rename(current = current_peer, baseline = baseline_peer)
 ```
 
+High Wage Employment Data
+```{r}
+occupation_05 = acs_time("/input data/educ_input_data/S2401/Y05", starting.year = 2005)
+occupation_10 = acs_time("/input data/educ_input_data/S2401/Y10", starting.year = 2010)
+occupation_15 = acs_time("/input data/educ_input_data/S2401/Y15", starting.year = 2015)
+
+occupation_05 = occupation_05 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Management..professional..and.related.occupations.)+
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Construction..extraction..maintenance..and.repair.occupations....Installation..maintenance..and.repair.occupations))/
+  as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_10 = occupation_10 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
+                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_15 = occupation_15 %>%
+  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
+                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
+                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+
+occupation_05 = occupation_05 %>% select(FIPS, year, per_high_wage)
+occupation_10 = occupation_10 %>% select(FIPS, year, per_high_wage)
+occupation_15 = occupation_15 %>% select(FIPS, year, per_high_wage)
+
+occupation_data = rbind(occupation_05, occupation_10, occupation_15)
+```
+
 
 ```{r}
 bds_data = read_csv("input data/jobs_input_data/bds_f_msa_release.csv")
@@ -249,19 +280,40 @@ bds_data<-mutate(bds_data, estabs_entry_rate_minus_exit = estabs_entry_rate -est
 
 Creating Map Data
 ```{r}
-unemp <- read_csv("input data/jobs_input_data/ACS_15_5YR_B23025_with_ann.csv", skip = 1,
-                  col_types = cols(Id2 = col_character(),
-                                   Id = col_character()))
+unemp <-
+  read_csv(
+  "input data/jobs_input_data/ACS_15_5YR_B23025_with_ann.csv",
+  skip = 1,
+  col_types = cols(Id2 = col_character(),
+  Id = col_character())
+  )
+
+med_inc <- read_csv(
+  "input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv",
+  skip = 1,
+  col_types = cols(Id2 = col_character(),
+  Id = col_character())
+  )
+
+earn_data <- read_csv("input data/jobs_input_data/ACS_15_5YR_S2001_with_ann.csv", skip = 1,
+                      col_types = cols(Id2 = col_character()))
+
+earn_data %<>% select(Id, Id2, median_earnings = `Total; Estimate; Median earnings (dollars)`) %>%
+  mutate(median_earnings = signif(as.numeric(median_earnings), 3))
 
 unemp %<>% select(Id, Id2, pop = `Estimate; In labor force: - Civilian labor force:`,
                   unemp = `Estimate; In labor force: - Civilian labor force: - Unemployed`)%>%
   transmute(unemp_pct = unemp/pop, Id, Id2)%>%
-  mutate(FIPS = as.character(substr(Id2, 1,5)))%>%
-  filter(FIPS == "21111")
+  mutate(unemp_pct = as.numeric(unemp_pct)*100)
+
+med_inc %<>% select(Id, Id2, median_household_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)%>%
+  mutate(median_household_income = signif(as.numeric(median_household_income),3))
 
 neighborhoods <- read_csv("~/Desktop/glp_website/map data/census tract neighborhoods.csv",col_types = cols(Id2 = col_character()))
 
-jobs_map_data<- left_join(unemp, neighborhoods, by = "Id2")
+jobs_map_data<- left_join(neighborhoods, unemp, by = c("Id2"))
+jobs_map_data %<>% left_join(med_inc, by = c("Id2", "Id")) %>%
+  left_join(earn_data, by = c("Id2", "Id"))
 ```
 
 

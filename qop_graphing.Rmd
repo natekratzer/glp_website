@@ -18,17 +18,7 @@ library(htmlwidgets)
 
 Necessary Functions
 ```{r}
-if(!(
-  exists("rank_and_nb_group", mode = "function") &
-  exists("graph_trendline", mode = "function") &
-  exists("graph_trendline_msa", mode = "function") &
-  exists("make_map", mode = "function") &
-  exists("rank_and_nb_group_mig", mode = "function") &
-  exists("rollmean3", mode = "function") &
-  exists("rollmean5", mode = "function")
-  )) {
-  source("graphing_functions.R")
-  } 
+source("graphing_functions.R")
 ```
 
 Read in ranking and trend line data
@@ -343,6 +333,19 @@ rank_and_nb_group(
 )
 showtext.end()
 dev.off()
+
+jpeg("qp_child_poverty_rankings.jpg", 900, 600, res = 100)
+showtext.begin()
+rank_and_nb_group(
+  qp_data_fips %>% filter(year == 2015) %>% as.data.frame(),
+  'child_per',
+  order = "Ascending",
+  y_title = "Percent",
+  plot_title = "Child Poverty, 2015",
+  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001"
+)
+showtext.end()
+dev.off()
 ```
 
 Trendline Graphs
@@ -448,7 +451,7 @@ graph_trendline(as.data.frame(qp_data_fips), var = 'housing_price_index', rollme
                 plot_title = "Housing Price Index",
                 y_title = "Index Score",
                 caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
-                xmin = 2010, xmax = 2015)
+                xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
 
@@ -477,7 +480,7 @@ showtext.begin()
 graph_trendline(as.data.frame(qp_data_fips), var = 'disconnected_youth', rollmean = 1,
                 plot_title = "Disconnected Youth",
                 y_title = "Percent",
-                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED", order = "Ascending",
+                caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED", 
                 xmin = 2009, xmax = 2015)
 showtext.end()
 dev.off()
@@ -516,46 +519,33 @@ showtext.end()
 dev.off()
 
 
-
+jpeg("qp_child_poverty_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline(qp_data_fips, "child_per",
+                plot_title = "Child Poverty",
+                rollmean = 3,
+                caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001",
+                xmin = 2005, xmax = 2015, y_title = "Percent")
+showtext.end()
+dev.off()
 ```
 
 
 ```{r}
-setwd("~/Desktop/glp_website/Images/Maps")
+setwd("~/Desktop/glp_website/Images/Maps/qp_maps")
 
-m <- make_map("mpi", "MPI", order = "Descending", units = "none")
+m <- make_map("mpi", "MPI", legend_title = "MPI", map_style = "Divergent", units = "none")
 saveWidget(m, "qp_mpi_map.html")
 
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "BuPu")
-saveWidget(m, "qp_pct_white_map_descending.html")
+m <- make_map("pct_white", "White Population", legend_title = "White<br/>Population<br/>")
+saveWidget(m, "qp_pct_white_map.html")
 
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "Oranges")
-saveWidget(m, "qp_pct_white_map_descending-1.html")
+# m <- make_map("dif_score", "Percent Difference from City Average")
+# saveWidget(m, "qp_dif_score_map.html")
 
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "Greens")
-saveWidget(m, "qp_pct_white_map_descending-2.html")
-
-m <- make_map("pct_white", "White Population", order = "Descending",
-              col_palette = "Greys")
-saveWidget(m, "qp_pct_white_map_descending-3.html")
-
-
-m <- make_map("pct_white", "White Population", order = "Ascending",
-              col_palette = "GnBu")
-saveWidget(m, "qp_pct_white_map_ascending.html")
-
-m <- make_map("dif_score", "Percent Difference from City Average", order = "Descending", col_palette = "Blues")
-saveWidget(m, "qp_dif_score_map.html")
-
-m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdYlGn")
+m <- make_map("median_income", "Median Household Income", map_style = "divergent", 
+              legend_title = "Median<br/>Household<br/>Income",
+              units = "Dollars")
 saveWidget(m, "qp_median_income_map.html")
 
-m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdBu")
-saveWidget(m, "qp_median_income_map-2.html")
-
-m <- make_map("median_income", "Median Household Income", order = "Descending", units = "Dollars", col_palette = "RdYlBu")
-saveWidget(m, "qp_median_income_map-3.html")
 ```

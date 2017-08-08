@@ -36,10 +36,13 @@ educ_data_15 <- educ_data %>% filter(year == 2015)
 
 
 naep_data <- read_csv("output data/education_data_naep.csv")
-act_ccr_data <- read_csv("output data/education_data_act_ccr.csv")
+ky_ed_data <- read_csv("output data/education_data_ky.csv")
+```
 
-#Plot ACT by Ethnicity for JCPS
-jeff_eth_act <- act_ccr_data %>%
+Creating new datasets to break down metrics by race/ethnicity for JCPS
+```{r}
+#ACT by Ethnicity for JCPS
+jeff_eth_act <- ky_ed_data %>%
   filter(dist_name == "Jefferson County")%>%
   select(year, white_composite_score, african_american_composite_score,
          asian_composite_score, hispanic_composite_score)%>%
@@ -49,8 +52,8 @@ jeff_eth_act <- act_ccr_data %>%
 jeff_eth_act$var <- factor(jeff_eth_act$var, levels = unique(jeff_eth_act$var))
 
 
-#Plot CCR by Ethnicity for JCPS
-jeff_eth_ccr <- act_ccr_data %>%
+#CCR by Ethnicity for JCPS
+jeff_eth_ccr <- ky_ed_data %>%
   filter(dist_name == "Jefferson County")%>%
   select(year, white_pct_ccr, african_american_pct_ccr,
          asian_pct_ccr, hispanic_pct_ccr)%>%
@@ -58,22 +61,32 @@ jeff_eth_ccr <- act_ccr_data %>%
   arrange(var)
 jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 
+
+#Kindergarten Preparedness by Ethnicity for JCPS
+jeff_eth_kscreen <- ky_ed_data %>%
+  filter(dist_name == "Jefferson County")%>%
+  select(year, white_kind_ready, african_american_kind_ready, 
+         asian_kind_ready, hispanic_kind_ready)%>%
+  gather(white_kind_ready:hispanic_kind_ready, key = "var", value = "value")%>%
+  arrange(var)%>%
+  filter(value >= 0)
+jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
+
+
+#Graduation Rate by Ethnicity for JCPS
+jeff_eth_grad_rate <- ky_ed_data %>%
+  filter(dist_name == "Jefferson County")%>%
+  select(year, white_cohort_grad_rate, african_american_cohort_grad_rate,
+         asian_cohort_grad_rate, hispanic_cohort_grad_rate)%>%
+  gather(white_cohort_grad_rate:hispanic_cohort_grad_rate, key = "var", value = "value")%>%
+  arrange(var) %>%
+  filter(value >= 0)
+jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 ```
 
 The code for the rankings graphs
 ```{r rankings}
-
-if(!(exists("rank_and_nb_group", mode = "function") &
-     exists("graph_trendline", mode = "function") &
-     exists("graph_trendline_msa", mode = "function") &
-     exists("make_map", mode = "function") &
-     exists("rank_and_nb_group_mig", mode = "function") &
-     exists("rollmean3", mode = "function") &
-     exists("rollmean5", mode = "function") &
-     exists("ky_ed_data_long_trendline", mode = "function") & 
-     exists("graph_trendline_ky_ed")
-)){source("graphing_functions.R")} 
-
+source("graphing_functions.R")
 ```
 
 Adding fonts
@@ -92,130 +105,159 @@ setwd("~/Desktop/glp_website/Images/Edu_Images")
 
 jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "under_5_per", order = "Ascending",
-                  plot_title = "Children Under 5 in Poverty, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
+rank_and_nb_group(
+educ_data_15,
+"under_5_per",
+order = "Ascending",
+plot_title = "Children Under 5 in Poverty, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_five_to_17_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "five_to_17_per", order = "Ascending",
-                  plot_title = "Children Ages 5 to 17 in Poverty, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
+rank_and_nb_group(
+educ_data_15,
+"five_to_17_per",
+order = "Ascending",
+plot_title = "Children Ages 5 to 17 in Poverty, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_child_pov_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "child_per", order = "Ascending",
-                  plot_title = "Child Poverty, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
+rank_and_nb_group(
+educ_data_15,
+"child_per",
+order = "Ascending",
+plot_title = "Child Poverty, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_bach_plus_all_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "bach_plus_per_all", 
-                  plot_title = "Bachelor's Degree or Higher, All Races, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002")
+rank_and_nb_group(educ_data_15,
+"bach_plus_per_all",
+plot_title = "Bachelor's Degree or Higher, All Races, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002")
 showtext.end()
 dev.off()
 
 jpeg("edu_bach_plus_black_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "bach_plus_per_black", 
-                  plot_title = "Bachelor's Degree or Higher, Black, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B")
+rank_and_nb_group(
+educ_data_15,
+"bach_plus_per_black",
+plot_title = "Bachelor's Degree or Higher, Black, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_25_64_assoc_plus_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "per_25_64_assoc_plus", 
-                  plot_title = "Associate's Degree or Higher, Ages 25-64, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+rank_and_nb_group(
+educ_data_15,
+"per_25_64_assoc_plus",
+plot_title = "Associate's Degree or Higher, Ages 25-64, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_25_64_bach_plus_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "per_25_64_bach_plus", 
-                  plot_title = "Bachelor's Degree or Higher, Ages 25-64, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+rank_and_nb_group(
+educ_data_15,
+"per_25_64_bach_plus",
+plot_title = "Bachelor's Degree or Higher, Ages 25-64, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_25_64_grad_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "per_25_64_grad", 
-                  plot_title = "Graduate Degree, Ages 25-64, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+rank_and_nb_group(educ_data_15,
+"per_25_64_grad",
+plot_title = "Graduate Degree, Ages 25-64, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
 
 jpeg("edu_25_34_assoc_plus_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "per_25_34_assoc_plus", 
-                  plot_title = "Associate's Degree or Higher, Ages 25-34, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+rank_and_nb_group(
+educ_data_15,
+"per_25_34_assoc_plus",
+plot_title = "Associate's Degree or Higher, Ages 25-34, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_25_34_bach_plus_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "per_25_34_bach_plus", 
-                  plot_title = "Bachelor's Degree or Higher, Ages 25-34, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+rank_and_nb_group(
+educ_data_15,
+"per_25_34_bach_plus",
+plot_title = "Bachelor's Degree or Higher, Ages 25-34, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_25_34_grad_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "per_25_34_grad", 
-                  plot_title = "Graduate Degree, Ages 25-34, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
-showtext.end()
-dev.off()
-
-
-jpeg("edu_per_25_64_bach_plus_ranking.jpg", 900, 600, res = 100)
-showtext.begin()
-rank_and_nb_group(educ_data_15, "per_25_64_bach_plus", 
-                  plot_title = "Bachelor's Degree or Higher, Ages 25-64, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
+rank_and_nb_group(educ_data_15,
+"per_25_34_grad",
+plot_title = "Graduate Degree, Ages 25-34, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
 
 jpeg("edu_bach_plus_hispanic_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "bach_plus_per_hispanic", 
-                  plot_title = "Bachelor's Degree or Higher, Hispanic, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I")
+rank_and_nb_group(
+educ_data_15,
+"bach_plus_per_hispanic",
+plot_title = "Bachelor's Degree or Higher, Hispanic, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_bach_plus_white_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "bach_plus_per_white", 
-                  plot_title = "Bachelor's Degree or Higher, White, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A")
+rank_and_nb_group(
+educ_data_15,
+"bach_plus_per_white",
+plot_title = "Bachelor's Degree or Higher, White, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A"
+)
 showtext.end()
 dev.off()
 
 jpeg("edu_enrolled_3_4_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "enrolled_3_4", 
-                  plot_title = "Children ages 3 and 4 enrolled in preschool, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S1401")
+rank_and_nb_group(educ_data_15,
+"enrolled_3_4",
+plot_title = "Children ages 3 and 4 enrolled in preschool, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S1401")
 showtext.end()
 dev.off()
 
 jpeg("edu_per_high_wage_ranking.jpg", 900, 600, res = 100)
 showtext.begin()
-rank_and_nb_group(educ_data_15, "per_high_wage", 
-                  plot_title = "Population in High Wage Occupations, 2015", 
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S2401")
+rank_and_nb_group(educ_data_15,
+"per_high_wage",
+plot_title = "Population in High Wage Occupations, 2015",
+caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S2401")
 showtext.end()
 dev.off()
 ```
@@ -228,8 +270,8 @@ jpeg("edu_under_5_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "under_5_per",
                   plot_title = "Children Under 5 in Poverty",
-                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
 dev.off()
@@ -238,8 +280,8 @@ jpeg("edu_five_to_17_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "five_to_17_per", 
                   plot_title = "Children Ages 5 to 17 in Poverty",
-                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015, 
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
 dev.off()
@@ -247,9 +289,8 @@ dev.off()
 jpeg("edu_child_pov_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "child_per",
-                  plot_title = "Child Poverty",
-                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                  plot_title = "Child Poverty", rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B17001")
 showtext.end()
 dev.off()
@@ -258,8 +299,7 @@ jpeg("edu_bach_plus_all_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_all",
                   plot_title = "Bachelor's Degree or Higher, All Races",
-                  subtitle = "5-year rolling average",
-                  rollmean = 5, xmin = 2007, xmax = 2013,
+                  rollmean = 5, xmin = 2005, xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002")
 showtext.end()
 dev.off()
@@ -268,8 +308,7 @@ jpeg("edu_bach_plus_black_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_black",
                   plot_title = "Bachelor's Degree or Higher, Black",
-                  subtitle = "5-year rolling average",
-                  rollmean = 5, xmin = 2007, xmax = 2013,
+                  rollmean = 5, xmin = 2005, xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002B")
 showtext.end()
 dev.off()
@@ -278,8 +317,8 @@ jpeg("edu_25_64_assoc_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_64_assoc_plus",
                   plot_title = "Associate's Degree or Higher, Ages 25-64",
-                  subtitle = "3-year rolling average",rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -288,8 +327,8 @@ jpeg("edu_25_64_bach_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_64_bach_plus",
                   plot_title = "Bachelor's Degree or Higher, Ages 25-64",
-                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+ rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -298,8 +337,8 @@ jpeg("edu_25_64_grad_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_64_grad",
                   plot_title = "Graduate Degree, Ages 25-64",
-                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                  rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -308,6 +347,7 @@ jpeg("edu_25_34_assoc_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_34_assoc_plus",
                   plot_title = "Associate's Degree or Higher, Ages 25-34",
+                rollmean = 3, xmin = 2005, xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -316,8 +356,8 @@ jpeg("edu_25_34_bach_plus_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_34_bach_plus",
                   plot_title = "Bachelor's Degree or Higher, Ages 25-34",
-                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                  rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -326,17 +366,7 @@ jpeg("edu_25_34_grad_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_25_34_grad",
                   plot_title = "Graduate Degree, Ages 25-34",
-                  subtitle = "5-year rolling average",
-                  rollmean = 5,xmin = 2007, xmax = 2013,
-                  caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
-showtext.end()
-dev.off()
-
-
-jpeg("edu_per_25_64_bach_plus_trendline.jpg", 900, 600, res = 100)
-showtext.begin()
-graph_trendline(educ_data, "per_25_64_bach_plus",
-                  plot_title = "Bachelor's Degree or Higher, Ages 25-64",
+                  rollmean = 3, xmin = 2005, xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15001")
 showtext.end()
 dev.off()
@@ -345,8 +375,7 @@ jpeg("edu_bach_plus_hispanic_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_hispanic",
                   plot_title = "Bachelor's Degree or Higher, Hispanic",
-                  subtitle = "5-year rolling average",
-                  rollmean = 5,xmin = 2007, xmax = 2013,
+                  rollmean = 5,xmin = 2005, xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002I")
 showtext.end()
 dev.off()
@@ -355,8 +384,7 @@ jpeg("edu_bach_plus_white_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "bach_plus_per_white",
                   plot_title = "Bachelor's Degree or Higher, White",
-                  subtitle = "5-year rolling average",
-                  rollmean = 5,xmin = 2007, xmax = 2013,
+                  rollmean = 5,xmin = 2005, xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table B15002A")
 showtext.end()
 dev.off()
@@ -365,8 +393,7 @@ jpeg("edu_enrolled_3_4_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "enrolled_3_4",
                   plot_title = "Children ages 3 and 4 enrolled in preschool",
-                  subtitle = "5-year rolling average",
-                  rollmean = 5,xmin = 2007, xmax = 2013,
+                  rollmean = 5,xmin = 2005, xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S1401")
 showtext.end()
 dev.off()
@@ -375,8 +402,8 @@ jpeg("edu_per_high_wage_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline(educ_data, "per_high_wage",
                   plot_title = "Population in High Wage Occupations",
-                  subtitle = "3-year rolling average", rollmean = 3, xmin = 2006, 
-                  xmax = 2014,
+                rollmean = 3, xmin = 2005, 
+                  xmax = 2015,
                   caption_text = "Source: Greater Louisville Project \nData from the American Community Survey, Table S2401")
 showtext.end()
 dev.off()
@@ -417,10 +444,45 @@ showtext.end()
 dev.off()
 
 
+jpeg("edu_grad_rate_ethnicity_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+ky_ed_data_long_trendline(
+jeff_eth_grad_rate,
+break_settings = seq(2013, 2016, 2),
+xmin = 2013,
+xmax = 2016,
+plot_title = "Four Year Graduation Rate by Ethnicity, JCPS",
+labels = c("African American", "Asian", "Hispanic", "White"),
+y_title = "Four Year Graduation Rate",
+color_pal = wes_palette("Moonrise2"),
+caption = "Source: Greater Louisville Project\nData from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
+
+
+jpeg("edu_kindergarten_prep_ethnicity_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+ky_ed_data_long_trendline(
+jeff_eth_kscreen,
+break_settings = seq(2014, 2016, 2),
+xmin = 2014,
+xmax = 2016,
+plot_title = "Kindergarten Preparedness by Ethnicity, JCPS",
+labels = c("African American", "Asian", "Hispanic", "White"),
+y_title = "Percent",
+color_pal = wes_palette("Moonrise2"),
+caption = "Source: Greater Louisville Project
+Data from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
+
+
 jpeg("edu_act_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline_ky_ed(
-  act_ccr_data,
+  ky_ed_data,
   "all_students_composite_score",
   plot_title = "ACT Composite Scores",
   y_title = "Composite Score",
@@ -436,7 +498,7 @@ dev.off()
 jpeg("edu_ccr_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
 graph_trendline_ky_ed(
-  act_ccr_data,
+  ky_ed_data,
   "all_students_pct_ccr",
   plot_title = "College and Career Readiness",
   y_title = "Percent",
@@ -448,6 +510,35 @@ graph_trendline_ky_ed(
 showtext.end()
 dev.off()
 
+jpeg("edu_kindergarten_prep_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_ky_ed(
+  ky_ed_data,
+  "all_students_kind_ready",
+  plot_title = "Kindergarten Preparedness",
+  y_title = "Percent",
+  xmin = 2014,
+  xmax = 2016,
+  break_settings = seq(2014, 2016, 2),
+  caption = "Source: Greater Louisville Project\nData from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
+
+jpeg("edu_graduation_rate_trendline.jpg", 900, 600, res = 100)
+showtext.begin()
+graph_trendline_ky_ed(
+  ky_ed_data,
+  "all_students_cohort_grad_rate",
+  plot_title = "Graduation Rate",
+  y_title = "Percent",
+  xmin = 2013,
+  xmax = 2016,
+  break_settings = seq(2013, 2016, 2),
+  caption = "Source: Greater Louisville Project\nData from Kentucky Department of Education School Report Card"
+)
+showtext.end()
+dev.off()
 
 jpeg("edu_naep_reading_trendline.jpg", 900, 600, res = 100)
 showtext.begin()
@@ -455,8 +546,7 @@ ky_ed_data_long_trendline(naep_data, var = "Jurisdiction", value = "naep_reading
                 xmax = 2015, plot_title = "NAEP 4th Grade Reading Score",
                 labels = c("JCPS", "Kentucky School District Mean"),
                 y_title = "Composite Score", color_pal = c("#00a9b7", "black"),
-caption = "Source: Greater Louisville Project\nData from National Center for Education
-Statistics")
+caption = "Source: Greater Louisville Project\nData from National Center for Education Statistics")
 showtext.end()
 dev.off()
 
@@ -466,18 +556,17 @@ ky_ed_data_long_trendline(naep_data, var = "Jurisdiction", value = "naep_math_sc
                 xmax = 2015, plot_title = "NAEP 4th Grade Math Score",
                 labels = c("JCPS", "Kentucky School District Mean"),
                 y_title = "Composite Score", color_pal = c("#00a9b7", "black"),
-caption = "Source: Greater Louisville Project\nData from National Center for Education
-Statistics")
+caption = "Source: Greater Louisville Project\nData from National Center for Education Statistics")
 showtext.end()
 dev.off()
 ```
 
 Adding mapping data
 ```{r}
-map_data = read_csv("output data/education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
+map_data = read_csv("map data/education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
 
 rescale <- function(x){new_value <- x*100}
-map_data[ ,c(3:5, 7:14)] = apply(map_data[ ,c(3:5, 7:14)], 2, rescale)
+map_data[ ,c(3:5, 7:12, 14)] = apply(map_data[ ,c(3:5, 7:12, 14)], 2, rescale)
 
 ```
 
@@ -504,30 +593,31 @@ map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 Making and saving maps
 ```{r}
 # setwd("C:/Users/natek/Documents/images")
-setwd("~/Desktop/glp_website/Images/Maps")
+setwd("~/Desktop/glp_website/Images/Maps/edu_maps")
 
-m <- make_map("child_per", "Child Poverty", order = "Descending", col_palette = "RdYlBu")
+m <- make_map("child_per", name = "Child Poverty", legend_title = "Child<br>Poverty", map_style = "sequential")
 saveWidget(m, "edu_child_pov_map.html")
 
-m <- make_map("per_25_64_assoc_plus", "Associate Degrees, 25-64")
+m <- make_map("per_25_64_assoc_plus", name = "Associate Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Associate Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_64_assoc_map.html")
 
-m <- make_map("per_25_64_bach_plus", "Bachelor's Degrees, 25-64")
+m <- make_map("per_25_64_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Bachelor's Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_64_bach_map.html")
 
-m <- make_map("per_25_64_grad", "Graduate Degrees, 25-64")
+m <- make_map("per_25_64_grad", "Graduate Degree, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Graduate Degree", units = "Percent")
 saveWidget(m, "edu_25_64_grad_map.html")
 
-m <- make_map("per_25_34_assoc_plus", "Associate Degrees, 25-34")
+m <- make_map("per_25_34_assoc_plus", name = "Associate Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Associate's Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_assoc_25_34_map.html")
 
-m <- make_map("per_25_34_bach_plus", "Bachelor's Degrees, 25-34")
+m <- make_map("per_25_34_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Bachelor's Degree<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_34_bach_map.html")
 
-m <- make_map("per_25_34_grad", "Graduate Degrees, 25-34")
+m <- make_map("per_25_34_grad", name = "Graduate Degree, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Graduate Degree", units = "Percent")
 saveWidget(m, "edu_25_34_grad_map.html")
 
-m <- make_map("per_high_wage", "High Wage Occupations")
+m <- make_map("per_high_wage", "Population in High Wage Occupations",
+              legend_title = "Population in<br/>High Wage<br/>Occupations")
 saveWidget(m, "edu_per_high_wage_map.html")
 ```
 
