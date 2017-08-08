@@ -249,7 +249,7 @@ Estimate..Income.in.the.past.12.months.below.poverty.level....Female....6.to.11.
 Estimate..Income.in.the.past.12.months.below.poverty.level....Female....12.to.14.years +
 Estimate..Income.in.the.past.12.months.below.poverty.level....Female....15.years +
 Estimate..Income.in.the.past.12.months.below.poverty.level....Female....16.and.17.years,
-five_to_17_over =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years +
+five_to_17_over =  Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....5.years +
 Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....6.to.11.years +
 Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....12.to.14.years +
 Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....15.years +
@@ -260,12 +260,15 @@ Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....12
 Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....15.years +
 Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....16.and.17.years,
 five_to_17_per = five_to_17_under / (five_to_17_over + five_to_17_under),
+
 child_under = five_to_17_under +
 Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years +
 Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years,
+
 child_over = five_to_17_over +
 Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years +
 Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years,
+
 child_per = child_under / (child_over + child_under)
 )
 
