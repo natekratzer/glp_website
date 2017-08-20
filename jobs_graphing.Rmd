@@ -16,6 +16,10 @@ library(showtext)
 library(reshape2)
 library(classInt)
 library(ggthemes)
+library(leaflet)
+library(rgdal)
+library(RColorBrewer)
+library(htmlwidgets)
 library(tidyverse)
 library(rgdal)
 library(leaflet)
@@ -396,4 +400,5 @@ m <- make_map(
   )
 saveWidget(m, "jobs_median_earnings_map.html")
 ```
+
 
