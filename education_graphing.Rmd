@@ -30,10 +30,7 @@ Reading in data
 ```{r data}
 educ_data = read_csv("output data/education_data_fips.csv")
 
-rescale <- function(x){new_value <- x*100}
-educ_data[ ,c(3:17)] = apply(educ_data[ ,c(3:17)], 2, rescale)
 educ_data_15 <- educ_data %>% filter(year == 2015)
-
 
 naep_data <- read_csv("output data/education_data_naep.csv")
 ky_ed_data <- read_csv("output data/education_data_ky.csv")
