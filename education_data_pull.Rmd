@@ -7,7 +7,7 @@ Code for pulling education data
 
 ```{r "setup", include=FALSE}
 require("knitr")
-opts_knit$set(root.dir = "~/Desktop/glp_website")
+opts_knit$set(root.dir = "~/Desktop/GLP/glp_website")
 ```
 
 Loading Libraries
@@ -20,6 +20,7 @@ library(tidyverse)
 library(magrittr)
 ```
 
+Reads an ACS download into R and subsets based on peer city FIPS
 ```{r}
 acs_time<-function(folder, starting.year=2005){
   initial_wd <- getwd()
