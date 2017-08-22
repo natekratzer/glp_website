@@ -20,7 +20,8 @@ library(tidyverse)
 library(magrittr)
 ```
 
-Reads an ACS download into R and subsets based on peer city FIPS
+acs_time reads an ACS download into R and subsets based on peer city FIPS.
+pull_peers_FIPS pulls peers based on FIPS code.
 ```{r}
 acs_time<-function(folder, starting.year=2005){
   initial_wd <- getwd()
