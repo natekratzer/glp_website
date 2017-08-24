@@ -508,7 +508,7 @@ child_per = child_under / (child_total)
 child_pov_data_health = data %>%
 select(FIPS, year, child_per, child_total)
 child_pov_data$FIPS[child_pov_data$FIPS == "01073"] = "1073"
-```
+
 child_pov_stl <- child_pov_data %>%
   filter(FIPS == 29189 | FIPS == 29510) %>%
   select(-FIPS) %>%
