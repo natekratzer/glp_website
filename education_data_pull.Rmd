@@ -20,8 +20,17 @@ library(tidyverse)
 library(magrittr)
 ```
 
-acs_time reads an ACS download into R and subsets based on peer city FIPS.
-pull_peers_FIPS pulls peers based on FIPS code.
+acs_time reads an ACS download into R, subsets based on peer city FIPS, and returns a data frame.
+
+pull_peers_FIPS adds variables to a dataframe of cities indicating whether a city was an original peer (baseline) and whether a city is a current peer (current).
+
+ccr_read reads data from a folder of csv files, extracts college and career readiness for each school district, and returns a data frame.
+
+act_read reads data from a folder of csv files, extracts the mean ACT score data for each school district, and returns a data frame.
+
+kscreen_read reads data from a folder of csv files, extracts the percentage of students endering kindergarten who are "kindergarten ready" by school district, and returns a data frame.
+
+graduation_read reads data from a csv file, extracts the percentage of high schoolers graduating in four years by district, and returns a data frame.
 ```{r}
 acs_time<-function(folder, starting.year=2005){
   initial_wd <- getwd()
@@ -62,6 +71,7 @@ acs_time<-function(folder, starting.year=2005){
   df
 }
 
+
 pull_peers_FIPS <- function(dat){
   all.peers <- filter(dat, (dat$FIPS == 1073 | dat$FIPS == 37119
                       |dat$FIPS == 39061 |dat$FIPS == 39049
@@ -87,7 +97,7 @@ pull_peers_FIPS <- function(dat){
   all.peers
 }
 
-#Read in data and compute own district totals for CCR
+
 ccr_read <- function(folder) {
   initial_wd <- getwd()
   directory <- paste(initial_wd, folder, sep = "/")
@@ -251,41 +261,76 @@ graduation_read <- function(df_name, grad_var, target_label = TRUE) {
 
 ```
 
-Reading in ACS Data
+Reads in ACS Data and produces
+Uses acs_time to read in ACS data, calculates the total number and percentage of children who live in poverty.
+Calculates statistic for Saint Louis to account for the city extending across multiple counties, weights the data by number of children in each of the two counties.
 ```{r}
+
 data = acs_time("/input data/educ_input_data/B17001")
 
 data = data %>%
-mutate(
-under_5_per = (
-`Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` +
-`Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`
-) /
-(
-`Estimate; Income in the past 12 months at or above poverty level: - Male: - Under 5 years` +
-`Estimate; Income in the past 12 months at or above poverty level: - Female: - Under 5 years` +
-`Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` +
-`Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`
-),
-five_to_17_under = (`Estimate; Income in the past 12 months below poverty level: - Male: - 5 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 6 to 11 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 12 to 14 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 15 years` + `Estimate; Income in the past 12 months below poverty level: - Male: - 16 and 17 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 5 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 6 to 11 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 12 to 14 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 15 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - 16 and 17 years`),
+  mutate(
+    under_5_per = 
+      (
+      `Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`
+      ) /
+      (
+      `Estimate; Income in the past 12 months at or above poverty level: - Male: - Under 5 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Female: - Under 5 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`
+      ),
+    five_to_17_under = 
+      (
+      `Estimate; Income in the past 12 months below poverty level: - Male: - 5 years` + 
+      `Estimate; Income in the past 12 months below poverty level: - Male: - 6 to 11 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Male: - 12 to 14 years` + 
+      `Estimate; Income in the past 12 months below poverty level: - Male: - 15 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Male: - 16 and 17 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - 5 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - 6 to 11 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - 12 to 14 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - 15 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - 16 and 17 years`
+      ),
+    five_to_17_over =  
+      (
+      `Estimate; Income in the past 12 months at or above poverty level: - Male: - 5 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Male: - 6 to 11 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Male: - 12 to 14 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Male: - 15 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Male: - 16 and 17 years` + 
+      `Estimate; Income in the past 12 months at or above poverty level: - Female: - 5 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Female: - 6 to 11 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Female: - 12 to 14 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Female: - 15 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Female: - 16 and 17 years`
+      ),
 
-five_to_17_over =  `Estimate; Income in the past 12 months at or above poverty level: - Male: - 5 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 6 to 11 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 12 to 14 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 15 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - 16 and 17 years` + 
-  `Estimate; Income in the past 12 months at or above poverty level: - Female: - 5 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 6 to 11 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 12 to 14 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 15 years` + `Estimate; Income in the past 12 months at or above poverty level: - Female: - 16 and 17 years`,
+    five_to_17_per = five_to_17_under / (five_to_17_over + five_to_17_under),
 
-five_to_17_per = five_to_17_under / (five_to_17_over + five_to_17_under),
+    child_under = 
+      (
+      five_to_17_under +
+      `Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` +
+      `Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`
+      ),
 
-child_under = five_to_17_under +
-  `Estimate; Income in the past 12 months below poverty level: - Male: - Under 5 years` + `Estimate; Income in the past 12 months below poverty level: - Female: - Under 5 years`,
+    child_over = 
+      (
+      five_to_17_over +
+      `Estimate; Income in the past 12 months at or above poverty level: - Female: - Under 5 years` +
+      `Estimate; Income in the past 12 months at or above poverty level: - Male: - Under 5 years`
+      ),
 
-child_over = five_to_17_over + `Estimate; Income in the past 12 months at or above poverty level: - Female: - Under 5 years` + `Estimate; Income in the past 12 months at or above poverty level: - Male: - Under 5 years`,
-
-child_total = child_under + child_over,
-child_per = child_under / (child_total)
-)
+    child_total = child_under + child_over,
+    child_per = child_under / (child_total)
+  )
 
 child_pov_data = data %>%
-select(FIPS, year, under_5_per, five_to_17_per, child_per, child_total)
-child_pov_data$FIPS[child_pov_data$FIPS == "01073"] = "1073"
+  select(FIPS, year, under_5_per, five_to_17_per, child_per, child_total)
+  child_pov_data$FIPS[child_pov_data$FIPS == "01073"] = "1073"
 
 child_pov_stl <- child_pov_data %>%
   filter(FIPS == 29189 | FIPS == 29510) %>%
@@ -300,8 +345,10 @@ child_pov_data <- child_pov_data %>%
   filter(!(FIPS == 29189 | FIPS == 29510)) %>%
   bind_rows(child_pov_stl) %>%
   select(-child_total)
+```
 
-#Weighted by total population because of no denominator
+Uses acs_time to read in ACS data, calculates the total number and percentage of children aged 3 and 4 who are enrolled in school.
+```{r}
 data = acs_time("/input data/educ_input_data/S1401/Y5to7")
 data_2 = acs_time("/input data/educ_input_data/S1401/Y8to14", starting.year = 2008)
 data_3 = acs_time("/input data/educ_input_data/S1401/Y15", starting.year = 2015)
@@ -337,9 +384,10 @@ enroll_3_4_data_stl$FIPS <- "MERGED"
 enroll_3_4_data %<>% filter(!(FIPS == 29189 | FIPS == 29510)) %>%
   bind_rows(enroll_3_4_data_stl) %>%
   select(-population)
+```
 
-
-
+Uses acs_time to read in ACS data, calculates the percentage of young adults (ages 25-34) and adults (ages 34-65) holding associate's, bachelor's, and graduate degrees.
+```{r}
 data = acs_time("/input data/educ_input_data/B15001")
 
 data = data %>%
@@ -356,7 +404,7 @@ data = data %>%
          num_m_45_64_assoc_plus = 
            `Estimate; Male: - 45 to 64 years: - Graduate or professional degree` + 
            `Estimate; Male: - 45 to 64 years: - Bachelor's degree` + 
-         `Estimate; Male: - 45 to 64 years: - Associate's degree`, 
+           `Estimate; Male: - 45 to 64 years: - Associate's degree`, 
          
          num_f_25_34_assoc_plus =
            `Estimate; Female: - 25 to 34 years: - Associate's degree` + 
@@ -383,7 +431,7 @@ data = data %>%
          
          num_m_45_64_bach_plus = 
            `Estimate; Male: - 45 to 64 years: - Bachelor's degree` + 
-         `Estimate; Male: - 45 to 64 years: - Graduate or professional degree`,
+           `Estimate; Male: - 45 to 64 years: - Graduate or professional degree`,
          
          num_f_25_34_bach_plus = 
            `Estimate; Female: - 25 to 34 years: - Bachelor's degree` + 
@@ -409,46 +457,69 @@ data = data %>%
            `Estimate; Female: - 35 to 44 years: - Graduate or professional degree`,
          num_f_45_64_grad = 
            `Estimate; Female: - 45 to 64 years: - Graduate or professional degree`,
+         
          num_m_25_34 = `Estimate; Male: - 25 to 34 years:`,
          num_m_35_44 = `Estimate; Male: - 35 to 44 years:`,
          num_m_45_64 = `Estimate; Male: - 45 to 64 years:`,
          num_f_25_34 = `Estimate; Female: - 25 to 34 years:`,
          num_f_35_44 = `Estimate; Female: - 35 to 44 years:`,
          num_f_45_64 = `Estimate; Female: - 45 to 64 years:`,
-         per_25_64_assoc_plus = (num_m_25_34_assoc_plus +
-           num_m_35_44_assoc_plus + num_m_45_64_assoc_plus + num_f_25_34_assoc_plus +
-           num_f_35_44_assoc_plus + num_f_45_64_assoc_plus)/
-           (num_m_25_34 +
-           num_m_35_44 + num_m_45_64 + num_f_25_34 +
-           num_f_35_44 + num_f_45_64),
-         per_25_64_bach_plus = (num_m_25_34_bach_plus +
-            num_m_35_44_bach_plus + num_m_45_64_bach_plus + num_f_25_34_bach_plus +
-            num_f_35_44_bach_plus + num_f_45_64_bach_plus)/
-           (num_m_25_34 +
-              num_m_35_44 + num_m_45_64 + num_f_25_34 +
-              num_f_35_44 + num_f_45_64),
-         per_25_64_grad = (num_m_25_34_grad +
-            num_m_35_44_grad + num_m_45_64_bach_plus + num_f_25_34_grad +
-            num_f_35_44_grad + num_f_45_64_grad)/
-           (num_m_25_34 +
-              num_m_35_44 + num_m_45_64 + num_f_25_34 +
-              num_f_35_44 + num_f_45_64),
-         per_25_34_assoc_plus = (num_f_25_34_assoc_plus+num_m_25_34_assoc_plus)/
+         
+         per_25_64_assoc_plus = 
+           (
+            num_m_25_34_assoc_plus + num_m_35_44_assoc_plus + num_m_45_64_assoc_plus + 
+            num_f_25_34_assoc_plus + num_f_35_44_assoc_plus + num_f_45_64_assoc_plus
+           )/
+           (
+            num_m_25_34 + num_m_35_44 + num_m_45_64 + 
+            num_f_25_34 + num_f_35_44 + num_f_45_64),
+         
+         per_25_64_bach_plus = 
+           (
+            num_m_25_34_bach_plus + num_m_35_44_bach_plus + num_m_45_64_bach_plus + 
+            num_f_25_34_bach_plus + num_f_35_44_bach_plus + num_f_45_64_bach_plus
+           )/
+           (
+            num_m_25_34 + num_m_35_44 + num_m_45_64 +
+            num_f_25_34 + num_f_35_44 + num_f_45_64
+           ),
+         
+         per_25_64_grad = 
+           (
+            num_m_25_34_grad + num_m_35_44_grad + num_m_45_64_bach_plus + 
+            num_f_25_34_grad + num_f_35_44_grad + num_f_45_64_grad
+           )/
+           (
+            num_m_25_34 + num_m_35_44 + num_m_45_64 +
+            num_f_25_34 + num_f_35_44 + num_f_45_64
+           ),
+         
+         per_25_34_assoc_plus = 
+           (num_f_25_34_assoc_plus+num_m_25_34_assoc_plus)/
            (num_m_25_34+num_f_25_34),
-         per_25_34_bach_plus = (num_f_25_34_bach_plus+num_m_25_34_bach_plus)/
+         
+         per_25_34_bach_plus = 
+           (num_f_25_34_bach_plus+num_m_25_34_bach_plus)/
            (num_m_25_34+num_f_25_34),
-         per_25_34_grad = (num_f_25_34_grad+num_m_25_34_grad)/
+         
+         per_25_34_grad = 
+           (num_f_25_34_grad+num_m_25_34_grad)/
            (num_m_25_34+num_f_25_34),
+         
          num_total_25_34 = num_m_25_34 + num_f_25_34,
          num_total_35_44 = num_m_35_44 + num_f_35_44, 
          num_total_45_64 = num_m_45_64 + num_f_45_64, 
          num_total = num_total_25_34 + num_total_35_44 + num_total_45_64
-         )
-
+  )
 
 degree_data_young <- data %>%
-  select(FIPS, year, per_25_34_assoc_plus, per_25_34_bach_plus, per_25_34_grad,
+  select(FIPS, 
+         year, 
+         per_25_34_assoc_plus, 
+         per_25_34_bach_plus, 
+         per_25_34_grad,
          num_total_25_34)
+
 degree_data_young$FIPS[degree_data_young$FIPS == "01073"] = "1073"
 
 degree_data_young_stl <- degree_data_young %>%
@@ -465,7 +536,11 @@ degree_data_young %<>% filter(!(FIPS == 29189 | FIPS == 29510)) %>%
   select(-num_total_25_34)
 
 degree_data_all = data %>%
-  select(FIPS, year, per_25_64_assoc_plus, per_25_64_bach_plus, per_25_64_grad,
+  select(FIPS,
+         year, 
+         per_25_64_assoc_plus, 
+         per_25_64_bach_plus, 
+         per_25_64_grad,
          num_total)
 
 degree_data_all_stl <- degree_data_all %>%
@@ -484,17 +559,28 @@ degree_data <- degree_data_all %>%
 
 degree_data$FIPS[degree_data$FIPS == "01073"] <- "1073"
 
+```
+
+Uses acs_time to read in ACS data, calculates the percentage of bachelor's degree holders by race.
+```{r}
 
 degree_all_races = acs_time("/input data/educ_input_data/B15002")
 
 degree_all_races = degree_all_races %>%
-  mutate(bach_plus_per_all = (`Estimate; Female: - Bachelor's degree` +
-           `Estimate; Male: - Bachelor's degree` + 
-           `Estimate; Female: - Doctorate degree` + 
-           `Estimate; Male: - Doctorate degree` + 
-           `Estimate; Female: - Master's degree` + 
-           `Estimate; Male: - Master's degree`)/`Estimate; Total:`,
-         num_total = `Estimate; Total:`)
+  mutate(
+    bach_plus_per_all = 
+        (
+         `Estimate; Female: - Bachelor's degree` +
+         `Estimate; Male: - Bachelor's degree` + 
+         `Estimate; Female: - Doctorate degree` + 
+         `Estimate; Male: - Doctorate degree` + 
+         `Estimate; Female: - Master's degree` + 
+         `Estimate; Male: - Master's degree`
+         )
+         /`Estimate; Total:`,
+    
+     num_total = `Estimate; Total:`
+  )
 
 degree_all_races = degree_all_races %>%
   select(FIPS, year, bach_plus_per_all, num_total)
@@ -519,20 +605,34 @@ degree_white_05 = acs_time("/input data/educ_input_data/B15002A/Y05", starting.y
 degree_white_08 = acs_time("/input data/educ_input_data/B15002A/Y08", starting.year = 2008)
 
 degree_white_05 <- degree_white_05 %>%
-  mutate(bach_plus_per_white = (`Estimate; Female: - Bachelor's degree` + 
-           `Estimate; Male: - Bachelor's degree` + 
-           `Estimate; Female: - Graduate degree` + 
-           `Estimate; Male: - Graduate degree`)/`Estimate; Total:`,
-         total_num = `Estimate; Total:`)
+  mutate(
+    bach_plus_per_white = 
+        (
+        `Estimate; Female: - Bachelor's degree` + 
+        `Estimate; Male: - Bachelor's degree` + 
+        `Estimate; Female: - Graduate degree` + 
+        `Estimate; Male: - Graduate degree`
+        )
+        /`Estimate; Total:`,
+    
+    total_num = `Estimate; Total:`
+  )
 
 degree_white_05 %<>% select(FIPS, year, bach_plus_per_white, total_num)
 
 degree_white_08 <- degree_white_08 %>%
-  mutate(bach_plus_per_white = (`Estimate; Female: - Bachelor's degree` + 
-           `Estimate; Male: - Bachelor's degree` + 
-           `Estimate; Female: - Graduate degree` + 
-           `Estimate; Male: - Graduate degree`)/`Estimate; Total:`,
-         total_num = `Estimate; Total:`)
+  mutate(
+    bach_plus_per_white = 
+        (
+        `Estimate; Female: - Bachelor's degree` + 
+        `Estimate; Male: - Bachelor's degree` + 
+        `Estimate; Female: - Graduate degree` + 
+        `Estimate; Male: - Graduate degree`
+         )
+         /`Estimate; Total:`,
+       
+    total_num = `Estimate; Total:`
+  )
 
 degree_white_08 %<>% select(FIPS, year, bach_plus_per_white, total_num)
 
@@ -557,20 +657,34 @@ degree_black_05 = acs_time("/input data/educ_input_data/B15002B/Y05", starting.y
 degree_black_08 = acs_time("/input data/educ_input_data/B15002B/Y08", starting.year = 2008)
 
 degree_black_05 %<>%
-  mutate(bach_plus_per_black = (`Estimate; Female: - Bachelor's degree` + 
-           `Estimate; Male: - Bachelor's degree` + 
-           `Estimate; Female: - Graduate degree` + 
-           `Estimate; Male: - Graduate degree`)/`Estimate; Total:`,
-         total_num = `Estimate; Total:`)
+  mutate(
+    bach_plus_per_black = 
+        (
+        `Estimate; Female: - Bachelor's degree` + 
+        `Estimate; Male: - Bachelor's degree` + 
+        `Estimate; Female: - Graduate degree` + 
+        `Estimate; Male: - Graduate degree`
+        )
+        /`Estimate; Total:`,
+      
+    total_num = `Estimate; Total:`
+  )
 
 degree_black_05 %<>% select(FIPS, year, bach_plus_per_black, total_num)
 
 degree_black_08 %<>%
-  mutate(bach_plus_per_black = (`Estimate; Female: - Bachelor's degree` + 
-           `Estimate; Male: - Bachelor's degree` + 
-           `Estimate; Female: - Graduate degree` + 
-           `Estimate; Male: - Graduate degree`)/`Estimate; Total:`,
-         total_num = `Estimate; Total:`)
+  mutate(
+    bach_plus_per_black = 
+        (
+        `Estimate; Female: - Bachelor's degree` + 
+        `Estimate; Male: - Bachelor's degree` + 
+        `Estimate; Female: - Graduate degree` + 
+        `Estimate; Male: - Graduate degree`
+        )
+        /`Estimate; Total:`,
+      
+    total_num = `Estimate; Total:`
+  )
 
 degree_black_08 %<>% select(FIPS, year, bach_plus_per_black, total_num)
 
@@ -596,21 +710,33 @@ degree_hispanic_05 = acs_time("/input data/educ_input_data/B15002I/Y05", startin
 degree_hispanic_08 = acs_time("/input data/educ_input_data/B15002I/Y08", starting.year = 2008)
 
 degree_hispanic_05 = degree_hispanic_05 %>%
-  mutate(bach_plus_per_hispanic = (`Estimate; Female: - Bachelor's degree` + 
+  mutate(
+    bach_plus_per_hispanic = 
+          (`Estimate; Female: - Bachelor's degree` + 
            `Estimate; Male: - Bachelor's degree` + 
            `Estimate; Female: - Graduate degree` + 
-           `Estimate; Male: - Graduate degree`)/`Estimate; Total:`,
-         total_num = `Estimate; Total:`)
+           `Estimate; Male: - Graduate degree`
+           )
+           /`Estimate; Total:`,
+    
+    total_num = `Estimate; Total:`
+  )
 
 degree_hispanic_05 = degree_hispanic_05 %>%
   select(FIPS, year, bach_plus_per_hispanic, total_num)
 
 degree_hispanic_08 = degree_hispanic_08 %>%
-  mutate(bach_plus_per_hispanic = (`Estimate; Female: - Bachelor's degree` + 
+  mutate(
+    bach_plus_per_hispanic = 
+          (`Estimate; Female: - Bachelor's degree` + 
            `Estimate; Male: - Bachelor's degree` + 
            `Estimate; Female: - Graduate degree` + 
-           `Estimate; Male: - Graduate degree`)/`Estimate; Total:`,
-         total_num = `Estimate; Total:`)
+           `Estimate; Male: - Graduate degree`
+          )
+          /`Estimate; Total:`,
+         
+    total_num = `Estimate; Total:`
+  )
 
 degree_hispanic_08 = degree_hispanic_08 %>%
   select(FIPS, year, bach_plus_per_hispanic, total_num)
@@ -632,30 +758,49 @@ degree_hispanic %<>% filter(!(FIPS == 29189 | FIPS == 29510)) %>%
   bind_rows(degree_hispanic_stl) %>%
   select(-total_num)
 
+```
 
+Uses acs_time to read in ACS data, calculates the percentage of workers in high wage occupations.
+```{r}
 occupation_05 = acs_time("/input data/educ_input_data/S2401/Y05", starting.year = 2005)
 occupation_10 = acs_time("/input data/educ_input_data/S2401/Y10", starting.year = 2010)
 occupation_15 = acs_time("/input data/educ_input_data/S2401/Y15", starting.year = 2015)
 
 occupation_05 = occupation_05 %>%
-  mutate(per_high_wage = (as.numeric(`Total; Estimate; Civilian employed population 16 years and over - Management, professional, and related occupations:`) + 
-          as.numeric(`Total; Estimate; Civilian employed population 16 years and over - Service occupations: - Protective service occupations: - Law enforcement workers including supervisors`) + 
-           as.numeric(`Total; Estimate; Civilian employed population 16 years and over - Construction, extraction, maintenance, and repair occupations: - Installation, maintenance, and repair occupations`))/as.numeric(`Total; Estimate; Civilian employed population 16 years and over`),
-         total_num = as.numeric(`Total; Estimate; Civilian employed population 16 years and over`))
+  mutate(per_high_wage = 
+           (
+            as.numeric(`Total; Estimate; Civilian employed population 16 years and over - Management, professional, and related occupations:`) + 
+            as.numeric(`Total; Estimate; Civilian employed population 16 years and over - Service occupations: - Protective service occupations: - Law enforcement workers including supervisors`) + 
+            as.numeric(`Total; Estimate; Civilian employed population 16 years and over - Construction, extraction, maintenance, and repair occupations: - Installation, maintenance, and repair occupations`)
+           )
+           /as.numeric(`Total; Estimate; Civilian employed population 16 years and over`),
+         
+         total_num = as.numeric(`Total; Estimate; Civilian employed population 16 years and over`)
+  )
            
-           
-  
 occupation_10 = occupation_10 %>%
-  mutate(per_high_wage = (as.numeric(`Total; Estimate; Management, business, science, and arts occupations:`) + 
-           as.numeric(`Total; Estimate; Service occupations: - Protective service occupations: - Law enforcement workers including supervisors`) + 
-           as.numeric(`Total; Estimate; Natural resources, construction, and maintenance occupations: - Installation, maintenance, and repair occupations`))/as.numeric(`Total; Estimate; Civilian employed population 16 years and over`), 
-         total_num = as.numeric(`Total; Estimate; Civilian employed population 16 years and over`))
+  mutate(per_high_wage = 
+           (
+            as.numeric(`Total; Estimate; Management, business, science, and arts occupations:`) + 
+            as.numeric(`Total; Estimate; Service occupations: - Protective service occupations: - Law enforcement workers including supervisors`) + 
+            as.numeric(`Total; Estimate; Natural resources, construction, and maintenance occupations: - Installation, maintenance, and repair occupations`)
+           )
+           /as.numeric(`Total; Estimate; Civilian employed population 16 years and over`), 
+         
+         total_num = as.numeric(`Total; Estimate; Civilian employed population 16 years and over`)
+  )
 
 occupation_15 = occupation_15 %>%
-  mutate(per_high_wage = (as.numeric(`Total; Estimate; Management, business, science, and arts occupations:`) + 
+  mutate(per_high_wage = 
+          (
+           as.numeric(`Total; Estimate; Management, business, science, and arts occupations:`) + 
            as.numeric(`Total; Estimate; Service occupations: - Protective service occupations: - Law enforcement workers including supervisors`) + 
-           as.numeric(`Total; Estimate; Natural resources, construction, and maintenance occupations: - Installation, maintenance, and repair occupations`))/as.numeric(`Total; Estimate; Civilian employed population 16 years and over`), 
-         total_num = as.numeric(`Total; Estimate; Civilian employed population 16 years and over`))
+           as.numeric(`Total; Estimate; Natural resources, construction, and maintenance occupations: - Installation, maintenance, and repair occupations`)
+          )
+          /as.numeric(`Total; Estimate; Civilian employed population 16 years and over`), 
+         
+         total_num = as.numeric(`Total; Estimate; Civilian employed population 16 years and over`)
+  )
 
 occupation_05 = occupation_05 %>% select(FIPS, year, per_high_wage, total_num)
 occupation_10 = occupation_10 %>% select(FIPS, year, per_high_wage, total_num)
@@ -679,7 +824,10 @@ occupation_data %<>% filter(!(FIPS == 29189 | FIPS == 29510)) %>%
   select(-total_num)
 
 names = read_csv("input data/FIPS one stl.csv")
+```
 
+Combines previous dataframes as 'education_data' and changes percentages from decimals to numbers out of 100.
+```{r}
 education_data <- child_pov_data %>%
   left_join(degree_data, by = c("FIPS","year")) %>%
   left_join(degree_data_young, by = c("FIPS", "year")) %>%
@@ -695,8 +843,7 @@ education_data <- child_pov_data %>%
   
 ```
 
-
-ACT, CCR, and KSCREEN Data for Kentucky
+Reads in ACT, CCR, and KSCREEN Data for Kentucky, then comines them into a data frame 'ky_new'
 ```{r}
 
 ccr <- ccr_read("input data/educ_input_data/CCR_acc_data")
@@ -730,12 +877,21 @@ grad_data <- grad_data_13 %>%
   bind_rows(graduation_read("input data/educ_input_data/graduation_rate/graduation_rate_14_15.csv", "COHORT_2015")) %>%
   bind_rows(graduation_read("input data/educ_input_data/graduation_rate/graduation_rate_15_16.csv", "REPORTYEAR_2016"))
 
-
 ky_new <- act %>%
   full_join(ccr, by = c("school_year","dist_name", "label"))%>%
   full_join(kscreen, by = c("school_year","dist_name", "label")) %>%
   full_join(grad_data, by = c("school_year","dist_name","label"))
+```
 
+A group of functions to tidy the dataset. Data for each year in each school district in 'ky_new' is spread across multiple rows, with each row identifying outcomes for a particular demographic of students (based on gener or race). These functions transform the data so each row contains all the data for one school district for one year. Data for difference demographics is spread across columns. The data is also cleaned in a few minor ways.
+
+rename_cols accepts a data frame and a string as parameters, then appends the string to the end of the column names of the data frame.
+
+tidy accepts a data frame, a variable in that data frame containing observations, and a key variable whose values will form the column names (in this case, the variable 'label' containing demographic information). The spread function transforms the data, creating columns from each combination of the variable and the values of the key. rename_cols is called to label the new columns by concatenating the demographic label and the variable measured.
+
+restore_ky_ed_data identifies the variable columns of ky_new, then calls tidy on each variable of ky_new. It returns the results in a data frame 'tidy_df'
+
+```{r}
 rename_cols <- function(df, text){
   names <- colnames(df)
   new <- paste(names, text, sep = "_")
@@ -770,66 +926,83 @@ restore_ky_ed_data <- function(data){
   return(tidy_df)
 }
 
-
-#Tidy this very untidy dataset - See recursively defined functions above.
 ky_tidy_new <- restore_ky_ed_data(ky_new) %>%
   rename(year = school_year)
+
 ```
 
-
-NAEP Data for Kentucky
+reads in math and reading NAEP Data for Kentucky, then stores the results in 'naep_data'
 ```{r}
 naep_math <- read_csv("input data/educ_input_data/naep_math_data.csv")
 naep_reading <- read_csv("input data/educ_input_data/naep_reading_data.csv")
 
-naep_reading %<>% select(Year, Jurisdiction, naep_reading_score = `Average scale score`, 
-                         reading_sd = `Standard Error`)
-naep_math %<>% select(Year, Jurisdiction, naep_math_score = `Average scale score`, 
-                      math_sd = `Standard Error`)
+naep_reading %<>% select(Year,
+                         Jurisdiction,
+                         naep_reading_score = `Average scale score`, 
+                         reading_sd = `Standard Error`
+                         )
+
+naep_math %<>% select(Year,
+                      Jurisdiction,
+                      naep_math_score = `Average scale score`, 
+                      math_sd = `Standard Error`
+                      )
 
 naep_data <- left_join(naep_reading, naep_math, by = c("Year", "Jurisdiction"))
 naep_data %<>% rename(year = Year)
 ```
 
-
-Map Data
+reads in data containing geographic information at the census tract level for child poverty, 3 and 4 years old school enrollment, educational attainment, and wages in Jefferson County. Names the census tracts and saves the data as the data frame map_data.
 ```{r}
 data = read.csv("input data/educ_input_data/ACS_15_5YR_B17001_with_ann.csv", skip = 1)
 
 data = data %>%
-  mutate(under_5_per = (Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
-                          Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years)/
-           (Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
-              Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years+
-              Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
-              Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years),
-         five_to_17_under =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....6.to.11.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....12.to.14.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....15.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....16.and.17.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....5.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....6.to.11.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....12.to.14.years+
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....15.years+
+  mutate(under_5_per = 
+           (Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years +
+            Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years
+           )/
+           (Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years +
+            Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years +
+            Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years +
+            Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years
+           ),
+         
+         five_to_17_under =  
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....6.to.11.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....12.to.14.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....15.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....16.and.17.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....5.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....6.to.11.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....12.to.14.years +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Female....15.years +
            Estimate..Income.in.the.past.12.months.below.poverty.level....Female....16.and.17.years,
-         five_to_17_over =  Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....6.to.11.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....12.to.14.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....15.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....16.and.17.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....5.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....6.to.11.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....12.to.14.years+
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....15.years+
+         
+         five_to_17_over =  
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....5.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....6.to.11.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....12.to.14.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....15.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....16.and.17.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....5.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....6.to.11.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....12.to.14.years +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....15.years +
            Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....16.and.17.years,
+         
          five_to_17_per = five_to_17_under/(five_to_17_over+five_to_17_under),
-         child_under = five_to_17_under +
-           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years+
+         
+         child_under =
+           five_to_17_under +
+           Estimate..Income.in.the.past.12.months.below.poverty.level....Male....Under.5.years +
            Estimate..Income.in.the.past.12.months.below.poverty.level....Female....Under.5.years,
-         child_over = five_to_17_over +
-           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years+
+         
+         child_over =
+           five_to_17_over +
+           Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Male....Under.5.years +
            Estimate..Income.in.the.past.12.months.at.or.above.poverty.level....Female....Under.5.years,
+         
          child_per = child_under/(child_over+child_under)
   )
 
@@ -845,83 +1018,110 @@ enroll_data = data %>%
 data = read.csv("input data/educ_input_data/ACS_15_5YR_B15001_with_ann.csv", skip = 1)
 
 data = data %>%
-  mutate(num_m_25_34_assoc_plus = Estimate..Male....25.to.34.years....Associate.s.degree +
+  mutate(num_m_25_34_assoc_plus = 
+           Estimate..Male....25.to.34.years....Associate.s.degree +
            Estimate..Male....25.to.34.years....Bachelor.s.degree +
            Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
-         num_m_35_44_assoc_plus = Estimate..Male....35.to.44.years....Associate.s.degree +
+         
+         num_m_35_44_assoc_plus = 
+           Estimate..Male....35.to.44.years....Associate.s.degree +
            Estimate..Male....35.to.44.years....Bachelor.s.degree +
            Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
-         num_m_45_64_assoc_plus = Estimate..Male....45.to.64.years....Associate.s.degree +
+         
+         num_m_45_64_assoc_plus = 
+           Estimate..Male....45.to.64.years....Associate.s.degree +
            Estimate..Male....45.to.64.years....Bachelor.s.degree +
            Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
-         num_f_25_34_assoc_plus = Estimate..Female....25.to.34.years....Associate.s.degree +
+         
+         num_f_25_34_assoc_plus = 
+           Estimate..Female....25.to.34.years....Associate.s.degree +
            Estimate..Female....25.to.34.years....Bachelor.s.degree +
            Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
-         num_f_35_44_assoc_plus = Estimate..Female....35.to.44.years....Associate.s.degree +
+         
+         num_f_35_44_assoc_plus = 
+           Estimate..Female....35.to.44.years....Associate.s.degree +
            Estimate..Female....35.to.44.years....Bachelor.s.degree +
            Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
-         num_f_45_64_assoc_plus = Estimate..Female....45.to.64.years....Associate.s.degree +
+         
+         num_f_45_64_assoc_plus = 
+           Estimate..Female....45.to.64.years....Associate.s.degree +
            Estimate..Female....45.to.64.years....Bachelor.s.degree +
            Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         
          num_m_25_34_bach_plus = 
            Estimate..Male....25.to.34.years....Bachelor.s.degree +
            Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         
          num_m_35_44_bach_plus = 
            Estimate..Male....35.to.44.years....Bachelor.s.degree +
            Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         
          num_m_45_64_bach_plus = 
            Estimate..Male....45.to.64.years....Bachelor.s.degree +
            Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         
          num_f_25_34_bach_plus = 
            Estimate..Female....25.to.34.years....Bachelor.s.degree +
            Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         
          num_f_35_44_bach_plus = 
            Estimate..Female....35.to.44.years....Bachelor.s.degree +
            Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         
          num_f_45_64_bach_plus = 
            Estimate..Female....45.to.64.years....Bachelor.s.degree +
            Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
-         num_m_25_34_grad = 
-           Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
-         num_m_35_44_grad = 
-           Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
-         num_m_45_64_grad = 
-           Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
-         num_f_25_34_grad = 
-           Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
-         num_f_35_44_grad = 
-           Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
-         num_f_45_64_grad = 
-           Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         
+         num_m_25_34_grad = Estimate..Male....25.to.34.years....Graduate.or.professional.degree,
+         
+         num_m_35_44_grad = Estimate..Male....35.to.44.years....Graduate.or.professional.degree,
+         
+         num_m_45_64_grad = Estimate..Male....45.to.64.years....Graduate.or.professional.degree,
+         
+         num_f_25_34_grad = Estimate..Female....25.to.34.years....Graduate.or.professional.degree,
+         
+         num_f_35_44_grad = Estimate..Female....35.to.44.years....Graduate.or.professional.degree,
+         
+         num_f_45_64_grad = Estimate..Female....45.to.64.years....Graduate.or.professional.degree,
+         
          num_m_25_34 = Estimate..Male....25.to.34.years.,
          num_m_35_44 = Estimate..Male....35.to.44.years.,
          num_m_45_64 = Estimate..Male....45.to.64.years.,
          num_f_25_34 = Estimate..Female....25.to.34.years.,
          num_f_35_44 = Estimate..Female....35.to.44.years.,
          num_f_45_64 = Estimate..Female....45.to.64.years.,
-         per_25_64_assoc_plus = (num_m_25_34_assoc_plus +
-                                   num_m_35_44_assoc_plus + num_m_45_64_assoc_plus + num_f_25_34_assoc_plus +
-                                   num_f_35_44_assoc_plus + num_f_45_64_assoc_plus)/
-           (num_m_25_34 +
-              num_m_35_44 + num_m_45_64 + num_f_25_34 +
-              num_f_35_44 + num_f_45_64),
-         per_25_64_bach_plus = (num_m_25_34_bach_plus +
-                                  num_m_35_44_bach_plus + num_m_45_64_bach_plus + num_f_25_34_bach_plus +
-                                  num_f_35_44_bach_plus + num_f_45_64_bach_plus)/
-           (num_m_25_34 +
-              num_m_35_44 + num_m_45_64 + num_f_25_34 +
-              num_f_35_44 + num_f_45_64),
-         per_25_64_grad = (num_m_25_34_grad +
-                             num_m_35_44_grad + num_m_45_64_bach_plus + num_f_25_34_grad +
-                             num_f_35_44_grad + num_f_45_64_grad)/
-           (num_m_25_34 +
-              num_m_35_44 + num_m_45_64 + num_f_25_34 +
-              num_f_35_44 + num_f_45_64),
-         per_25_34_assoc_plus = (num_f_25_34_assoc_plus+num_m_25_34_assoc_plus)/
+         
+         per_25_64_assoc_plus =
+           (num_m_25_34_assoc_plus + num_m_35_44_assoc_plus + num_m_45_64_assoc_plus + 
+            num_f_25_34_assoc_plus + num_f_35_44_assoc_plus + num_f_45_64_assoc_plus)
+           /
+           (num_m_25_34 + num_m_35_44 + num_m_45_64 + 
+            num_f_25_34 + num_f_35_44 + num_f_45_64),
+         
+         per_25_64_bach_plus = 
+           (num_m_25_34_bach_plus + num_m_35_44_bach_plus + num_m_45_64_bach_plus + 
+            num_f_25_34_bach_plus + num_f_35_44_bach_plus + num_f_45_64_bach_plus)
+           /
+           (num_m_25_34 + num_m_35_44 + num_m_45_64 + 
+            num_f_25_34 + num_f_35_44 + num_f_45_64),
+         
+         per_25_64_grad = 
+           (num_m_25_34_grad + num_m_35_44_grad + num_m_45_64_bach_plus +
+            num_f_25_34_grad + num_f_35_44_grad + num_f_45_64_grad)
+           /
+           (num_m_25_34 + num_m_35_44 + num_m_45_64 + 
+            num_f_25_34 + num_f_35_44 + num_f_45_64),
+         
+         per_25_34_assoc_plus = 
+           (num_f_25_34_assoc_plus+num_m_25_34_assoc_plus)/
            (num_m_25_34+num_f_25_34),
-         per_25_34_bach_plus = (num_f_25_34_bach_plus+num_m_25_34_bach_plus)/
+         
+         per_25_34_bach_plus = 
+           (num_f_25_34_bach_plus+num_m_25_34_bach_plus)/
            (num_m_25_34+num_f_25_34),
-         per_25_34_grad = (num_f_25_34_grad+num_m_25_34_grad)/
+         
+         per_25_34_grad = 
+           (num_f_25_34_grad+num_m_25_34_grad)/
            (num_m_25_34+num_f_25_34)
   )
 
@@ -929,19 +1129,21 @@ degree_data = data %>%
   select(Id, Id2, Geography, per_25_64_assoc_plus, per_25_64_bach_plus, per_25_64_grad,
          per_25_34_assoc_plus, per_25_34_bach_plus, per_25_34_grad)
 
-
 data = read.csv("input data/educ_input_data/ACS_15_5YR_S2401_with_ann.csv", skip = 1)
 
 data = data %>%
-  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
-                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
-                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
-           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+  mutate(per_high_wage = 
+          (
+            as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.) +
+            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors) +
+            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations)
+           )/
+           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over)
+         )
 
 occupation_data = data %>% select(Id, Geography, per_high_wage)
 
 name_data = read.csv("map data/census tract neighborhoods.csv")
-
 
 map_data = full_join(child_pov_data, degree_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, enroll_data, by = c("Id", "Geography"))
@@ -949,7 +1151,7 @@ map_data = full_join(map_data, occupation_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, name_data, by = "Id2")
 ```
 
-
+Writes data frames to CSV files.
 ```{r}
 write_csv(ky_tidy_new, "output data/education_data_ky.csv")
 write_csv(naep_data, "output data/education_data_naep.csv")
