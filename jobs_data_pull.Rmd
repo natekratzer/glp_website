@@ -5,21 +5,42 @@ output: html_notebook
 
 This is the code used to pull the jobs data
 
-
-First the libraries needed
+Load libraries
 ```{r setup}
-knitr::opts_knit$set(root.dir = normalizePath("~/Desktop/glp_website"))
-# knitr::opts_knit$set(root.dir = normalizePath("C:/Users/natek/Documents/GitHub/glp_website"))
+#knitr::opts_knit$set(root.dir = normalizePath("~/Desktop/glp_website"))
+opts_knit$set(root.dir = "~/Desktop/GLP/glp_website")
 ```
-
 
 ```{r libraries, message = FALSE}
 library(tidyverse)
 library(magrittr)
 ```
 
+Helper functions:
 
-This function takes a folder of ACS data with a separate CSV for each year, because that is what is downloaded from FactFinder. 
+**acs_time**   
+  reads a folder of ACS data downloded from American FactFinder into R.  
+  *Args:*  
+  - a folder of ACS data with a separate CSV for each year  
+  - a starting year  
+  *Returns:*  
+  - a data frame subsetted to peer cities
+  
+**pull_peers_FIPS**   
+  adds variables to indicate whether a city is an original peer and a current peer
+  *Args:*  
+  - a data frame contianing county FIPS codes  
+  *Returns:*  
+  - the data frame with new variables: 'baseline' denotes whether a city was an original peer and 'current' denotes whether a city is a current peer
+  
+**pull_peers_MSA**   
+  adds variables to indicate whether an MSA is an original peer and a current peer
+  *Args:*  
+  - a data frame contianing MSA codes  
+  *Returns:*  
+  - the data frame with new variables: 'baseline' denotes whether an MSA was an original peer and 'current' denotes     whether as MSA is a current peer
+
+
 ```{r acs folder function}
 acs_time <- function(folder, starting.year=2005){
   wd <- getwd()
@@ -57,10 +78,7 @@ acs_time <- function(folder, starting.year=2005){
   }
   df
 }
-```
 
-pull peers FIPS to use with GeoFRED data
-```{r}
 pull_peers_FIPS <- function(dat){
   all.peers <- subset(dat, dat$FIPS == 1073 | dat$FIPS == 37119
                     |dat$FIPS == 39061 |dat$FIPS == 39049
@@ -84,9 +102,7 @@ pull_peers_FIPS <- function(dat){
                       all.peers$FIPS==39113|all.peers$FIPS==51760]<-0
   all.peers
 }
-```
 
-```{r}
 pull_peers_MSA<-function(data){
   all.peers<-filter(data, data$MSA == 24340 | data$MSA == 41180
                     |data$MSA == 36420 | data$MSA == 46140
@@ -110,8 +126,7 @@ pull_peers_MSA<-function(data){
 }
 ```
 
-
-Earnings data from the ACS 
+Reads earnings data from the ACS into R and subsets data
 ```{r, message = FALSE}
 earn_data <- acs_time("/input data/jobs_input_data/S2001/")
 
@@ -120,72 +135,67 @@ earn_data$num_earnings = as.numeric(as.character(earn_data$earnings))
 earn_data$FIPS <- as.character(earn_data$FIPS)
 ```
 
-Other jobs data from GeoFRED
+Reads unemployment, income inequality, median household income, and personal income data into R. Renames the FIPS variable and subsets the data frames to peer cities.
 ```{r geofred}
-##reading in the data
+
 unemp_dat <- read_csv("input data/jobs_input_data/GeoFRED_unemployment.csv", skip = 1)
 income_inequality_dat <- read_csv("input data/jobs_input_data/income_inequality.csv", skip = 1)
 median_household_income_dat <- read_csv("input data/jobs_input_data/median_household_income.csv", skip = 1)
 personal_income_per_cap_dat <- read_csv("input data/jobs_input_data/per capita personal income.csv", skip = 1)
 
-##pulling peers
-#renaming
 unemp_dat <- unemp_dat %>% rename(FIPS = `Region Code`)
 income_inequality_dat <- income_inequality_dat %>% rename(FIPS = `Region Code`)
 median_household_income_dat <- median_household_income_dat %>% rename(FIPS = `Region Code`)
 personal_income_per_cap_dat <- personal_income_per_cap_dat %>% rename(FIPS = `Region Code`)
 
-#pulling
 unemp_dat <- pull_peers_FIPS(unemp_dat)
 income_inequality_dat <- pull_peers_FIPS(income_inequality_dat)
 median_household_income_dat <- pull_peers_FIPS(median_household_income_dat)
 personal_income_per_cap_dat <- pull_peers_FIPS(personal_income_per_cap_dat)
+```
 
-##reformatting
+Transforms the data from wide form to long form. The year variables in columns 4:24 are gathered and converted into rows, each of which contains information on one city in one year. The data frames are joined together.
+```{r}
 unemp_dat <- unemp_dat %>%
-  gather(4:24, key = "year", value = "unemployment") #4:224 refers to column indexes for all the years
+  gather(4:24, key = "year", value = "unemployment")
 
 income_inequality_dat <- income_inequality_dat %>%
-  gather(4:9, key = "year", value = "income_inequality") #4:224 refers to column indexes for all the years
+  gather(4:9, key = "year", value = "income_inequality")
 
 median_household_income_dat <- median_household_income_dat %>%
-  gather(4:24, key = "year", value = "median_household_income") #4:224 refers to column indexes for all the years
+  gather(4:24, key = "year", value = "median_household_income")
 
 personal_income_per_cap_dat <- personal_income_per_cap_dat %>%
-  gather(4:24, key = "year", value = "personal_income_per_cap") #4:224 refers to column indexes for all the years
+  gather(4:24, key = "year", value = "personal_income_per_cap")
 
 dat <- full_join(unemp_dat, income_inequality_dat, by = c("FIPS", "year"))
 dat <- full_join(dat, median_household_income_dat, by = c("FIPS", "year"))
 dat <- full_join(dat, personal_income_per_cap_dat, by = c("FIPS", "year"))
 dat$FIPS[dat$FIPS == "01073"] = "1073"
 earn_data$year <- as.character(earn_data$year)
-dat <- full_join(dat, earn_data, by = c("FIPS", "year")) #joining with earning data
+dat <- full_join(dat, earn_data, by = c("FIPS", "year"))
 dat <- dat %>% select(FIPS, year, median_earnings = num_earnings, income_inequality, median_household_income, 
                       personal_income_per_cap, unemployment)
 ```
 
-
+City names are read into R and joined to the file. Observations on St. Louis, which is spread across two counties, are combined using population-weighted averages. 
 ```{r}
 
-#current peers
 dat$year <- as.numeric(dat$year)
 dat$median_household_income <- as.numeric(dat$median_household_income)
 
-
-##Now to give the FIPS codes names
+#Apply FIPS codes names
 names <- read_csv("input data/FIPS two stl.csv")
-
 names$FIPS <- as.character(names$FIPS)
 data_named <- left_join(dat, names, by = "FIPS")
 
-##add population data
+##Add population data
 population_data <- read_csv("input data/population_data.csv")
 population_data$FIPS <- as.character(population_data$FIPS)
 data_named$year <- as.numeric(data_named$year)
 data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
 
-##and merge St. Louis city and St. Louis county
-
+##Merge St. Louis city and St. Louis county
 data_named$FIPS <- as.numeric(data_named$FIPS)
 dat <- data_named %>%
   filter(year > 2004 & year < 2016) %>%
@@ -194,46 +204,52 @@ dat <- data_named %>%
   summarise_each(funs(weighted.mean(.,population)), -population) %>%
   ungroup()
 
-# give St. Louis Merged a new FIPS
+# Give St. Louis Merged a new FIPS
 dat$FIPS <- as.character(dat$FIPS)
 dat$FIPS[dat$city == "St. Louis"] <- "MERGED"
 dat$FIPS <- as.factor(dat$FIPS)
 
-# and then add the other stuff for each city again
+# Combine with other city data
 names <- read_csv("input data/FIPS one stl.csv")
 names$FIPS <- as.factor(names$FIPS)
-
 dat <- left_join(dat, names, by = c("FIPS", "city"))
-
 population_data<-read_csv("input data/population_data_one_stl.csv", 
                           col_types = cols(FIPS = col_character()))
 dat <- left_join(dat, population_data, by = c("FIPS", "year"))
-# dat %<>% rename(current = current_peer, baseline = baseline_peer)
 ```
 
-High Wage Employment Data
+Reads, processes, and joins high wage employment data
 ```{r}
-occupation_05 = acs_time("/input data/educ_input_data/S2401/Y05", starting.year = 2005)
-occupation_10 = acs_time("/input data/educ_input_data/S2401/Y10", starting.year = 2010)
-occupation_15 = acs_time("/input data/educ_input_data/S2401/Y15", starting.year = 2015)
+occupation_05 = acs_time("/input data/educ_input_data/S2401/Y05/", starting.year = 2005)
+occupation_10 = acs_time("/input data/educ_input_data/S2401/Y10/", starting.year = 2010)
+occupation_15 = acs_time("/input data/educ_input_data/S2401/Y15/", starting.year = 2015)
 
 occupation_05 = occupation_05 %>%
-  mutate(per_high_wage = (as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Management..professional..and.related.occupations.)+
-           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
-           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over...Construction..extraction..maintenance..and.repair.occupations....Installation..maintenance..and.repair.occupations))/
-  as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+  mutate(per_high_wage = 
+          (as.numeric("Total; Estimate; Civilian employed population 16 years and over - Management, professional, and related occupations:")+
+           as.numeric("Total; Estimate; Civilian employed population 16 years and over - Service occupations: - Protective service occupations: - Fire fighting and prevention, and other protective service workers including supervisors")+
+           as.numeric("Total; Estimate; Civilian employed population 16 years and over - Construction, extraction, maintenance, and repair occupations: - Installation, maintenance, and repair occupations")
+          )/
+           as.numeric('Total; Estimate; Civilian employed population 16 years and over')
+        )
 
 occupation_10 = occupation_10 %>%
-  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
-                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
-                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
-           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+  mutate(per_high_wage = 
+           (as.numeric("Total; Estimate; Management, business, science, and arts occupations:")+
+            as.numeric("Total; Estimate; Service occupations: - Protective service occupations: - Fire fighting and prevention, and other protective service workers including supervisors")+
+            as.numeric("Total; Estimate; Natural resources, construction, and maintenance occupations: - Installation, maintenance, and repair occupations")
+           )/
+            as.numeric("Total; Estimate; Civilian employed population 16 years and over")
+         )
 
 occupation_15 = occupation_15 %>%
-  mutate(per_high_wage = (as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.)+
-                            as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors)+
-                            as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations))/
-           as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+  mutate(per_high_wage = 
+           (as.numeric("Total; Estimate; Management, business, science, and arts occupations:")+
+            as.numeric("Total; Estimat; Service occupations: - Protective service occupations: - Fire fighting and prevention, and other protective service workers including supervisors")+
+            as.numeric("Total; Estimate; Natural resources, construction, and maintenance occupations: - Installation, maintenance, and repair occupations")
+           )/
+            as.numeric("Total; Estimate; Civilian employed population 16 years and over")
+         )
 
 occupation_05 = occupation_05 %>% select(FIPS, year, per_high_wage)
 occupation_10 = occupation_10 %>% select(FIPS, year, per_high_wage)
@@ -242,10 +258,9 @@ occupation_15 = occupation_15 %>% select(FIPS, year, per_high_wage)
 occupation_data = rbind(occupation_05, occupation_10, occupation_15)
 ```
 
-
+Reads MSA-level economic data into R, subsets the data to peers, applies city labels based on MSA codes, and calculates the net flow establishments
 ```{r}
 bds_data = read_csv("input data/jobs_input_data/bds_f_msa_release.csv")
-# bds_data = rename(bds_data, MSA = msa)
 
 bds_data = bds_data %>%
   rename(MSA = msa, year = year2)%>%
@@ -278,22 +293,19 @@ bds_data$city[bds_data$MSA == 40060] = "Richmond"
 bds_data<-mutate(bds_data, estabs_entry_rate_minus_exit = estabs_entry_rate -estabs_exit_rate)
 ```
 
-Creating Map Data
+Reads in data available at the census tract level for undemployment, medical insurance, and earnings. Applies neightborhood names.
 ```{r}
-unemp <-
-  read_csv(
-  "input data/jobs_input_data/ACS_15_5YR_B23025_with_ann.csv",
-  skip = 1,
-  col_types = cols(Id2 = col_character(),
-  Id = col_character())
-  )
+unemp <- read_csv("input data/jobs_input_data/ACS_15_5YR_B23025_with_ann.csv",
+                  skip = 1,
+                  col_types = cols(Id2 = col_character(),
+                  Id = col_character())
+                 )
 
-med_inc <- read_csv(
-  "input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv",
-  skip = 1,
-  col_types = cols(Id2 = col_character(),
-  Id = col_character())
-  )
+med_inc <- read_csv("input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv",
+                    skip = 1,
+                    col_types = cols(Id2 = col_character(),
+                    Id = col_character())
+                   )
 
 earn_data <- read_csv("input data/jobs_input_data/ACS_15_5YR_S2001_with_ann.csv", skip = 1,
                       col_types = cols(Id2 = col_character()))
@@ -309,15 +321,14 @@ unemp %<>% select(Id, Id2, pop = `Estimate; In labor force: - Civilian labor for
 med_inc %<>% select(Id, Id2, median_household_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)%>%
   mutate(median_household_income = signif(as.numeric(median_household_income),3))
 
-neighborhoods <- read_csv("~/Desktop/glp_website/map data/census tract neighborhoods.csv",col_types = cols(Id2 = col_character()))
+neighborhoods <- read_csv("map data/census tract neighborhoods.csv",col_types = cols(Id2 = col_character()))
 
 jobs_map_data<- left_join(neighborhoods, unemp, by = c("Id2"))
 jobs_map_data %<>% left_join(med_inc, by = c("Id2", "Id")) %>%
   left_join(earn_data, by = c("Id2", "Id"))
 ```
 
-
-Writing out data
+Writes data to csv files.
 ```{r}
 write_csv(dat, "output data/jobs_data_fips.csv")
 write_csv(bds_data, "output data/jobs_data_msa.csv")
