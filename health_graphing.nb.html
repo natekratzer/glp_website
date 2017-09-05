@@ -172,12 +172,10 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
-<div id="graphing-the-health-data" class="section level2">
-<h2>Graphing the health data</h2>
-<p>Setting the working directory</p>
+<p>Code for the graphs appearing in the health section of the GLP website.</p>
 <!-- rnb-text-end -->
 <!-- rnb-text-begin -->
-<p>Loading libraries</p>
+<p>Load libraries</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzaG93dGV4dClcbmxpYnJhcnkoY2xhc3NJbnQpXG5saWJyYXJ5KGdndGhlbWVzKVxubGlicmFyeShyZXNoYXBlMilcbmxpYnJhcnkodGlkeXZlcnNlKVxuYGBgIn0= -->
@@ -189,7 +187,30 @@ library(tidyverse)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Reading in data</p>
+<p>Create new directories</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaWYoIWRpci5leGlzdHMoXCJJbWFnZXNcIikpe1xuICBkaXIuY3JlYXRlKFwiSW1hZ2VzXCIpXG59XG5pZighZGlyLmV4aXN0cyhcIkltYWdlcy9IZWFsdGhfSW1hZ2VzXCIpKXtcbiAgZGlyLmNyZWF0ZShcIkltYWdlcy9IZWFsdGhfSW1hZ2VzXCIpXG59XG5gYGAifQ== -->
+<pre class="r"><code>if(!dir.exists(&quot;Images&quot;)){
+  dir.create(&quot;Images&quot;)
+}
+if(!dir.exists(&quot;Images/Health_Images&quot;)){
+  dir.create(&quot;Images/Health_Images&quot;)
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Load graphing functions and fonts</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiZ3JhcGhpbmdfZnVuY3Rpb25zLlJcIilcbmZvbnQuYWRkKFwiTXVzZW8gU2FucyAzMDBcIiwgXCJDOi9Vc2Vycy9IYXJyaXNvbiBLaXJieS9EZXNrdG9wL0dMUC9NdXNlb1NhbnNfMzAwLm90ZlwiKVxuZm9udC5hZGQoXCJNdXNlbyBTYW5zIEl0YWxpY1wiLCBcIkM6L1VzZXJzL0hhcnJpc29uIEtpcmJ5L0Rlc2t0b3AvR0xQL011c2VvU2Fuc18zMDBfSXRhbGljLm90ZlwiKVxuYGBgIn0= -->
+<pre class="r"><code>source(&quot;graphing_functions.R&quot;)
+font.add(&quot;Museo Sans 300&quot;, &quot;C:/Users/Harrison Kirby/Desktop/GLP/MuseoSans_300.otf&quot;)
+font.add(&quot;Museo Sans Italic&quot;, &quot;C:/Users/Harrison Kirby/Desktop/GLP/MuseoSans_300_Italic.otf&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Read data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhbHRoX2RhdGFfZmlwcz0gcmVhZF9jc3YoXCJvdXRwdXQgZGF0YS9oZWFsdGhfZGF0YV9maXBzLmNzdlwiKVxuYGBgIn0= -->
@@ -197,41 +218,27 @@ library(tidyverse)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>The code for importing graphing functions</p>
+<p>Ranking graphs</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiZ3JhcGhpbmdfZnVuY3Rpb25zLlJcIilcbmBgYCJ9 -->
-<pre class="r"><code>source(&quot;graphing_functions.R&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0d2QoXCJJbWFnZXMvSGVhbHRoX0ltYWdlc1wiKVxuYGBgIn0= -->
+<pre class="r"><code>setwd(&quot;Images/Health_Images&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Adding fonts</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBmb250LmFkZChcIk11c2VvIFNhbnMgMzAwXCIsIFwiQzovVXNlcnMvbmF0ZWsvRG9jdW1lbnRzL2ZvbnRzL011c2VvU2Fucy9NdXNlb1NhbnNfMzAwLm90ZlwiKVxuIyBmb250LmFkZChcIk11c2VvIFNhbnMgSXRhbGljXCIsIFwiQzovVXNlcnMvbmF0ZWsvRG9jdW1lbnRzL2ZvbnRzL011c2VvU2Fucy9NdXNlb1NhbnNfMzAwX0l0YWxpYy5vdGZcIilcbmZvbnQuYWRkKFwiTXVzZW8gU2FucyAzMDBcIiwgXCIvVXNlcnMvQnJ5Y2VSb3dsYW5kL0Rlc2t0b3AvR0xQL1IgQ29kZS9NdXNlb1NhbnNfMzAwLm90ZlwiKVxuZm9udC5hZGQoXCJNdXNlbyBTYW5zIDMwMCBJdGFsaWNcIiwgXCIvVXNlcnMvQnJ5Y2VSb3dsYW5kL0Rlc2t0b3AvR0xQL1IgQ29kZS9NdXNlb1NhbnNfMzAwX0l0YWxpYy5vdGZcIilcbmBgYCJ9 -->
-<pre class="r"><code># font.add(&quot;Museo Sans 300&quot;, &quot;C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300.otf&quot;)
-# font.add(&quot;Museo Sans Italic&quot;, &quot;C:/Users/natek/Documents/fonts/MuseoSans/MuseoSans_300_Italic.otf&quot;)
-font.add(&quot;Museo Sans 300&quot;, &quot;/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300.otf&quot;)
-font.add(&quot;Museo Sans 300 Italic&quot;, &quot;/Users/BryceRowland/Desktop/GLP/R Code/MuseoSans_300_Italic.otf&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0d2QoXCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvSW1hZ2VzL0hlYWx0aF9JbWFnZXNcIilcbmBgYCJ9 -->
-<pre class="r"><code>setwd(&quot;~/Desktop/glp_website/Images/Health_Images&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdhcyBjaGFuZ2VkIHRvIC9Vc2Vycy9CcnljZVJvd2xhbmQvRGVza3RvcC9nbHBfd2Vic2l0ZS9JbWFnZXMvSGVhbHRoX0ltYWdlcyBpbnNpZGUgYSBub3RlYm9vayBjaHVuay4gVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdpbGwgYmUgcmVzZXQgd2hlbiB0aGUgY2h1bmsgaXMgZmluaXNoZWQgcnVubmluZy4gVXNlIHRoZSBrbml0ciByb290LmRpciBvcHRpb24gaW4gdGhlIHNldHVwIGNodW5rIHRvIGNoYW5nZSB0aGUgdGhlIHdvcmtpbmcgZGlyZWN0b3J5IGZvciBub3RlYm9vayBjaHVua3MuXG4ifQ== -->
-<pre><code>The working directory was changed to /Users/BryceRowland/Desktop/glp_website/Images/Health_Images inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the the working directory for notebook chunks.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdhcyBjaGFuZ2VkIHRvIEM6L1VzZXJzL0hhcnJpc29uIEtpcmJ5L0Rlc2t0b3AvR0xQL2dscF93ZWJzaXRlL0ltYWdlcy9IZWFsdGhfSW1hZ2VzIGluc2lkZSBhIG5vdGVib29rIGNodW5rLiBUaGUgd29ya2luZyBkaXJlY3Rvcnkgd2lsbCBiZSByZXNldCB3aGVuIHRoZSBjaHVuayBpcyBmaW5pc2hlZCBydW5uaW5nLiBVc2UgdGhlIGtuaXRyIHJvb3QuZGlyIG9wdGlvbiBpbiB0aGUgc2V0dXAgY2h1bmsgdG8gY2hhbmdlIHRoZSB0aGUgd29ya2luZyBkaXJlY3RvcnkgZm9yIG5vdGVib29rIGNodW5rcy5cbiJ9 -->
+<pre><code>The working directory was changed to C:/Users/Harrison Kirby/Desktop/GLP/glp_website/Images/Health_Images inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the the working directory for notebook chunks.</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9vdXRjb21lc19wcmVtYXR1cmVfZGVhdGguanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5zaG93dGV4dC5iZWdpbigpXG5yYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgc2lnZmlnID0gNCwgbnVtX2RlYyA9IDAsIFwicHJlbWF0dXJlX2RlYXRoXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIlByZW1hdHVyZSBEZWF0aFwiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiQWdlLWFkanVzdGVkIHllYXJzIG9mIHBvdGVudGlhbCBsaWZlIGxvc3QgcmF0ZSBwZXIgMTAwLDAwMFwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyBcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>jpeg(&quot;health_outcomes_premature_death.jpg&quot;, 900, 600, res = 100)
-showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), sigfig = 4, num_dec = 0, &quot;premature_death&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYXV0bygpXG5qcGVnKFwiaGVhbHRoX291dGNvbWVzX3ByZW1hdHVyZV9kZWF0aC5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCBcbiAgICAgICAgICAgICAgICAgIFwicHJlbWF0dXJlX2RlYXRoXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgc2lnZmlnID0gNCwgXG4gICAgICAgICAgICAgICAgICBudW1fZGVjID0gMCxcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIlByZW1hdHVyZSBEZWF0aFwiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiQWdlLWFkanVzdGVkIHllYXJzIG9mIHBvdGVudGlhbCBsaWZlIGxvc3QgcmF0ZSBwZXIgMTAwLDAwMFwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>showtext.auto()
+jpeg(&quot;health_outcomes_premature_death.jpg&quot;, 900, 600, res = 100)
+rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;premature_death&quot;, 
+                  order = &quot;Ascending&quot;,
+                  sigfig = 4, 
+                  num_dec = 0,
                   plot_title = &quot;Premature Death&quot;,
                   y_title = &quot;Age-adjusted years of potential life lost rate per 100,000&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings &quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -241,13 +248,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9vdXRjb21lc19wb29yX29yX2ZhaXJfaGVhbHRoLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_outcomes_poor_or_fair_health.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwicG9vcl9vcl9mYWlyX2hlYWx0aFwiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJQb3B1bGF0aW9uIFJlcG9ydGluZyBQb29yIG9yIEZhaXIgSGVhbHRoXCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXJjZW50XCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;poor_or_fair_health&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJwb29yX29yX2ZhaXJfaGVhbHRoXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiUG9wdWxhdGlvbiBSZXBvcnRpbmcgUG9vciBvciBGYWlyIEhlYWx0aFwiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudFwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;poor_or_fair_health&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Population Reporting Poor or Fair Health&quot;,
                   y_title = &quot;Percent&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -257,13 +265,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9vdXRjb21lc19wb29yX3BoeXNpY2FsX2hlYWx0aF9kYXlzLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_outcomes_poor_physical_health_days.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwicG9vcl9waHlzaWNhbF9oZWFsdGhfZGF5c1wiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsIHNpZ2ZpZyA9IDIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJEYXlzIG9mIFBvb3IgUGh5c2ljYWwgSGVhbHRoIHBlciBNb250aFwiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiRGF5c1wiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;poor_physical_health_days&quot;, order = &quot;Ascending&quot;, sigfig = 2,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJwb29yX3BoeXNpY2FsX2hlYWx0aF9kYXlzXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLCBcbiAgICAgICAgICAgICAgICAgIHNpZ2ZpZyA9IDIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJEYXlzIG9mIFBvb3IgUGh5c2ljYWwgSGVhbHRoIHBlciBNb250aFwiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiRGF5c1wiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;poor_physical_health_days&quot;, 
+                  order = &quot;Ascending&quot;, 
+                  sigfig = 2,
                   plot_title = &quot;Days of Poor Physical Health per Month&quot;,
                   y_title = &quot;Days&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -273,13 +283,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9vdXRjb21lc19wb29yX21lbnRhbF9oZWFsdGhfZGF5cy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_outcomes_poor_mental_health_days.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwicG9vcl9tZW50YWxfaGVhbHRoX2RheXNcIiwgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLCBzaWdmaWcgPSAyLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRGF5cyBvZiBQb29yIE1lbnRhbCBIZWFsdGggcGVyIE1vbnRoXCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJEYXlzXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;poor_mental_health_days&quot;, order = &quot;Ascending&quot;, sigfig = 2,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJwb29yX21lbnRhbF9oZWFsdGhfZGF5c1wiLCBcbiAgICAgICAgICAgICAgICAgIG9yZGVyID0gXCJBc2NlbmRpbmdcIiwgXG4gICAgICAgICAgICAgICAgICBzaWdmaWcgPSAyLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRGF5cyBvZiBQb29yIE1lbnRhbCBIZWFsdGggcGVyIE1vbnRoXCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJEYXlzXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;poor_mental_health_days&quot;, 
+                  order = &quot;Ascending&quot;, 
+                  sigfig = 2,
                   plot_title = &quot;Days of Poor Mental Health per Month&quot;,
                   y_title = &quot;Days&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -289,13 +301,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9vdXRjb21lc19sb3dfYmlydGh3ZWlnaHQuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_outcomes_low_birthweight.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwibG93X2JpcnRod2VpZ2h0XCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIiwgc2lnZmlnID0gMixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnQgb2YgQmlydGhzIFdoZXJlIHRoZSBJbmZhbnQgV2VpZ2hlZCBMZXNzIHRoYW4gMiw1MDAgZ3JhbXNcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkxvdyBCaXJ0aHdlaWdodFwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;low_birthweight&quot;, order = &quot;Ascending&quot;, sigfig = 2,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJsb3dfYmlydGh3ZWlnaHRcIixcbiAgICAgICAgICAgICAgICAgIG9yZGVyID0gXCJBc2NlbmRpbmdcIiwgXG4gICAgICAgICAgICAgICAgICBzaWdmaWcgPSAyLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudCBvZiBCaXJ0aHMgV2hlcmUgdGhlIEluZmFudCBXZWlnaGVkIExlc3MgdGhhbiAyLDUwMCBncmFtc1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiTG93IEJpcnRod2VpZ2h0XCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;low_birthweight&quot;,
+                  order = &quot;Ascending&quot;, 
+                  sigfig = 2,
                   y_title = &quot;Percent of Births Where the Infant Weighed Less than 2,500 grams&quot;,
                   plot_title = &quot;Low Birthweight&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -305,13 +319,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfYWR1bHRfc21va2luZy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_adult_smoking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiYWR1bHRfc21va2luZ1wiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJTbW9raW5nXCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudCBvZiBBZHVsdHMgd2hvIFNtb2tlIEV2ZXJ5IERheSBvciBNb3N0IERheXNcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;adult_smoking&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJhZHVsdF9zbW9raW5nXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU21va2luZ1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnQgb2YgQWR1bHRzIHdobyBTbW9rZSBFdmVyeSBEYXkgb3IgTW9zdCBEYXlzXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;adult_smoking&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Smoking&quot;, 
                   y_title = &quot;Percent of Adults who Smoke Every Day or Most Days&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project
+                                  nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -321,13 +336,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfYWR1bHRfb2Jlc2l0eS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_adult_obesity.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiYWR1bHRfb2Jlc2l0eVwiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXJjZW50IG9mIEFkdWx0IFBvcHVsYXRpb24gKDIwIGFuZCBPbGRlcikgd2l0aCBhIEJNSSBncmVhdGVyIHRoYW4gb3IgZXF1YWwgdG8gMzBcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkFkdWx0IE9iZXNpdHlcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;adult_obesity&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJhZHVsdF9vYmVzaXR5XCIsXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXJjZW50IG9mIEFkdWx0IFBvcHVsYXRpb24gKDIwIGFuZCBPbGRlcikgd2l0aCBhIEJNSSBncmVhdGVyIHRoYW4gb3IgZXF1YWwgdG8gMzBcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkFkdWx0IE9iZXNpdHlcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;adult_obesity&quot;,
+                  order = &quot;Ascending&quot;,
                   y_title = &quot;Percent of Adult Population (20 and Older) with a BMI greater than or equal to 30&quot;,
                   plot_title = &quot;Adult Obesity&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -337,13 +353,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfZm9vZF9lbnZpcm9ubWVudF9pbmRleC5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_food_environment_index.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiZm9vZF9lbnZpcm9ubWVudF9pbmRleFwiLCBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRm9vZCBFbnZpcm9ubWVudCBJbmRleFwiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkluZGV4IGNvbnN0cnVjdGVkIG9uIGEgMC0xMCBzY2FsZVwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;food_environment_index&quot;, order = &quot;Descending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJmb29kX2Vudmlyb25tZW50X2luZGV4XCIsXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRm9vZCBFbnZpcm9ubWVudCBJbmRleFwiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkluZGV4IGNvbnN0cnVjdGVkIG9uIGEgMC0xMCBzY2FsZVwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;food_environment_index&quot;,
+                  order = &quot;Descending&quot;,
                   plot_title = &quot;Food Environment Index&quot;, 
                   y_title = &quot;Index constructed on a 0-10 scale&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -353,13 +370,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfcGh5c2ljYWxfaW5hY3Rpdml0eS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_physical_inactivity.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwicGh5c2ljYWxfaW5hY3Rpdml0eVwiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJQaHlzaWNhbCBJbmFjdGl2aXR5XCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudCByZXBvcnRpbmcgbm8gbGVpc3VyZSB0aW1lIHBoeXNpY2FsIGFjdGl2aXR5XCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;physical_inactivity&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJwaHlzaWNhbF9pbmFjdGl2aXR5XCIsXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJQaHlzaWNhbCBJbmFjdGl2aXR5XCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudCByZXBvcnRpbmcgbm8gbGVpc3VyZSB0aW1lIHBoeXNpY2FsIGFjdGl2aXR5XCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;physical_inactivity&quot;,
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Physical Inactivity&quot;, 
                   y_title = &quot;Percent reporting no leisure time physical activity&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -369,13 +387,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfYWNjZXNzX3RvX2V4ZXJjaXNlX29wcG9ydHVuaXRpZXMuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_access_to_exercise_opportunities.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiYWNjZXNzX3RvX2V4ZXJjaXNlX29wcG9ydHVuaXRpZXNcIiwgb3JkZXIgPSBcIkRlc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnQgb2YgSW5kaXZpZHVhbHMgTGl2aW5nIENsb3NlIHRvIGEgTG9jYXRpb24gZm9yIFBoeXNpY2FsIEFjdGl2aXR5XCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJBY2Nlc3MgdG8gRXhlcmNpc2UgT3Bwb3J0dW5pdGllc1wiLCBcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;access_to_exercise_opportunities&quot;, order = &quot;Descending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcImFjY2Vzc190b19leGVyY2lzZV9vcHBvcnR1bml0aWVzXCIsXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudCBvZiBJbmRpdmlkdWFscyBMaXZpbmcgQ2xvc2UgdG8gYSBMb2NhdGlvbiBmb3IgUGh5c2ljYWwgQWN0aXZpdHlcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkFjY2VzcyB0byBFeGVyY2lzZSBPcHBvcnR1bml0aWVzXCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;access_to_exercise_opportunities&quot;,
+                  order = &quot;Descending&quot;,
                   y_title = &quot;Percent of Individuals Living Close to a Location for Physical Activity&quot;,
                   plot_title = &quot;Access to Exercise Opportunities&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -385,13 +404,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfZXhjZXNzaXZlX2RyaW5raW5nLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_excessive_drinking.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiZXhjZXNzaXZlX2RyaW5raW5nXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnQgb2YgQWR1bHRzIFJlcG9ydGluZyBCaW5nZSBvciBIZWF2eSBEcmlua2luZyBpbiBQYXN0IDMwIERheXNcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkV4Y2Vzc2l2ZSBEcmlua2luZ1wiLCBcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;excessive_drinking&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcImV4Y2Vzc2l2ZV9kcmlua2luZ1wiLFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudCBvZiBBZHVsdHMgUmVwb3J0aW5nIEJpbmdlIG9yIEhlYXZ5IERyaW5raW5nIGluIFBhc3QgMzAgRGF5c1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRXhjZXNzaXZlIERyaW5raW5nXCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;excessive_drinking&quot;,
+                  order = &quot;Ascending&quot;,
                   y_title = &quot;Percent of Adults Reporting Binge or Heavy Drinking in Past 30 Days&quot;,
                   plot_title = &quot;Excessive Drinking&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -401,13 +421,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfYWxjb2hvbF9pbXBhaXJlZF9kcml2aW5nX2RlYXRocy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_alcohol_impaired_driving_deaths.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiYWxjb2hvbF9pbXBhaXJlZF9kcml2aW5nX2RlYXRoc1wiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXJjZW50IG9mIE1vdG9yIFZlaGljaGxlIENyYXNoIERlYXRocyB3aXRoIEFsY29ob2wgSW52b2x2ZW1lbnRcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkFsY29ob2wgSW1wYWlyZWQgRHJpdmluZyBEZWF0aHNcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;alcohol_impaired_driving_deaths&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJhbGNvaG9sX2ltcGFpcmVkX2RyaXZpbmdfZGVhdGhzXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudCBvZiBNb3RvciBWZWhpY2hsZSBDcmFzaCBEZWF0aHMgd2l0aCBBbGNvaG9sIEludm9sdmVtZW50XCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJBbGNvaG9sIEltcGFpcmVkIERyaXZpbmcgRGVhdGhzXCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;alcohol_impaired_driving_deaths&quot;, 
+                  order = &quot;Ascending&quot;,
                   y_title = &quot;Percent of Motor Vehichle Crash Deaths with Alcohol Involvement&quot;,
                   plot_title = &quot;Alcohol Impaired Driving Deaths&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -417,13 +438,16 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfc2V4dWFsbHlfdHJhbnNtaXR0ZWRfaW5mZWN0aW9ucy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_sexually_transmitted_infections.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIHNpZ2ZpZyA9IDMsIG51bV9kZWMgPSAxLCBcInNleHVhbGx5X3RyYW5zbWl0dGVkX2luZmVjdGlvbnNcIiwgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU2V4dWFsbHkgVHJhbnNtaXR0ZWQgSW5mZWN0aW9uc1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkNobGFteWRpYSBwZXIgMTAwLDAwMFwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), sigfig = 3, num_dec = 1, &quot;sexually_transmitted_infections&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJzZXh1YWxseV90cmFuc21pdHRlZF9pbmZlY3Rpb25zXCIsXG4gICAgICAgICAgICAgICAgICBzaWdmaWcgPSAzLCBcbiAgICAgICAgICAgICAgICAgIG51bV9kZWMgPSAxLCBcbiAgICAgICAgICAgICAgICAgIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIlNleHVhbGx5IFRyYW5zbWl0dGVkIEluZmVjdGlvbnNcIiwgXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJDaGxhbXlkaWEgcGVyIDEwMCwwMDBcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;sexually_transmitted_infections&quot;,
+                  sigfig = 3, 
+                  num_dec = 1, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Sexually Transmitted Infections&quot;, 
                   y_title = &quot;Chlamydia per 100,000&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -433,13 +457,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfdGVlbl9iaXJ0aHMuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_teen_births.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwidGVlbl9iaXJ0aHNcIiwgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiVGVlbiBCaXJ0aHNcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlciAxMDAsMDAwIGZlbWFsZXMgYWdlZCAxNS0xOVwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;teen_births&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcInRlZW5fYmlydGhzXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiVGVlbiBCaXJ0aHNcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlciAxMDAsMDAwIGZlbWFsZXMgYWdlZCAxNS0xOVwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;teen_births&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Teen Births&quot;,
                   y_title = &quot;Per 100,000 females aged 15-19&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -449,13 +474,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY191bmluc3VyZWQuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_cc_uninsured.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwidW5pbnN1cmVkXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIlVuaW5zdXJlZFwiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnQgb2YgcG9wdWxhdGlvbiB1bmRlciA2NSB3aXRob3V0IGhlYWx0aCBpbnN1cmFuY2VcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;uninsured&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJ1bmluc3VyZWRcIiwgXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJVbmluc3VyZWRcIiwgXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXJjZW50IG9mIHBvcHVsYXRpb24gdW5kZXIgNjUgd2l0aG91dCBoZWFsdGggaW5zdXJhbmNlXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;uninsured&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Uninsured&quot;, 
                   y_title = &quot;Percent of population under 65 without health insurance&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -465,13 +491,16 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY19wcmltYXJ5X2NhcmVfcGh5c2ljaWFucy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_cc_primary_care_physicians.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwicHJpbWFyeV9jYXJlX3BoeXNpY2lhbnNcIiwgb3JkZXIgPSBcIkRlc2NlbmRpbmdcIiwgc2lnZmlnID0gMywgbnVtX2RlYyA9IDAsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJQcmltYXJ5IENhcmUgUGh5c2ljaWFuc1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlciAxMDAsMDAwXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;primary_care_physicians&quot;, order = &quot;Descending&quot;, sigfig = 3, num_dec = 0,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJwcmltYXJ5X2NhcmVfcGh5c2ljaWFuc1wiLCBcbiAgICAgICAgICAgICAgICAgIG9yZGVyID0gXCJEZXNjZW5kaW5nXCIsIFxuICAgICAgICAgICAgICAgICAgc2lnZmlnID0gMywgXG4gICAgICAgICAgICAgICAgICBudW1fZGVjID0gMCxcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIlByaW1hcnkgQ2FyZSBQaHlzaWNpYW5zXCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyIDEwMCwwMDBcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;primary_care_physicians&quot;, 
+                  order = &quot;Descending&quot;, 
+                  sigfig = 3, 
+                  num_dec = 0,
                   plot_title = &quot;Primary Care Physicians&quot;, 
                   y_title = &quot;Per 100,000&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -481,13 +510,16 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY19kZW50aXN0cy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_cc_dentists.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiZGVudGlzdHNcIiwgb3JkZXIgPSBcIkRlc2NlbmRpbmdcIiwgc2lnZmlnID0gMiwgbnVtX2RlYyA9IDBMLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRGVudGlzdHNcIiwgXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXIgMTAwLDAwMFwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;dentists&quot;, order = &quot;Descending&quot;, sigfig = 2, num_dec = 0L,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJkZW50aXN0c1wiLCBcbiAgICAgICAgICAgICAgICAgIG9yZGVyID0gXCJEZXNjZW5kaW5nXCIsIFxuICAgICAgICAgICAgICAgICAgc2lnZmlnID0gMiwgXG4gICAgICAgICAgICAgICAgICBudW1fZGVjID0gMEwsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJEZW50aXN0c1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlciAxMDAsMDAwXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;dentists&quot;, 
+                  order = &quot;Descending&quot;, 
+                  sigfig = 2, 
+                  num_dec = 0L,
                   plot_title = &quot;Dentists&quot;, 
                   y_title = &quot;Per 100,000&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -497,13 +529,16 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY19tZW50YWxfaGVhbHRoX3Byb3ZpZGVycy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_cc_mental_health_providers.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwibWVudGFsX2hlYWx0aF9wcm92aWRlcnNcIiwgb3JkZXIgPSBcIkRlc2NlbmRpbmdcIiwgc2lnZmlnID0gMywgbnVtX2RlYyA9IDBMLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiTWVudGFsIEhlYWx0aCBQcm92aWRlcnNcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlciAxMDAsMDAwXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;mental_health_providers&quot;, order = &quot;Descending&quot;, sigfig = 3, num_dec = 0L,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcIm1lbnRhbF9oZWFsdGhfcHJvdmlkZXJzXCIsXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLCBcbiAgICAgICAgICAgICAgICAgIHNpZ2ZpZyA9IDMsIFxuICAgICAgICAgICAgICAgICAgbnVtX2RlYyA9IDBMLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiTWVudGFsIEhlYWx0aCBQcm92aWRlcnNcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlciAxMDAsMDAwXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;mental_health_providers&quot;,
+                  order = &quot;Descending&quot;, 
+                  sigfig = 3, 
+                  num_dec = 0L,
                   plot_title = &quot;Mental Health Providers&quot;,
                   y_title = &quot;Per 100,000&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -513,13 +548,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY19wcmV2ZW50YWJsZV9ob3NwaXRhbF9zdGF5cy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_cc_preventable_hospital_stays.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwicHJldmVudGFibGVfaG9zcGl0YWxfc3RheXNcIiwgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiUHJldmVudGFibGUgSG9zcGl0YWwgU3RheXNcIiwgXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCInRGlzY2hhcmdlcyBmb3IgQW1idWxhdG9yeSBDYXJlIFNlbnNpdGl2ZSBDb25kaXRpb25zIHBlciAxLDAwMCBNZWRpY2FyZSBFbnJvbGxlZXNcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;preventable_hospital_stays&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJwcmV2ZW50YWJsZV9ob3NwaXRhbF9zdGF5c1wiLCBcbiAgICAgICAgICAgICAgICAgIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIlByZXZlbnRhYmxlIEhvc3BpdGFsIFN0YXlzXCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiJ0Rpc2NoYXJnZXMgZm9yIEFtYnVsYXRvcnkgQ2FyZSBTZW5zaXRpdmUgQ29uZGl0aW9ucyBwZXIgMSwwMDAgTWVkaWNhcmUgRW5yb2xsZWVzXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;preventable_hospital_stays&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Preventable Hospital Stays&quot;, 
                   y_title = &quot;'Discharges for Ambulatory Care Sensitive Conditions per 1,000 Medicare Enrollees&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -529,13 +565,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY19kaWFiZXRlc19tb25pdG9yaW5nLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_cc_diabetes_monitoring.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiZGlhYmV0ZXNfbW9uaXRvcmluZ1wiLCBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRGlhYmV0ZXMgTW9uaXRvcmluZ1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnRhZ2Ugb2YgZGlhYmV0aWMgTWVkaWNhcmUgZW5yb2xsZWVzIHJlY2VpdmluZyBIYkExYyB0ZXN0XCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;diabetes_monitoring&quot;, order = &quot;Descending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcImRpYWJldGVzX21vbml0b3JpbmdcIiwgXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRGlhYmV0ZXMgTW9uaXRvcmluZ1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnRhZ2Ugb2YgZGlhYmV0aWMgTWVkaWNhcmUgZW5yb2xsZWVzIHJlY2VpdmluZyBIYkExYyB0ZXN0XCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;diabetes_monitoring&quot;, 
+                  order = &quot;Descending&quot;,
                   plot_title = &quot;Diabetes Monitoring&quot;, 
                   y_title = &quot;Percentage of diabetic Medicare enrollees receiving HbA1c test&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -545,13 +582,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY19tYW1tb2dyYXBoeV9zY3JlZW5pbmcuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_cc_mammography_screening.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwibWFtbW9ncmFwaHlfc2NyZWVuaW5nXCIsIG9yZGVyID0gXCJEZXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJNYW1tb2dyYXBoeSBTY3JlZW5pbmdcIiwgXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXJjZW50YWdlIG9mIGZlbWFsZSBNZWRpY2FyZSBlbnJvbGxlZXMgaGF2aW5nIGF0IGxlYXN0IDEgbWFtbW9ncmFtIGluIDIgeXJzIChhZ2UgNjctNjkpXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;mammography_screening&quot;, order = &quot;Descending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcIm1hbW1vZ3JhcGh5X3NjcmVlbmluZ1wiLFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkRlc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIk1hbW1vZ3JhcGh5IFNjcmVlbmluZ1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnRhZ2Ugb2YgZmVtYWxlIE1lZGljYXJlIGVucm9sbGVlcyBoYXZpbmcgYXQgbGVhc3QgMSBtYW1tb2dyYW0gaW4gMiB5cnMgKGFnZSA2Ny02OSlcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;mammography_screening&quot;,
+                  order = &quot;Descending&quot;,
                   plot_title = &quot;Mammography Screening&quot;, 
                   y_title = &quot;Percentage of female Medicare enrollees having at least 1 mammogram in 2 yrs (age 67-69)&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -561,13 +599,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zZWNfc29jaWFsX2Fzc29jaWF0aW9ucy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_sec_social_associations.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNSksIFwic3NfZXN0X3Blcl8xMDAwMFwiLCBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLCBudW1fZGVjID0gMSxcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIlNvY2lhbCBTdXBwb3J0LCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiTWVtYmVyc2hpcCBBc3NvY2lhdGlvbnMgcGVyIDEwLDAwMCBwb3B1bGF0aW9uXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIENCUCBTdGF0aXN0aWNzIGZyb20gVVMgQ2Vuc3VzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2015), &quot;ss_est_per_10000&quot;, order = &quot;Descending&quot;, num_dec = 1,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNSksIFxuICAgICAgICAgICAgICAgICAgXCJzc19lc3RfcGVyXzEwMDAwXCIsXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiRGVzY2VuZGluZ1wiLCBcbiAgICAgICAgICAgICAgICAgIG51bV9kZWMgPSAxLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU29jaWFsIFN1cHBvcnQsIDIwMTVcIiwgXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJNZW1iZXJzaGlwIEFzc29jaWF0aW9ucyBwZXIgMTAsMDAwIHBvcHVsYXRpb25cIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gQ0JQIFN0YXRpc3RpY3MgZnJvbSBVUyBDZW5zdXNcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2015), 
+                  &quot;ss_est_per_10000&quot;,
+                  order = &quot;Descending&quot;, 
+                  num_dec = 1,
                   plot_title = &quot;Social Support, 2015&quot;, 
                   y_title = &quot;Membership Associations per 10,000 population&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from CBP Statistics from US Census&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from CBP Statistics from US Census&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -577,13 +617,16 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zZWNfdmlvbGVudF9jcmltZS5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_sec_violent_crime.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwidmlvbGVudF9jcmltZVwiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsIHNpZ2ZpZyA9IDMsIG51bV9kZWMgPSAwLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiVmlvbGVudCBDcmltZVwiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlZpb2xlbnQgQ3JpbWVzIHBlciAxMDAsMDAwXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;violent_crime&quot;, order = &quot;Ascending&quot;, sigfig = 3, num_dec = 0,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJ2aW9sZW50X2NyaW1lXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLCBcbiAgICAgICAgICAgICAgICAgIHNpZ2ZpZyA9IDMsIFxuICAgICAgICAgICAgICAgICAgbnVtX2RlYyA9IDAsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJWaW9sZW50IENyaW1lXCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiVmlvbGVudCBDcmltZXMgcGVyIDEwMCwwMDBcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;violent_crime&quot;, 
+                  order = &quot;Ascending&quot;, 
+                  sigfig = 3, 
+                  num_dec = 0,
                   plot_title = &quot;Violent Crime&quot;, 
                   y_title = &quot;Violent Crimes per 100,000&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -593,13 +636,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zZWNfaW5qdXJ5X2RlYXRocy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_sec_injury_deaths.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiaW5qdXJ5X2RlYXRoc1wiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJJbmp1cnkgRGVhdGhzXCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiSW5qdXJ5IE1vcnRhbGl0eSBSYXRlIHBlciAxMDAsMDAwXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;injury_deaths&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJpbmp1cnlfZGVhdGhzXCIsXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJJbmp1cnkgRGVhdGhzXCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiSW5qdXJ5IE1vcnRhbGl0eSBSYXRlIHBlciAxMDAsMDAwXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;injury_deaths&quot;,
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Injury Deaths&quot;, 
                   y_title = &quot;Injury Mortality Rate per 100,000&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -609,35 +653,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9wZV9haXJfcG9sbHV0aW9uLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_pe_air_pollution.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiYWlyX3BvbGx1dGlvblwiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJBaXIgUG9sbHV0aW9uXCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiQXZlcmFnZSBkYWlseSBhbW91bnQgb2YgZmluZSBwYXJ0aWN1bGF0ZSBtYXR0ZXIgaW4gbWljcm9ncmFtcyBwZXIgY3ViaWMgbWV0ZXJcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;air_pollution&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJhaXJfcG9sbHV0aW9uXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQWlyIFBvbGx1dGlvblwiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkF2ZXJhZ2UgZGFpbHkgYW1vdW50IG9mIGZpbmUgcGFydGljdWxhdGUgbWF0dGVyIGluIG1pY3JvZ3JhbXMgcGVyIGN1YmljIG1ldGVyXCIsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;air_pollution&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Air Pollution&quot;, 
                   y_title = &quot;Average daily amount of fine particulate matter in micrograms per cubic meter&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
-dev.off()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
-<pre><code>null device 
-          1 </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBqcGVnKFwiaGVhbHRoX3BlX2RyaW5raW5nX3dhdGVyLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuIyBzaG93dGV4dC5iZWdpbigpXG4jIHJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCBcImRyaW5raW5nX3dhdGVyXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiMgICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRHJpbmtpbmcgV2F0ZXJcIiwgXG4jICAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbiMgc2hvd3RleHQuZW5kKClcbiMgZGV2Lm9mZigpXG5qcGVnKFwiaGVhbHRoX3BlX3NldmVyZV9ob3VzaW5nX3Byb2JsZW1zLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
-<pre class="r"><code># jpeg(&quot;health_pe_drinking_water.jpg&quot;, 900, 600, res = 100)
-# showtext.begin()
-# rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;drinking_water&quot;, order = &quot;Ascending&quot;,
-#                   plot_title = &quot;Drinking Water&quot;, 
-#                   caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-# showtext.end()
-# dev.off()
-jpeg(&quot;health_pe_severe_housing_problems.jpg&quot;, 900, 600, res = 100)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwic2V2ZXJlX2hvdXNpbmdfcHJvYmxlbXNcIiwgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU2V2ZXJlIEhvdXNpbmcgUHJvYmxlbXNcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;severe_housing_problems&quot;, order = &quot;Ascending&quot;,
-                  plot_title = &quot;Severe Housing Problems&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -647,12 +670,29 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9wZV9zZXZlcmVfaG91c2luZ19wcm9ibGVtcy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_pe_severe_housing_problems.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwic2V2ZXJlX2hvdXNpbmdfcHJvYmxlbXNcIiwgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU2V2ZXJlIEhvdXNpbmcgUHJvYmxlbXNcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;severe_housing_problems&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcInNldmVyZV9ob3VzaW5nX3Byb2JsZW1zXCIsIFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU2V2ZXJlIEhvdXNpbmcgUHJvYmxlbXNcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;severe_housing_problems&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Severe Housing Problems&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
+dev.off()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
+<pre><code>null device 
+          1 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9wZV9zZXZlcmVfaG91c2luZ19wcm9ibGVtcy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
+<pre class="r"><code>jpeg(&quot;health_pe_severe_housing_problems.jpg&quot;, 900, 600, res = 100)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJzZXZlcmVfaG91c2luZ19wcm9ibGVtc1wiLFxuICAgICAgICAgICAgICAgICAgb3JkZXIgPSBcIkFzY2VuZGluZ1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU2V2ZXJlIEhvdXNpbmcgUHJvYmxlbXNcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;severe_housing_problems&quot;,
+                  order = &quot;Ascending&quot;,
+                  plot_title = &quot;Severe Housing Problems&quot;, 
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -662,13 +702,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9wZV9kcml2aW5nX2Fsb25lX3RvX3dvcmsuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_pe_driving_alone_to_work.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiZHJpdmluZ19hbG9uZV90b193b3JrXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIlBlcmNlbnQgb2YgV29ya2ZvcmNlIHRoYXQgVXN1YWxseSBEcml2ZXMgQWxvbmUgdG8gV29ya1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiRHJpdmluZyBBbG9uZSB0byBXb3JrXCIsIFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5nc1wiKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;driving_alone_to_work&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJkcml2aW5nX2Fsb25lX3RvX3dvcmtcIiwgXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJQZXJjZW50IG9mIFdvcmtmb3JjZSB0aGF0IFVzdWFsbHkgRHJpdmVzIEFsb25lIHRvIFdvcmtcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkRyaXZpbmcgQWxvbmUgdG8gV29ya1wiLCBcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3NcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;driving_alone_to_work&quot;, 
+                  order = &quot;Ascending&quot;,
                   y_title = &quot;Percent of Workforce that Usually Drives Alone to Work&quot;,
                   plot_title = &quot;Driving Alone to Work&quot;, 
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Robert Wood Johnson Foundation 2017 County Health Rankings&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -678,13 +719,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9wZV9jb21tdXRlX3RpbWVfcmFua2luZ3MuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_pe_commute_time_rankings.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNSksIFwiY29tbXV0ZV90aW1lXCIsIG9yZGVyID0gXCJBc2NlbmRpbmdcIixcbiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSBcIkNvbW11dGUgVGltZSwgMjAxNVwiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiQ29tbXV0ZSBUaW1lIChtaW51dGVzKVwiLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSB0aGUgRmVkZXJhbCBSZXNlcnZlIHZpYSBHZW9GUkVEXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2015), &quot;commute_time&quot;, order = &quot;Ascending&quot;,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNSksIFxuICAgICAgICAgICAgICAgICAgXCJjb21tdXRlX3RpbWVcIiwgXG4gICAgICAgICAgICAgICAgICBvcmRlciA9IFwiQXNjZW5kaW5nXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJDb21tdXRlIFRpbWUsIDIwMTVcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkNvbW11dGUgVGltZSAobWludXRlcylcIixcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIEZlZGVyYWwgUmVzZXJ2ZSB2aWEgR2VvRlJFRFwiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2015), 
+                  &quot;commute_time&quot;, 
+                  order = &quot;Ascending&quot;,
                   plot_title = &quot;Commute Time, 2015&quot;,
                   y_title = &quot;Commute Time (minutes)&quot;,
-                  caption_text = &quot;Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED&quot;)
-showtext.end()
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from the Federal Reserve via GeoFRED&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -694,10 +736,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9vdXRjb21lc19vdmVyYWxsLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_outcomes_overall.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwib3V0Y29tZXNcIiwgcGxvdF90aXRsZSA9IFwiSGVhbHRoIE91dGNvbWVzLCAyMDE3XCIsIGNhcHRpb25fdGV4dCA9IFwiXFxuIFNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb25cIiwgeV90aXRsZSA9IFwiQXZlcmFnZSBQZWVyIENpdHlcIiwgdGV4dCA9IEZBTFNFLCBoX2xpbmUgPSBUUlVFKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;outcomes&quot;, plot_title = &quot;Health Outcomes, 2017&quot;, caption_text = &quot;\n Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation&quot;, y_title = &quot;Average Peer City&quot;, text = FALSE, h_line = TRUE)
-showtext.end()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJvdXRjb21lc1wiLFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiSGVhbHRoIE91dGNvbWVzLCAyMDE3XCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiQXZlcmFnZSBQZWVyIENpdHlcIiwgXG4gICAgICAgICAgICAgICAgICB0ZXh0ID0gRkFMU0UsIFxuICAgICAgICAgICAgICAgICAgaF9saW5lID0gVFJVRSxcbiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;outcomes&quot;,
+                  plot_title = &quot;Health Outcomes, 2017&quot;, 
+                  y_title = &quot;Average Peer City&quot;, 
+                  text = FALSE, 
+                  h_line = TRUE,
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from Robert Wood Johnson Foundation&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -707,10 +754,14 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9iZWhhdmlvcnNfb3ZlcmFsbC5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_behaviors_overall.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiaGVhbHRoX2JlaGF2aW9yc1wiLCBwbG90X3RpdGxlID0gXCJIZWFsdGggQmVoYXZpb3JzLCAyMDE3XCIsIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG4gRGF0YSBmcm9tIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvblwiLCB5X3RpdGxlID0gXCJBdmVyYWdlIFBlZXIgQ2l0eVwiLCB0ZXh0ID0gRkFMU0UsIGhfbGluZSA9IFRSVUUpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;health_behaviors&quot;, plot_title = &quot;Health Behaviors, 2017&quot;, caption_text = &quot;Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation&quot;, y_title = &quot;Average Peer City&quot;, text = FALSE, h_line = TRUE)
-showtext.end()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJoZWFsdGhfYmVoYXZpb3JzXCIsXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJIZWFsdGggQmVoYXZpb3JzLCAyMDE3XCIsXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJBdmVyYWdlIFBlZXIgQ2l0eVwiLCBcbiAgICAgICAgICAgICAgICAgIHRleHQgPSBGQUxTRSxcbiAgICAgICAgICAgICAgICAgIGhfbGluZSA9IFRSVUUsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb25cIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;health_behaviors&quot;,
+                  plot_title = &quot;Health Behaviors, 2017&quot;,
+                  y_title = &quot;Average Peer City&quot;, 
+                  text = FALSE,
+                  h_line = TRUE,
+                  caption_text = &quot;Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -720,10 +771,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9jY19vdmVyYWxsLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_cc_overall.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiY2xpbmljYWxfY2FyZVwiLCBwbG90X3RpdGxlID0gXCJDbGluaWNhbCBDYXJlLCAyMDE3XCIsIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG4gRGF0YSBmcm9tIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvblwiLCB5X3RpdGxlID0gXCJBdmVyYWdlIFBlZXIgQ2l0eVwiLCB0ZXh0ID0gRkFMU0UsIGhfbGluZSA9IFRSVUUpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;clinical_care&quot;, plot_title = &quot;Clinical Care, 2017&quot;, caption_text = &quot;Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation&quot;, y_title = &quot;Average Peer City&quot;, text = FALSE, h_line = TRUE)
-showtext.end()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJjbGluaWNhbF9jYXJlXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQ2xpbmljYWwgQ2FyZSwgMjAxN1wiLCBcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkF2ZXJhZ2UgUGVlciBDaXR5XCIsIFxuICAgICAgICAgICAgICAgICAgdGV4dCA9IEZBTFNFLCBcbiAgICAgICAgICAgICAgICAgIGhfbGluZSA9IFRSVUUsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uXCIgICAgICAgICAgICAgICAgICApXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;clinical_care&quot;, 
+                  plot_title = &quot;Clinical Care, 2017&quot;, 
+                  y_title = &quot;Average Peer City&quot;, 
+                  text = FALSE, 
+                  h_line = TRUE,
+                  caption_text = &quot;Source: Greater Louisville Project
+                                  Data from Robert Wood Johnson Foundation&quot;                  )
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -733,10 +789,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zZWNfb3ZlcmFsbC5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_sec_overall.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwic29jaWFsX2FuZF9lY29ub21pY1wiLCBwbG90X3RpdGxlID0gXCJTb2NpYWwgYW5kIEVjb25vbWljIEhlYWx0aCBGYWN0b3JzLCAyMDE3XCIsIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcXG4gRGF0YSBmcm9tIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvblwiLCB5X3RpdGxlID0gXCJBdmVyYWdlIFBlZXIgQ2l0eVwiLCB0ZXh0ID0gRkFMU0UsIGhfbGluZSA9IFRSVUUpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;social_and_economic&quot;, plot_title = &quot;Social and Economic Health Factors, 2017&quot;, caption_text = &quot;Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation&quot;, y_title = &quot;Average Peer City&quot;, text = FALSE, h_line = TRUE)
-showtext.end()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJzb2NpYWxfYW5kX2Vjb25vbWljXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiU29jaWFsIGFuZCBFY29ub21pYyBIZWFsdGggRmFjdG9ycywgMjAxN1wiLFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiQXZlcmFnZSBQZWVyIENpdHlcIiwgXG4gICAgICAgICAgICAgICAgICB0ZXh0ID0gRkFMU0UsXG4gICAgICAgICAgICAgICAgICBoX2xpbmUgPSBUUlVFLFxuICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvblwiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;social_and_economic&quot;, 
+                  plot_title = &quot;Social and Economic Health Factors, 2017&quot;,
+                  y_title = &quot;Average Peer City&quot;, 
+                  text = FALSE,
+                  h_line = TRUE,
+                  caption_text = &quot;Source: Greater Louisville Project
+                                  Data from Robert Wood Johnson Foundation&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -746,10 +807,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9wZV9vdmVyYWxsLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_pe_overall.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwicGh5c2ljYWxfZW52aXJvbm1lbnRcIiwgcGxvdF90aXRsZSA9IFwiUGh5c2ljYWwgRW52aXJvbm1lbnQsIDIwMTdcIiwgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbiBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uXCIsIHlfdGl0bGUgPSBcIkF2ZXJhZ2UgUGVlciBDaXR5XCIsIHRleHQgPSBGQUxTRSwgaF9saW5lID0gVFJVRSlcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;physical_environment&quot;, plot_title = &quot;Physical Environment, 2017&quot;, caption_text = &quot;Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation&quot;, y_title = &quot;Average Peer City&quot;, text = FALSE, h_line = TRUE)
-showtext.end()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksXG4gICAgICAgICAgICAgICAgICBcInBoeXNpY2FsX2Vudmlyb25tZW50XCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiUGh5c2ljYWwgRW52aXJvbm1lbnQsIDIwMTdcIixcbiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSBcIkF2ZXJhZ2UgUGVlciBDaXR5XCIsIFxuICAgICAgICAgICAgICAgICAgdGV4dCA9IEZBTFNFLFxuICAgICAgICAgICAgICAgICAgaF9saW5lID0gVFJVRSwgICAgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvblwiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017),
+                  &quot;physical_environment&quot;, 
+                  plot_title = &quot;Physical Environment, 2017&quot;,
+                  y_title = &quot;Average Peer City&quot;, 
+                  text = FALSE,
+                  h_line = TRUE,    
+                  caption_text = &quot;Source: Greater Louisville Project 
+                                  Data from Robert Wood Johnson Foundation&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -759,10 +825,15 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9mYWN0b3JzX292ZXJhbGwuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_factors_overall.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFwiZmFjdG9yc1wiLCBwbG90X3RpdGxlID0gXCJDb21iaW5lZCBIZWFsdGggRmFjdG9ycywgMjAxN1wiLCBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb25cIiwgeV90aXRsZSA9IFwiQXZlcmFnZSBQZWVyIENpdHlcIiwgdGV4dCA9IEZBTFNFLCBoX2xpbmUgPSBUUlVFKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(filter(health_data_fips, year == 2017), &quot;factors&quot;, plot_title = &quot;Combined Health Factors, 2017&quot;, caption_text = &quot;Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation&quot;, y_title = &quot;Average Peer City&quot;, text = FALSE, h_line = TRUE)
-showtext.end()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIFxuICAgICAgICAgICAgICAgICAgXCJmYWN0b3JzXCIsIFxuICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9IFwiQ29tYmluZWQgSGVhbHRoIEZhY3RvcnMsIDIwMTdcIiwgXG4gICAgICAgICAgICAgICAgICB5X3RpdGxlID0gXCJBdmVyYWdlIFBlZXIgQ2l0eVwiLCBcbiAgICAgICAgICAgICAgICAgIHRleHQgPSBGQUxTRSxcbiAgICAgICAgICAgICAgICAgIGhfbGluZSA9IFRSVUUsXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>rank_and_nb_group(filter(health_data_fips, year == 2017), 
+                  &quot;factors&quot;, 
+                  plot_title = &quot;Combined Health Factors, 2017&quot;, 
+                  y_title = &quot;Average Peer City&quot;, 
+                  text = FALSE,
+                  h_line = TRUE,
+                  caption_text = &quot;Source: Greater Louisville Project
+                                  Data from Robert Wood Johnson Foundation&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -772,40 +843,46 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zZWNfY2hpbGRfcG92ZXJ0eV9yYW5raW5ncy5qcGdcIiwgOTAwLCA2MDAsIHJlcyA9IDEwMClcbmBgYCJ9 -->
 <pre class="r"><code>jpeg(&quot;health_sec_child_poverty_rankings.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxucmFua19hbmRfbmJfZ3JvdXAoaGVhbHRoX2RhdGFfZmlwcyAlPiUgZmlsdGVyKHllYXIgPT0gMjAxNSksIFwiY2hpbGRfcGVyXCIsIHBsb3RfdGl0bGUgPSBcIkNoaWxkIFBvdmVydHksIDIwMTVcIiwgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbiBEYXRhIGZyb20gQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSBUYWJsZSBCMTcwMDFcIiwgeV90aXRsZSA9IFwiUGVyY2VudFwiLCBvcmRlciA9IFwiQXNjZW5kaW5nXCIpXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
-<pre class="r"><code>showtext.begin()
-rank_and_nb_group(health_data_fips %&gt;% filter(year == 2015), &quot;child_per&quot;, plot_title = &quot;Child Poverty, 2015&quot;, caption_text = &quot;Source: Greater Louisville Project \n Data from American Community Survey Table B17001&quot;, y_title = &quot;Percent&quot;, order = &quot;Ascending&quot;)
-showtext.end()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFua19hbmRfbmJfZ3JvdXAoaGVhbHRoX2RhdGFfZmlwcyAlPiUgZmlsdGVyKHllYXIgPT0gMjAxNSksIFxuICAgICAgICAgICAgICAgICAgXCJjaGlsZF9wZXJcIiwgXG4gICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gXCJDaGlsZCBQb3ZlcnR5LCAyMDE1XCIsIFxuICAgICAgICAgICAgICAgICAgeV90aXRsZSA9IFwiUGVyY2VudFwiLCBcbiAgICAgICAgICAgICAgICAgIG9yZGVyID0gXCJBc2NlbmRpbmdcIiwgXG4gICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3RcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSBUYWJsZSBCMTcwMDFcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>rank_and_nb_group(health_data_fips %&gt;% filter(year == 2015), 
+                  &quot;child_per&quot;, 
+                  plot_title = &quot;Child Poverty, 2015&quot;, 
+                  y_title = &quot;Percent&quot;, 
+                  order = &quot;Ascending&quot;, 
+                  caption_text = &quot;Source: Greater Louisville Project
+                                  Data from American Community Survey Table B17001&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
 <pre><code>null device 
           1 </code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYXV0byhGQUxTRSlcbmBgYCJ9 -->
+<pre class="r"><code>showtext.auto(FALSE)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>Trendline graphs</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0d2QoXCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvSW1hZ2VzL0hlYWx0aF9JbWFnZXNcIilcbmBgYCJ9 -->
-<pre class="r"><code>setwd(&quot;~/Desktop/glp_website/Images/Health_Images&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0d2QoXCJJbWFnZXMvSGVhbHRoX0ltYWdlc1wiKVxuYGBgIn0= -->
+<pre class="r"><code>setwd(&quot;Images/Health_Images&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdhcyBjaGFuZ2VkIHRvIC9Vc2Vycy9CcnljZVJvd2xhbmQvRGVza3RvcC9nbHBfd2Vic2l0ZS9JbWFnZXMvSGVhbHRoX0ltYWdlcyBpbnNpZGUgYSBub3RlYm9vayBjaHVuay4gVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdpbGwgYmUgcmVzZXQgd2hlbiB0aGUgY2h1bmsgaXMgZmluaXNoZWQgcnVubmluZy4gVXNlIHRoZSBrbml0ciByb290LmRpciBvcHRpb24gaW4gdGhlIHNldHVwIGNodW5rIHRvIGNoYW5nZSB0aGUgdGhlIHdvcmtpbmcgZGlyZWN0b3J5IGZvciBub3RlYm9vayBjaHVua3MuXG4ifQ== -->
-<pre><code>The working directory was changed to /Users/BryceRowland/Desktop/glp_website/Images/Health_Images inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the the working directory for notebook chunks.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdhcyBjaGFuZ2VkIHRvIEM6L1VzZXJzL0hhcnJpc29uIEtpcmJ5L0Rlc2t0b3AvR0xQL2dscF93ZWJzaXRlL0ltYWdlcy9IZWFsdGhfSW1hZ2VzIGluc2lkZSBhIG5vdGVib29rIGNodW5rLiBUaGUgd29ya2luZyBkaXJlY3Rvcnkgd2lsbCBiZSByZXNldCB3aGVuIHRoZSBjaHVuayBpcyBmaW5pc2hlZCBydW5uaW5nLiBVc2UgdGhlIGtuaXRyIHJvb3QuZGlyIG9wdGlvbiBpbiB0aGUgc2V0dXAgY2h1bmsgdG8gY2hhbmdlIHRoZSB0aGUgd29ya2luZyBkaXJlY3RvcnkgZm9yIG5vdGVib29rIGNodW5rcy5cbiJ9 -->
+<pre><code>The working directory was changed to C:/Users/Harrison Kirby/Desktop/GLP/glp_website/Images/Health_Images inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the the working directory for notebook chunks.</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zb2NpYWxfc3VwcG9ydF90cmVuZGxpbmUuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5zaG93dGV4dC5iZWdpbigpXG5ncmFwaF90cmVuZGxpbmUoXG4gIGFzLmRhdGEuZnJhbWUoaGVhbHRoX2RhdGFfZmlwcyksXG4gIHZhciA9ICdzc19lc3RfcGVyXzEwMDAwJyxcbiAgcm9sbG1lYW4gPSAxLFxuICBwbG90X3RpdGxlID0gXCJTb2NpYWwgU3VwcG9ydFwiLFxuICB5X3RpdGxlID0gXCJNZW1iZXJzaGlwIEFzc29jaWF0aW9ucyBwZXIgMTAsMDAwIHJlc2lkZW50c1wiLFxuICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIENCUCBTdGF0aXN0aWNzIGZyb20gVVMgQ2Vuc3VzXCIsXG4gIHhtaW4gPSAyMDA1LFxuICB4bWF4ID0gMjAxNVxuICApXG5zaG93dGV4dC5lbmQoKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zb2NpYWxfc3VwcG9ydF90cmVuZGxpbmUuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5ncmFwaF90cmVuZGxpbmUoXG4gIGFzLmRhdGEuZnJhbWUoaGVhbHRoX2RhdGFfZmlwcyksXG4gIHZhciA9ICdzc19lc3RfcGVyXzEwMDAwJyxcbiAgcm9sbG1lYW4gPSAxLFxuICBwbG90X3RpdGxlID0gXCJTb2NpYWwgU3VwcG9ydFwiLFxuICB5X3RpdGxlID0gXCJNZW1iZXJzaGlwIEFzc29jaWF0aW9ucyBwZXIgMTAsMDAwIHJlc2lkZW50c1wiLFxuICB4bWluID0gMjAwNSxcbiAgeG1heCA9IDIwMTUsXG4gIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSBDQlAgU3RhdGlzdGljcyBmcm9tIFVTIENlbnN1c1wiKVxuZGV2Lm9mZigpXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_social_support_trendline.jpg&quot;, 900, 600, res = 100)
-showtext.begin()
 graph_trendline(
   as.data.frame(health_data_fips),
   var = 'ss_est_per_10000',
   rollmean = 1,
   plot_title = &quot;Social Support&quot;,
   y_title = &quot;Membership Associations per 10,000 residents&quot;,
-  caption_text = &quot;Source: Greater Louisville Project \nData from CBP Statistics from US Census&quot;,
   xmin = 2005,
-  xmax = 2015
-  )
-showtext.end()
+  xmax = 2015,
+  caption_text = &quot;Source: Greater Louisville Project 
+                  Data from CBP Statistics from US Census&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -815,19 +892,17 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9wZV9jb21tdXRlX3RpbWVfdHJlbmRsaW5lLmpwZ1wiLCA5MDAsIDYwMCwgcmVzID0gMTAwKVxuYGBgIn0= -->
 <pre class="r"><code>jpeg(&quot;health_pe_commute_time_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKFxuICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLFxuICB2YXIgPSAnY29tbXV0ZV90aW1lJyxcbiAgcm9sbG1lYW4gPSAxLFxuICBwbG90X3RpdGxlID0gXCJDb21tdXRlIFRpbWVcIixcbiAgeV90aXRsZSA9IFwiQ29tbXV0ZSBUaW1lIChtaW51dGVzKVwiLFxuICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXFxuRGF0YSBmcm9tIHRoZSBGZWRlcmFsIFJlc2VydmUgdmlhIEdlb0ZSRURcIixcbiAgeG1pbiA9IDIwMDksXG4gIHhtYXggPSAyMDE1XG4gIClcbnNob3d0ZXh0LmVuZCgpXG5kZXYub2ZmKClcbmBgYCJ9 -->
-<pre class="r"><code>showtext.begin()
-graph_trendline(
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ3JhcGhfdHJlbmRsaW5lKFxuICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLFxuICB2YXIgPSAnY29tbXV0ZV90aW1lJyxcbiAgcm9sbG1lYW4gPSAxLFxuICBwbG90X3RpdGxlID0gXCJDb21tdXRlIFRpbWVcIixcbiAgeV90aXRsZSA9IFwiQ29tbXV0ZSBUaW1lIChtaW51dGVzKVwiLFxuICB4bWluID0gMjAwOSxcbiAgeG1heCA9IDIwMTUsXG4gIGNhcHRpb25fdGV4dCA9IFwiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgRmVkZXJhbCBSZXNlcnZlIHZpYSBHZW9GUkVEXCIpXG5kZXYub2ZmKClcbmBgYCJ9 -->
+<pre class="r"><code>graph_trendline(
   as.data.frame(health_data_fips),
   var = 'commute_time',
   rollmean = 1,
   plot_title = &quot;Commute Time&quot;,
   y_title = &quot;Commute Time (minutes)&quot;,
-  caption_text = &quot;Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED&quot;,
   xmin = 2009,
-  xmax = 2015
-  )
-showtext.end()
+  xmax = 2015,
+  caption_text = &quot;Source: Greater Louisville Project 
+                  Data from the Federal Reserve via GeoFRED&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -837,19 +912,17 @@ dev.off()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanBlZyhcImhlYWx0aF9zZWNfY2hpbGRfcG92ZXJ0eV90cmVuZGxpbmUuanBnXCIsIDkwMCwgNjAwLCByZXMgPSAxMDApXG5gYGAifQ== -->
 <pre class="r"><code>jpeg(&quot;health_sec_child_poverty_trendline.jpg&quot;, 900, 600, res = 100)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvd3RleHQuYmVnaW4oKVxuZ3JhcGhfdHJlbmRsaW5lKFxuICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLFxuICB2YXIgPSAnY2hpbGRfcGVyJyxcbiAgcm9sbG1lYW4gPSAzLFxuICBwbG90X3RpdGxlID0gXCJDaGlsZCBQb3ZlcnR5XCIsXG4gIHlfdGl0bGUgPSBcIlBlcmNlbnRcIixcbiAgY2FwdGlvbl90ZXh0ID0gXCJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxcbkRhdGEgZnJvbSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5IFRhYmxlIEIxNzAwMVwiLFxuICB4bWluID0gMjAwNSxcbiAgeG1heCA9IDIwMTVcbiAgKVxuc2hvd3RleHQuZW5kKClcbmRldi5vZmYoKVxuYGBgIn0= -->
-<pre class="r"><code>showtext.begin()
-graph_trendline(
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ3JhcGhfdHJlbmRsaW5lKFxuICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLFxuICB2YXIgPSAnY2hpbGRfcGVyJyxcbiAgcm9sbG1lYW4gPSAzLFxuICBwbG90X3RpdGxlID0gXCJDaGlsZCBQb3ZlcnR5XCIsXG4gIHlfdGl0bGUgPSBcIlBlcmNlbnRcIixcbiAgeG1pbiA9IDIwMDUsXG4gIHhtYXggPSAyMDE1LFxuICBjYXB0aW9uX3RleHQgPSBcIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gICAgICAgICAgICAgICAgICBEYXRhIGZyb20gQW1lcmljYW4gQ29tbXVuaXR5IFN1cnZleSBUYWJsZSBCMTcwMDFcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>graph_trendline(
   as.data.frame(health_data_fips),
   var = 'child_per',
   rollmean = 3,
   plot_title = &quot;Child Poverty&quot;,
   y_title = &quot;Percent&quot;,
-  caption_text = &quot;Source: Greater Louisville Project \nData from American Community Survey Table B17001&quot;,
   xmin = 2005,
-  xmax = 2015
-  )
-showtext.end()
+  xmax = 2015,
+  caption_text = &quot;Source: Greater Louisville Project 
+                  Data from American Community Survey Table B17001&quot;)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
@@ -857,9 +930,8 @@ dev.off()</code></pre>
           1 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
-</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiaGVhbHRoX2dyYXBoaW5nIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojI0dyYXBoaW5nIHRoZSBoZWFsdGggZGF0YQoKU2V0dGluZyB0aGUgd29ya2luZyBkaXJlY3RvcnkKYGBge3IgInNldHVwIiwgaW5jbHVkZT1GQUxTRX0KcmVxdWlyZSgia25pdHIiKQpvcHRzX2tuaXQkc2V0KHJvb3QuZGlyID0gIn4vRGVza3RvcC9nbHBfd2Vic2l0ZSIpCmBgYAoKTG9hZGluZyBsaWJyYXJpZXMKYGBge3IgbGlicmFyaWVzLCBtZXNzYWdlID0gRkFMU0V9CmxpYnJhcnkoc2hvd3RleHQpCmxpYnJhcnkoY2xhc3NJbnQpCmxpYnJhcnkoZ2d0aGVtZXMpCmxpYnJhcnkocmVzaGFwZTIpCmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKClJlYWRpbmcgaW4gZGF0YQpgYGB7ciBkYXRhLCBtZXNzYWdlID0gRkFMU0V9CmhlYWx0aF9kYXRhX2ZpcHM9IHJlYWRfY3N2KCJvdXRwdXQgZGF0YS9oZWFsdGhfZGF0YV9maXBzLmNzdiIpCmBgYAoKClRoZSBjb2RlIGZvciBpbXBvcnRpbmcgZ3JhcGhpbmcgZnVuY3Rpb25zCmBgYHtyIHJhbmtpbmdzfQpzb3VyY2UoImdyYXBoaW5nX2Z1bmN0aW9ucy5SIikKYGBgCgpBZGRpbmcgZm9udHMKYGBge3J9CiMgZm9udC5hZGQoIk11c2VvIFNhbnMgMzAwIiwgIkM6L1VzZXJzL25hdGVrL0RvY3VtZW50cy9mb250cy9NdXNlb1NhbnMvTXVzZW9TYW5zXzMwMC5vdGYiKQojIGZvbnQuYWRkKCJNdXNlbyBTYW5zIEl0YWxpYyIsICJDOi9Vc2Vycy9uYXRlay9Eb2N1bWVudHMvZm9udHMvTXVzZW9TYW5zL011c2VvU2Fuc18zMDBfSXRhbGljLm90ZiIpCgpmb250LmFkZCgiTXVzZW8gU2FucyAzMDAiLCAiL1VzZXJzL0JyeWNlUm93bGFuZC9EZXNrdG9wL0dMUC9SIENvZGUvTXVzZW9TYW5zXzMwMC5vdGYiKQpmb250LmFkZCgiTXVzZW8gU2FucyAzMDAgSXRhbGljIiwgIi9Vc2Vycy9CcnljZVJvd2xhbmQvRGVza3RvcC9HTFAvUiBDb2RlL011c2VvU2Fuc18zMDBfSXRhbGljLm90ZiIpCmBgYAoKCmBgYHtyLCBtZXNzYWdlID0gRkFMU0V9CnNldHdkKCJ+L0Rlc2t0b3AvZ2xwX3dlYnNpdGUvSW1hZ2VzL0hlYWx0aF9JbWFnZXMiKQoKanBlZygiaGVhbHRoX291dGNvbWVzX3ByZW1hdHVyZV9kZWF0aC5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCBzaWdmaWcgPSA0LCBudW1fZGVjID0gMCwgInByZW1hdHVyZV9kZWF0aCIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiUHJlbWF0dXJlIERlYXRoIiwKICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJBZ2UtYWRqdXN0ZWQgeWVhcnMgb2YgcG90ZW50aWFsIGxpZmUgbG9zdCByYXRlIHBlciAxMDAsMDAwIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MgIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfb3V0Y29tZXNfcG9vcl9vcl9mYWlyX2hlYWx0aC5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAicG9vcl9vcl9mYWlyX2hlYWx0aCIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiUG9wdWxhdGlvbiBSZXBvcnRpbmcgUG9vciBvciBGYWlyIEhlYWx0aCIsCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCIsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfb3V0Y29tZXNfcG9vcl9waHlzaWNhbF9oZWFsdGhfZGF5cy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAicG9vcl9waHlzaWNhbF9oZWFsdGhfZGF5cyIsIG9yZGVyID0gIkFzY2VuZGluZyIsIHNpZ2ZpZyA9IDIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiRGF5cyBvZiBQb29yIFBoeXNpY2FsIEhlYWx0aCBwZXIgTW9udGgiLAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkRheXMiLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX291dGNvbWVzX3Bvb3JfbWVudGFsX2hlYWx0aF9kYXlzLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJwb29yX21lbnRhbF9oZWFsdGhfZGF5cyIsIG9yZGVyID0gIkFzY2VuZGluZyIsIHNpZ2ZpZyA9IDIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiRGF5cyBvZiBQb29yIE1lbnRhbCBIZWFsdGggcGVyIE1vbnRoIiwKICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJEYXlzIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9vdXRjb21lc19sb3dfYmlydGh3ZWlnaHQuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImxvd19iaXJ0aHdlaWdodCIsIG9yZGVyID0gIkFzY2VuZGluZyIsIHNpZ2ZpZyA9IDIsCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCBvZiBCaXJ0aHMgV2hlcmUgdGhlIEluZmFudCBXZWlnaGVkIExlc3MgdGhhbiAyLDUwMCBncmFtcyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiTG93IEJpcnRod2VpZ2h0IiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfYWR1bHRfc21va2luZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAiYWR1bHRfc21va2luZyIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiU21va2luZyIsIAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgb2YgQWR1bHRzIHdobyBTbW9rZSBFdmVyeSBEYXkgb3IgTW9zdCBEYXlzIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfYWR1bHRfb2Jlc2l0eS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAiYWR1bHRfb2Jlc2l0eSIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCBvZiBBZHVsdCBQb3B1bGF0aW9uICgyMCBhbmQgT2xkZXIpIHdpdGggYSBCTUkgZ3JlYXRlciB0aGFuIG9yIGVxdWFsIHRvIDMwIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBZHVsdCBPYmVzaXR5IiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfYmVoYXZpb3JzX2Zvb2RfZW52aXJvbm1lbnRfaW5kZXguanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImZvb2RfZW52aXJvbm1lbnRfaW5kZXgiLCBvcmRlciA9ICJEZXNjZW5kaW5nIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJGb29kIEVudmlyb25tZW50IEluZGV4IiwgCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiSW5kZXggY29uc3RydWN0ZWQgb24gYSAwLTEwIHNjYWxlIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfcGh5c2ljYWxfaW5hY3Rpdml0eS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAicGh5c2ljYWxfaW5hY3Rpdml0eSIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiUGh5c2ljYWwgSW5hY3Rpdml0eSIsIAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgcmVwb3J0aW5nIG5vIGxlaXN1cmUgdGltZSBwaHlzaWNhbCBhY3Rpdml0eSIsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfYmVoYXZpb3JzX2FjY2Vzc190b19leGVyY2lzZV9vcHBvcnR1bml0aWVzLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJhY2Nlc3NfdG9fZXhlcmNpc2Vfb3Bwb3J0dW5pdGllcyIsIG9yZGVyID0gIkRlc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgb2YgSW5kaXZpZHVhbHMgTGl2aW5nIENsb3NlIHRvIGEgTG9jYXRpb24gZm9yIFBoeXNpY2FsIEFjdGl2aXR5IiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBY2Nlc3MgdG8gRXhlcmNpc2UgT3Bwb3J0dW5pdGllcyIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX2JlaGF2aW9yc19leGNlc3NpdmVfZHJpbmtpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImV4Y2Vzc2l2ZV9kcmlua2luZyIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCBvZiBBZHVsdHMgUmVwb3J0aW5nIEJpbmdlIG9yIEhlYXZ5IERyaW5raW5nIGluIFBhc3QgMzAgRGF5cyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiRXhjZXNzaXZlIERyaW5raW5nIiwgCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfYmVoYXZpb3JzX2FsY29ob2xfaW1wYWlyZWRfZHJpdmluZ19kZWF0aHMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImFsY29ob2xfaW1wYWlyZWRfZHJpdmluZ19kZWF0aHMiLCBvcmRlciA9ICJBc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgb2YgTW90b3IgVmVoaWNobGUgQ3Jhc2ggRGVhdGhzIHdpdGggQWxjb2hvbCBJbnZvbHZlbWVudCIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQWxjb2hvbCBJbXBhaXJlZCBEcml2aW5nIERlYXRocyIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX2JlaGF2aW9yc19zZXh1YWxseV90cmFuc21pdHRlZF9pbmZlY3Rpb25zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIHNpZ2ZpZyA9IDMsIG51bV9kZWMgPSAxLCAic2V4dWFsbHlfdHJhbnNtaXR0ZWRfaW5mZWN0aW9ucyIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiU2V4dWFsbHkgVHJhbnNtaXR0ZWQgSW5mZWN0aW9ucyIsIAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkNobGFteWRpYSBwZXIgMTAwLDAwMCIsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfYmVoYXZpb3JzX3RlZW5fYmlydGhzLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJ0ZWVuX2JpcnRocyIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiVGVlbiBCaXJ0aHMiLAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlciAxMDAsMDAwIGZlbWFsZXMgYWdlZCAxNS0xOSIsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfY2NfdW5pbnN1cmVkLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJ1bmluc3VyZWQiLCBvcmRlciA9ICJBc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlVuaW5zdXJlZCIsIAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgb2YgcG9wdWxhdGlvbiB1bmRlciA2NSB3aXRob3V0IGhlYWx0aCBpbnN1cmFuY2UiLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX2NjX3ByaW1hcnlfY2FyZV9waHlzaWNpYW5zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJwcmltYXJ5X2NhcmVfcGh5c2ljaWFucyIsIG9yZGVyID0gIkRlc2NlbmRpbmciLCBzaWdmaWcgPSAzLCBudW1fZGVjID0gMCwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJQcmltYXJ5IENhcmUgUGh5c2ljaWFucyIsIAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlciAxMDAsMDAwIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9jY19kZW50aXN0cy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAiZGVudGlzdHMiLCBvcmRlciA9ICJEZXNjZW5kaW5nIiwgc2lnZmlnID0gMiwgbnVtX2RlYyA9IDBMLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkRlbnRpc3RzIiwgCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyIDEwMCwwMDAiLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX2NjX21lbnRhbF9oZWFsdGhfcHJvdmlkZXJzLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJtZW50YWxfaGVhbHRoX3Byb3ZpZGVycyIsIG9yZGVyID0gIkRlc2NlbmRpbmciLCBzaWdmaWcgPSAzLCBudW1fZGVjID0gMEwsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiTWVudGFsIEhlYWx0aCBQcm92aWRlcnMiLAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlciAxMDAsMDAwIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9jY19wcmV2ZW50YWJsZV9ob3NwaXRhbF9zdGF5cy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAicHJldmVudGFibGVfaG9zcGl0YWxfc3RheXMiLCBvcmRlciA9ICJBc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlByZXZlbnRhYmxlIEhvc3BpdGFsIFN0YXlzIiwgCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiJ0Rpc2NoYXJnZXMgZm9yIEFtYnVsYXRvcnkgQ2FyZSBTZW5zaXRpdmUgQ29uZGl0aW9ucyBwZXIgMSwwMDAgTWVkaWNhcmUgRW5yb2xsZWVzIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9jY19kaWFiZXRlc19tb25pdG9yaW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJkaWFiZXRlc19tb25pdG9yaW5nIiwgb3JkZXIgPSAiRGVzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiRGlhYmV0ZXMgTW9uaXRvcmluZyIsIAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnRhZ2Ugb2YgZGlhYmV0aWMgTWVkaWNhcmUgZW5yb2xsZWVzIHJlY2VpdmluZyBIYkExYyB0ZXN0IiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9jY19tYW1tb2dyYXBoeV9zY3JlZW5pbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgIm1hbW1vZ3JhcGh5X3NjcmVlbmluZyIsIG9yZGVyID0gIkRlc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIk1hbW1vZ3JhcGh5IFNjcmVlbmluZyIsIAogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnRhZ2Ugb2YgZmVtYWxlIE1lZGljYXJlIGVucm9sbGVlcyBoYXZpbmcgYXQgbGVhc3QgMSBtYW1tb2dyYW0gaW4gMiB5cnMgKGFnZSA2Ny02OSkiLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX3NlY19zb2NpYWxfYXNzb2NpYXRpb25zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNSksICJzc19lc3RfcGVyXzEwMDAwIiwgb3JkZXIgPSAiRGVzY2VuZGluZyIsIG51bV9kZWMgPSAxLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlNvY2lhbCBTdXBwb3J0LCAyMDE1IiwgCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiTWVtYmVyc2hpcCBBc3NvY2lhdGlvbnMgcGVyIDEwLDAwMCBwb3B1bGF0aW9uIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gQ0JQIFN0YXRpc3RpY3MgZnJvbSBVUyBDZW5zdXMiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9zZWNfdmlvbGVudF9jcmltZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAidmlvbGVudF9jcmltZSIsIG9yZGVyID0gIkFzY2VuZGluZyIsIHNpZ2ZpZyA9IDMsIG51bV9kZWMgPSAwLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlZpb2xlbnQgQ3JpbWUiLCAKICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJWaW9sZW50IENyaW1lcyBwZXIgMTAwLDAwMCIsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfc2VjX2luanVyeV9kZWF0aHMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImluanVyeV9kZWF0aHMiLCBvcmRlciA9ICJBc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkluanVyeSBEZWF0aHMiLCAKICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJJbmp1cnkgTW9ydGFsaXR5IFJhdGUgcGVyIDEwMCwwMDAiLAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX3BlX2Fpcl9wb2xsdXRpb24uanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImFpcl9wb2xsdXRpb24iLCBvcmRlciA9ICJBc2NlbmRpbmciLAogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkFpciBQb2xsdXRpb24iLCAKICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJBdmVyYWdlIGRhaWx5IGFtb3VudCBvZiBmaW5lIHBhcnRpY3VsYXRlIG1hdHRlciBpbiBtaWNyb2dyYW1zIHBlciBjdWJpYyBtZXRlciIsCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgojIGpwZWcoImhlYWx0aF9wZV9kcmlua2luZ193YXRlci5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQojIHNob3d0ZXh0LmJlZ2luKCkKIyByYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImRyaW5raW5nX3dhdGVyIiwgb3JkZXIgPSAiQXNjZW5kaW5nIiwKIyAgICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkRyaW5raW5nIFdhdGVyIiwgCiMgICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQojIHNob3d0ZXh0LmVuZCgpCiMgZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfcGVfc2V2ZXJlX2hvdXNpbmdfcHJvYmxlbXMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgInNldmVyZV9ob3VzaW5nX3Byb2JsZW1zIiwgb3JkZXIgPSAiQXNjZW5kaW5nIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJTZXZlcmUgSG91c2luZyBQcm9ibGVtcyIsIAogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX3BlX3NldmVyZV9ob3VzaW5nX3Byb2JsZW1zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJzZXZlcmVfaG91c2luZ19wcm9ibGVtcyIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiU2V2ZXJlIEhvdXNpbmcgUHJvYmxlbXMiLCAKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9wZV9kcml2aW5nX2Fsb25lX3RvX3dvcmsuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImRyaXZpbmdfYWxvbmVfdG9fd29yayIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCBvZiBXb3JrZm9yY2UgdGhhdCBVc3VhbGx5IERyaXZlcyBBbG9uZSB0byBXb3JrIiwKICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJEcml2aW5nIEFsb25lIHRvIFdvcmsiLCAKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9wZV9jb21tdXRlX3RpbWVfcmFua2luZ3MuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE1KSwgImNvbW11dGVfdGltZSIsIG9yZGVyID0gIkFzY2VuZGluZyIsCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQ29tbXV0ZSBUaW1lLCAyMDE1IiwKICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJDb21tdXRlIFRpbWUgKG1pbnV0ZXMpIiwKICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG5EYXRhIGZyb20gdGhlIEZlZGVyYWwgUmVzZXJ2ZSB2aWEgR2VvRlJFRCIpCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQoKanBlZygiaGVhbHRoX291dGNvbWVzX292ZXJhbGwuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgIm91dGNvbWVzIiwgcGxvdF90aXRsZSA9ICJIZWFsdGggT3V0Y29tZXMsIDIwMTciLCBjYXB0aW9uX3RleHQgPSAiXG4gU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIiwgeV90aXRsZSA9ICJBdmVyYWdlIFBlZXIgQ2l0eSIsIHRleHQgPSBGQUxTRSwgaF9saW5lID0gVFJVRSkKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfYmVoYXZpb3JzX292ZXJhbGwuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgImhlYWx0aF9iZWhhdmlvcnMiLCBwbG90X3RpdGxlID0gIkhlYWx0aCBCZWhhdmlvcnMsIDIwMTciLCBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIiwgeV90aXRsZSA9ICJBdmVyYWdlIFBlZXIgQ2l0eSIsIHRleHQgPSBGQUxTRSwgaF9saW5lID0gVFJVRSkKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfY2Nfb3ZlcmFsbC5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAiY2xpbmljYWxfY2FyZSIsIHBsb3RfdGl0bGUgPSAiQ2xpbmljYWwgQ2FyZSwgMjAxNyIsIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24iLCB5X3RpdGxlID0gIkF2ZXJhZ2UgUGVlciBDaXR5IiwgdGV4dCA9IEZBTFNFLCBoX2xpbmUgPSBUUlVFKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9zZWNfb3ZlcmFsbC5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCAic29jaWFsX2FuZF9lY29ub21pYyIsIHBsb3RfdGl0bGUgPSAiU29jaWFsIGFuZCBFY29ub21pYyBIZWFsdGggRmFjdG9ycywgMjAxNyIsIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24iLCB5X3RpdGxlID0gIkF2ZXJhZ2UgUGVlciBDaXR5IiwgdGV4dCA9IEZBTFNFLCBoX2xpbmUgPSBUUlVFKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9wZV9vdmVyYWxsLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJwaHlzaWNhbF9lbnZpcm9ubWVudCIsIHBsb3RfdGl0bGUgPSAiUGh5c2ljYWwgRW52aXJvbm1lbnQsIDIwMTciLCBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbiBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIiwgeV90aXRsZSA9ICJBdmVyYWdlIFBlZXIgQ2l0eSIsIHRleHQgPSBGQUxTRSwgaF9saW5lID0gVFJVRSkKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfZmFjdG9yc19vdmVyYWxsLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksICJmYWN0b3JzIiwgcGxvdF90aXRsZSA9ICJDb21iaW5lZCBIZWFsdGggRmFjdG9ycywgMjAxNyIsIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24iLCB5X3RpdGxlID0gIkF2ZXJhZ2UgUGVlciBDaXR5IiwgdGV4dCA9IEZBTFNFLCBoX2xpbmUgPSBUUlVFKQpzaG93dGV4dC5lbmQoKQpkZXYub2ZmKCkKCmpwZWcoImhlYWx0aF9zZWNfY2hpbGRfcG92ZXJ0eV9yYW5raW5ncy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCnJhbmtfYW5kX25iX2dyb3VwKGhlYWx0aF9kYXRhX2ZpcHMgJT4lIGZpbHRlcih5ZWFyID09IDIwMTUpLCAiY2hpbGRfcGVyIiwgcGxvdF90aXRsZSA9ICJDaGlsZCBQb3ZlcnR5LCAyMDE1IiwgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgXG4gRGF0YSBmcm9tIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXkgVGFibGUgQjE3MDAxIiwgeV90aXRsZSA9ICJQZXJjZW50Iiwgb3JkZXIgPSAiQXNjZW5kaW5nIikKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCmBgYAoKCmBgYHtyfQpzZXR3ZCgifi9EZXNrdG9wL2dscF93ZWJzaXRlL0ltYWdlcy9IZWFsdGhfSW1hZ2VzIikKCmpwZWcoImhlYWx0aF9zb2NpYWxfc3VwcG9ydF90cmVuZGxpbmUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkKc2hvd3RleHQuYmVnaW4oKQpncmFwaF90cmVuZGxpbmUoCiAgYXMuZGF0YS5mcmFtZShoZWFsdGhfZGF0YV9maXBzKSwKICB2YXIgPSAnc3NfZXN0X3Blcl8xMDAwMCcsCiAgcm9sbG1lYW4gPSAxLAogIHBsb3RfdGl0bGUgPSAiU29jaWFsIFN1cHBvcnQiLAogIHlfdGl0bGUgPSAiTWVtYmVyc2hpcCBBc3NvY2lhdGlvbnMgcGVyIDEwLDAwMCByZXNpZGVudHMiLAogIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuRGF0YSBmcm9tIENCUCBTdGF0aXN0aWNzIGZyb20gVVMgQ2Vuc3VzIiwKICB4bWluID0gMjAwNSwKICB4bWF4ID0gMjAxNQogICkKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfcGVfY29tbXV0ZV90aW1lX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQpzaG93dGV4dC5iZWdpbigpCmdyYXBoX3RyZW5kbGluZSgKICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLAogIHZhciA9ICdjb21tdXRlX3RpbWUnLAogIHJvbGxtZWFuID0gMSwKICBwbG90X3RpdGxlID0gIkNvbW11dGUgVGltZSIsCiAgeV90aXRsZSA9ICJDb21tdXRlIFRpbWUgKG1pbnV0ZXMpIiwKICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSB0aGUgRmVkZXJhbCBSZXNlcnZlIHZpYSBHZW9GUkVEIiwKICB4bWluID0gMjAwOSwKICB4bWF4ID0gMjAxNQogICkKc2hvd3RleHQuZW5kKCkKZGV2Lm9mZigpCgpqcGVnKCJoZWFsdGhfc2VjX2NoaWxkX3BvdmVydHlfdHJlbmRsaW5lLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApCnNob3d0ZXh0LmJlZ2luKCkKZ3JhcGhfdHJlbmRsaW5lKAogIGFzLmRhdGEuZnJhbWUoaGVhbHRoX2RhdGFfZmlwcyksCiAgdmFyID0gJ2NoaWxkX3BlcicsCiAgcm9sbG1lYW4gPSAzLAogIHBsb3RfdGl0bGUgPSAiQ2hpbGQgUG92ZXJ0eSIsCiAgeV90aXRsZSA9ICJQZXJjZW50IiwKICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCBcbkRhdGEgZnJvbSBBbWVyaWNhbiBDb21tdW5pdHkgU3VydmV5IFRhYmxlIEIxNzAwMSIsCiAgeG1pbiA9IDIwMDUsCiAgeG1heCA9IDIwMTUKICApCnNob3d0ZXh0LmVuZCgpCmRldi5vZmYoKQpgYGA=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogImhlYWx0aF9ncmFwaGluZyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCkNvZGUgZm9yIHRoZSBncmFwaHMgYXBwZWFyaW5nIGluIHRoZSBoZWFsdGggc2VjdGlvbiBvZiB0aGUgR0xQIHdlYnNpdGUuDQoNCmBgYHtyICJzZXR1cCIsIGluY2x1ZGU9RkFMU0V9DQpyZXF1aXJlKCJrbml0ciIpDQpvcHRzX2tuaXQkc2V0KHJvb3QuZGlyID0gIkM6L1VzZXJzL0hhcnJpc29uIEtpcmJ5L0Rlc2t0b3AvR0xQL2dscF93ZWJzaXRlIikNCmBgYA0KDQpMb2FkIGxpYnJhcmllcw0KYGBge3IgbGlicmFyaWVzLCBtZXNzYWdlID0gRkFMU0V9DQpsaWJyYXJ5KHNob3d0ZXh0KQ0KbGlicmFyeShjbGFzc0ludCkNCmxpYnJhcnkoZ2d0aGVtZXMpDQpsaWJyYXJ5KHJlc2hhcGUyKQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpgYGANCg0KQ3JlYXRlIG5ldyBkaXJlY3Rvcmllcw0KYGBge3J9DQppZighZGlyLmV4aXN0cygiSW1hZ2VzIikpew0KICBkaXIuY3JlYXRlKCJJbWFnZXMiKQ0KfQ0KaWYoIWRpci5leGlzdHMoIkltYWdlcy9IZWFsdGhfSW1hZ2VzIikpew0KICBkaXIuY3JlYXRlKCJJbWFnZXMvSGVhbHRoX0ltYWdlcyIpDQp9DQpgYGANCg0KTG9hZCBncmFwaGluZyBmdW5jdGlvbnMgYW5kIGZvbnRzDQpgYGB7ciByYW5raW5nc30NCnNvdXJjZSgiZ3JhcGhpbmdfZnVuY3Rpb25zLlIiKQ0KDQpmb250LmFkZCgiTXVzZW8gU2FucyAzMDAiLCAiQzovVXNlcnMvSGFycmlzb24gS2lyYnkvRGVza3RvcC9HTFAvTXVzZW9TYW5zXzMwMC5vdGYiKQ0KZm9udC5hZGQoIk11c2VvIFNhbnMgSXRhbGljIiwgIkM6L1VzZXJzL0hhcnJpc29uIEtpcmJ5L0Rlc2t0b3AvR0xQL011c2VvU2Fuc18zMDBfSXRhbGljLm90ZiIpDQpgYGANCg0KUmVhZCBkYXRhDQpgYGB7ciBkYXRhLCBtZXNzYWdlID0gRkFMU0V9DQpoZWFsdGhfZGF0YV9maXBzPSByZWFkX2Nzdigib3V0cHV0IGRhdGEvaGVhbHRoX2RhdGFfZmlwcy5jc3YiKQ0KYGBgDQoNClJhbmtpbmcgZ3JhcGhzDQpgYGB7ciwgbWVzc2FnZSA9IEZBTFNFfQ0Kc2V0d2QoIkltYWdlcy9IZWFsdGhfSW1hZ2VzIikNCg0Kc2hvd3RleHQuYXV0bygpDQoNCmpwZWcoImhlYWx0aF9vdXRjb21lc19wcmVtYXR1cmVfZGVhdGguanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJwcmVtYXR1cmVfZGVhdGgiLCANCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkFzY2VuZGluZyIsDQogICAgICAgICAgICAgICAgICBzaWdmaWcgPSA0LCANCiAgICAgICAgICAgICAgICAgIG51bV9kZWMgPSAwLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJQcmVtYXR1cmUgRGVhdGgiLA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJBZ2UtYWRqdXN0ZWQgeWVhcnMgb2YgcG90ZW50aWFsIGxpZmUgbG9zdCByYXRlIHBlciAxMDAsMDAwIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX291dGNvbWVzX3Bvb3Jfb3JfZmFpcl9oZWFsdGguanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJwb29yX29yX2ZhaXJfaGVhbHRoIiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJQb3B1bGF0aW9uIFJlcG9ydGluZyBQb29yIG9yIEZhaXIgSGVhbHRoIiwNCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCIsDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9vdXRjb21lc19wb29yX3BoeXNpY2FsX2hlYWx0aF9kYXlzLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAicG9vcl9waHlzaWNhbF9oZWFsdGhfZGF5cyIsIA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiQXNjZW5kaW5nIiwgDQogICAgICAgICAgICAgICAgICBzaWdmaWcgPSAyLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJEYXlzIG9mIFBvb3IgUGh5c2ljYWwgSGVhbHRoIHBlciBNb250aCIsDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkRheXMiLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfb3V0Y29tZXNfcG9vcl9tZW50YWxfaGVhbHRoX2RheXMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJwb29yX21lbnRhbF9oZWFsdGhfZGF5cyIsIA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiQXNjZW5kaW5nIiwgDQogICAgICAgICAgICAgICAgICBzaWdmaWcgPSAyLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJEYXlzIG9mIFBvb3IgTWVudGFsIEhlYWx0aCBwZXIgTW9udGgiLA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJEYXlzIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX291dGNvbWVzX2xvd19iaXJ0aHdlaWdodC5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIA0KICAgICAgICAgICAgICAgICAgImxvd19iaXJ0aHdlaWdodCIsDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLCANCiAgICAgICAgICAgICAgICAgIHNpZ2ZpZyA9IDIsDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgb2YgQmlydGhzIFdoZXJlIHRoZSBJbmZhbnQgV2VpZ2hlZCBMZXNzIHRoYW4gMiw1MDAgZ3JhbXMiLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJMb3cgQmlydGh3ZWlnaHQiLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfYmVoYXZpb3JzX2FkdWx0X3Ntb2tpbmcuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJhZHVsdF9zbW9raW5nIiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJTbW9raW5nIiwgDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgb2YgQWR1bHRzIHdobyBTbW9rZSBFdmVyeSBEYXkgb3IgTW9zdCBEYXlzIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbkRhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX2JlaGF2aW9yc19hZHVsdF9vYmVzaXR5LmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAiYWR1bHRfb2Jlc2l0eSIsDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXJjZW50IG9mIEFkdWx0IFBvcHVsYXRpb24gKDIwIGFuZCBPbGRlcikgd2l0aCBhIEJNSSBncmVhdGVyIHRoYW4gb3IgZXF1YWwgdG8gMzAiLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBZHVsdCBPYmVzaXR5IiwgDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfZm9vZF9lbnZpcm9ubWVudF9pbmRleC5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIA0KICAgICAgICAgICAgICAgICAgImZvb2RfZW52aXJvbm1lbnRfaW5kZXgiLA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiRGVzY2VuZGluZyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkZvb2QgRW52aXJvbm1lbnQgSW5kZXgiLCANCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiSW5kZXggY29uc3RydWN0ZWQgb24gYSAwLTEwIHNjYWxlIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX2JlaGF2aW9yc19waHlzaWNhbF9pbmFjdGl2aXR5LmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAicGh5c2ljYWxfaW5hY3Rpdml0eSIsDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJQaHlzaWNhbCBJbmFjdGl2aXR5IiwgDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlcmNlbnQgcmVwb3J0aW5nIG5vIGxlaXN1cmUgdGltZSBwaHlzaWNhbCBhY3Rpdml0eSIsDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfYWNjZXNzX3RvX2V4ZXJjaXNlX29wcG9ydHVuaXRpZXMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLA0KICAgICAgICAgICAgICAgICAgImFjY2Vzc190b19leGVyY2lzZV9vcHBvcnR1bml0aWVzIiwNCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkRlc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXJjZW50IG9mIEluZGl2aWR1YWxzIExpdmluZyBDbG9zZSB0byBhIExvY2F0aW9uIGZvciBQaHlzaWNhbCBBY3Rpdml0eSIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkFjY2VzcyB0byBFeGVyY2lzZSBPcHBvcnR1bml0aWVzIiwgDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfZXhjZXNzaXZlX2RyaW5raW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwNCiAgICAgICAgICAgICAgICAgICJleGNlc3NpdmVfZHJpbmtpbmciLA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiQXNjZW5kaW5nIiwNCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCBvZiBBZHVsdHMgUmVwb3J0aW5nIEJpbmdlIG9yIEhlYXZ5IERyaW5raW5nIGluIFBhc3QgMzAgRGF5cyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkV4Y2Vzc2l2ZSBEcmlua2luZyIsIA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfYmVoYXZpb3JzX2FsY29ob2xfaW1wYWlyZWRfZHJpdmluZ19kZWF0aHMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJhbGNvaG9sX2ltcGFpcmVkX2RyaXZpbmdfZGVhdGhzIiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXJjZW50IG9mIE1vdG9yIFZlaGljaGxlIENyYXNoIERlYXRocyB3aXRoIEFsY29ob2wgSW52b2x2ZW1lbnQiLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBbGNvaG9sIEltcGFpcmVkIERyaXZpbmcgRGVhdGhzIiwgDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfc2V4dWFsbHlfdHJhbnNtaXR0ZWRfaW5mZWN0aW9ucy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIA0KICAgICAgICAgICAgICAgICAgInNleHVhbGx5X3RyYW5zbWl0dGVkX2luZmVjdGlvbnMiLA0KICAgICAgICAgICAgICAgICAgc2lnZmlnID0gMywgDQogICAgICAgICAgICAgICAgICBudW1fZGVjID0gMSwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJTZXh1YWxseSBUcmFuc21pdHRlZCBJbmZlY3Rpb25zIiwgDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkNobGFteWRpYSBwZXIgMTAwLDAwMCIsDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9iZWhhdmlvcnNfdGVlbl9iaXJ0aHMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLA0KICAgICAgICAgICAgICAgICAgInRlZW5fYmlydGhzIiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJUZWVuIEJpcnRocyIsDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlciAxMDAsMDAwIGZlbWFsZXMgYWdlZCAxNS0xOSIsDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9jY191bmluc3VyZWQuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJ1bmluc3VyZWQiLCANCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkFzY2VuZGluZyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlVuaW5zdXJlZCIsIA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXJjZW50IG9mIHBvcHVsYXRpb24gdW5kZXIgNjUgd2l0aG91dCBoZWFsdGggaW5zdXJhbmNlIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX2NjX3ByaW1hcnlfY2FyZV9waHlzaWNpYW5zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAicHJpbWFyeV9jYXJlX3BoeXNpY2lhbnMiLCANCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkRlc2NlbmRpbmciLCANCiAgICAgICAgICAgICAgICAgIHNpZ2ZpZyA9IDMsIA0KICAgICAgICAgICAgICAgICAgbnVtX2RlYyA9IDAsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlByaW1hcnkgQ2FyZSBQaHlzaWNpYW5zIiwgDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIlBlciAxMDAsMDAwIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX2NjX2RlbnRpc3RzLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAiZGVudGlzdHMiLCANCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkRlc2NlbmRpbmciLCANCiAgICAgICAgICAgICAgICAgIHNpZ2ZpZyA9IDIsIA0KICAgICAgICAgICAgICAgICAgbnVtX2RlYyA9IDBMLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJEZW50aXN0cyIsIA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXIgMTAwLDAwMCIsDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX2NjX21lbnRhbF9oZWFsdGhfcHJvdmlkZXJzLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwNCiAgICAgICAgICAgICAgICAgICJtZW50YWxfaGVhbHRoX3Byb3ZpZGVycyIsDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJEZXNjZW5kaW5nIiwgDQogICAgICAgICAgICAgICAgICBzaWdmaWcgPSAzLCANCiAgICAgICAgICAgICAgICAgIG51bV9kZWMgPSAwTCwNCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiTWVudGFsIEhlYWx0aCBQcm92aWRlcnMiLA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXIgMTAwLDAwMCIsDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9jY19wcmV2ZW50YWJsZV9ob3NwaXRhbF9zdGF5cy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIA0KICAgICAgICAgICAgICAgICAgInByZXZlbnRhYmxlX2hvc3BpdGFsX3N0YXlzIiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJQcmV2ZW50YWJsZSBIb3NwaXRhbCBTdGF5cyIsIA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICInRGlzY2hhcmdlcyBmb3IgQW1idWxhdG9yeSBDYXJlIFNlbnNpdGl2ZSBDb25kaXRpb25zIHBlciAxLDAwMCBNZWRpY2FyZSBFbnJvbGxlZXMiLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfY2NfZGlhYmV0ZXNfbW9uaXRvcmluZy5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksDQogICAgICAgICAgICAgICAgICAiZGlhYmV0ZXNfbW9uaXRvcmluZyIsIA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiRGVzY2VuZGluZyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkRpYWJldGVzIE1vbml0b3JpbmciLCANCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudGFnZSBvZiBkaWFiZXRpYyBNZWRpY2FyZSBlbnJvbGxlZXMgcmVjZWl2aW5nIEhiQTFjIHRlc3QiLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfY2NfbWFtbW9ncmFwaHlfc2NyZWVuaW5nLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwNCiAgICAgICAgICAgICAgICAgICJtYW1tb2dyYXBoeV9zY3JlZW5pbmciLA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiRGVzY2VuZGluZyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIk1hbW1vZ3JhcGh5IFNjcmVlbmluZyIsIA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXJjZW50YWdlIG9mIGZlbWFsZSBNZWRpY2FyZSBlbnJvbGxlZXMgaGF2aW5nIGF0IGxlYXN0IDEgbWFtbW9ncmFtIGluIDIgeXJzIChhZ2UgNjctNjkpIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX3NlY19zb2NpYWxfYXNzb2NpYXRpb25zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQoNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTUpLCANCiAgICAgICAgICAgICAgICAgICJzc19lc3RfcGVyXzEwMDAwIiwNCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkRlc2NlbmRpbmciLCANCiAgICAgICAgICAgICAgICAgIG51bV9kZWMgPSAxLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJTb2NpYWwgU3VwcG9ydCwgMjAxNSIsIA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJNZW1iZXJzaGlwIEFzc29jaWF0aW9ucyBwZXIgMTAsMDAwIHBvcHVsYXRpb24iLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIENCUCBTdGF0aXN0aWNzIGZyb20gVVMgQ2Vuc3VzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfc2VjX3Zpb2xlbnRfY3JpbWUuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJ2aW9sZW50X2NyaW1lIiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLCANCiAgICAgICAgICAgICAgICAgIHNpZ2ZpZyA9IDMsIA0KICAgICAgICAgICAgICAgICAgbnVtX2RlYyA9IDAsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIlZpb2xlbnQgQ3JpbWUiLCANCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiVmlvbGVudCBDcmltZXMgcGVyIDEwMCwwMDAiLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24gMjAxNyBDb3VudHkgSGVhbHRoIFJhbmtpbmdzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfc2VjX2luanVyeV9kZWF0aHMuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJpbmp1cnlfZGVhdGhzIiwNCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkFzY2VuZGluZyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkluanVyeSBEZWF0aHMiLCANCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiSW5qdXJ5IE1vcnRhbGl0eSBSYXRlIHBlciAxMDAsMDAwIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX3BlX2Fpcl9wb2xsdXRpb24uanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJhaXJfcG9sbHV0aW9uIiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJBaXIgUG9sbHV0aW9uIiwgDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkF2ZXJhZ2UgZGFpbHkgYW1vdW50IG9mIGZpbmUgcGFydGljdWxhdGUgbWF0dGVyIGluIG1pY3JvZ3JhbXMgcGVyIGN1YmljIG1ldGVyIiwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX3BlX3NldmVyZV9ob3VzaW5nX3Byb2JsZW1zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwNCiAgICAgICAgICAgICAgICAgICJzZXZlcmVfaG91c2luZ19wcm9ibGVtcyIsIA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiQXNjZW5kaW5nIiwNCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiU2V2ZXJlIEhvdXNpbmcgUHJvYmxlbXMiLCANCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX3BlX3NldmVyZV9ob3VzaW5nX3Byb2JsZW1zLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAic2V2ZXJlX2hvdXNpbmdfcHJvYmxlbXMiLA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiQXNjZW5kaW5nIiwNCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiU2V2ZXJlIEhvdXNpbmcgUHJvYmxlbXMiLCANCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSB0aGUgUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIDIwMTcgQ291bnR5IEhlYWx0aCBSYW5raW5ncyIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX3BlX2RyaXZpbmdfYWxvbmVfdG9fd29yay5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KcmFua19hbmRfbmJfZ3JvdXAoZmlsdGVyKGhlYWx0aF9kYXRhX2ZpcHMsIHllYXIgPT0gMjAxNyksIA0KICAgICAgICAgICAgICAgICAgImRyaXZpbmdfYWxvbmVfdG9fd29yayIsIA0KICAgICAgICAgICAgICAgICAgb3JkZXIgPSAiQXNjZW5kaW5nIiwNCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiUGVyY2VudCBvZiBXb3JrZm9yY2UgdGhhdCBVc3VhbGx5IERyaXZlcyBBbG9uZSB0byBXb3JrIiwNCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiRHJpdmluZyBBbG9uZSB0byBXb3JrIiwgDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiAyMDE3IENvdW50eSBIZWFsdGggUmFua2luZ3MiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9wZV9jb21tdXRlX3RpbWVfcmFua2luZ3MuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTUpLCANCiAgICAgICAgICAgICAgICAgICJjb21tdXRlX3RpbWUiLCANCiAgICAgICAgICAgICAgICAgIG9yZGVyID0gIkFzY2VuZGluZyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkNvbW11dGUgVGltZSwgMjAxNSIsDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkNvbW11dGUgVGltZSAobWludXRlcykiLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIHRoZSBGZWRlcmFsIFJlc2VydmUgdmlhIEdlb0ZSRUQiKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9vdXRjb21lc19vdmVyYWxsLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAib3V0Y29tZXMiLA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJIZWFsdGggT3V0Y29tZXMsIDIwMTciLCANCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiQXZlcmFnZSBQZWVyIENpdHkiLCANCiAgICAgICAgICAgICAgICAgIHRleHQgPSBGQUxTRSwgDQogICAgICAgICAgICAgICAgICBoX2xpbmUgPSBUUlVFLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX2JlaGF2aW9yc19vdmVyYWxsLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAiaGVhbHRoX2JlaGF2aW9ycyIsDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkhlYWx0aCBCZWhhdmlvcnMsIDIwMTciLA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJBdmVyYWdlIFBlZXIgQ2l0eSIsIA0KICAgICAgICAgICAgICAgICAgdGV4dCA9IEZBTFNFLA0KICAgICAgICAgICAgICAgICAgaF9saW5lID0gVFJVRSwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IFxuIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24iKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9jY19vdmVyYWxsLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAiY2xpbmljYWxfY2FyZSIsIA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJDbGluaWNhbCBDYXJlLCAyMDE3IiwgDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkF2ZXJhZ2UgUGVlciBDaXR5IiwgDQogICAgICAgICAgICAgICAgICB0ZXh0ID0gRkFMU0UsIA0KICAgICAgICAgICAgICAgICAgaF9saW5lID0gVFJVRSwNCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIFJvYmVydCBXb29kIEpvaG5zb24gRm91bmRhdGlvbiIgICAgICAgICAgICAgICAgICApDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX3NlY19vdmVyYWxsLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwgDQogICAgICAgICAgICAgICAgICAic29jaWFsX2FuZF9lY29ub21pYyIsIA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJTb2NpYWwgYW5kIEVjb25vbWljIEhlYWx0aCBGYWN0b3JzLCAyMDE3IiwNCiAgICAgICAgICAgICAgICAgIHlfdGl0bGUgPSAiQXZlcmFnZSBQZWVyIENpdHkiLCANCiAgICAgICAgICAgICAgICAgIHRleHQgPSBGQUxTRSwNCiAgICAgICAgICAgICAgICAgIGhfbGluZSA9IFRSVUUsDQogICAgICAgICAgICAgICAgICBjYXB0aW9uX3RleHQgPSAiU291cmNlOiBHcmVhdGVyIExvdWlzdmlsbGUgUHJvamVjdA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24iKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9wZV9vdmVyYWxsLmpwZyIsIDkwMCwgNjAwLCByZXMgPSAxMDApDQpyYW5rX2FuZF9uYl9ncm91cChmaWx0ZXIoaGVhbHRoX2RhdGFfZmlwcywgeWVhciA9PSAyMDE3KSwNCiAgICAgICAgICAgICAgICAgICJwaHlzaWNhbF9lbnZpcm9ubWVudCIsIA0KICAgICAgICAgICAgICAgICAgcGxvdF90aXRsZSA9ICJQaHlzaWNhbCBFbnZpcm9ubWVudCwgMjAxNyIsDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkF2ZXJhZ2UgUGVlciBDaXR5IiwgDQogICAgICAgICAgICAgICAgICB0ZXh0ID0gRkFMU0UsDQogICAgICAgICAgICAgICAgICBoX2xpbmUgPSBUUlVFLCAgICANCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhdGEgZnJvbSBSb2JlcnQgV29vZCBKb2huc29uIEZvdW5kYXRpb24iKQ0KZGV2Lm9mZigpDQoNCmpwZWcoImhlYWx0aF9mYWN0b3JzX292ZXJhbGwuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGZpbHRlcihoZWFsdGhfZGF0YV9maXBzLCB5ZWFyID09IDIwMTcpLCANCiAgICAgICAgICAgICAgICAgICJmYWN0b3JzIiwgDQogICAgICAgICAgICAgICAgICBwbG90X3RpdGxlID0gIkNvbWJpbmVkIEhlYWx0aCBGYWN0b3JzLCAyMDE3IiwgDQogICAgICAgICAgICAgICAgICB5X3RpdGxlID0gIkF2ZXJhZ2UgUGVlciBDaXR5IiwgDQogICAgICAgICAgICAgICAgICB0ZXh0ID0gRkFMU0UsDQogICAgICAgICAgICAgICAgICBoX2xpbmUgPSBUUlVFLA0KICAgICAgICAgICAgICAgICAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRhIGZyb20gUm9iZXJ0IFdvb2QgSm9obnNvbiBGb3VuZGF0aW9uIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfc2VjX2NoaWxkX3BvdmVydHlfcmFua2luZ3MuanBnIiwgOTAwLCA2MDAsIHJlcyA9IDEwMCkNCnJhbmtfYW5kX25iX2dyb3VwKGhlYWx0aF9kYXRhX2ZpcHMgJT4lIGZpbHRlcih5ZWFyID09IDIwMTUpLCANCiAgICAgICAgICAgICAgICAgICJjaGlsZF9wZXIiLCANCiAgICAgICAgICAgICAgICAgIHBsb3RfdGl0bGUgPSAiQ2hpbGQgUG92ZXJ0eSwgMjAxNSIsIA0KICAgICAgICAgICAgICAgICAgeV90aXRsZSA9ICJQZXJjZW50IiwgDQogICAgICAgICAgICAgICAgICBvcmRlciA9ICJBc2NlbmRpbmciLCANCiAgICAgICAgICAgICAgICAgIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXkgVGFibGUgQjE3MDAxIikNCmRldi5vZmYoKQ0KDQpzaG93dGV4dC5hdXRvKEZBTFNFKQ0KYGBgDQoNClRyZW5kbGluZSBncmFwaHMNCmBgYHtyfQ0Kc2V0d2QoIkltYWdlcy9IZWFsdGhfSW1hZ2VzIikNCg0KanBlZygiaGVhbHRoX3NvY2lhbF9zdXBwb3J0X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KZ3JhcGhfdHJlbmRsaW5lKA0KICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLA0KICB2YXIgPSAnc3NfZXN0X3Blcl8xMDAwMCcsDQogIHJvbGxtZWFuID0gMSwNCiAgcGxvdF90aXRsZSA9ICJTb2NpYWwgU3VwcG9ydCIsDQogIHlfdGl0bGUgPSAiTWVtYmVyc2hpcCBBc3NvY2lhdGlvbnMgcGVyIDEwLDAwMCByZXNpZGVudHMiLA0KICB4bWluID0gMjAwNSwNCiAgeG1heCA9IDIwMTUsDQogIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIENCUCBTdGF0aXN0aWNzIGZyb20gVVMgQ2Vuc3VzIikNCmRldi5vZmYoKQ0KDQpqcGVnKCJoZWFsdGhfcGVfY29tbXV0ZV90aW1lX3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KZ3JhcGhfdHJlbmRsaW5lKA0KICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLA0KICB2YXIgPSAnY29tbXV0ZV90aW1lJywNCiAgcm9sbG1lYW4gPSAxLA0KICBwbG90X3RpdGxlID0gIkNvbW11dGUgVGltZSIsDQogIHlfdGl0bGUgPSAiQ29tbXV0ZSBUaW1lIChtaW51dGVzKSIsDQogIHhtaW4gPSAyMDA5LA0KICB4bWF4ID0gMjAxNSwNCiAgY2FwdGlvbl90ZXh0ID0gIlNvdXJjZTogR3JlYXRlciBMb3Vpc3ZpbGxlIFByb2plY3QgDQogICAgICAgICAgICAgICAgICBEYXRhIGZyb20gdGhlIEZlZGVyYWwgUmVzZXJ2ZSB2aWEgR2VvRlJFRCIpDQpkZXYub2ZmKCkNCg0KanBlZygiaGVhbHRoX3NlY19jaGlsZF9wb3ZlcnR5X3RyZW5kbGluZS5qcGciLCA5MDAsIDYwMCwgcmVzID0gMTAwKQ0KZ3JhcGhfdHJlbmRsaW5lKA0KICBhcy5kYXRhLmZyYW1lKGhlYWx0aF9kYXRhX2ZpcHMpLA0KICB2YXIgPSAnY2hpbGRfcGVyJywNCiAgcm9sbG1lYW4gPSAzLA0KICBwbG90X3RpdGxlID0gIkNoaWxkIFBvdmVydHkiLA0KICB5X3RpdGxlID0gIlBlcmNlbnQiLA0KICB4bWluID0gMjAwNSwNCiAgeG1heCA9IDIwMTUsDQogIGNhcHRpb25fdGV4dCA9ICJTb3VyY2U6IEdyZWF0ZXIgTG91aXN2aWxsZSBQcm9qZWN0IA0KICAgICAgICAgICAgICAgICAgRGF0YSBmcm9tIEFtZXJpY2FuIENvbW11bml0eSBTdXJ2ZXkgVGFibGUgQjE3MDAxIikNCmRldi5vZmYoKQ0KYGBg</div>
 
 
 
