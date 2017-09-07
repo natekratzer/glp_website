@@ -1,2 +1,8 @@
 
 Images/
+
+input data/\.Rhistory
+
+\.Rhistory
+
+*.html
