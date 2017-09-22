@@ -840,6 +840,8 @@ education_data <- child_pov_data %>%
   mutate_all(funs(.*100)) %>%
   left_join(enroll_3_4_data, by = c("FIPS", 'year')) %>%
   left_join(names, by = "FIPS")
+
+education_data%<>%select(city, county, state, display_name, FIPS, year, current, baseline, everything())
   
 ```
 

@@ -411,6 +411,8 @@ qp_data_fips<-left_join(qp_data_fips, sc_data, by = c("year","FIPS","baseline","
 
 #Create per 100,000 rate from population data in the QP FIPS dataset
 qp_data_fips%<>% mutate(ss_est_per_10000 = (ss_est/population)*10000)
+
+qp_data_fips%<>%select(-ss_est)
 ```
 
 Reads in population data and calculates the percentage of the MSA population living in the core county for each city.
@@ -454,6 +456,8 @@ fips_core_county_pop$FIPS <- as.character(fips_core_county_pop$FIPS)
 
 #Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, fips_core_county_pop, by = c("year", "FIPS"))
+
+qp_data_fips %<>% select(-MSA, -msa_population_estimate)
 ```
 
 Reads in food insecurity data, calculates percentage for St. Louis, and appends variable to qp_data_fips
@@ -796,9 +800,11 @@ child_pov_data <- child_pov_data %>%
   select(-child_total)
 
 qp_data_fips %<>% left_join(child_pov_data, by = c("FIPS", "year"))
+
+#qp_data_fips %<>% select(city, county, state, display_name, FIPS, year, current, baseline, child_per)
 ```
 
-Reads volunteer data for 2011-2015 into R, processes it, and appends the observations to 'qp_data_msa'
+Reads volunteer data for 2011-2015 into R, processes it, and saves the observations to the dataframe 'qp_data_msa'
 ```{r}
 #Read in Data
 v_2015 <- read_csv("input data/qp_input_data/volunteer2015.csv", progress = FALSE)
@@ -851,6 +857,8 @@ v_data <- v_data %>%
   rbind(v_2015)
 v_data$current <- 1
 v_data%<>%dplyr::rename(year = Year)
+
+v_data%<>%select(city, MSA, year, current, volunteer_pct)
 
 #Create MSA Data
 qp_data_msa <- v_data
