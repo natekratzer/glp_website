@@ -108,7 +108,7 @@ setwd("Images/Edu_Images")
 
 showtext.auto()
 
-jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
+png("edu_under_5_pov_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "under_5_per",
@@ -119,7 +119,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_five_to_17_pov_ranking.jpg", 900, 600, res = 100)
+png("edu_five_to_17_pov_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "five_to_17_per",
@@ -130,7 +130,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_child_pov_ranking.jpg", 900, 600, res = 100)
+png("edu_child_pov_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "child_per",
@@ -141,7 +141,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_bach_plus_all_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_all_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(educ_data_15,
   "bach_plus_per_all",
   plot_title = "Bachelor's Degree or Higher, All Races, 2015",
@@ -149,7 +149,7 @@ rank_and_nb_group(educ_data_15,
                   Data from the American Community Survey, Table B15002")
 dev.off()
 
-jpeg("edu_bach_plus_black_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_black_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "bach_plus_per_black",
@@ -159,7 +159,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_64_assoc_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_64_assoc_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_assoc_plus",
@@ -169,7 +169,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_64_bach_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_64_bach_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_bach_plus",
@@ -179,7 +179,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_64_grad_ranking.jpg", 900, 600, res = 100)
+png("edu_25_64_grad_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_grad",
@@ -189,7 +189,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_34_assoc_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_34_assoc_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_assoc_plus",
@@ -199,7 +199,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_34_bach_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_34_bach_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_bach_plus",
@@ -209,7 +209,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_34_grad_ranking.jpg", 900, 600, res = 100)
+png("edu_25_34_grad_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_grad",
@@ -219,7 +219,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_bach_plus_hispanic_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_hispanic_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "bach_plus_per_hispanic",
@@ -229,7 +229,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_bach_plus_white_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_white_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "bach_plus_per_white",
@@ -239,7 +239,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_enrolled_3_4_ranking.jpg", 900, 600, res = 100)
+png("edu_enrolled_3_4_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "enrolled_3_4",
@@ -249,7 +249,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_per_high_wage_ranking.jpg", 900, 600, res = 100)
+png("edu_per_high_wage_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_high_wage",
@@ -268,7 +268,7 @@ setwd("Images/Edu_Images")
 
 showtext.auto()
 
-jpg("edu_under_5_pov_trendline.png", 900, 600, res = 100)
+png("edu_under_5_pov_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "under_5_per",
@@ -280,7 +280,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B17001")
 dev.off()
 
-jpeg("edu_five_to_17_pov_trendline.jpg", 900, 600, res = 100)
+png("1edu_five_to_17_pov_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "five_to_17_per", 
@@ -292,7 +292,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B17001")
 dev.off()
 
-jpeg("edu_child_pov_trendline.jpg", 900, 600, res = 100)
+png("edu_child_pov_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "child_per",
@@ -304,7 +304,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B17001")
 dev.off()
 
-jpeg("edu_bach_plus_all_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_all_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "bach_plus_per_all",
@@ -316,7 +316,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002")
 dev.off()
 
-jpeg("edu_bach_plus_black_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_black_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "bach_plus_per_black",
@@ -328,7 +328,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002B")
 dev.off()
 
-jpeg("edu_25_64_assoc_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_64_assoc_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_assoc_plus",
@@ -340,7 +340,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_64_bach_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_64_bach_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_bach_plus",
@@ -352,7 +352,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_64_grad_trendline.jpg", 900, 600, res = 100)
+png("edu_25_64_grad_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_grad",
@@ -364,7 +364,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_34_assoc_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_34_assoc_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_assoc_plus",
@@ -376,7 +376,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_34_bach_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_34_bach_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_bach_plus",
@@ -388,7 +388,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_34_grad_trendline.jpg", 900, 600, res = 100)
+png("edu_25_34_grad_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_grad",
@@ -400,7 +400,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_bach_plus_hispanic_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_hispanic_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "bach_plus_per_hispanic",
@@ -412,7 +412,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002I")
 dev.off()
 
-jpeg("edu_bach_plus_white_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_white_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "bach_plus_per_white",
@@ -424,7 +424,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002A")
 dev.off()
 
-jpeg("edu_enrolled_3_4_trendline.jpg", 900, 600, res = 100)
+png("edu_enrolled_3_4_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "enrolled_3_4",
@@ -436,7 +436,7 @@ graph_trendline(
                   Data from the American Community Survey, Table S1401")
 dev.off()
 
-jpeg("edu_per_high_wage_trendline.jpg", 900, 600, res = 100)
+png("edu_per_high_wage_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_high_wage",
@@ -448,7 +448,7 @@ graph_trendline(
                   Data from the American Community Survey, Table S2401")
 dev.off()
 
-jpeg("edu_ccr_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_ccr_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_ccr,
   break_settings = seq(2012, 2016, 2),
@@ -464,7 +464,7 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_act_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_act_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_act,
   break_settings = seq(2012, 2016, 2),
@@ -480,7 +480,7 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_grad_rate_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_grad_rate_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_grad_rate,
   break_settings = seq(2013, 2016, 2),
@@ -496,7 +496,7 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_kindergarten_prep_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_kindergarten_prep_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_kscreen,
   break_settings = seq(2014, 2016, 2),
@@ -512,7 +512,7 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_act_trendline.jpg", 900, 600, res = 100)
+png("edu_act_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_composite_score",
@@ -526,7 +526,7 @@ graph_trendline_ky_ed(
 )
 dev.off()
 
-jpeg("edu_ccr_trendline.jpg", 900, 600, res = 100)
+png("edu_ccr_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_pct_ccr",
@@ -540,7 +540,7 @@ graph_trendline_ky_ed(
 )
 dev.off()
 
-jpeg("edu_kindergarten_prep_trendline.jpg", 900, 600, res = 100)
+png("edu_kindergarten_prep_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_kind_ready",
@@ -554,7 +554,7 @@ graph_trendline_ky_ed(
 )
 dev.off()
 
-jpeg("edu_graduation_rate_trendline.jpg", 900, 600, res = 100)
+png("edu_graduation_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_cohort_grad_rate",
@@ -568,7 +568,7 @@ graph_trendline_ky_ed(
 )
 dev.off()
 
-jpeg("edu_naep_reading_trendline.jpg", 900, 600, res = 100)
+png("edu_naep_reading_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   naep_data, 
   var = "Jurisdiction", 
@@ -584,7 +584,7 @@ ky_ed_data_long_trendline(
              Data from National Center for Education Statistics")
 dev.off()
 
-jpeg("edu_naep_math_trendline.jpg", 900, 600, res = 100)
+png("edu_naep_math_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   naep_data, 
   var = "Jurisdiction",

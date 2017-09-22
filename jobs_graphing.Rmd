@@ -66,7 +66,7 @@ setwd("Images/Jobs_Images")
 
 showtext.auto()
 
-jpeg("jobs_earnings_ranking.jpg", 900, 600, res = 100)
+png("jobs_earnings_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(dat_15, 
                   "median_earnings", 
                   order = "Descending",
@@ -76,7 +76,7 @@ rank_and_nb_group(dat_15,
                                   Data from the American Community Survey Table S2001")
 dev.off()
 
-jpeg("jobs_income_inequality_ranking.jpg", 900, 600, res = 100)
+png("jobs_income_inequality_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(dat_15, 
                   "income_inequality", 
                   order = "Ascending",
@@ -86,7 +86,7 @@ rank_and_nb_group(dat_15,
                                   Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-jpeg("jobs_median_household_income_ranking.jpg", 900, 600, res = 100)
+png("jobs_median_household_income_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(dat_14, 
                   "median_household_income", 
                   order = "Descending",
@@ -97,7 +97,7 @@ rank_and_nb_group(dat_14,
 dev.off()
 
 
-jpeg("jobs_personal_income_per_cap_ranking.jpg", 900, 600, res = 100)
+png("jobs_personal_income_per_cap_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(dat_15, 
                   "personal_income_per_cap", 
                   order = "Descending",
@@ -107,7 +107,7 @@ rank_and_nb_group(dat_15,
                                   Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-jpeg("jobs_unemployment_ranking.jpg", 900, 600, res = 100)
+png("jobs_unemployment_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(dat_15, 
                   "unemployment", 
                   order = "Ascending",
@@ -116,7 +116,7 @@ rank_and_nb_group(dat_15,
                                   Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-jpeg("jobs_estabs_entry_rate_ranking.jpg", 900, 600, res = 100)
+png("jobs_estabs_entry_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'estabs_entry_rate',
                   order = "Descending",
@@ -125,7 +125,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_estabs_exit_rate_ranking.jpg", 900, 600, res = 100)
+png("jobs_estabs_exit_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'estabs_exit_rate',
                   order = "Ascending",
@@ -134,7 +134,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_creation_rate_births_ranking.jpg", 900, 600, res = 100)
+png("jobs_job_creation_rate_births_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                   'job_creation_rate_births',
                   order = "Descending",
@@ -143,7 +143,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_creation_rate_ranking.jpg", 900, 600, res = 100)
+png("jobs_job_creation_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'job_creation_rate',
                   order = "Descending",
@@ -152,7 +152,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_destruction_rate_ranking.jpg", 900, 600, res = 100)
+png("jobs_job_destruction_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'job_destruction_rate',
                   order = "Ascending",
@@ -161,7 +161,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_destruction_rate_deaths_ranking.jpg", 900, 600, res = 100)
+png("jobs_job_destruction_rate_deaths_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'job_destruction_rate_deaths',
                   order = "Ascending",
@@ -170,7 +170,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_creation_rate_ranking.jpg", 900, 600, res = 100)
+png("jobs_job_creation_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'job_creation_rate',
                   order = "Descending",
@@ -179,7 +179,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_net_est_entry_rate_ranking.jpg", 900, 600, res = 100)
+png("jobs_net_est_entry_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'estabs_entry_rate_minus_exit',
                   order = "Descending",
@@ -188,7 +188,7 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_net_job_creation_rate_ranking.jpg", 900, 600, res = 100)
+png("jobs_net_job_creation_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'net_job_creation_rate',
                   order = "Descending",
@@ -207,7 +207,7 @@ setwd("Images/Jobs_Images")
 
 showtext.auto()
 
-jpeg("jobs_earnings_trendline.jpg", 900, 600, res = 100)
+png("jobs_earnings_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(jobs_data_fips, 
                 "median_earnings",
                 plot_title = "Median Earnings",
@@ -221,7 +221,7 @@ graph_trendline(jobs_data_fips,
 dev.off()
 
 
-jpeg("jobs_income_inequality_trendline.jpg", 900, 600, res = 100)
+png("jobs_income_inequality_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(jobs_data_fips, 
                 "income_inequality",
                 plot_title = "Income Inequality",
@@ -234,7 +234,7 @@ graph_trendline(jobs_data_fips,
                                 Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-jpeg("jobs_median_household_income_trendline.jpg", 900, 600, res = 100)
+png("jobs_median_household_income_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(jobs_data_fips, 
                 "median_household_income",
                 plot_title = "Median Household Income",
@@ -248,7 +248,7 @@ graph_trendline(jobs_data_fips,
 dev.off()
 
 
-jpeg("jobs_personal_income_per_cap_trendline.jpg", 900, 600, res = 100)
+png("jobs_personal_income_per_cap_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(jobs_data_fips, 
                 "personal_income_per_cap",
                 plot_title = "Per Capita Personal Income",
@@ -262,7 +262,7 @@ graph_trendline(jobs_data_fips,
 dev.off()
 
 
-jpeg("jobs_unemployment_trendline.jpg", 900, 600, res = 100)
+png("jobs_unemployment_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(jobs_data_fips, 
                 "unemployment",
                 plot_title = "Unemployment",
@@ -274,7 +274,7 @@ graph_trendline(jobs_data_fips,
                                 Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-jpeg("jobs_estabs_entry_rate_trendline.jpg", 900, 600, res = 100)
+png("jobs_estabs_entry_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'estabs_entry_rate',
                     plot_title = "Establishment Entry Rate",
@@ -286,7 +286,7 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_creation_rate_births_trendline.jpg", 900, 600, res = 100)
+png("jobs_job_creation_rate_births_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'job_creation_rate_births',
                     plot_title = "Job Creation Birth Rate",
@@ -298,7 +298,7 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_destruction_rate_trendline.jpg", 900, 600, res = 100)
+png("jobs_job_destruction_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'job_destruction_rate',
                     plot_title = "Job Destruction Rate",
@@ -310,7 +310,7 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_destruction_rate_deaths_trendline.jpg", 900, 600, res = 100)
+png("jobs_job_destruction_rate_deaths_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'job_destruction_rate_deaths',
                     plot_title = "Job Destruction Death Rate",
@@ -322,7 +322,7 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_estabs_exit_rate_trendline.jpg", 900, 600, res = 100)
+png("jobs_estabs_exit_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'estabs_exit_rate',
                     plot_title = "Establishment Exit Rate",
@@ -334,7 +334,7 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_job_creation_rate_trendline.jpg", 900, 600, res = 100)
+png("jobs_job_creation_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'job_creation_rate',
                     plot_title = "Job Creation Rate",
@@ -346,7 +346,7 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_net_est_entry_rate_trendline.jpg", 900, 600, res = 100)
+png("jobs_net_est_entry_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'estabs_entry_rate_minus_exit',
                     plot_title = "Net Establishment Entry Rate",
@@ -357,7 +357,7 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-jpeg("jobs_net_job_creation_rate_trendline.jpg", 900, 600, res = 100)
+png("jobs_net_job_creation_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'net_job_creation_rate',
                     plot_title = "Net Job Creation Rate",

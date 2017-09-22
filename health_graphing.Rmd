@@ -48,7 +48,7 @@ setwd("Images/Health_Images")
 
 showtext.auto()
 
-jpeg("health_outcomes_premature_death.jpg", 900, 600, res = 100)
+png("health_outcomes_premature_death.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "premature_death", 
                   order = "Ascending",
@@ -60,7 +60,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_outcomes_poor_or_fair_health.jpg", 900, 600, res = 100)
+png("health_outcomes_poor_or_fair_health.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "poor_or_fair_health", 
                   order = "Ascending",
@@ -70,7 +70,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_outcomes_poor_physical_health_days.jpg", 900, 600, res = 100)
+png("health_outcomes_poor_physical_health_days.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "poor_physical_health_days", 
                   order = "Ascending", 
@@ -81,7 +81,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_outcomes_poor_mental_health_days.jpg", 900, 600, res = 100)
+png("health_outcomes_poor_mental_health_days.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "poor_mental_health_days", 
                   order = "Ascending", 
@@ -92,7 +92,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_outcomes_low_birthweight.jpg", 900, 600, res = 100)
+png("health_outcomes_low_birthweight.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "low_birthweight",
                   order = "Ascending", 
@@ -103,7 +103,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_adult_smoking.jpg", 900, 600, res = 100)
+png("health_behaviors_adult_smoking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "adult_smoking", 
                   order = "Ascending",
@@ -113,7 +113,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   nData from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_adult_obesity.jpg", 900, 600, res = 100)
+png("health_behaviors_adult_obesity.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "adult_obesity",
                   order = "Ascending",
@@ -123,7 +123,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_food_environment_index.jpg", 900, 600, res = 100)
+png("health_behaviors_food_environment_index.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "food_environment_index",
                   order = "Descending",
@@ -133,7 +133,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_physical_inactivity.jpg", 900, 600, res = 100)
+png("health_behaviors_physical_inactivity.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "physical_inactivity",
                   order = "Ascending",
@@ -143,7 +143,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_access_to_exercise_opportunities.jpg", 900, 600, res = 100)
+png("health_behaviors_access_to_exercise_opportunities.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "access_to_exercise_opportunities",
                   order = "Descending",
@@ -153,7 +153,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_excessive_drinking.jpg", 900, 600, res = 100)
+png("health_behaviors_excessive_drinking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "excessive_drinking",
                   order = "Ascending",
@@ -163,7 +163,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_alcohol_impaired_driving_deaths.jpg", 900, 600, res = 100)
+png("health_behaviors_alcohol_impaired_driving_deaths.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "alcohol_impaired_driving_deaths", 
                   order = "Ascending",
@@ -173,7 +173,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_sexually_transmitted_infections.jpg", 900, 600, res = 100)
+png("health_behaviors_sexually_transmitted_infections.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "sexually_transmitted_infections",
                   sigfig = 3, 
@@ -185,7 +185,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_behaviors_teen_births.jpg", 900, 600, res = 100)
+png("health_behaviors_teen_births.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "teen_births", 
                   order = "Ascending",
@@ -195,7 +195,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_cc_uninsured.jpg", 900, 600, res = 100)
+png("health_cc_uninsured.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "uninsured", 
                   order = "Ascending",
@@ -205,7 +205,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_cc_primary_care_physicians.jpg", 900, 600, res = 100)
+png("health_cc_primary_care_physicians.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "primary_care_physicians", 
                   order = "Descending", 
@@ -217,7 +217,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_cc_dentists.jpg", 900, 600, res = 100)
+png("health_cc_dentists.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "dentists", 
                   order = "Descending", 
@@ -229,7 +229,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_cc_mental_health_providers.jpg", 900, 600, res = 100)
+png("health_cc_mental_health_providers.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "mental_health_providers",
                   order = "Descending", 
@@ -241,7 +241,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_cc_preventable_hospital_stays.jpg", 900, 600, res = 100)
+png("health_cc_preventable_hospital_stays.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "preventable_hospital_stays", 
                   order = "Ascending",
@@ -251,7 +251,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_cc_diabetes_monitoring.jpg", 900, 600, res = 100)
+png("health_cc_diabetes_monitoring.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "diabetes_monitoring", 
                   order = "Descending",
@@ -261,7 +261,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_cc_mammography_screening.jpg", 900, 600, res = 100)
+png("health_cc_mammography_screening.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "mammography_screening",
                   order = "Descending",
@@ -271,7 +271,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_sec_social_associations.jpg", 900, 600, res = 100)
+png("health_sec_social_associations.png", 900, 600, res = 100, type = "cairo")
 
 rank_and_nb_group(filter(health_data_fips, year == 2015), 
                   "ss_est_per_10000",
@@ -283,7 +283,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2015),
                                   Data from CBP Statistics from US Census")
 dev.off()
 
-jpeg("health_sec_violent_crime.jpg", 900, 600, res = 100)
+png("health_sec_violent_crime.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "violent_crime", 
                   order = "Ascending", 
@@ -295,7 +295,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_sec_injury_deaths.jpg", 900, 600, res = 100)
+png("health_sec_injury_deaths.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "injury_deaths",
                   order = "Ascending",
@@ -305,7 +305,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_pe_air_pollution.jpg", 900, 600, res = 100)
+png("health_pe_air_pollution.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "air_pollution", 
                   order = "Ascending",
@@ -315,7 +315,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_pe_severe_housing_problems.jpg", 900, 600, res = 100)
+png("health_pe_severe_housing_problems.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "severe_housing_problems", 
                   order = "Ascending",
@@ -324,7 +324,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_pe_severe_housing_problems.jpg", 900, 600, res = 100)
+png("health_pe_severe_housing_problems.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "severe_housing_problems",
                   order = "Ascending",
@@ -333,7 +333,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_pe_driving_alone_to_work.jpg", 900, 600, res = 100)
+png("health_pe_driving_alone_to_work.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "driving_alone_to_work", 
                   order = "Ascending",
@@ -343,7 +343,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from the Robert Wood Johnson Foundation 2017 County Health Rankings")
 dev.off()
 
-jpeg("health_pe_commute_time_rankings.jpg", 900, 600, res = 100)
+png("health_pe_commute_time_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2015), 
                   "commute_time", 
                   order = "Ascending",
@@ -353,7 +353,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2015),
                                   Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-jpeg("health_outcomes_overall.jpg", 900, 600, res = 100)
+png("health_outcomes_overall.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "outcomes",
                   plot_title = "Health Outcomes, 2017", 
@@ -364,7 +364,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from Robert Wood Johnson Foundation")
 dev.off()
 
-jpeg("health_behaviors_overall.jpg", 900, 600, res = 100)
+png("health_behaviors_overall.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "health_behaviors",
                   plot_title = "Health Behaviors, 2017",
@@ -374,7 +374,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                   caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
 dev.off()
 
-jpeg("health_cc_overall.jpg", 900, 600, res = 100)
+png("health_cc_overall.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "clinical_care", 
                   plot_title = "Clinical Care, 2017", 
@@ -385,7 +385,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from Robert Wood Johnson Foundation"                  )
 dev.off()
 
-jpeg("health_sec_overall.jpg", 900, 600, res = 100)
+png("health_sec_overall.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "social_and_economic", 
                   plot_title = "Social and Economic Health Factors, 2017",
@@ -396,7 +396,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from Robert Wood Johnson Foundation")
 dev.off()
 
-jpeg("health_pe_overall.jpg", 900, 600, res = 100)
+png("health_pe_overall.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017),
                   "physical_environment", 
                   plot_title = "Physical Environment, 2017",
@@ -407,7 +407,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from Robert Wood Johnson Foundation")
 dev.off()
 
-jpeg("health_factors_overall.jpg", 900, 600, res = 100)
+png("health_factors_overall.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(health_data_fips, year == 2017), 
                   "factors", 
                   plot_title = "Combined Health Factors, 2017", 
@@ -418,7 +418,7 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
                                   Data from Robert Wood Johnson Foundation")
 dev.off()
 
-jpeg("health_sec_child_poverty_rankings.jpg", 900, 600, res = 100)
+png("health_sec_child_poverty_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(health_data_fips %>% filter(year == 2015), 
                   "child_per", 
                   plot_title = "Child Poverty, 2015", 
@@ -435,7 +435,7 @@ Trendline graphs
 ```{r}
 setwd("Images/Health_Images")
 
-jpeg("health_social_support_trendline.jpg", 900, 600, res = 100)
+png("health_social_support_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(health_data_fips),
   var = 'ss_est_per_10000',
@@ -448,7 +448,7 @@ graph_trendline(
                   Data from CBP Statistics from US Census")
 dev.off()
 
-jpeg("health_pe_commute_time_trendline.jpg", 900, 600, res = 100)
+png("health_pe_commute_time_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(health_data_fips),
   var = 'commute_time',
@@ -461,7 +461,7 @@ graph_trendline(
                   Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-jpeg("health_sec_child_poverty_trendline.jpg", 900, 600, res = 100)
+png("health_sec_child_poverty_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(health_data_fips),
   var = 'child_per',
