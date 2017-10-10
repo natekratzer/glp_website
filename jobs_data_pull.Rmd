@@ -128,9 +128,119 @@ Reads earnings data from the ACS into R and subsets data
 ```{r, message = FALSE}
 earn_data <- acs_time("/input data/jobs_input_data/S2001/")
 
+tran_data_05 = 
+  acs_time("/input data/jobs_input_data/S0802_05/", starting.year = 2005) %>%
+  select(
+    FIPS, year,
+    
+    #total numbers
+    total = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined',
+    total_public = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined',
+    
+    #poor percents
+    pct_pov = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - Below 100 percent of the poverty level',
+    public_pct_pov = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - Below 100 percent of the poverty level',
+    
+    #slightly above poverty public transit percent
+    pct_pov150 = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - 100 to 149 percent of the poverty level',
+    public_pct_pov150 = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - 100 to 149 percent of the poverty level',
+    
+    #above poverty public transit percent
+    pct_nonpov = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - At or above 150 percent of the poverty level',
+    public_pct_nonpov = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - At or above 150 percent of the poverty level'
+    )%>%
+  mutate_all(as.numeric) %>%
+  transmute(
+    FIPS = as.character(FIPS),
+    year = as.character(year),
+    
+  pov_pct_public = 
+    ((public_pct_pov * total_public) * 100/ 
+    (pct_pov * total)),
+    
+  nonpov_pct_public = 
+    ((public_pct_pov150 * total_public + public_pct_nonpov * total_public) * 100/ 
+    (pct_pov150 * total + pct_nonpov * total))
+  )
+
+
+tran_data_06_09 = 
+  acs_time("/input data/jobs_input_data/S0802_06_09/", starting.year = 2006) %>%
+  select(
+    FIPS, year,
+    
+    #total numbers
+    total = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined',
+    total_public = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined',
+    
+    #poor percents
+    pct_pov = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - Below 100 percent of the poverty level',
+    public_pct_pov = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - Below 100 percent of the poverty level',
+    
+    #slightly above poverty public transit percent
+    pct_pov150 = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - 100 to 149 percent of the poverty level',
+    public_pct_pov150 = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - 100 to 149 percent of the poverty level',
+    
+    #above poverty public transit percent
+    pct_nonpov = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - At or above 150 percent of the poverty level',
+    public_pct_nonpov = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined - At or above 150 percent of the poverty level'
+    )%>%
+  mutate_all(as.numeric) %>%
+  transmute(
+    FIPS = as.character(FIPS),
+    year = as.character(year),
+    
+  pov_pct_public = 
+    ((public_pct_pov * total_public) * 100/ 
+    (pct_pov * total)),
+    
+  nonpov_pct_public = 
+    ((public_pct_pov150 * total_public + public_pct_nonpov * total_public) * 100/ 
+    (pct_pov150 * total + pct_nonpov * total))
+  )
+
+
+tran_data_10_16 =
+  acs_time("/input data/jobs_input_data/S0802_10_16/", starting.year = 2010) %>%
+  select(
+    FIPS, year,
+    
+    #total numbers
+    total = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined',
+    total_public = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Workers 16 years and over for whom poverty status is determined',
+    
+    #poor percents
+    pct_pov = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Below 100 percent of the poverty level',
+    public_pct_pov = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - Below 100 percent of the poverty level',
+    
+    #slightly above poverty public transit percent
+    pct_pov150 = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - 100 to 149 percent of the poverty level',
+    public_pct_pov150 = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - 100 to 149 percent of the poverty level',
+    
+    #above poverty public transit percent
+    pct_nonpov = 'Total; Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - At or above 150 percent of the poverty level',
+    public_pct_nonpov = 'Public transportation (excluding taxicab); Estimate; POVERTY STATUS IN THE PAST 12 MONTHS - At or above 150 percent of the poverty level'
+    ) %>%
+  mutate_all(as.numeric) %>%
+  transmute(
+    FIPS = as.character(FIPS),
+    year = as.character(year),
+    
+  pov_pct_public = 
+    ((public_pct_pov * total_public) * 100/ 
+    (pct_pov * total)),
+    
+  nonpov_pct_public = 
+    ((public_pct_pov150 * total_public + public_pct_nonpov * total_public) * 100/ 
+    (pct_pov150 * total + pct_nonpov * total))
+  )
+
+transit_data = rbind(tran_data_05, tran_data_06_09, tran_data_10_16)
+
 earn_data<-select(earn_data, FIPS, year, earnings = `Total; Estimate; Population 16 years and over with earnings - Median earnings (dollars)`)
 earn_data$num_earnings = as.numeric(as.character(earn_data$earnings))
 earn_data$FIPS <- as.character(earn_data$FIPS)
+
 ```
 
 Reads unemployment, income inequality, median household income, and personal income data into R. Renames the FIPS variable and subsets the data frames to peer cities.
@@ -140,6 +250,7 @@ unemp_dat <- read_csv("input data/jobs_input_data/GeoFRED_unemployment.csv", ski
 income_inequality_dat <- read_csv("input data/jobs_input_data/income_inequality.csv", skip = 1)
 median_household_income_dat <- read_csv("input data/jobs_input_data/median_household_income.csv", skip = 1)
 personal_income_per_cap_dat <- read_csv("input data/jobs_input_data/per capita personal income.csv", skip = 1)
+
 
 unemp_dat <- unemp_dat %>% rename(FIPS = `Region Code`)
 income_inequality_dat <- income_inequality_dat %>% rename(FIPS = `Region Code`)
@@ -169,11 +280,16 @@ personal_income_per_cap_dat <- personal_income_per_cap_dat %>%
 dat <- full_join(unemp_dat, income_inequality_dat, by = c("FIPS", "year"))
 dat <- full_join(dat, median_household_income_dat, by = c("FIPS", "year"))
 dat <- full_join(dat, personal_income_per_cap_dat, by = c("FIPS", "year"))
+transit_data[transit_data$FIPS == "1073",]$FIPS = "01073"
+dat <- full_join(dat, transit_data, by = c("FIPS", "year"))
 dat$FIPS[dat$FIPS == "01073"] = "1073"
 earn_data$year <- as.character(earn_data$year)
 dat <- full_join(dat, earn_data, by = c("FIPS", "year"))
+
+
 dat <- dat %>% select(FIPS, year, median_earnings = num_earnings, income_inequality, median_household_income, 
-                      personal_income_per_cap, unemployment)
+                      personal_income_per_cap, unemployment, pov_pct_public, nonpov_pct_public)
+
 ```
 
 City names are read into R and joined to the file. Observations on St. Louis, which is spread across two counties, are combined using population-weighted averages. 
@@ -196,7 +312,7 @@ data_named <- left_join(data_named, population_data, by = c("FIPS", "year"))
 ##Merge St. Louis city and St. Louis county
 data_named$FIPS <- as.numeric(data_named$FIPS)
 dat <- data_named %>%
-  filter(year > 2004 & year < 2016) %>%
+  filter(year > 2004) %>%
   select(-county, -state, -weights) %>%
   group_by(city, year) %>%
   summarise_each(funs(weighted.mean(.,population)), -population) %>%
@@ -209,11 +325,10 @@ dat$FIPS <- as.factor(dat$FIPS)
 
 # Combine with other city data
 names <- read_csv("input data/FIPS one stl.csv")
-names%<>%select(-display_name)
 names$FIPS <- as.factor(names$FIPS)
 dat <- left_join(dat, names, by = c("FIPS", "city"))
 
-dat%<>%select(city, county, state, FIPS, year, current, baseline, everything())
+dat%<>%select(city, county, state, display_name, FIPS, year, current, baseline, everything())
 ```
 
 Reads, processes, and joins high wage employment data
@@ -264,9 +379,8 @@ bds_data = bds_data %>%
   rename(MSA = msa, year = year2)%>%
   select(-denom, -estabs_entry, -estabs_exit, 
          -job_creation, -job_creation_births, -job_creation_continuers,
-         -job_destruction, -job_destruction_deaths, 
-         -job_destruction_continuers,
-         -reallocation_rate, -d_flag, -net_job_creation
+         -job_destruction, -job_destruction_deaths, -job_destruction_continuers,
+         -reallocation_rate, -d_flag, -net_job_creation,
          -firmdeath_firms, -firmdeath_estabs, -firmdeath_emp
          )%>%
   pull_peers_MSA(.)
@@ -333,6 +447,9 @@ neighborhoods <- read_csv("map data/census tract neighborhoods.csv",col_types = 
 jobs_map_data<- left_join(neighborhoods, unemp, by = c("Id2"))
 jobs_map_data %<>% left_join(med_inc, by = c("Id2", "Id")) %>%
   left_join(earn_data, by = c("Id2", "Id"))
+
+jobs_map_data %<>% select(Id, Id2, Neighborhood, everything())
+
 ```
 
 Writes data to csv files.
