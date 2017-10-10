@@ -6,3 +6,9 @@ input data/\.Rhistory
 \.Rhistory
 
 *.html
+
+*.jpg
+
+*.png
+
+*.svg
