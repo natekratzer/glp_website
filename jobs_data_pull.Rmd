@@ -409,46 +409,100 @@ bds_data$city[bds_data$MSA == 39580] = "Raleigh"
 bds_data$city[bds_data$MSA == 19380] = "Dayton"
 bds_data$city[bds_data$MSA == 40060] = "Richmond"
 
-bds_data<-mutate(bds_data, estabs_entry_rate_minus_exit = estabs_entry_rate -estabs_exit_rate)
+bds_data %<>%
+  ungroup() %>%
+  group_by(MSA) %>%
+  mutate(firm_change = c(NA,diff(firms)),
+         firm_births = (firm_change + firmdeath_firms),
+         firm_creation_rate = firm_births / firms * 100) %>%
+  select(-firms,-firmdeath_firms, -firm_change, -firm_births)
 
 bds_data%<>%select(city, MSA, year, current, baseline, everything())
 ```
 
 Reads in data available at the census tract level for unemployment, medical insurance, and earnings. Applies neightborhood names.
 ```{r}
+neighborhoods = read_csv("map data/census tract neighborhoods.csv")
+neighborhoods_pop = read_csv("map data/census tract neighborhoods pop.csv") %>%
+  select(Id2, Neighborhood, population = 'Estimate; Total')
+
+
+#UNEMPLOYMENT
+
 unemp <- read_csv("input data/jobs_input_data/ACS_15_5YR_B23025_with_ann.csv",
-                  skip = 1,
-                  col_types = cols(Id2 = col_character(),
-                  Id = col_character())
+                  skip = 1
                  )
+
+unemp %<>% 
+  select(Id, 
+         Id2, 
+         pop = `Estimate; In labor force: - Civilian labor force:`,
+         unemp = `Estimate; In labor force: - Civilian labor force: - Unemployed`) %>%
+  mutate(unemp_pct = unemp/pop) %>%
+  mutate(unemp_pct = as.numeric(unemp_pct)*100)
+
+unemp_data_nh = 
+  unemp %>%
+  full_join(., neighborhoods, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(
+    unemp_pct = sum(unemp)/sum(pop)
+    )
+    
+unemp %<>% select(unemp_pct, Id, Id2)
+
+#MEDIAN INCOME
 
 med_inc <- read_csv("input data/qp_input_data/ACS_15_5YR_B19013_with_ann.csv",
                     skip = 1,
-                    col_types = cols(Id2 = col_character(),
-                    Id = col_character())
-                   )
+                    col_types = cols(
+                      `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)` = col_number())
+                   ) 
+med_inc %<>%
+  select(Id, 
+         Id2, 
+         median_household_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)
 
-earn_data <- read_csv("input data/jobs_input_data/ACS_15_5YR_S2001_with_ann.csv", skip = 1,
-                      col_types = cols(Id2 = col_character()))
-
-earn_data %<>% select(Id, Id2, median_earnings = `Total; Estimate; Median earnings (dollars)`) %>%
-  mutate(median_earnings = signif(as.numeric(median_earnings), 3))
-
-unemp %<>% select(Id, Id2, pop = `Estimate; In labor force: - Civilian labor force:`,
-                  unemp = `Estimate; In labor force: - Civilian labor force: - Unemployed`)%>%
-  transmute(unemp_pct = unemp/pop, Id, Id2)%>%
-  mutate(unemp_pct = as.numeric(unemp_pct)*100)
-
-med_inc %<>% select(Id, Id2, median_household_income = `Estimate; Median household income in the past 12 months (in 2015 Inflation-adjusted dollars)`)%>%
+med_inc_nh = 
+  med_inc %>%
+  full_join(., neighborhoods_pop, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(median_household_income = weighted.mean(median_household_income, population)) %>%
   mutate(median_household_income = signif(as.numeric(median_household_income),3))
 
-neighborhoods <- read_csv("map data/census tract neighborhoods.csv",col_types = cols(Id2 = col_character()))
+med_inc %<>% mutate(median_household_income = signif(as.numeric(median_household_income),3))
+
+
+#MEDIAN EARNINGS
+
+earn_data <- read_csv("input data/jobs_input_data/ACS_15_5YR_S2001_with_ann.csv", skip = 1,
+                      col_types = cols(
+                      `Total; Estimate; Median earnings (dollars)` = col_number())
+                   ) 
+
+earn_data %<>% select(Id, Id2, median_earnings = `Total; Estimate; Median earnings (dollars)`)
+
+earn_data_nh = 
+  earn_data %>%
+  full_join(., neighborhoods_pop, by = "Id2") %>%
+  filter(!is.na(median_earnings)) %>%
+  group_by(Neighborhood) %>%
+  summarise(median_earnings = weighted.mean(median_earnings, population)) %>%
+  mutate(median_earnings = signif(as.numeric(median_earnings),3))
+
+earn_data %<>%
+  mutate(median_earnings = signif(as.numeric(median_earnings), 3))
+
 
 jobs_map_data<- left_join(neighborhoods, unemp, by = c("Id2"))
 jobs_map_data %<>% left_join(med_inc, by = c("Id2", "Id")) %>%
   left_join(earn_data, by = c("Id2", "Id"))
 
 jobs_map_data %<>% select(Id, Id2, Neighborhood, everything())
+
+jobs_map_data_nh = 
+  full_join(unemp_data_nh, med_inc_nh, by = "Neighborhood") %>%
+  full_join(earn_data_nh, by = "Neighborhood")
 
 ```
 
@@ -457,4 +511,6 @@ Writes data to csv files.
 write_csv(dat, "output data/jobs_data_fips.csv")
 write_csv(bds_data, "output data/jobs_data_msa.csv")
 write_csv(jobs_map_data, "map data/jobs_map_data.csv")
+write_csv(jobs_map_data_nh, "map data/jobs_map_data_neighborhood.csv")
+
 ```

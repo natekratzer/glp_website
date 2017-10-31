@@ -591,3 +591,82 @@ make_map <- function(var, name, units = "Percent",
   
   m
 }
+
+make_map_nh <- function(var, name, units = "Percent",
+                     map_style = "sequential", legend_title = ""){
+  
+  #renames var for use with the '$' operator
+  map_jc_nh@data$var <- map_jc_nh@data[[var]]
+  
+  #concatenate third line of text for tract labels using units parameter
+  if(units == "Percent"){
+    map_jc_nh@data$l_line2 <- paste(name, ": ", round(map_jc_nh@data$var, 2),"%", sep = "")
+  }
+  if(units == "Dollars"){
+    map_jc_nh@data$l_line2 <- paste(name, ": $",
+                                 prettyNum(
+                                   signif(map_jc_nh@data$var, 3),
+                                   big.mark = ",",
+                                   preserve.width = "none"
+                                 ),
+                                 sep = "")
+  }
+  if(units == "none"){
+    map_jc_nh@data$l_line2 <- paste(name, ": ", round(map_jc_nh@data$var, 2), sep = "")
+  }
+  
+  #combine lines of text into full formatted label
+  labels <- sprintf("%s<br/>%s",
+                    map_jc_nh@data$l_line1, map_jc_nh@data$l_line2
+  ) %>% 
+    lapply(htmltools::HTML)
+  
+  labels[[25]] <- htmltools::HTML(sprintf("%s<br/>%s",
+                                           "Louisville International Airport",
+                                           "No residents"
+  )
+  )
+  
+  #Define palette using map_style parameter
+  if(map_style == "sequential" | map_style == "Sequential"){
+    col_palette = "BuPu"
+  }
+  if(map_style == "divergent" | map_style == "Divergent"){
+    col_palette = "RdYlGn"
+  }
+  pal <- brewer.pal(11, col_palette)
+  pal <- colorNumeric(
+    palette = pal,
+    domain = map_jc_nh@data$var
+  )
+  
+  #Create map title using legend_title parameter
+  if(units == "Percent") {
+    title_text <- paste(legend_title, "(%)", sep = ' ')
+  }
+  if(units == "Dollars") {
+    title_text <- paste(legend_title, "($)", sep = ' ')
+  }
+  if(units == "none"){
+    title_text <- legend_title
+  }
+  
+  #create map
+  m <- leaflet(map_jc_nh) %>%
+    addTiles() %>%
+    addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
+                opacity = 1.0, fillOpacity = 0.5,
+                fillColor = ~pal(var),
+                label = labels,
+                labelOptions = labelOptions(
+                  style = list("font-weight" = "normal", padding = "3px 8px"),
+                  textsize = "15px",
+                  direction = "auto"))%>%
+    addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
+              position = "bottomright")
+  
+  m <- leaflet(map_jc) %>%
+    addPolygons(color = "#444444", weight = 5, smoothFactor = 0.5,
+                opacity = 1.0, fillOpacity = 0)
+  m
+}
