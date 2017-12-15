@@ -252,6 +252,9 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
     subtitle_text = "5-year rolling average"
   }
   
+  #use to write out 2016 child poverty statistics (also write out the line above filtering out 2016 data)
+  write_csv(dat, 'C:/Users/Harrison Kirby/Desktop/GLP/child_pov_output2.csv')
+  
   #set x-axis labels based on break_settings parameter
   if(break_settings == ""){
     if(xmax - xmin > 5) {skip = 2}

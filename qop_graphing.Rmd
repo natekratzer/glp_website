@@ -306,7 +306,7 @@ dev.off()
 
 png("qp_child_poverty_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
-  qp_data_fips %>% filter(year == 2015) %>% as.data.frame(),
+  qp_data_fips %>% filter(year == 2016) %>% as.data.frame(),
   'child_per',
   order = "Ascending",
   y_title = "Percent",
@@ -501,15 +501,19 @@ graph_trendline(
   y_title = "Dollars")
 dev.off()
 
+#data frame to include 2016 child poverty statistics
+#child_pov_16 <- read_csv('C:/Users/Harrison Kirby/Desktop/GLP/child_pov.csv')
+
 png("qp_child_poverty_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
-  qp_data_fips, 
+  qp_data_fips,
+# child_pov_16,   use to include 2016 child poverty statistics
   "child_per",
   plot_title = "Child Poverty",
   rollmean = 3,
   caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001",
   xmin = 2005, 
-  xmax = 2015, 
+  xmax = 2016, 
   y_title = "Percent")
 dev.off()
 
