@@ -48,6 +48,7 @@ Read data
 jobs_data_fips <- read_csv("output data/jobs_data_fips.csv")
 jobs_data_msa <- read_csv("output data/jobs_data_msa.csv")
 
+dat_16 <- jobs_data_fips %>% filter(year == 2016)
 dat_15 <- jobs_data_fips %>% filter(year == 2015)
 dat_14 <- jobs_data_fips %>% filter(year == 2014)
 ```
@@ -58,6 +59,41 @@ source("graphing_functions.R")
 
 font.add("Museo Sans 300", "C:/Users/Harrison Kirby/Desktop/GLP/MuseoSans_300.otf")
 font.add("Museo Sans Italic", "C:/Users/Harrison Kirby/Desktop/GLP/MuseoSans_300_Italic.otf")
+```
+
+Transit graphs
+```{r}
+showtext.auto()
+
+transit_data = read_csv("transit_data.csv", col_types = "cinnn")
+#transit_data = transit_data[complete.cases(transit_data),]
+name = read_csv('C:/Users/Harrison Kirby/Desktop/GLP/glp_website/input data/FIPS one stl.csv')
+
+transit_data = full_join(transit_data, name, by = "FIPS")
+  
+png("poverty_transit_ratio_ranking.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(transit_data[transit_data$year == 2016,], 
+                  "ratio",
+                  order = "Ascending",
+                  plot_title = "Ratio of Poor to non-Poor who Rely on Public Transit",
+                  caption_text = "Source: Greater Louisville Project 
+                                  American Community Survey, Table S0802")
+dev.off()
+
+png("poverty_transit_ratio_trend.png", 900, 600, res = 100, type = "cairo")
+graph_trendline(transit_data, 
+                "ratio",
+                plot_title = "Ratio of Poor to non-Poor who Rely on Public Transit",
+                subtitle = "",
+                rollmean = 5,
+                xmin = 2005,
+                xmax = 2016,
+                y_title = "ratio",
+                caption_text = "Source: Greater Louisville Project 
+                                American Community Survey, Table S0802")
+dev.off()
+
+
 ```
 
 Rankings graphs
@@ -107,38 +143,26 @@ rank_and_nb_group(dat_15,
                                   Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-png("jobs_unemployment_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(dat_15, 
+                  order = "Descending",
+                  caption_text = "Source: Greater Louisville Project 
+dev.off()
+
+showtext.auto()
+png("jobs_unemployment_ranking.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(dat_16, 
                   "unemployment", 
                   order = "Ascending",
-                  plot_title = "Unemployment, 2015", 
+                  plot_title = "Unemployment, 2016", 
                   caption_text = "Source: Greater Louisville Project 
                                   Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-png("jobs_estabs_entry_rate_ranking.png", 900, 600, res = 100, type = "cairo")
-rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
-                  'estabs_entry_rate',
-                  order = "Descending",
-                  plot_title = "Establishment Entry Rate, 2014",
-                  caption_text = "Source: Greater Louisville Project 
-                                  Data from United States Census Bureau, BDS")
-dev.off()
-
-png("jobs_estabs_exit_rate_ranking.png", 900, 600, res = 100, type = "cairo")
-rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
-                  'estabs_exit_rate',
-                  order = "Ascending",
-                  plot_title = "Establishment Exit Rate, 2014",
-                  caption_text = "Source: Greater Louisville Project 
-                                  Data from United States Census Bureau, BDS")
-dev.off()
-
-png("jobs_job_creation_rate_births_ranking.png", 900, 600, res = 100, type = "cairo")
+png("jobs_firm_creation_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014),
-                  'job_creation_rate_births',
+                  'firm_creation_rate',
                   order = "Descending",
-                  plot_title = "Jobs Creation Birth Rate, 2014",
+                  plot_title = "Firm Creation Rate, 2014",
                   caption_text = "Source: Greater Louisville Project 
                                   Data from United States Census Bureau, BDS")
 dev.off()
@@ -161,29 +185,11 @@ rank_and_nb_group(filter(jobs_data_msa, year == 2014),
                                   Data from United States Census Bureau, BDS")
 dev.off()
 
-png("jobs_job_destruction_rate_deaths_ranking.png", 900, 600, res = 100, type = "cairo")
-rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
-                  'job_destruction_rate_deaths',
-                  order = "Ascending",
-                  plot_title = "Job Destruction Death Rate, 2014",
-                  caption_text = "Source: Greater Louisville Project 
-                                  Data from United States Census Bureau, BDS")
-dev.off()
-
 png("jobs_job_creation_rate_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
                   'job_creation_rate',
                   order = "Descending",
                   plot_title = "Job Creation Rate, 2014",
-                  caption_text = "Source: Greater Louisville Project 
-                                  Data from United States Census Bureau, BDS")
-dev.off()
-
-png("jobs_net_est_entry_rate_ranking.png", 900, 600, res = 100, type = "cairo")
-rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
-                  'estabs_entry_rate_minus_exit',
-                  order = "Descending",
-                  plot_title = "Net Establishment Entry Rate, 2014",
                   caption_text = "Source: Greater Louisville Project 
                                   Data from United States Census Bureau, BDS")
 dev.off()
@@ -274,25 +280,13 @@ graph_trendline(jobs_data_fips,
                                 Data from the Federal Reserve via GeoFRED")
 dev.off()
 
-png("jobs_estabs_entry_rate_trendline.png", 900, 600, res = 100, type = "cairo")
+png("jobs_firm_creation_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
-                    'estabs_entry_rate',
-                    plot_title = "Establishment Entry Rate",
+                    'firm_creation_rate',
+                    plot_title = "Firm Creation Rate",
                     subtitle = "3-year rolling average",
-                    rollmean = 3,
-                    xmin = 2003, 
-                    xmax = 2014,
-                    caption_text = "Source: Greater Louisville Project 
-                                    Data from United States Census Bureau, BDS")
-dev.off()
-
-png("jobs_job_creation_rate_births_trendline.png", 900, 600, res = 100, type = "cairo")
-graph_trendline_msa(jobs_data_msa, 
-                    'job_creation_rate_births',
-                    plot_title = "Job Creation Birth Rate",
-                    subtitle = "3-year rolling average",
-                    rollmean = 3,
-                    xmin = 2003, 
+                 #   rollmean = 3,
+                    xmin = 2004, 
                     xmax = 2014,
                     caption_text = "Source: Greater Louisville Project 
                                     Data from United States Census Bureau, BDS")
@@ -310,47 +304,12 @@ graph_trendline_msa(jobs_data_msa,
                                     Data from United States Census Bureau, BDS")
 dev.off()
 
-png("jobs_job_destruction_rate_deaths_trendline.png", 900, 600, res = 100, type = "cairo")
-graph_trendline_msa(jobs_data_msa, 
-                    'job_destruction_rate_deaths',
-                    plot_title = "Job Destruction Death Rate",
-                    subtitle = "3-year rolling average",
-                    rollmean = 3,
-                    xmin = 2003, 
-                    xmax = 2014,
-                    caption_text = "Source: Greater Louisville Project 
-                                    Data from United States Census Bureau, BDS")
-dev.off()
-
-png("jobs_estabs_exit_rate_trendline.png", 900, 600, res = 100, type = "cairo")
-graph_trendline_msa(jobs_data_msa, 
-                    'estabs_exit_rate',
-                    plot_title = "Establishment Exit Rate",
-                    subtitle = "3-year rolling average",
-                    rollmean = 3,
-                    xmin = 2003, 
-                    xmax = 2014,
-                    caption_text = "Source: Greater Louisville Project 
-                                    Data from United States Census Bureau, BDS")
-dev.off()
-
 png("jobs_job_creation_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(jobs_data_msa, 
                     'job_creation_rate',
                     plot_title = "Job Creation Rate",
                     subtitle = "3-year rolling average",
-                    rollmean = 3,
-                    xmin = 2003, 
-                    xmax = 2014,
-                    caption_text = "Source: Greater Louisville Project 
-                                    Data from United States Census Bureau, BDS")
-dev.off()
-
-png("jobs_net_est_entry_rate_trendline.png", 900, 600, res = 100, type = "cairo")
-graph_trendline_msa(jobs_data_msa, 
-                    'estabs_entry_rate_minus_exit',
-                    plot_title = "Net Establishment Entry Rate",
-                    rollmean = 3,
+                    #rollmean = 3,
                     xmin = 2003, 
                     xmax = 2014,
                     caption_text = "Source: Greater Louisville Project 
@@ -414,3 +373,77 @@ m <- make_map(
   )
 saveWidget(m, "jobs_median_earnings_map.html")
 ```
+
+Old graphs
+
+png("jobs_job_destruction_rate_deaths_ranking.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
+                  'job_destruction_rate_deaths',
+                  order = "Ascending",
+                  plot_title = "Job Destruction Death Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project 
+                                  Data from United States Census Bureau, BDS")
+dev.off()
+
+
+png("jobs_net_est_entry_rate_ranking.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
+                  'estabs_entry_rate_minus_exit',
+                  order = "Descending",
+                  plot_title = "Net Establishment Entry Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project 
+                                  Data from United States Census Bureau, BDS")
+dev.off()
+
+png("jobs_estabs_entry_rate_ranking.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
+                  'estabs_entry_rate',
+                  order = "Descending",
+                  plot_title = "Establishment Entry Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project 
+                                  Data from United States Census Bureau, BDS")
+dev.off()
+
+png("jobs_estabs_exit_rate_ranking.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(filter(jobs_data_msa, year == 2014), 
+                  'estabs_exit_rate',
+                  order = "Ascending",
+                  plot_title = "Establishment Exit Rate, 2014",
+                  caption_text = "Source: Greater Louisville Project 
+                                  Data from United States Census Bureau, BDS")
+dev.off()
+
+png("jobs_estabs_entry_rate_trendline.png", 900, 600, res = 100, type = "cairo")
+graph_trendline_msa(jobs_data_msa, 
+                    'estabs_entry_rate',
+                    plot_title = "Establishment Entry Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    xmin = 2003, 
+                    xmax = 2014,
+                    caption_text = "Source: Greater Louisville Project 
+                                    Data from United States Census Bureau, BDS")
+dev.off()
+
+png("jobs_estabs_exit_rate_trendline.png", 900, 600, res = 100, type = "cairo")
+graph_trendline_msa(jobs_data_msa, 
+                    'estabs_exit_rate',
+                    plot_title = "Establishment Exit Rate",
+                    subtitle = "3-year rolling average",
+                    rollmean = 3,
+                    xmin = 2003, 
+                    xmax = 2014,
+                    caption_text = "Source: Greater Louisville Project 
+                                    Data from United States Census Bureau, BDS")
+dev.off()
+
+png("jobs_net_est_entry_rate_trendline.png", 900, 600, res = 100, type = "cairo")
+graph_trendline_msa(jobs_data_msa, 
+                    'estabs_entry_rate_minus_exit',
+                    plot_title = "Net Establishment Entry Rate",
+                    rollmean = 3,
+                    xmin = 2003, 
+                    xmax = 2014,
+                    caption_text = "Source: Greater Louisville Project 
+                                    Data from United States Census Bureau, BDS")
+dev.off()

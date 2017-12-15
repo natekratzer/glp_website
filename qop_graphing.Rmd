@@ -54,6 +54,24 @@ qp_data_fips<-read_csv("qp_data_fips.csv")
 qp_data_msa<-read_csv("qp_data_msa.csv")
 ```
 
+
+```{r}
+
+showtext.auto()
+
+png("FMR_rankings.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(
+  filter(qp_data_fips, year == 2017),
+  'fmr',
+  order = "Ascending",
+  plot_title = "Fair Market Rent for a 1 Bedroom Apartment, 2017",
+  y_title = "Dollars",
+  caption_text = "Source: Greater Louisville Project \nData from US Department of Housing and Urban Development"
+)
+dev.off()
+
+```
+
 Ranking Graphs
 ```{r}
 setwd("Images/QP_Images")

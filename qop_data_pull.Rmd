@@ -849,9 +849,41 @@ child_pov_data <- child_pov_data %>%
   mutate(child_per = child_per *100)%>%
   select(-child_total)
 
-qp_data_fips %<>% left_join(child_pov_data, by = c("FIPS", "year"))
+qp_data_fips %<>% full_join(child_pov_data, qp_data_fips, by = c('year','FIPS'))
+city_data <- read_csv("C:/Users/Harrison Kirby/Desktop/GLP/glp_website/input data/FIPS one stl.csv")
+city_data %<>% select(FIPS, county, state, display_name)
+qp_data_fips = full_join(qp_data_fips, city_data, by = "FIPS")
+```
 
-#qp_data_fips %<>% select(city, county, state, display_name, FIPS, year, current, baseline, child_per)
+FMR Data
+```{r}
+FMR <- read_csv("input data/qp_input_data/FMR.csv", progress = FALSE)
+
+FMR %<>%
+  transmute(
+    year = 2017,
+    FIPS = substr(fips2010, 1,5),
+    fmr = fmr1
+  ) %>%
+  pull_peers_FIPS() %>%
+  select(-baseline, -current)
+
+FMR %<>% filter(FIPS != '29510')
+FMR$FIPS[FMR$FIPS == '29189'] = 'MERGED'
+FMR$FIPS[FMR$FIPS == '01073'] = '1073'
+
+qp_data_fips %<>% full_join(FMR, qp_data_fips, by = c('year','FIPS'))
+
+
+qp_data_fips %<>% pull_peers_FIPS()
+qp_data_fips %<>% full_join(names, by = 'FIPS')
+qp_data_fips %<>% 
+  select(-weights, -city.x, -county.x, -state.x) %>%
+  mutate(city = city.y, county = county.y, state = state.y) %>%
+  select(-city.y, -county.y, -state.y)
+
+qp_data_fips %<>% select(city, county, state, display_name, FIPS, year, current, baseline, everything())
+
 ```
 
 Reads volunteer data for 2011-2015 into R, processes it, and saves the observations to the dataframe 'qp_data_msa'
