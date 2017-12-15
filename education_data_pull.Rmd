@@ -113,7 +113,7 @@ ccr_read <- function(folder) {
     data$SCH_NAME[data$SCH_NAME == "--District Total--"] = "---District Total---"
     data %<>% filter(SCH_NAME == "---District Total---") %>%
       select(school_year = SCH_YEAR,
-             dist_name = DIST_NAME, SCH_NAME,
+             dist_name = DIST_NAME,
              label = DISAGG_LABEL,
              number_grads_ccr = NBR_GRADUATES_WITH_DIPLOMA,
              pct_ccr = PCT_CCR_NO_BONUS
@@ -127,8 +127,7 @@ ccr_read <- function(folder) {
         label == "Hispanic" |
         label == "Asian"
         ) %>%
-      mutate(school_year = as.numeric(substr(school_year, 5, 8))) %>%
-      select(-SCH_NAME)
+      mutate(school_year = as.numeric(substr(school_year, 5, 8)))
     if (i == 1) {
       df <- data
     }
@@ -960,6 +959,42 @@ restore_ky_ed_data <- function(data){
 ky_tidy_new <- restore_ky_ed_data(ky_new) %>%
   rename(year = school_year)
 
+
+
+```
+
+```{r}
+ky_25per = 
+  ky_tidy_new %>% 
+  select(-dist_name) %>%
+  group_by(year) %>%
+  summarise_all(funs(quantile), prob = 0.25, na.rm = TRUE) %>%
+  mutate(observation_type = "25_percentile", area = "KY")
+
+ky_mean = 
+  ky_tidy_new %>% 
+  select(-dist_name) %>%
+  group_by(year) %>%
+  summarise_all(funs(mean), na.rm = TRUE) %>%
+  mutate(observation_type = "mean", area = "KY")
+
+ky_75per = 
+  ky_tidy_new %>% 
+  select(-dist_name) %>%
+  group_by(year) %>%
+  summarise_all(funs(quantile), prob = 0.75, na.rm = TRUE) %>%
+  mutate(observation_type = "75_percentile", area = "KY")
+
+lou_value = 
+  ky_tidy_new %>%
+  filter(dist_name == "Jefferson County") %>%
+  mutate(observation_type = "value", area = "Louisville") %>%
+  select(-dist_name)
+
+ky_data <- rbind(ky_25per, ky_mean, ky_75per, lou_value)
+
+ky_data[is.na(ky_data)] = NA
+
 ```
 
 reads in math and reading NAEP Data for Kentucky, then stores the results in 'naep_data'
@@ -969,22 +1004,40 @@ naep_reading <- read_csv("input data/educ_input_data/naep_reading_data.csv")
 
 naep_reading %<>% select(Year,
                          Jurisdiction,
-                         naep_reading_score = `Average scale score`, 
-                         reading_sd = `Standard Error`
+                         naep_reading_score = `Average scale score` 
                          )
 
 naep_math %<>% select(Year,
                       Jurisdiction,
-                      naep_math_score = `Average scale score`, 
-                      math_sd = `Standard Error`
+                      naep_math_score = `Average scale score` 
                       )
 
 naep_data <- left_join(naep_reading, naep_math, by = c("Year", "Jurisdiction"))
-naep_data %<>% rename(year = Year)
+naep_data %<>% 
+  rename(year = Year, area = Jurisdiction) %>%
+  mutate(observation_type = 'value')
+  
+naep_data$area[naep_data$area == "Kentucky"] <- "KY"
+naep_data$area[naep_data$area == "Jefferson County (KY)"] <- "Louisville"
+
+naep_data$observation_type = 'value'
+naep_data$observation_type[naep_data$area == "KY"] <- "mean"
+
+ky_data = ky_data[,!grepl("num|math|science|reading|english|male|female", names(ky_data))]
+
+ky_data <- full_join(ky_data, naep_data, by = c("area", "year", "observation_type"))
+
+ky_data %<>% select(area, year, observation_type, everything())
+
+ky_data %<>% arrange(year, area)
+
 ```
 
 reads in data containing geographic information at the census tract level for child poverty, 3 and 4 years old school enrollment, educational attainment, and wages in Jefferson County. Names the census tracts and saves the data as the data frame map_data.
 ```{r}
+name_data = read.csv("map data/census tract neighborhoods.csv") 
+
+
 data = read.csv("input data/educ_input_data/ACS_15_5YR_B17001_with_ann.csv", skip = 1)
 
 data = data %>%

@@ -53,7 +53,6 @@ Read data and filter to 2015
 educ_data = read_csv("output data/education_data_fips.csv")
 educ_data_15 <- educ_data %>% filter(year == 2015)
 
-naep_data <- read_csv("output data/education_data_naep.csv")
 ky_ed_data <- read_csv("output data/education_data_ky.csv")
 ```
 
@@ -61,7 +60,7 @@ Filter datasets to students in JCPS and break down metrics by race/ethnicity. Ti
 ```{r}
 #ACT
 jeff_eth_act <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_composite_score, african_american_composite_score,
          asian_composite_score, hispanic_composite_score)%>%
   gather(white_composite_score:hispanic_composite_score, key = "var",
@@ -72,7 +71,7 @@ jeff_eth_act$var <- factor(jeff_eth_act$var, levels = unique(jeff_eth_act$var))
 
 #CCR
 jeff_eth_ccr <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_pct_ccr, african_american_pct_ccr,
          asian_pct_ccr, hispanic_pct_ccr)%>%
   gather(white_pct_ccr:hispanic_pct_ccr, key = "var", value = "value")%>%
@@ -82,7 +81,7 @@ jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 
 #Kindergarten Preparedness
 jeff_eth_kscreen <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_kind_ready, african_american_kind_ready, 
          asian_kind_ready, hispanic_kind_ready)%>%
   gather(white_kind_ready:hispanic_kind_ready, key = "var", value = "value")%>%
@@ -93,7 +92,7 @@ jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 
 #Graduation Rate
 jeff_eth_grad_rate <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_cohort_grad_rate, african_american_cohort_grad_rate,
          asian_cohort_grad_rate, hispanic_cohort_grad_rate)%>%
   gather(white_cohort_grad_rate:hispanic_cohort_grad_rate, key = "var", value = "value")%>%
@@ -570,10 +569,9 @@ dev.off()
 
 png("edu_naep_reading_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
-  naep_data, 
-  var = "Jurisdiction", 
-  value = "naep_reading_score", 
-  break_settings = seq(2009, 2016,2),
+  ky_ed_data, 
+  var = "area", 
+  value = "naep_reading_score",
   xmin = 2009,
   xmax = 2015, 
   plot_title = "NAEP 4th Grade Reading Score",
@@ -586,10 +584,9 @@ dev.off()
 
 png("edu_naep_math_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
-  naep_data, 
-  var = "Jurisdiction",
-  value = "naep_math_score", 
-  break_settings = seq(2009, 2016,2),
+  ky_ed_data, 
+  var = "area",
+  value = "naep_math_score",
   xmin = 2009,
   xmax = 2015, 
   plot_title = "NAEP 4th Grade Math Score",
@@ -605,10 +602,10 @@ showtext.auto(FALSE)
 
 Add map data
 ```{r}
-map_data = read_csv("map data/education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
-map_data[ ,c(3:5, 7:12, 14)] <- map_data[ ,c(3:5, 7:12, 14)]*100
-
 setwd("map data")
+
+map_data = read_csv("education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
+map_data[ ,c(4:12, 14)] <- map_data[ ,c(4:12, 14)]*100
 
 map_jc = readOGR("JC Tracts", layer = "JC Tracts",
                  GDAL1_integer64_policy = TRUE)

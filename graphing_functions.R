@@ -409,9 +409,10 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
               mean = mean(var, na.rm = TRUE),
               third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
   lville = df %>% 
-    filter(dist_name == "Jefferson County") %>% 
+    filter(area == "Louisville") %>% 
     select(var, year)
   dat = full_join(lville, output_wol, by = "year")
+  
   if (rollmean == 3){
     dat$var = rollmean3(dat$var)
     dat$first_quarter = rollmean3(dat$first_quarter)
@@ -432,9 +433,18 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
     xmax = xmax - 2
     subtitle_text = "5-year rolling average"
   }
+  
   if(break_settings == ""){
-    break_settings = seq(xmin, xmax, 2)
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
   }
+  
   data_long <- melt(dat, id="year")
   data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
   p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
@@ -482,15 +492,27 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
 #Trendline graph adapted for more years of ky_ed data
 ky_ed_data_long_trendline <- function(data_long, var = "var", value = "value", plot_title="",y_title="Percent", 
                                       caption_text = "", subtitle_text = "", rollmean = 1,
-                                      break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016,
+                                      break_settings = "", xmin = 1996, xmax = 2016,
                                       labels, color_pal){
   data_long$var <- data_long[[var]]
   data_long$value<-data_long[[value]]
   data_long %<>% select(year, var, value)
   data_long <- arrange(data_long, as.character(var))
+  
+  if(break_settings == ""){
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
+  }
+  
   p <- ggplot(data=data_long,aes(x=year,y=value,colour=var))+
     geom_point(size = 1.8)+
-    geom_line(size = 1)
+    geom_line(data=data_long[!is.na(data_long$value),], size = 1)
   p <- p + theme_bw()
   midpoint <- (max(data_long$value, na.rm = TRUE)+min(data_long$value, na.rm = TRUE))/2
   border_space <- .1 * midpoint
