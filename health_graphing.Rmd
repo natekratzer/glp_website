@@ -272,13 +272,12 @@ rank_and_nb_group(filter(health_data_fips, year == 2017),
 dev.off()
 
 png("health_sec_social_associations.png", 900, 600, res = 100, type = "cairo")
-
 rank_and_nb_group(filter(health_data_fips, year == 2015), 
                   "ss_est_per_10000",
                   order = "Descending", 
                   num_dec = 1,
-                  plot_title = "Social Support, 2015", 
-                  y_title = "Membership Associations per 10,000 population",
+                  plot_title = "Membership Associations, 2015", 
+                  y_title = "Membership Associations per 10,000 residents",
                   caption_text = "Source: Greater Louisville Project 
                                   Data from CBP Statistics from US Census")
 dev.off()
@@ -440,7 +439,7 @@ graph_trendline(
   as.data.frame(health_data_fips),
   var = 'ss_est_per_10000',
   rollmean = 1,
-  plot_title = "Social Support",
+  plot_title = "Membership Associations",
   y_title = "Membership Associations per 10,000 residents",
   xmin = 2005,
   xmax = 2015,

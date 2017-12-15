@@ -66,7 +66,7 @@ rank_and_nb_group(
   'food_insecure_child',
   order = "Ascending",
   plot_title = "Food Insecurity - Children, 2015",
-  caption_text = "Source: Greater Louisville Project Data from Feeding America, Map the Meal Gap"
+  caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap"
 )
 dev.off()
 
@@ -116,7 +116,7 @@ rank_and_nb_group(
   'ss_est_per_10000',
   order = "Descending",
   y_title = "Membership Associations per 10,000 residents",
-  plot_title = "Social Support, 2015",
+  plot_title = "Membership Associations, 2015",
   caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census"
 )
 dev.off()
@@ -324,9 +324,9 @@ graph_trendline(
   plot_title = "Food Insecurity",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap",
-  break_settings = seq(2013, 2015, 2),
   xmin = 2012.5,
-  xmax = 2015.5)
+  xmax = 2015.5,
+  break_settings = seq(2013, 2015, 1))
 dev.off()
 
 png("qp_food_insecurity_child_trendline.png", 900, 600, res = 100, type = "cairo")
@@ -336,9 +336,9 @@ graph_trendline(
   plot_title = "Food Insecurity - Children",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap",
-  break_settings = seq(2013, 2015, 2),
   xmin = 2012.5,
-  xmax = 2015.5)
+  xmax = 2015.5,
+  break_settings = seq(2013, 2015, 1))
 dev.off()
 
 png("pct_pop_living_in_core_county_trendline.png", 900, 600, res = 100, type = "cairo")
@@ -368,7 +368,7 @@ graph_trendline(
   as.data.frame(qp_data_fips),
   var = 'ss_est_per_10000', 
   rollmean = 1,
-  plot_title = "Social Support",
+  plot_title = "Membership Associations",
   y_title = "Membership Associations per 10,000 residents",
   caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census",
   xmin = 2005, 
@@ -470,7 +470,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-png("qp_median_household_income_trendline.png", 900, 600, res = 100, type = "cairo")
+png("qp_median_household_income_trendline.png", 900, 600), res = 100, type = "cairo")
 graph_trendline(
   qp_data_fips, 
   "median_household_income",
@@ -478,7 +478,6 @@ graph_trendline(
   subtitle = "Annual",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
-  break_settings = seq(2005, 2014, 2),
   xmin = 2005, 
   xmax = 2014,
   y_title = "Dollars")
@@ -504,7 +503,6 @@ dev.off()
 #  plot_title = "Millennial Immigration Patterns",
 #  rollmean = 1,
 #  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B07001",
-#  break_settings = seq(2011, 2015, 2),
 #  xmin = 2010, 
 #  xmax = 2015, 
 #  y_title = "Number of Millennials (Ages 25-34) moving to the city from another\ncounty, state, or country per 100,000")

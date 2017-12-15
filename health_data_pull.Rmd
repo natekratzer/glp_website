@@ -340,7 +340,6 @@ chr_z <- chr_z %>%
       driving_alone_to_work * .02 +
       long_commute * .01,
     
-    factors = health_behaviors+clinical_care+social_and_economic+physical_environment
   )
 ```
 

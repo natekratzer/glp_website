@@ -162,7 +162,7 @@ png("edu_25_64_assoc_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-64, 2015",
+  plot_title = "Associate Degree or Higher, Ages 25-64, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
@@ -182,7 +182,7 @@ png("edu_25_64_grad_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_grad",
-  plot_title = "Graduate Degree, Ages 25-64, 2015",
+  plot_title = "Graduate Degrees, Ages 25-64, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
@@ -192,7 +192,7 @@ png("edu_25_34_assoc_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-34, 2015",
+  plot_title = "Associate Degree or Higher, Ages 25-34, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
@@ -212,7 +212,7 @@ png("edu_25_34_grad_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_grad",
-  plot_title = "Graduate Degree, Ages 25-34, 2015",
+  plot_title = "Graduate Degrees, Ages 25-34, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
@@ -279,7 +279,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B17001")
 dev.off()
 
-png("1edu_five_to_17_pov_trendline.png", 900, 600, res = 100, type = "cairo")
+png("edu_five_to_17_pov_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "five_to_17_per", 
@@ -331,7 +331,7 @@ png("edu_25_64_assoc_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-64",
+  plot_title = "Associate Degree or Higher, Ages 25-64",
   rollmean = 3, 
   xmin = 2005, 
   xmax = 2015,
@@ -355,7 +355,7 @@ png("edu_25_64_grad_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_grad",
-  plot_title = "Graduate Degree, Ages 25-64",
+  plot_title = "Graduate Degrees, Ages 25-64",
   rollmean = 3,
   xmin = 2005, 
   xmax = 2015,
@@ -367,7 +367,7 @@ png("edu_25_34_assoc_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-34",
+  plot_title = "Associate Degree or Higher, Ages 25-34",
   rollmean = 3,
   xmin = 2005, 
   xmax = 2015,
@@ -391,7 +391,7 @@ png("edu_25_34_grad_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_grad",
-  plot_title = "Graduate Degree, Ages 25-34",
+  plot_title = "Graduate Degrees, Ages 25-34",
   rollmean = 3,
   xmin = 2005, 
   xmax = 2015,
@@ -450,7 +450,6 @@ dev.off()
 png("edu_ccr_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_ccr,
-  break_settings = seq(2012, 2016, 2),
   xmin = 2012,
   xmax = 2016,
   plot_title = "College and Career Readiness by Ethnicity, JCPS",
@@ -466,7 +465,6 @@ dev.off()
 png("edu_act_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_act,
-  break_settings = seq(2012, 2016, 2),
   xmin = 2012,
   xmax = 2016,
   plot_title = "ACT Scores by Ethnicity, JCPS",
@@ -482,12 +480,11 @@ dev.off()
 png("edu_grad_rate_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_grad_rate,
-  break_settings = seq(2013, 2016, 2),
   xmin = 2013,
   xmax = 2016,
-  plot_title = "Four Year Graduation Rate by Ethnicity, JCPS",
+  plot_title = "Four-Year Graduation Rate by Ethnicity, JCPS",
   labels = c("African American", "Asian", "Hispanic", "White"),
-  y_title = "Four Year Graduation Rate",
+  y_title = "Four-Year Graduation Rate",
   color_pal = wes_palette("Moonrise2"),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
@@ -498,10 +495,9 @@ dev.off()
 png("edu_kindergarten_prep_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_kscreen,
-  break_settings = seq(2014, 2016, 2),
   xmin = 2014,
   xmax = 2016,
-  plot_title = "Kindergarten Preparedness by Ethnicity, JCPS",
+  plot_title = "Kindergarten Readiness by Ethnicity, JCPS",
   labels = c("African American", "Asian", "Hispanic", "White"),
   y_title = "Percent",
   color_pal = wes_palette("Moonrise2"),
@@ -519,7 +515,6 @@ graph_trendline_ky_ed(
   y_title = "Composite Score",
   xmin = 2012,
   xmax = 2016,
-  break_settings = seq(2012, 2016, 2),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
 )
@@ -533,7 +528,6 @@ graph_trendline_ky_ed(
   y_title = "Percent",
   xmin = 2012,
   xmax = 2016,
-  break_settings = seq(2012, 2016, 2),
   caption = "Source: Greater Louisville Project 
              Data from Kentucky Department of Education School Report Card"
 )
@@ -543,11 +537,10 @@ png("edu_kindergarten_prep_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_kind_ready",
-  plot_title = "Kindergarten Preparedness",
+  plot_title = "Kindergarten Readiness",
   y_title = "Percent",
   xmin = 2014,
   xmax = 2016,
-  break_settings = seq(2014, 2016, 2),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
 )
@@ -561,7 +554,6 @@ graph_trendline_ky_ed(
   y_title = "Percent",
   xmin = 2013,
   xmax = 2016,
-  break_settings = seq(2013, 2016, 2),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
 )

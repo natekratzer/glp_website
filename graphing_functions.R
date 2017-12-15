@@ -204,7 +204,7 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   #create a new variable to use var with the '$' operator
   df$var <- df[[var]]
   
-  df = df %>% filter(year != 2016)
+  if(xmax == 2015)  df = df %>% filter(year != 2016)
   
   #subset to peers and remove Louisville
   if(peers=="Current"){
@@ -254,7 +254,14 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   
   #set x-axis labels based on break_settings parameter
   if(break_settings == ""){
-    break_settings = seq(xmin, xmax, 2)
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
   }
   
   #reshape data
@@ -350,9 +357,18 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent",
     xmax = xmax - 2
     subtitle_text = "5-year rolling average"
   }
+  
   if(break_settings == ""){
-    break_settings = seq(xmin, xmax, 2)
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
   }
+  
   dat
   data_long <- melt(dat, id="year")
   data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
