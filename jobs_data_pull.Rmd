@@ -377,13 +377,9 @@ bds_data = read_csv("input data/jobs_input_data/bds_f_msa_release.csv")
 
 bds_data = bds_data %>%
   rename(MSA = msa, year = year2)%>%
-  select(-denom, -estabs_entry, -estabs_exit, 
-         -job_creation, -job_creation_births, -job_creation_continuers,
-         -job_destruction, -job_destruction_deaths, -job_destruction_continuers,
-         -reallocation_rate, -d_flag, -net_job_creation,
-         -firmdeath_firms, -firmdeath_estabs, -firmdeath_emp
-         )%>%
-  pull_peers_MSA(.)
+  select(year, MSA, firms, job_creation_rate, job_destruction_rate,
+         net_job_creation_rate, firmdeath_firms)%>%
+  pull_peers_MSA()
 
 bds_data = bds_data[bds_data$year >= 2003,]
 bds_data$city<-NA

@@ -405,12 +405,13 @@ pop <- read_csv("input data/population_data_one_stl.csv")
 sc_data <- left_join(sc_data, pop, by = c("FIPS", "year"))
 
 sc_data %<>% mutate(ss_est_per_10000 = (ss_est/population)*10000)
+sc_data %<>% select(-ss_est)
 name_df <- read_csv("input data/FIPS one stl.csv")
 name_df %<>% select(FIPS, city)
 sc_data <- left_join(sc_data, name_df)
 
 
-health_data_fips <- full_join(sc_data, health_data_fips, by = c("FIPS", "year", "baseline","city","current"))
+health_data_fips <- full_join(health_data_fips, sc_data, by = c("FIPS", "year", "baseline","city","current"))
 
 ```
 
@@ -540,6 +541,10 @@ child_pov_data <- child_pov_data %>%
   select(-child_total)
 
 health_data_fips %<>% left_join(child_pov_data, by = c("FIPS", "year"))
+
+health_data_fips %<>% select(-population, )
+
+health_data_fips %<>% select(city, county, state, display_name, FIPS, year, current, baseline, everything())
 ```
 
 Writes 'health_data_fips' to a CSV
