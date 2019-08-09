@@ -54,23 +54,41 @@ qp_data_fips<-read_csv("qp_data_fips.csv")
 qp_data_msa<-read_csv("qp_data_msa.csv")
 ```
 
+
+```{r}
+
+showtext.auto()
+
+png("FMR_rankings.png", 900, 600, res = 100, type = "cairo")
+rank_and_nb_group(
+  filter(qp_data_fips, year == 2017),
+  'fmr',
+  order = "Ascending",
+  plot_title = "Fair Market Rent for a 1 Bedroom Apartment, 2017",
+  y_title = "Dollars",
+  caption_text = "Source: Greater Louisville Project \nData from US Department of Housing and Urban Development"
+)
+dev.off()
+
+```
+
 Ranking Graphs
 ```{r}
 setwd("Images/QP_Images")
 
 showtext.auto()
 
-jpeg("qp_food_insecurity_child_rankings.jpg", 900, 600, res = 100)
+png("qp_food_insecurity_child_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   filter(qp_data_fips, year == 2015),
   'food_insecure_child',
   order = "Ascending",
   plot_title = "Food Insecurity - Children, 2015",
-  caption_text = "Source: Greater Louisville Project Data from Feeding America, Map the Meal Gap"
+  caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap"
 )
 dev.off()
 
-jpeg("qp_food_insecurity_rankings.jpg", 900, 600, res = 100)
+png("qp_food_insecurity_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   filter(qp_data_fips, year == 2015),
   'food_insecure_overall',
@@ -80,7 +98,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_pct_pop_core_county.jpg", 900, 600, res = 100)
+png("qp_pct_pop_core_county.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   filter(qp_data_fips, year == 2015),
   'pct_pop_core_county',
@@ -90,7 +108,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_food_desert_rankings.jpg", 900, 600, res = 100)
+png("qp_food_desert_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   filter(qp_data_fips, year == 2015),
   'est_food_desert_households_per100000_lowIncTract',
@@ -101,7 +119,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_volunteer_rate_rankings.jpg", 900, 600, res = 100)
+png("qp_volunteer_rate_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   filter(qp_data_msa, year == 2014),
   "volunteer_pct",
@@ -110,18 +128,18 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_social_support_rankings.jpg", 900, 600, res = 100)
+png("qp_social_support_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'ss_est_per_10000',
   order = "Descending",
   y_title = "Membership Associations per 10,000 residents",
-  plot_title = "Social Support, 2015",
+  plot_title = "Membership Associations, 2015",
   caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census"
 )
 dev.off()
 
-jpeg("qp_commute_time_rankings.jpg", 900, 600, res = 100)
+png("qp_commute_time_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'commute_time',
@@ -132,7 +150,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_severe_burdened_households_rankings.jpg", 900, 600, res = 100)
+png("qp_severe_burdened_households_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'burdened_households',
@@ -143,7 +161,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_median_household_income_ranking.jpg", 900, 600, res = 100)
+png("qp_median_household_income_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   filter(qp_data_fips, year == 2014),
   "median_household_income", sigfig = 3, num_dec = 0,
@@ -154,7 +172,7 @@ rank_and_nb_group(
   )
 dev.off()
 
-jpeg("qp_housing_price_index_rankings.jpg", 900, 600, res = 100)
+png("qp_housing_price_index_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),sigfig = 4,
   'housing_price_index',
@@ -165,7 +183,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_homeownership_rankings.jpg", 900, 600, res = 100)
+png("qp_homeownership_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'home_ownership',
@@ -176,7 +194,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_income_inequality_rankings.jpg", 900, 600, res = 100)
+png("qp_income_inequality_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'income_inequality',
@@ -187,7 +205,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_disconnected_youth_rankings.jpg", 900, 600, res = 100)
+png("qp_disconnected_youth_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'disconnected_youth',
@@ -198,7 +216,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_net_migration_flow_rankings.jpg", 900, 600, res = 100)
+png("qp_net_migration_flow_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group_mig(
   as.data.frame(filter(qp_data_fips, year == 2013)),
   'net_migration_flow',
@@ -209,7 +227,7 @@ rank_and_nb_group_mig(
 )
 dev.off()
 
-jpeg("qp_racial_geography_rankings.jpg", 900, 600, res = 100)
+png("qp_racial_geography_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'racial_geography',
@@ -220,7 +238,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_violent_crime_rankings.jpg", 900, 600, res = 100)
+png("qp_violent_crime_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'violent_crime', num_dec = 0,
@@ -231,7 +249,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_injury_death_rankings.jpg", 900, 600, res = 100)
+png("qp_injury_death_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'injury_deaths',
@@ -242,7 +260,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_air_pollution_rankings.jpg", 900, 600, res = 100)
+png("qp_air_pollution_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'air_pollution',
@@ -253,7 +271,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_severe_housing_problems_rankings.jpg", 900, 600, res = 100)
+png("qp_severe_housing_problems_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'severe_housing_problems',
@@ -264,7 +282,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_driving_alone_to_work_rankings.jpg", 900, 600, res = 100)
+png("qp_driving_alone_to_work_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2015)),
   'driving_alone_to_work',
@@ -275,7 +293,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_multidimensional_poverty_rankings.jpg", 900, 600, res = 100)
+png("qp_multidimensional_poverty_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   as.data.frame(filter(qp_data_fips, year == 2014)),
   'percent_in_mpi',
@@ -286,19 +304,19 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("qp_child_poverty_rankings.jpg", 900, 600, res = 100)
+png("qp_child_poverty_rankings.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
-  qp_data_fips %>% filter(year == 2015) %>% as.data.frame(),
+  qp_data_fips %>% filter(year == 2016) %>% as.data.frame(),
   'child_per',
   order = "Ascending",
   y_title = "Percent",
-  plot_title = "Child Poverty, 2015",
+  plot_title = "Child Poverty, 2016",
   caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001"
 )
 dev.off()
 
 #Optional code for exporting the millennial migration data to the KY Fund for the Arts.
-#jpeg("qp_millennial_migration_rankings.jpg", 900, 600, res = 100)
+#png("qp_millennial_migration_rankings.png", 900, 600, res = 100, type = "cairo")
 #rank_and_nb_group(
 #  qp_data_fips %>% filter(year == 2015) %>% as.data.frame(),
 #  'mil_mig_per_100000',
@@ -317,31 +335,31 @@ setwd("Images/QP_Images")
 
 showtext.auto()
 
-jpeg("qp_food_insecurity_trendline.jpg", 900, 600, res = 100)
+png("qp_food_insecurity_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   qp_data_fips,
   'food_insecure_overall',
   plot_title = "Food Insecurity",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap",
-  break_settings = seq(2013, 2015, 2),
   xmin = 2012.5,
-  xmax = 2015.5)
+  xmax = 2015.5,
+  break_settings = seq(2013, 2015, 1))
 dev.off()
 
-jpeg("qp_food_insecurity_child_trendline.jpg", 900, 600, res = 100)
+png("qp_food_insecurity_child_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   qp_data_fips,
   'food_insecure_child',
   plot_title = "Food Insecurity - Children",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from Feeding America, Map the Meal Gap",
-  break_settings = seq(2013, 2015, 2),
   xmin = 2012.5,
-  xmax = 2015.5)
+  xmax = 2015.5,
+  break_settings = seq(2013, 2015, 1))
 dev.off()
 
-jpeg("pct_pop_living_in_core_county_trendline.jpg", 900, 600, res = 100)
+png("pct_pop_living_in_core_county_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   qp_data_fips, 
   "pct_pop_core_county",
@@ -352,7 +370,7 @@ graph_trendline(
   rollmean = 1)
 dev.off()
 
-jpeg("qp_volunteer_rate_trendline.jpg", 900, 600, res = 100)
+png("qp_volunteer_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_msa(
   filter(qp_data_msa, year<=2014),
   var = "volunteer_pct",
@@ -363,19 +381,19 @@ graph_trendline_msa(
   caption_text = "Source: Greater Louisville Project\nData from the Corporation for National and Community Service\nMSA Groupings are 2003 OMB standards")
 dev.off()
 
-jpeg("qp_social_support_trendline.jpg", 900, 600, res = 100)
+png("qp_social_support_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips),
   var = 'ss_est_per_10000', 
   rollmean = 1,
-  plot_title = "Social Support",
+  plot_title = "Membership Associations",
   y_title = "Membership Associations per 10,000 residents",
   caption_text = "Source: Greater Louisville Project \nData from CBP Statistics from US Census",
   xmin = 2005, 
   xmax = 2015)
 dev.off()
 
-jpeg("qp_net_migration_flow_trendline.jpg", 900, 600, res = 100)
+png("qp_net_migration_flow_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips), 
   var = 'net_migration_flow', 
@@ -387,7 +405,7 @@ graph_trendline(
   xmax = 2013)
 dev.off()
 
-jpeg("qp_commute_time_trendline.jpg", 900, 600, res = 100)
+png("qp_commute_time_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips),
   var = 'commute_time',
@@ -399,7 +417,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-jpeg("qp_severe_burdened_households_trendline.jpg", 900, 600, res = 100)
+png("qp_severe_burdened_households_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips), 
   var = 'burdened_households', 
@@ -411,7 +429,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-jpeg("qp_housing_price_index_trendline.jpg", 900, 600, res = 100)
+png("qp_housing_price_index_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips), 
   var = 'housing_price_index', 
@@ -423,7 +441,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-jpeg("qp_homeownership_trendline.jpg", 900, 600, res = 100)
+png("qp_homeownership_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips), 
   var = 'home_ownership', 
@@ -435,7 +453,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-jpeg("qp_income_inequality_trendline.jpg", 900, 600, res = 100)
+png("qp_income_inequality_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips), 
   var = 'income_inequality',
@@ -447,7 +465,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-jpeg("qp_disconnected_youth_trendline.jpg", 900, 600, res = 100)
+png("qp_disconnected_youth_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips),
   var = 'disconnected_youth', rollmean = 1,
@@ -458,7 +476,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-jpeg("qp_racial_geography_trendline.jpg", 900, 600, res = 100)
+png("qp_racial_geography_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   as.data.frame(qp_data_fips), 
   var = 'racial_geography', 
@@ -470,7 +488,7 @@ graph_trendline(
   xmax = 2015)
 dev.off()
 
-jpeg("qp_median_household_income_trendline.jpg", 900, 600, res = 100)
+png("qp_median_household_income_trendline.png", 900, 600), res = 100, type = "cairo")
 graph_trendline(
   qp_data_fips, 
   "median_household_income",
@@ -478,33 +496,35 @@ graph_trendline(
   subtitle = "Annual",
   rollmean = 1,
   caption_text = "Source: Greater Louisville Project \nData from the Federal Reserve via GeoFRED",
-  break_settings = seq(2005, 2014, 2),
   xmin = 2005, 
   xmax = 2014,
   y_title = "Dollars")
 dev.off()
 
-jpeg("qp_child_poverty_trendline.jpg", 900, 600, res = 100)
+#data frame to include 2016 child poverty statistics
+#child_pov_16 <- read_csv('C:/Users/Harrison Kirby/Desktop/GLP/child_pov.csv')
+
+png("qp_child_poverty_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
-  qp_data_fips, 
+  qp_data_fips,
+# child_pov_16,   use to include 2016 child poverty statistics
   "child_per",
   plot_title = "Child Poverty",
   rollmean = 3,
   caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B17001",
   xmin = 2005, 
-  xmax = 2015, 
+  xmax = 2016, 
   y_title = "Percent")
 dev.off()
 
 #Optional code for exporting the millennial migration data to the KY Fund for the Arts.
-#jpeg("qp_millennial_migration_trendline.jpg", 900, 600, res = 100)
+#png("qp_millennial_migration_trendline.png", 900, 600, res = 100, type = "cairo")
 #graph_trendline(
 #  qp_data_fips, 
 #  "mil_mig_per_100000",
 #  plot_title = "Millennial Immigration Patterns",
 #  rollmean = 1,
 #  caption_text = "Source: Greater Louisville Project \nData from American Community Survey Table B07001",
-#  break_settings = seq(2011, 2015, 2),
 #  xmin = 2010, 
 #  xmax = 2015, 
 #  y_title = "Number of Millennials (Ages 25-34) moving to the city from another\ncounty, state, or country per 100,000")

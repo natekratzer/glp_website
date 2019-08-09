@@ -411,6 +411,8 @@ qp_data_fips<-left_join(qp_data_fips, sc_data, by = c("year","FIPS","baseline","
 
 #Create per 100,000 rate from population data in the QP FIPS dataset
 qp_data_fips%<>% mutate(ss_est_per_10000 = (ss_est/population)*10000)
+
+qp_data_fips%<>%select(-ss_est)
 ```
 
 Reads in population data and calculates the percentage of the MSA population living in the core county for each city.
@@ -454,6 +456,8 @@ fips_core_county_pop$FIPS <- as.character(fips_core_county_pop$FIPS)
 
 #Combine to QP FIPS data
 qp_data_fips<-left_join(qp_data_fips, fips_core_county_pop, by = c("year", "FIPS"))
+
+qp_data_fips %<>% select(-MSA, -msa_population_estimate)
 ```
 
 Reads in food insecurity data, calculates percentage for St. Louis, and appends variable to qp_data_fips
@@ -617,16 +621,24 @@ qp_data_fips<-left_join(qp_data_fips, chr_stl, by = c("year", "FIPS"))
 
 Calculates the Multidimensional Poverty Index Analysis (MPI) used in the 2015 Competative City Update. Education, health, income, and unemployment data are read into R, and the var values for each variable are converted to z-scores using NormZ. The z-scores are combined to identify tracts which qualify as MPI tracts and extreme MPI tracts. The percentage of each city living in MPI and extreme MPI neighborhoods is appended to 'qp_data_fips'.
 ```{r}
-#Read in data
+neighborhoods <- read_csv("map data/census tract neighborhoods.csv", col_types = cols(Id2 = col_character()))
+
+#Education
 pc_ed_data <- read_csv("input data/qp_input_data/ACS_14_5YR_B23006_with_ann.csv", skip = 1)
 pc_ed_data %<>% 
   select(Id2,
          ed_population = `Estimate; Total:`, 
-         less_than_hs = `Estimate; Less than high school graduate:`,
-         bachelors_up = `Estimate; Bachelor's degree or higher:`) %>%
-  mutate(bachelors_degree = bachelors_up/ed_population,
-         no_hs_degree = less_than_hs/ed_population)
+         less_than_hs = `Estimate; Less than high school graduate:`) %>%
+  mutate(no_hs_degree = less_than_hs/ed_population)
 
+pc_ed_data_nh =
+  pc_ed_data %>%
+  full_join(neighborhoods, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(no_hs_degree = sum(less_than_hs)/sum(ed_population))
+
+  
+#Health
 pc_health_data <- read_csv("input data/qp_input_data/ACS_14_5YR_S2701_with_ann.csv", skip=1)
 pc_health_data %<>%
   select(Id2,
@@ -635,6 +647,14 @@ pc_health_data %<>%
 
 pc_health_data$uninsured = as.numeric(as.character(pc_health_data$uninsured))
 
+pc_health_data_nh =
+  pc_health_data %>%
+  full_join(neighborhoods, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(uninsured = sum(uninsured*health_population)/sum(health_population))
+
+
+#Income
 pc_low_inc_data<-read_csv("input data/qp_input_data/ACS_14_5YR_C17002_with_ann.csv", skip=1)
 pc_low_inc_data%<>%
   select(
@@ -650,6 +670,14 @@ pc_low_inc_data%<>%
     low_inc_population
     )
 
+pc_low_inc_data_nh =
+  pc_low_inc_data %>%
+  full_join(neighborhoods, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(low_income = (sum(less_than_50) + sum(less_than_1) + sum(less_than_1.25) + sum(less_than_1.5))/sum(low_inc_population))
+
+
+#Unemployment
 pc_unemp_data<-read_csv("input data/qp_input_data/ACS_14_5YR_S2301_with_ann.csv",skip=1)
 pc_unemp_data%<>%
   select(Id2, 
@@ -658,14 +686,27 @@ pc_unemp_data%<>%
 
 pc_unemp_data$unemployed = as.numeric((pc_unemp_data$unemployed))
 
+pc_unemp_data_nh =
+  pc_unemp_data %>%
+  full_join(neighborhoods, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(unemployed = sum(unemployed * unemp_population)/sum(unemp_population))
+
+
 pc_data = left_join(pc_ed_data, pc_health_data, by = "Id2")
 pc_data = left_join(pc_data, pc_low_inc_data, by = "Id2")
 pc_data = left_join(pc_data, pc_unemp_data, by = "Id2")
 
+pc_data_nh = left_join(pc_ed_data_nh, pc_health_data_nh, by = "Neighborhood")
+pc_data_nh = left_join(pc_data_nh, pc_low_inc_data_nh, by = "Neighborhood")
+pc_data_nh = left_join(pc_data_nh, pc_unemp_data_nh, by = "Neighborhood")
+
 #Convert percents to a scale of 0-100
 pc_data = pc_data %>%
-  mutate(low_income = low_income*100, bachelors_degree = bachelors_degree*100, 
-         no_hs_degree = no_hs_degree*100)
+  mutate(low_income = low_income*100, no_hs_degree = no_hs_degree*100)
+
+pc_data_nh = pc_data_nh %>%
+  mutate(low_income = low_income*100, no_hs_degree = no_hs_degree*100)
 
 ##Create FIPS codes using the first 5 digits of tract codes
 FIPS = substr(pc_data$Id2, 1,5)
@@ -687,6 +728,19 @@ pc_mpi_data = pc_data %>%
 
 mpi_data = pc_mpi_data %>%
   select(Id2, FIPS, mpi = z_overall, population = health_population)
+
+
+pc_mpi_data_nh = 
+  pc_data_nh %>%
+  filter(!(is.na(Neighborhood) | (Neighborhood == 'Airport'))) %>%
+  mutate(z_low_income = NormZ(low_income),
+         z_unemployed = NormZ(unemployed),
+         z_no_hs_degree = NormZ(no_hs_degree),
+         z_uninsured = NormZ(uninsured),
+         z_overall = (z_low_income+z_unemployed+z_no_hs_degree+z_uninsured)/4)
+
+mpi_data_nh = pc_mpi_data_nh %>%
+  select(Neighborhood, mpi = z_overall)
 
 ##IDing mpi poor neighborhoods and extreme mpi poor neighborhoods
 mpi_data$mpi_nh = NA
@@ -795,10 +849,44 @@ child_pov_data <- child_pov_data %>%
   mutate(child_per = child_per *100)%>%
   select(-child_total)
 
-qp_data_fips %<>% left_join(child_pov_data, by = c("FIPS", "year"))
+qp_data_fips %<>% full_join(child_pov_data, qp_data_fips, by = c('year','FIPS'))
+city_data <- read_csv("C:/Users/Harrison Kirby/Desktop/GLP/glp_website/input data/FIPS one stl.csv")
+city_data %<>% select(FIPS, county, state, display_name)
+qp_data_fips = full_join(qp_data_fips, city_data, by = "FIPS")
 ```
 
-Reads volunteer data for 2011-2015 into R, processes it, and appends the observations to 'qp_data_msa'
+FMR Data
+```{r}
+FMR <- read_csv("input data/qp_input_data/FMR.csv", progress = FALSE)
+
+FMR %<>%
+  transmute(
+    year = 2017,
+    FIPS = substr(fips2010, 1,5),
+    fmr = fmr1
+  ) %>%
+  pull_peers_FIPS() %>%
+  select(-baseline, -current)
+
+FMR %<>% filter(FIPS != '29510')
+FMR$FIPS[FMR$FIPS == '29189'] = 'MERGED'
+FMR$FIPS[FMR$FIPS == '01073'] = '1073'
+
+qp_data_fips %<>% full_join(FMR, qp_data_fips, by = c('year','FIPS'))
+
+
+qp_data_fips %<>% pull_peers_FIPS()
+qp_data_fips %<>% full_join(names, by = 'FIPS')
+qp_data_fips %<>% 
+  select(-weights, -city.x, -county.x, -state.x) %>%
+  mutate(city = city.y, county = county.y, state = state.y) %>%
+  select(-city.y, -county.y, -state.y)
+
+qp_data_fips %<>% select(city, county, state, display_name, FIPS, year, current, baseline, everything())
+
+```
+
+Reads volunteer data for 2011-2015 into R, processes it, and saves the observations to the dataframe 'qp_data_msa'
 ```{r}
 #Read in Data
 v_2015 <- read_csv("input data/qp_input_data/volunteer2015.csv", progress = FALSE)
@@ -852,6 +940,8 @@ v_data <- v_data %>%
 v_data$current <- 1
 v_data%<>%dplyr::rename(year = Year)
 
+v_data%<>%select(city, MSA, year, current, volunteer_pct)
+
 #Create MSA Data
 qp_data_msa <- v_data
 ```
@@ -868,10 +958,11 @@ mpi_data_maps %<>% filter(FIPS == "21111")%>%
 Reads census tract race data for Louisville, calculates the percentage of residents who are white and the difference between the average precentage of white residents in Louisville and the percentage found in each census tract (dif_score), and appends these variables to map_data
 ```{r}
 #White Data
-white_dat <- read_csv("input data/qp_input_data/ACS_14_5YR_B02001_with_ann.csv", skip = 1)
+white_dat <- read_csv("input data/qp_input_data/ACS_15_5YR_B03002_with_ann.csv", skip = 1)
 white_dat %<>% select(Id, Id2, population = `Estimate; Total:`, 
-                      white_pop = `Estimate; Total: - White alone`)%>%
-  mutate(pct_white = white_pop/population)
+                      white_pop = `Estimate; Not Hispanic or Latino: - White alone`)%>%
+  mutate(pct_white = white_pop/population,
+         Id2 = as.character(Id2))
 
 FIPS = substr(white_dat$Id2, 1,5)
 FIPS = data.frame(FIPS)
@@ -887,8 +978,21 @@ total <- white_dat%>%
 white_dat$total_white_pct = total$total_white_pct
 
 #Computing the "Difference Score"
-white_dat %<>% mutate(dif_score = abs(pct_white - total_white_pct))%>%
-  select(-population)
+white_dat %<>% mutate(dif_score = abs(pct_white - total_white_pct))
+
+
+neighborhoods <- read_csv("map data/census tract neighborhoods.csv", col_types = cols(Id2 = col_character()))
+
+white_dat_nh = 
+  white_dat %>%
+  full_join(neighborhoods, by = "Id2") %>%
+  filter(!(Neighborhood == "Airport")) %>%
+  select(-Id, -Id2, -FIPS, -dif_score) %>%
+  group_by(Neighborhood) %>%
+  summarise(dif_score = abs(sum(white_pop)/sum(population) - mean(total_white_pct)))
+
+
+white_dat %<>% select(-population, -total_white_pct)
 
 #Rescaling
 white_dat$pct_white = white_dat$pct_white*100
@@ -911,6 +1015,15 @@ med_inc %<>% select(Id, Id2, median_income = `Estimate; Median household income 
 
 map_data <- map_data %>%
   left_join(med_inc, by = c("Id2", "Id"))
+
+map_data %<>% 
+  select(Id, Id2, Neighborhood, everything())
+
+map_data$FIPS <- NULL
+map_data$white_pop <- NULL
+
+map_data_nh = full_join(mpi_data_nh, white_dat_nh, by = "Neighborhood")
+
 ```
 
 Millenial Migration Flow Analysis (Not included in the website, but is a seperate data pull for the Fund for the Arts). Calculates the percentage of residents in Jefferson county between the ages of 25 and 34 who moved from a different county, state, or country. Appends the data to 'qp_data_fips'
@@ -979,4 +1092,5 @@ Writes data to CSVs
 write_csv(qp_data_fips, "output data/qp_data_fips.csv")
 write_csv(qp_data_msa, "output data/qp_data_msa.csv")
 write_csv(map_data, "map data/qp_map_data.csv")
+write_csv(map_data_nh, "map data/qp_map_data_neighborhood.csv")
 ```

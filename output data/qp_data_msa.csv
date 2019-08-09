@@ -1,86 +1,86 @@
-volunteer_pct,year,MSA,city,current
-32.1,2011,36420,Oklahoma City,1
-36,2011,24340,Grand Rapids,1
-30.1,2011,17140,Cincinnati,1
-35.1,2011,36540,Omaha,1
-29.2,2011,18140,Columbus,1
-28.5,2011,34980,Nashville,1
-27.7,2011,26900,Indianapolis,1
-31.3,2011,41180,St. Louis,1
-30.3,2011,28140,Kansas City,1
-26.9,2011,16740,Charlotte,1
-26.7,2011,13820,Birmingham,1
-25.7,2011,31140,Louisville,1
-30,2011,24860,Greenville,1
-29.8,2011,28940,Knoxville,1
-24.8,2011,32820,Memphis,1
-29,2011,46140,Tulsa,1
-27,2011,24660,Greensboro,1
-36.6,2012,24340,Grand Rapids,1
-35.1,2012,36540,Omaha,1
-30.6,2012,28940,Knoxville,1
-29.9,2012,24860,Greenville,1
-28.4,2012,46140,Tulsa,1
-27.2,2012,24660,Greensboro,1
-31.8,2012,41180,St. Louis,1
-31.3,2012,16740,Charlotte,1
-31,2012,28140,Kansas City,1
-30.5,2012,34980,Nashville,1
-29.3,2012,26900,Indianapolis,1
-28.6,2012,18140,Columbus,1
-28.1,2012,36420,Oklahoma City,1
-27.6,2012,17140,Cincinnati,1
-26.7,2012,13820,Birmingham,1
-25.8,2012,31140,Louisville,1
-25.1,2012,32820,Memphis,1
-36.4,2013,24340,Grand Rapids,1
-35.4,2013,36540,Omaha,1
-28.5,2013,24860,Greenville,1
-28.2,2013,28940,Knoxville,1
-27.2,2013,24660,Greensboro,1
-26.8,2013,46140,Tulsa,1
-33.1,2013,16740,Charlotte,1
-31.8,2013,28140,Kansas City,1
-30.6,2013,26900,Indianapolis,1
-30.6,2013,41180,St. Louis,1
-28.1,2013,18140,Columbus,1
-27.1,2013,34980,Nashville,1
-26.8,2013,13820,Birmingham,1
-26.7,2013,31140,Louisville,1
-26.6,2013,36420,Oklahoma City,1
-26.5,2013,32820,Memphis,1
-26.2,2013,17140,Cincinnati,1
-35.6,2014,36540,Omaha,1
-35.2,2014,24340,Grand Rapids,1
-28.3,2014,24660,Greensboro,1
-28.3,2014,46140,Tulsa,1
-27.3,2014,24860,Greenville,1
-27,2014,28940,Knoxville,1
-33.3,2014,16740,Charlotte,1
-32.3,2014,28140,Kansas City,1
-31.7,2014,26900,Indianapolis,1
-29,2014,41180,St. Louis,1
-28.8,2014,18140,Columbus,1
-27.4,2014,32820,Memphis,1
-26.5,2014,13820,Birmingham,1
-26,2014,31140,Louisville,1
-25.9,2014,34980,Nashville,1
-25.5,2014,17140,Cincinnati,1
-24.6,2014,36420,Oklahoma City,1
-35.6,2015,24340,Grand Rapids,1
-33.9,2015,36540,Omaha,1
-28.5,2015,24660,Greensboro,1
-28.4,2015,46140,Tulsa,1
-25.7,2015,24860,Greenville,1
-25.2,2015,28940,Knoxville,1
-31.1,2015,28140,Kansas City,1
-30.3,2015,26900,Indianapolis,1
-30.2,2015,16740,Charlotte,1
-28.2,2015,31140,Louisville,1
-27.2,2015,13820,Birmingham,1
-26.3,2015,18140,Columbus,1
-25.8,2015,32820,Memphis,1
-25.8,2015,17140,Cincinnati,1
-25.4,2015,41180,St. Louis,1
-24.9,2015,34980,Nashville,1
-22.5,2015,36420,Oklahoma City,1
+city,MSA,year,current,volunteer_pct
+Oklahoma City,36420,2011,1,32.1
+Grand Rapids,24340,2011,1,36
+Cincinnati,17140,2011,1,30.1
+Omaha,36540,2011,1,35.1
+Columbus,18140,2011,1,29.2
+Nashville,34980,2011,1,28.5
+Indianapolis,26900,2011,1,27.7
+St. Louis,41180,2011,1,31.3
+Kansas City,28140,2011,1,30.3
+Charlotte,16740,2011,1,26.9
+Birmingham,13820,2011,1,26.7
+Louisville,31140,2011,1,25.7
+Greenville,24860,2011,1,30
+Knoxville,28940,2011,1,29.8
+Memphis,32820,2011,1,24.8
+Tulsa,46140,2011,1,29
+Greensboro,24660,2011,1,27
+Grand Rapids,24340,2012,1,36.6
+Omaha,36540,2012,1,35.1
+Knoxville,28940,2012,1,30.6
+Greenville,24860,2012,1,29.9
+Tulsa,46140,2012,1,28.4
+Greensboro,24660,2012,1,27.2
+St. Louis,41180,2012,1,31.8
+Charlotte,16740,2012,1,31.3
+Kansas City,28140,2012,1,31
+Nashville,34980,2012,1,30.5
+Indianapolis,26900,2012,1,29.3
+Columbus,18140,2012,1,28.6
+Oklahoma City,36420,2012,1,28.1
+Cincinnati,17140,2012,1,27.6
+Birmingham,13820,2012,1,26.7
+Louisville,31140,2012,1,25.8
+Memphis,32820,2012,1,25.1
+Grand Rapids,24340,2013,1,36.4
+Omaha,36540,2013,1,35.4
+Greenville,24860,2013,1,28.5
+Knoxville,28940,2013,1,28.2
+Greensboro,24660,2013,1,27.2
+Tulsa,46140,2013,1,26.8
+Charlotte,16740,2013,1,33.1
+Kansas City,28140,2013,1,31.8
+Indianapolis,26900,2013,1,30.6
+St. Louis,41180,2013,1,30.6
+Columbus,18140,2013,1,28.1
+Nashville,34980,2013,1,27.1
+Birmingham,13820,2013,1,26.8
+Louisville,31140,2013,1,26.7
+Oklahoma City,36420,2013,1,26.6
+Memphis,32820,2013,1,26.5
+Cincinnati,17140,2013,1,26.2
+Omaha,36540,2014,1,35.6
+Grand Rapids,24340,2014,1,35.2
+Greensboro,24660,2014,1,28.3
+Tulsa,46140,2014,1,28.3
+Greenville,24860,2014,1,27.3
+Knoxville,28940,2014,1,27
+Charlotte,16740,2014,1,33.3
+Kansas City,28140,2014,1,32.3
+Indianapolis,26900,2014,1,31.7
+St. Louis,41180,2014,1,29
+Columbus,18140,2014,1,28.8
+Memphis,32820,2014,1,27.4
+Birmingham,13820,2014,1,26.5
+Louisville,31140,2014,1,26
+Nashville,34980,2014,1,25.9
+Cincinnati,17140,2014,1,25.5
+Oklahoma City,36420,2014,1,24.6
+Grand Rapids,24340,2015,1,35.6
+Omaha,36540,2015,1,33.9
+Greensboro,24660,2015,1,28.5
+Tulsa,46140,2015,1,28.4
+Greenville,24860,2015,1,25.7
+Knoxville,28940,2015,1,25.2
+Kansas City,28140,2015,1,31.1
+Indianapolis,26900,2015,1,30.3
+Charlotte,16740,2015,1,30.2
+Louisville,31140,2015,1,28.2
+Birmingham,13820,2015,1,27.2
+Columbus,18140,2015,1,26.3
+Memphis,32820,2015,1,25.8
+Cincinnati,17140,2015,1,25.8
+St. Louis,41180,2015,1,25.4
+Nashville,34980,2015,1,24.9
+Oklahoma City,36420,2015,1,22.5

@@ -53,7 +53,6 @@ Read data and filter to 2015
 educ_data = read_csv("output data/education_data_fips.csv")
 educ_data_15 <- educ_data %>% filter(year == 2015)
 
-naep_data <- read_csv("output data/education_data_naep.csv")
 ky_ed_data <- read_csv("output data/education_data_ky.csv")
 ```
 
@@ -61,7 +60,7 @@ Filter datasets to students in JCPS and break down metrics by race/ethnicity. Ti
 ```{r}
 #ACT
 jeff_eth_act <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_composite_score, african_american_composite_score,
          asian_composite_score, hispanic_composite_score)%>%
   gather(white_composite_score:hispanic_composite_score, key = "var",
@@ -72,7 +71,7 @@ jeff_eth_act$var <- factor(jeff_eth_act$var, levels = unique(jeff_eth_act$var))
 
 #CCR
 jeff_eth_ccr <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_pct_ccr, african_american_pct_ccr,
          asian_pct_ccr, hispanic_pct_ccr)%>%
   gather(white_pct_ccr:hispanic_pct_ccr, key = "var", value = "value")%>%
@@ -82,7 +81,7 @@ jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 
 #Kindergarten Preparedness
 jeff_eth_kscreen <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_kind_ready, african_american_kind_ready, 
          asian_kind_ready, hispanic_kind_ready)%>%
   gather(white_kind_ready:hispanic_kind_ready, key = "var", value = "value")%>%
@@ -93,7 +92,7 @@ jeff_eth_ccr$var <- factor(jeff_eth_ccr$var, levels = unique(jeff_eth_ccr$var))
 
 #Graduation Rate
 jeff_eth_grad_rate <- ky_ed_data %>%
-  filter(dist_name == "Jefferson County")%>%
+  filter(area == "Louisville")%>%
   select(year, white_cohort_grad_rate, african_american_cohort_grad_rate,
          asian_cohort_grad_rate, hispanic_cohort_grad_rate)%>%
   gather(white_cohort_grad_rate:hispanic_cohort_grad_rate, key = "var", value = "value")%>%
@@ -108,7 +107,7 @@ setwd("Images/Edu_Images")
 
 showtext.auto()
 
-jpeg("edu_under_5_pov_ranking.jpg", 900, 600, res = 100)
+png("edu_under_5_pov_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "under_5_per",
@@ -119,7 +118,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_five_to_17_pov_ranking.jpg", 900, 600, res = 100)
+png("edu_five_to_17_pov_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "five_to_17_per",
@@ -130,7 +129,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_child_pov_ranking.jpg", 900, 600, res = 100)
+png("edu_child_pov_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "child_per",
@@ -141,7 +140,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_bach_plus_all_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_all_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(educ_data_15,
   "bach_plus_per_all",
   plot_title = "Bachelor's Degree or Higher, All Races, 2015",
@@ -149,7 +148,7 @@ rank_and_nb_group(educ_data_15,
                   Data from the American Community Survey, Table B15002")
 dev.off()
 
-jpeg("edu_bach_plus_black_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_black_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "bach_plus_per_black",
@@ -159,17 +158,17 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_64_assoc_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_64_assoc_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-64, 2015",
+  plot_title = "Associate Degree or Higher, Ages 25-64, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
 dev.off()
 
-jpeg("edu_25_64_bach_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_64_bach_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_bach_plus",
@@ -179,27 +178,27 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_64_grad_ranking.jpg", 900, 600, res = 100)
+png("edu_25_64_grad_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_64_grad",
-  plot_title = "Graduate Degree, Ages 25-64, 2015",
+  plot_title = "Graduate Degrees, Ages 25-64, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
 dev.off()
 
-jpeg("edu_25_34_assoc_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_34_assoc_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-34, 2015",
+  plot_title = "Associate Degree or Higher, Ages 25-34, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
 dev.off()
 
-jpeg("edu_25_34_bach_plus_ranking.jpg", 900, 600, res = 100)
+png("edu_25_34_bach_plus_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_bach_plus",
@@ -209,17 +208,17 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_25_34_grad_ranking.jpg", 900, 600, res = 100)
+png("edu_25_34_grad_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_25_34_grad",
-  plot_title = "Graduate Degree, Ages 25-34, 2015",
+  plot_title = "Graduate Degrees, Ages 25-34, 2015",
   caption_text = "Source: Greater Louisville Project 
                   Data from the American Community Survey, Table B15001"
 )
 dev.off()
 
-jpeg("edu_bach_plus_hispanic_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_hispanic_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "bach_plus_per_hispanic",
@@ -229,7 +228,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_bach_plus_white_ranking.jpg", 900, 600, res = 100)
+png("edu_bach_plus_white_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "bach_plus_per_white",
@@ -239,7 +238,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_enrolled_3_4_ranking.jpg", 900, 600, res = 100)
+png("edu_enrolled_3_4_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "enrolled_3_4",
@@ -249,7 +248,7 @@ rank_and_nb_group(
 )
 dev.off()
 
-jpeg("edu_per_high_wage_ranking.jpg", 900, 600, res = 100)
+png("edu_per_high_wage_ranking.png", 900, 600, res = 100, type = "cairo")
 rank_and_nb_group(
   educ_data_15,
   "per_high_wage",
@@ -268,7 +267,7 @@ setwd("Images/Edu_Images")
 
 showtext.auto()
 
-jpg("edu_under_5_pov_trendline.png", 900, 600, res = 100)
+png("edu_under_5_pov_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "under_5_per",
@@ -280,7 +279,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B17001")
 dev.off()
 
-jpeg("edu_five_to_17_pov_trendline.jpg", 900, 600, res = 100)
+png("edu_five_to_17_pov_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "five_to_17_per", 
@@ -292,7 +291,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B17001")
 dev.off()
 
-jpeg("edu_child_pov_trendline.jpg", 900, 600, res = 100)
+png("edu_child_pov_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "child_per",
@@ -304,7 +303,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B17001")
 dev.off()
 
-jpeg("edu_bach_plus_all_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_all_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "bach_plus_per_all",
@@ -316,7 +315,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002")
 dev.off()
 
-jpeg("edu_bach_plus_black_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_black_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "bach_plus_per_black",
@@ -328,11 +327,11 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002B")
 dev.off()
 
-jpeg("edu_25_64_assoc_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_64_assoc_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-64",
+  plot_title = "Associate Degree or Higher, Ages 25-64",
   rollmean = 3, 
   xmin = 2005, 
   xmax = 2015,
@@ -340,7 +339,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_64_bach_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_64_bach_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_bach_plus",
@@ -352,11 +351,11 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_64_grad_trendline.jpg", 900, 600, res = 100)
+png("edu_25_64_grad_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "per_25_64_grad",
-  plot_title = "Graduate Degree, Ages 25-64",
+  plot_title = "Graduate Degrees, Ages 25-64",
   rollmean = 3,
   xmin = 2005, 
   xmax = 2015,
@@ -364,11 +363,11 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_34_assoc_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_34_assoc_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_assoc_plus",
-  plot_title = "Associate's Degree or Higher, Ages 25-34",
+  plot_title = "Associate Degree or Higher, Ages 25-34",
   rollmean = 3,
   xmin = 2005, 
   xmax = 2015,
@@ -376,7 +375,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_34_bach_plus_trendline.jpg", 900, 600, res = 100)
+png("edu_25_34_bach_plus_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_bach_plus",
@@ -388,11 +387,11 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_25_34_grad_trendline.jpg", 900, 600, res = 100)
+png("edu_25_34_grad_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_25_34_grad",
-  plot_title = "Graduate Degree, Ages 25-34",
+  plot_title = "Graduate Degrees, Ages 25-34",
   rollmean = 3,
   xmin = 2005, 
   xmax = 2015,
@@ -400,7 +399,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15001")
 dev.off()
 
-jpeg("edu_bach_plus_hispanic_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_hispanic_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data,
   "bach_plus_per_hispanic",
@@ -412,7 +411,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002I")
 dev.off()
 
-jpeg("edu_bach_plus_white_trendline.jpg", 900, 600, res = 100)
+png("edu_bach_plus_white_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "bach_plus_per_white",
@@ -424,7 +423,7 @@ graph_trendline(
                   Data from the American Community Survey, Table B15002A")
 dev.off()
 
-jpeg("edu_enrolled_3_4_trendline.jpg", 900, 600, res = 100)
+png("edu_enrolled_3_4_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "enrolled_3_4",
@@ -436,7 +435,7 @@ graph_trendline(
                   Data from the American Community Survey, Table S1401")
 dev.off()
 
-jpeg("edu_per_high_wage_trendline.jpg", 900, 600, res = 100)
+png("edu_per_high_wage_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline(
   educ_data, 
   "per_high_wage",
@@ -448,10 +447,9 @@ graph_trendline(
                   Data from the American Community Survey, Table S2401")
 dev.off()
 
-jpeg("edu_ccr_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_ccr_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_ccr,
-  break_settings = seq(2012, 2016, 2),
   xmin = 2012,
   xmax = 2016,
   plot_title = "College and Career Readiness by Ethnicity, JCPS",
@@ -464,10 +462,9 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_act_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_act_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_act,
-  break_settings = seq(2012, 2016, 2),
   xmin = 2012,
   xmax = 2016,
   plot_title = "ACT Scores by Ethnicity, JCPS",
@@ -480,15 +477,14 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_grad_rate_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_grad_rate_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_grad_rate,
-  break_settings = seq(2013, 2016, 2),
   xmin = 2013,
   xmax = 2016,
-  plot_title = "Four Year Graduation Rate by Ethnicity, JCPS",
+  plot_title = "Four-Year Graduation Rate by Ethnicity, JCPS",
   labels = c("African American", "Asian", "Hispanic", "White"),
-  y_title = "Four Year Graduation Rate",
+  y_title = "Four-Year Graduation Rate",
   color_pal = wes_palette("Moonrise2"),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
@@ -496,13 +492,12 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_kindergarten_prep_ethnicity_trendline.jpg", 900, 600, res = 100)
+png("edu_kindergarten_prep_ethnicity_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
   jeff_eth_kscreen,
-  break_settings = seq(2014, 2016, 2),
   xmin = 2014,
   xmax = 2016,
-  plot_title = "Kindergarten Preparedness by Ethnicity, JCPS",
+  plot_title = "Kindergarten Readiness by Ethnicity, JCPS",
   labels = c("African American", "Asian", "Hispanic", "White"),
   y_title = "Percent",
   color_pal = wes_palette("Moonrise2"),
@@ -512,7 +507,7 @@ ky_ed_data_long_trendline(
 dev.off()
 
 
-jpeg("edu_act_trendline.jpg", 900, 600, res = 100)
+png("edu_act_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_composite_score",
@@ -520,13 +515,12 @@ graph_trendline_ky_ed(
   y_title = "Composite Score",
   xmin = 2012,
   xmax = 2016,
-  break_settings = seq(2012, 2016, 2),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
 )
 dev.off()
 
-jpeg("edu_ccr_trendline.jpg", 900, 600, res = 100)
+png("edu_ccr_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_pct_ccr",
@@ -534,27 +528,25 @@ graph_trendline_ky_ed(
   y_title = "Percent",
   xmin = 2012,
   xmax = 2016,
-  break_settings = seq(2012, 2016, 2),
   caption = "Source: Greater Louisville Project 
              Data from Kentucky Department of Education School Report Card"
 )
 dev.off()
 
-jpeg("edu_kindergarten_prep_trendline.jpg", 900, 600, res = 100)
+png("edu_kindergarten_prep_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_kind_ready",
-  plot_title = "Kindergarten Preparedness",
+  plot_title = "Kindergarten Readiness",
   y_title = "Percent",
   xmin = 2014,
   xmax = 2016,
-  break_settings = seq(2014, 2016, 2),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
 )
 dev.off()
 
-jpeg("edu_graduation_rate_trendline.jpg", 900, 600, res = 100)
+png("edu_graduation_rate_trendline.png", 900, 600, res = 100, type = "cairo")
 graph_trendline_ky_ed(
   ky_ed_data,
   "all_students_cohort_grad_rate",
@@ -562,18 +554,16 @@ graph_trendline_ky_ed(
   y_title = "Percent",
   xmin = 2013,
   xmax = 2016,
-  break_settings = seq(2013, 2016, 2),
   caption = "Source: Greater Louisville Project
              Data from Kentucky Department of Education School Report Card"
 )
 dev.off()
 
-jpeg("edu_naep_reading_trendline.jpg", 900, 600, res = 100)
+png("edu_naep_reading_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
-  naep_data, 
-  var = "Jurisdiction", 
-  value = "naep_reading_score", 
-  break_settings = seq(2009, 2016,2),
+  ky_ed_data, 
+  var = "area", 
+  value = "naep_reading_score",
   xmin = 2009,
   xmax = 2015, 
   plot_title = "NAEP 4th Grade Reading Score",
@@ -584,12 +574,11 @@ ky_ed_data_long_trendline(
              Data from National Center for Education Statistics")
 dev.off()
 
-jpeg("edu_naep_math_trendline.jpg", 900, 600, res = 100)
+png("edu_naep_math_trendline.png", 900, 600, res = 100, type = "cairo")
 ky_ed_data_long_trendline(
-  naep_data, 
-  var = "Jurisdiction",
-  value = "naep_math_score", 
-  break_settings = seq(2009, 2016,2),
+  ky_ed_data, 
+  var = "area",
+  value = "naep_math_score",
   xmin = 2009,
   xmax = 2015, 
   plot_title = "NAEP 4th Grade Math Score",
@@ -605,10 +594,10 @@ showtext.auto(FALSE)
 
 Add map data
 ```{r}
-map_data = read_csv("map data/education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
-map_data[ ,c(3:5, 7:12, 14)] <- map_data[ ,c(3:5, 7:12, 14)]*100
-
 setwd("map data")
+
+map_data = read_csv("education_map_data.csv", col_types = cols(enrolled_3_4 = col_double()))
+map_data[ ,c(4:12, 14)] <- map_data[ ,c(4:12, 14)]*100
 
 map_jc = readOGR("JC Tracts", layer = "JC Tracts",
                  GDAL1_integer64_policy = TRUE)
@@ -621,6 +610,17 @@ map_jc@data$l_line1 <- paste("Tract #:", map_jc@data$tract_num, "in the")
 map_jc@data$l_line2 <- paste(map_jc@data$Neighborhood, "neighborhood")
 
 
+##neighborhood level data
+map_data_nh = read_csv("education_map_data_neighborhood.csv")
+map_data_nh[ ,c(2:9)] <- map_data_nh[ ,c(2:9)]*100
+
+map_jc_nh = readOGR("JC Tracts", layer = "JC Tracts nh",
+                    GDAL1_integer64_policy = TRUE)
+
+map_jc_nh@data<-full_join(map_jc_nh@data, map_data_nh, by = c('Neighborho' = 'Neighborhood'))
+
+map_jc_nh@data$l_line1 <- paste(map_jc_nh@data$Neighborho, "neighborhood")
+
 ```
 
 Output maps
@@ -630,22 +630,22 @@ setwd("Images/Maps/edu_maps")
 m <- make_map("child_per", name = "Child Poverty", legend_title = "Child<br>Poverty", map_style = "sequential")
 saveWidget(m, "edu_child_pov_map.html")
 
-m <- make_map("per_25_64_assoc_plus", name = "Associate Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Associate Degree<br/>or higher", units = "Percent")
+m <- make_map("per_25_64_assoc_plus", name = "Associate Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Associate Degrees<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_64_assoc_map.html")
 
-m <- make_map("per_25_64_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Bachelor's Degree<br/>or higher", units = "Percent")
+m <- make_map("per_25_64_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Bachelor's Degrees<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_64_bach_map.html")
 
-m <- make_map("per_25_64_grad", "Graduate Degree, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Graduate Degree", units = "Percent")
+m <- make_map("per_25_64_grad", "Graduate Degrees, Ages 25-64", legend_title = "Ages 25 to 64 with<br/>Graduate Degrees", units = "Percent")
 saveWidget(m, "edu_25_64_grad_map.html")
 
-m <- make_map("per_25_34_assoc_plus", name = "Associate Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Associate's Degree<br/>or higher", units = "Percent")
+m <- make_map_nh("per_25_34_assoc_plus", name = "Associate Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Associate Degrees<br/>or higher", units = "Percent")
 saveWidget(m, "edu_assoc_25_34_map.html")
 
-m <- make_map("per_25_34_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Bachelor's Degree<br/>or higher", units = "Percent")
+m <- make_map_nh("per_25_34_bach_plus", name = "Bachelor's Degree or Higher, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Bachelor's Degrees<br/>or higher", units = "Percent")
 saveWidget(m, "edu_25_34_bach_map.html")
 
-m <- make_map("per_25_34_grad", name = "Graduate Degree, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Graduate Degree", units = "Percent")
+m <- make_map_nh("per_25_34_grad", name = "Graduate Degrees, Ages 25-34", legend_title = "Ages 25 to 34 with<br/>Graduate Degrees", units = "Percent")
 saveWidget(m, "edu_25_34_grad_map.html")
 
 m <- make_map("per_high_wage", "Population in High Wage Occupations",

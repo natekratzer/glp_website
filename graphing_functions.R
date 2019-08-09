@@ -204,7 +204,7 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
   #create a new variable to use var with the '$' operator
   df$var <- df[[var]]
   
-  df = df %>% filter(year != 2016)
+  if(xmax == 2015)  df = df %>% filter(year != 2016)
   
   #subset to peers and remove Louisville
   if(peers=="Current"){
@@ -252,9 +252,19 @@ graph_trendline<-function(df,var, plot_title="",y_title="Percent", peers = "Curr
     subtitle_text = "5-year rolling average"
   }
   
+  #use to write out 2016 child poverty statistics (also write out the line above filtering out 2016 data)
+  write_csv(dat, 'C:/Users/Harrison Kirby/Desktop/GLP/child_pov_output2.csv')
+  
   #set x-axis labels based on break_settings parameter
   if(break_settings == ""){
-    break_settings = seq(xmin, xmax, 2)
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
   }
   
   #reshape data
@@ -350,9 +360,18 @@ graph_trendline_msa<-function(df,var, plot_title="",y_title="Percent",
     xmax = xmax - 2
     subtitle_text = "5-year rolling average"
   }
+  
   if(break_settings == ""){
-    break_settings = seq(xmin, xmax, 2)
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
   }
+  
   dat
   data_long <- melt(dat, id="year")
   data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
@@ -409,9 +428,10 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
               mean = mean(var, na.rm = TRUE),
               third_quarter = quantile(var, prob = 0.75, na.rm = TRUE))
   lville = df %>% 
-    filter(dist_name == "Jefferson County") %>% 
+    filter(area == "Louisville") %>% 
     select(var, year)
   dat = full_join(lville, output_wol, by = "year")
+  
   if (rollmean == 3){
     dat$var = rollmean3(dat$var)
     dat$first_quarter = rollmean3(dat$first_quarter)
@@ -432,9 +452,18 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
     xmax = xmax - 2
     subtitle_text = "5-year rolling average"
   }
+  
   if(break_settings == ""){
-    break_settings = seq(xmin, xmax, 2)
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
   }
+  
   data_long <- melt(dat, id="year")
   data_long$variable = factor(data_long$variable, levels = c("var", "third_quarter", "mean", "first_quarter"))
   p <- ggplot(data=data_long,aes(x=year,y=value,colour=variable,linetype=variable))+
@@ -482,15 +511,27 @@ graph_trendline_ky_ed<-function(df,var, plot_title="",y_title="Percent",
 #Trendline graph adapted for more years of ky_ed data
 ky_ed_data_long_trendline <- function(data_long, var = "var", value = "value", plot_title="",y_title="Percent", 
                                       caption_text = "", subtitle_text = "", rollmean = 1,
-                                      break_settings = seq(2005, 2015, 2), xmin = 1996, xmax = 2016,
+                                      break_settings = "", xmin = 1996, xmax = 2016,
                                       labels, color_pal){
   data_long$var <- data_long[[var]]
   data_long$value<-data_long[[value]]
   data_long %<>% select(year, var, value)
   data_long <- arrange(data_long, as.character(var))
+  
+  if(break_settings == ""){
+    if(xmax - xmin > 5) {skip = 2}
+    else {skip = 1}
+    if((xmax - xmin) %% 2 == 0 || skip == 1){
+      break_settings = seq(xmin, xmax, skip)
+    } 
+    else{
+      break_settings = seq(xmin + 1, xmax, skip)
+    }
+  }
+  
   p <- ggplot(data=data_long,aes(x=year,y=value,colour=var))+
     geom_point(size = 1.8)+
-    geom_line(size = 1)
+    geom_line(data=data_long[!is.na(data_long$value),], size = 1)
   p <- p + theme_bw()
   midpoint <- (max(data_long$value, na.rm = TRUE)+min(data_long$value, na.rm = TRUE))/2
   border_space <- .1 * midpoint
@@ -589,5 +630,84 @@ make_map <- function(var, name, units = "Percent",
     addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
               position = "bottomright")
   
+  m
+}
+
+make_map_nh <- function(var, name, units = "Percent",
+                     map_style = "sequential", legend_title = ""){
+  
+  #renames var for use with the '$' operator
+  map_jc_nh@data$var <- map_jc_nh@data[[var]]
+  
+  #concatenate third line of text for tract labels using units parameter
+  if(units == "Percent"){
+    map_jc_nh@data$l_line2 <- paste(name, ": ", round(map_jc_nh@data$var, 2),"%", sep = "")
+  }
+  if(units == "Dollars"){
+    map_jc_nh@data$l_line2 <- paste(name, ": $",
+                                 prettyNum(
+                                   signif(map_jc_nh@data$var, 3),
+                                   big.mark = ",",
+                                   preserve.width = "none"
+                                 ),
+                                 sep = "")
+  }
+  if(units == "none"){
+    map_jc_nh@data$l_line2 <- paste(name, ": ", round(map_jc_nh@data$var, 2), sep = "")
+  }
+  
+  #combine lines of text into full formatted label
+  labels <- sprintf("%s<br/>%s",
+                    map_jc_nh@data$l_line1, map_jc_nh@data$l_line2
+  ) %>% 
+    lapply(htmltools::HTML)
+  
+  labels[[25]] <- htmltools::HTML(sprintf("%s<br/>%s",
+                                           "Louisville International Airport",
+                                           "No residents"
+  )
+  )
+  
+  #Define palette using map_style parameter
+  if(map_style == "sequential" | map_style == "Sequential"){
+    col_palette = "BuPu"
+  }
+  if(map_style == "divergent" | map_style == "Divergent"){
+    col_palette = "RdYlGn"
+  }
+  pal <- brewer.pal(11, col_palette)
+  pal <- colorNumeric(
+    palette = pal,
+    domain = map_jc_nh@data$var
+  )
+  
+  #Create map title using legend_title parameter
+  if(units == "Percent") {
+    title_text <- paste(legend_title, "(%)", sep = ' ')
+  }
+  if(units == "Dollars") {
+    title_text <- paste(legend_title, "($)", sep = ' ')
+  }
+  if(units == "none"){
+    title_text <- legend_title
+  }
+  
+  #create map
+  m <- leaflet(map_jc_nh) %>%
+    addTiles() %>%
+    addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
+                opacity = 1.0, fillOpacity = 0.5,
+                fillColor = ~pal(var),
+                label = labels,
+                labelOptions = labelOptions(
+                  style = list("font-weight" = "normal", padding = "3px 8px"),
+                  textsize = "15px",
+                  direction = "auto"))%>%
+    addLegend(pal = pal, values = ~var, opacity = 0.7, title = title_text,
+              position = "bottomright")
+  
+  m <- leaflet(map_jc) %>%
+    addPolygons(color = "#444444", weight = 5, smoothFactor = 0.5,
+                opacity = 1.0, fillOpacity = 0)
   m
 }

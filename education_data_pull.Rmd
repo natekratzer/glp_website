@@ -113,7 +113,7 @@ ccr_read <- function(folder) {
     data$SCH_NAME[data$SCH_NAME == "--District Total--"] = "---District Total---"
     data %<>% filter(SCH_NAME == "---District Total---") %>%
       select(school_year = SCH_YEAR,
-             dist_name = DIST_NAME, SCH_NAME,
+             dist_name = DIST_NAME,
              label = DISAGG_LABEL,
              number_grads_ccr = NBR_GRADUATES_WITH_DIPLOMA,
              pct_ccr = PCT_CCR_NO_BONUS
@@ -127,8 +127,7 @@ ccr_read <- function(folder) {
         label == "Hispanic" |
         label == "Asian"
         ) %>%
-      mutate(school_year = as.numeric(substr(school_year, 5, 8))) %>%
-      select(-SCH_NAME)
+      mutate(school_year = as.numeric(substr(school_year, 5, 8)))
     if (i == 1) {
       df <- data
     }
@@ -389,6 +388,34 @@ enroll_3_4_data %<>% filter(!(FIPS == 29189 | FIPS == 29510)) %>%
 Uses acs_time to read in ACS data, calculates the percentage of young adults (ages 25-34) and adults (ages 34-65) holding associate's, bachelor's, and graduate degrees.
 ```{r}
 data = acs_time("/input data/educ_input_data/B15001")
+
+test = data %>%
+  transmute(
+    FIPS = FIPS,
+    year = year,
+    num_m_25_34 = `Estimate; Male: - 25 to 34 years:`,
+    num_f_25_34 = `Estimate; Female: - 25 to 34 years:`,
+    num_25_34 = num_m_25_34 + num_f_25_34,
+  
+    m_some_college = `Estimate; Male: - 25 to 34 years: - Some college, no degree`,
+    
+    f_some_college = `Estimate; Female: - 25 to 34 years: - Some college, no degree`,
+  
+    some_college = m_some_college + f_some_college,
+  
+    m_bach_plus = 
+         `Estimate; Male: - 25 to 34 years: - Bachelor's degree` + 
+         `Estimate; Male: - 25 to 34 years: - Graduate or professional degree`,
+    
+    f_bach_plus = 
+          `Estimate; Female: - 25 to 34 years: - Bachelor's degree` + 
+          `Estimate; Female: - 25 to 34 years: - Graduate or professional degree`,
+    
+    bach_plus = m_bach_plus + f_bach_plus,
+    
+    pct_some_college = some_college / num_25_34,
+    pct_bach_plus = bach_plus / num_25_34
+  )
 
 data = data %>%
   mutate(num_m_25_34_assoc_plus  = 
@@ -840,6 +867,8 @@ education_data <- child_pov_data %>%
   mutate_all(funs(.*100)) %>%
   left_join(enroll_3_4_data, by = c("FIPS", 'year')) %>%
   left_join(names, by = "FIPS")
+
+education_data%<>%select(city, county, state, display_name, FIPS, year, current, baseline, everything())
   
 ```
 
@@ -881,6 +910,7 @@ ky_new <- act %>%
   full_join(ccr, by = c("school_year","dist_name", "label"))%>%
   full_join(kscreen, by = c("school_year","dist_name", "label")) %>%
   full_join(grad_data, by = c("school_year","dist_name","label"))
+
 ```
 
 A group of functions to tidy the dataset. Data for each year in each school district in 'ky_new' is spread across multiple rows, with each row identifying outcomes for a particular demographic of students (based on gener or race). These functions transform the data so each row contains all the data for one school district for one year. Data for difference demographics is spread across columns. The data is also cleaned in a few minor ways.
@@ -929,6 +959,42 @@ restore_ky_ed_data <- function(data){
 ky_tidy_new <- restore_ky_ed_data(ky_new) %>%
   rename(year = school_year)
 
+
+
+```
+
+```{r}
+ky_25per = 
+  ky_tidy_new %>% 
+  select(-dist_name) %>%
+  group_by(year) %>%
+  summarise_all(funs(quantile), prob = 0.25, na.rm = TRUE) %>%
+  mutate(observation_type = "25_percentile", area = "KY")
+
+ky_mean = 
+  ky_tidy_new %>% 
+  select(-dist_name) %>%
+  group_by(year) %>%
+  summarise_all(funs(mean), na.rm = TRUE) %>%
+  mutate(observation_type = "mean", area = "KY")
+
+ky_75per = 
+  ky_tidy_new %>% 
+  select(-dist_name) %>%
+  group_by(year) %>%
+  summarise_all(funs(quantile), prob = 0.75, na.rm = TRUE) %>%
+  mutate(observation_type = "75_percentile", area = "KY")
+
+lou_value = 
+  ky_tidy_new %>%
+  filter(dist_name == "Jefferson County") %>%
+  mutate(observation_type = "value", area = "Louisville") %>%
+  select(-dist_name)
+
+ky_data <- rbind(ky_25per, ky_mean, ky_75per, lou_value)
+
+ky_data[is.na(ky_data)] = NA
+
 ```
 
 reads in math and reading NAEP Data for Kentucky, then stores the results in 'naep_data'
@@ -938,22 +1004,40 @@ naep_reading <- read_csv("input data/educ_input_data/naep_reading_data.csv")
 
 naep_reading %<>% select(Year,
                          Jurisdiction,
-                         naep_reading_score = `Average scale score`, 
-                         reading_sd = `Standard Error`
+                         naep_reading_score = `Average scale score` 
                          )
 
 naep_math %<>% select(Year,
                       Jurisdiction,
-                      naep_math_score = `Average scale score`, 
-                      math_sd = `Standard Error`
+                      naep_math_score = `Average scale score` 
                       )
 
 naep_data <- left_join(naep_reading, naep_math, by = c("Year", "Jurisdiction"))
-naep_data %<>% rename(year = Year)
+naep_data %<>% 
+  rename(year = Year, area = Jurisdiction) %>%
+  mutate(observation_type = 'value')
+  
+naep_data$area[naep_data$area == "Kentucky"] <- "KY"
+naep_data$area[naep_data$area == "Jefferson County (KY)"] <- "Louisville"
+
+naep_data$observation_type = 'value'
+naep_data$observation_type[naep_data$area == "KY"] <- "mean"
+
+ky_data = ky_data[,!grepl("num|math|science|reading|english|male|female", names(ky_data))]
+
+ky_data <- full_join(ky_data, naep_data, by = c("area", "year", "observation_type"))
+
+ky_data %<>% select(area, year, observation_type, everything())
+
+ky_data %<>% arrange(year, area)
+
 ```
 
 reads in data containing geographic information at the census tract level for child poverty, 3 and 4 years old school enrollment, educational attainment, and wages in Jefferson County. Names the census tracts and saves the data as the data frame map_data.
 ```{r}
+name_data = read.csv("map data/census tract neighborhoods.csv") 
+
+
 data = read.csv("input data/educ_input_data/ACS_15_5YR_B17001_with_ann.csv", skip = 1)
 
 data = data %>%
@@ -1006,14 +1090,25 @@ data = data %>%
          child_per = child_under/(child_over+child_under)
   )
 
+child_pov_data_nh = 
+  data %>%
+  full_join(., name_data, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(child_per = sum(child_under) / sum(child_over + child_under))
+
 child_pov_data = data %>% 
   select(Id, Geography, under_5_per, five_to_17_per, child_per)
+
+
+
 
 data = read.csv("input data/educ_input_data/ACS_15_5YR_S1401_with_ann.csv", skip = 1)
 
 enroll_data = data %>% 
   select(enrolled_3_4 = Percent..Estimate..Population.3.to.4.years...3.to.4.year.olds.enrolled.in.school,
          Id, Geography)
+
+
 
 data = read.csv("input data/educ_input_data/ACS_15_5YR_B15001_with_ann.csv", skip = 1)
 
@@ -1125,6 +1220,48 @@ data = data %>%
            (num_m_25_34+num_f_25_34)
   )
 
+degree_data_nh = 
+  data %>%
+  full_join(., name_data, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(
+     per_25_64_assoc_plus =
+       sum(num_m_25_34_assoc_plus + num_m_35_44_assoc_plus + num_m_45_64_assoc_plus + 
+        num_f_25_34_assoc_plus + num_f_35_44_assoc_plus + num_f_45_64_assoc_plus)
+       /
+       sum(num_m_25_34 + num_m_35_44 + num_m_45_64 + 
+        num_f_25_34 + num_f_35_44 + num_f_45_64),
+     
+     per_25_64_bach_plus = 
+       sum(num_m_25_34_bach_plus + num_m_35_44_bach_plus + num_m_45_64_bach_plus + 
+        num_f_25_34_bach_plus + num_f_35_44_bach_plus + num_f_45_64_bach_plus)
+       /
+       sum(num_m_25_34 + num_m_35_44 + num_m_45_64 + 
+        num_f_25_34 + num_f_35_44 + num_f_45_64),
+     
+     per_25_64_grad = 
+       sum(num_m_25_34_grad + num_m_35_44_grad + num_m_45_64_bach_plus +
+        num_f_25_34_grad + num_f_35_44_grad + num_f_45_64_grad)
+       /
+       sum(num_m_25_34 + num_m_35_44 + num_m_45_64 + 
+        num_f_25_34 + num_f_35_44 + num_f_45_64),
+     
+     per_25_34_assoc_plus = 
+       sum(num_f_25_34_assoc_plus+num_m_25_34_assoc_plus)/
+       sum(num_m_25_34+num_f_25_34),
+     
+     per_25_34_bach_plus = 
+       sum(num_f_25_34_bach_plus+num_m_25_34_bach_plus)/
+       sum(num_m_25_34+num_f_25_34),
+     
+     per_25_34_grad = 
+       sum(num_f_25_34_grad+num_m_25_34_grad)/
+       sum(num_m_25_34+num_f_25_34)
+  )
+
+
+
+
 degree_data = data %>%
   select(Id, Id2, Geography, per_25_64_assoc_plus, per_25_64_bach_plus, per_25_64_grad,
          per_25_34_assoc_plus, per_25_34_bach_plus, per_25_34_grad)
@@ -1141,22 +1278,41 @@ data = data %>%
            as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over)
          )
 
-occupation_data = data %>% select(Id, Geography, per_high_wage)
+occupation_data_nh = 
+  data %>%
+  full_join(., name_data, by = "Id2") %>%
+  group_by(Neighborhood) %>%
+  summarise(
+    per_high_wage = 
+          sum(
+              as.numeric(Total..Estimate..Management..business..science..and.arts.occupations.) +
+              as.numeric(Total..Estimate..Service.occupations....Protective.service.occupations....Law.enforcement.workers.including.supervisors) +
+              as.numeric(Total..Estimate..Natural.resources..construction..and.maintenance.occupations....Installation..maintenance..and.repair.occupations)
+              )/
+          sum(as.numeric(Total..Estimate..Civilian.employed.population.16.years.and.over))
+         )
 
-name_data = read.csv("map data/census tract neighborhoods.csv")
+occupation_data = data %>% select(Id, Geography, per_high_wage)
 
 map_data = full_join(child_pov_data, degree_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, enroll_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, occupation_data, by = c("Id", "Geography"))
 map_data = full_join(map_data, name_data, by = "Id2")
+
+map_data %<>% select(Id, Id2, Neighborhood, everything(), -Geography)
+
+map_data_nh = full_join(child_pov_data_nh, degree_data_nh, by = "Neighborhood")
+map_data_nh = full_join(map_data_nh, occupation_data_nh, by = "Neighborhood")
+
+
 ```
 
 Writes data frames to CSV files.
 ```{r}
-write_csv(ky_tidy_new, "output data/education_data_ky.csv")
-write_csv(naep_data, "output data/education_data_naep.csv")
+write_csv(ky_data, "output data/education_data_ky.csv")
 write_csv(education_data, "output data/education_data_fips.csv")
 write_csv(map_data, "map data/education_map_data.csv")
+write_csv(map_data_nh, "map data/education_map_data_neighborhood.csv")
 ```
 
 
